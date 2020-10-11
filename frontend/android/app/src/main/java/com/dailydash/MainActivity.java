@@ -1,4 +1,4 @@
-package com.frontend;
+package com.dailydash;
 
 import com.facebook.react.ReactActivity;
 
@@ -24,6 +24,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "frontend";
+    return "DailyDash";
   }
 }
