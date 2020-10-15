@@ -1,14 +1,12 @@
-# Getting started with
+## Project setup:
 
-`npm i` to install packages
 
-## In development
+```
 
-`npm run dev` to run development server which follows typescript changes.
-`npm run test` to run tests (once we have them).
+# set environment variables
+export $(xargs < cpen321.env)
 
-## In production
+npm install
 
-`npm run build && npm run start` to deploy.
+```
 
-If you use `screen npm run start`, the server will keep running after ssh session is closed.
