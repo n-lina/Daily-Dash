@@ -1,9 +1,15 @@
 import { GeneralApiProblem } from "./api-problem"
 
 export interface User {
-  id: number
+  email: string
   name: string
 }
 
-export type GetUsersResult = { kind: "ok"; users: User[] } | GeneralApiProblem
+export interface PostUser {
+  tokenId: string
+  name: string
+  email: string
+}
+
+export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem

@@ -4,11 +4,13 @@
  * and a "main" flow (which is contained in your PrimaryNavigator) which the user
  * will use once logged in.
  */
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { PrimaryNavigator } from "./primary-navigator"
+import auth from "@react-native-firebase/auth"
+import { LoadingScreen, SigninScreen, WelcomeScreen } from "../screens"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -22,11 +24,30 @@ import { PrimaryNavigator } from "./primary-navigator"
  */
 export type RootParamList = {
   primaryStack: undefined
+  LoadingScreen: undefined
+  signInScreen: undefined
+  welcome: undefined
 }
 
 const Stack = createNativeStackNavigator<RootParamList>()
 
+
 const RootStack = () => {
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState()
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user)
+    if (initializing) setInitializing(false)
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber // unsubscribe on unmount
+  }, [])
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -36,13 +57,40 @@ const RootStack = () => {
         stackPresentation: "modal",
       }}
     >
-      <Stack.Screen
-        name="primaryStack"
-        component={PrimaryNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+      {initializing ? (
+        <Stack.Screen
+          name="LoadingScreen"
+          component={LoadingScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : user == null ? (
+        <>
+          <Stack.Screen
+            name="welcome"
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="signInScreen"
+            component={SigninScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </>
+      ) : (
+        <Stack.Screen
+          name="primaryStack"
+          component={PrimaryNavigator}
+          options={{
+            headerShown: false,
+          }}
+        />
+      )}
     </Stack.Navigator>
   )
 }

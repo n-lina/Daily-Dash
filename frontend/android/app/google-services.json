@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "139558566075",
+    "firebase_url": "https://dailydash-6d979.firebaseio.com",
+    "project_id": "dailydash-6d979",
+    "storage_bucket": "dailydash-6d979.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139558566075:android:148ef5fae5aa33bf7ed19e",
+        "android_client_info": {
+          "package_name": "com.dailydash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139558566075-sl12oov5di2tgmb2emlummjnvh0j02b9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dailydash",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "139558566075-ocmb5fj142sd6v6ukr27kb8ngf89r6jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_yBDt5n0ya7I605I7WZCb-pe_2lADC_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139558566075-ocmb5fj142sd6v6ukr27kb8ngf89r6jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

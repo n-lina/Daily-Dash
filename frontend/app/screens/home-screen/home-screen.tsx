@@ -1,10 +1,11 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { Header, Screen, Text } from "../../components"
+import { Button, Header, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
+import auth from '@react-native-firebase/auth';
 
 const FULL: ViewStyle = { flex: 1 }
 const TEXT: TextStyle = {
@@ -47,6 +48,9 @@ export const HomeScreen = observer(function HomeScreen() {
         /> */}
         <View style={CONTENT_WRAP}>
         <Text style={CONTENT}>Hello World!</Text>
+        <Button
+          text="log out"
+          onPress={() => auth().signOut()}></Button>
         </View>
       </Screen>
     </View>

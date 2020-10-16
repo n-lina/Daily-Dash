@@ -45,11 +45,14 @@ export class Api {
   }
 
   /**
-   * Gets a list of users.
+   * Post a user to database (may already exist)
+   * @param usr user data received from Authentication
    */
-  async getUsers(): Promise<Types.GetUsersResult> {
-    // make the api call
-    const response: ApiResponse<any> = await this.apisauce.get(`/users`)
+  async postUserSignIn(token: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
+
+    const postUsr: Types.PostUser = {email: email, name: name, tokenId: token}
+
+    const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -57,18 +60,18 @@ export class Api {
       if (problem) return problem
     }
 
-    const convertUser = raw => {
+    const convertUser = (raw) => {
       return {
-        id: raw.id,
+        email: raw.email,
         name: raw.name,
       }
     }
 
     // transform the data into the format we are expecting
     try {
-      const rawUsers = response.data
-      const resultUsers: Types.User[] = rawUsers.map(convertUser)
-      return { kind: "ok", users: resultUsers }
+      const rawUser = response.data
+      const resultUser: Types.User = convertUser(rawUser)
+      return { kind: "ok", user: resultUser }
     } catch {
       return { kind: "bad-data" }
     }
@@ -91,7 +94,7 @@ export class Api {
     // transform the data into the format we are expecting
     try {
       const resultUser: Types.User = {
-        id: response.data.id,
+        email: response.data.email,
         name: response.data.name,
       }
       return { kind: "ok", user: resultUser }
