@@ -53,7 +53,9 @@ const getUser = async (req, res) => {
 
     res.send(response)
   } catch (error) {
-    response.status(500).send(error);
+    res.status(400);
+    res.end();
+    return;
   }
 };
 
