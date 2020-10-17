@@ -48,9 +48,9 @@ export class Api {
    * Post a user to database (may already exist)
    * @param usr user data received from Authentication
    */
-  async postUserSignIn(token: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
+  async postUserSignIn(id: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
 
-    const postUsr: Types.PostUser = {email: email, name: name, tokenId: token}
+    const postUsr: Types.PostUser = {email: email, name: name, id: id}
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
@@ -81,7 +81,7 @@ export class Api {
    * Gets a single user by ID
    */
 
-  async getUser(id: string): Promise<Types.GetUserResult> {
+  async getUser(token: string, id: string): Promise<Types.GetUserResult> {
     // make the api call
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 

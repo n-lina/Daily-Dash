@@ -7,25 +7,51 @@ import { withEnvironment } from "../extensions/with-environment";
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    name: types.string,
-    email: types.string
+    name: types.optional(types.string, ''),
+    email: types.optional(types.string, ''),
+    signedIn: types.optional(types.boolean, false)
   })
   .extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setUser: (user) => {
-      self.name = user.name;
-      self.email = user.email;
+      if (user)
+      console.log("Setting user "+ user.toString())
+      else 
+      console.log("unsetting user")
+      if (user && user.name && user.email) {
+        self.name = user.name;
+        self.email = user.email;
+        self.signedIn = true
+      } else {
+        self.signedIn = false;
+        self.name = '';
+        self.email = '';
+      }
     }
   })).actions(self => ({
-    postUser: (name: string, email: string, token: string) => {
-      self.environment.api.postUserSignIn(token, name, email).then(res => {
+    postUser: (name: string, email: string, id: string) => {
+      self.environment.api.postUserSignIn(id, name, email).then(res => {
         if (res.kind == "ok") {
           self.setUser(res.user);
+          console.log("got response")
         } else {
-          __DEV__ && console.tron.log(res.kind);
+          __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
+        __DEV__ && console.error(err);
+      })
+    },
+
+    getUser: (token: string, id: string) => {
+     return self.environment.api.getUser(token, id).then(res => {
+      if (res.kind == "ok") {
+        self.setUser(res.user);
+        console.log("got response")
+      } else {
+        __DEV__ && console.log(res.kind);
+      }
+     }).catch(err => {
         __DEV__ && console.error(err);
       })
     }

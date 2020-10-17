@@ -6,7 +6,7 @@ export interface User {
 }
 
 export interface PostUser {
-  tokenId: string
+  id: string
   name: string
   email: string
 }

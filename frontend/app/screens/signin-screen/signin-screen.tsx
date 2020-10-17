@@ -49,7 +49,6 @@ export const SigninScreen = observer(function SigninScreen() {
 
   async function onGoogleButtonPress() {
     // Get the users ID token
-  
     const { idToken } = await GoogleSignin.signIn()
   
     // Create a Google credential with the token
@@ -58,7 +57,8 @@ export const SigninScreen = observer(function SigninScreen() {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential).then(res => {
       res.user.getIdToken(true).then(token => {
-        userStore.postUser(res.user.displayName, res.user.email, token)
+        console.log(res.user.displayName, res.user.email, token);
+        userStore.postUser(res.user.displayName, res.user.email, res.user.uid);
       })
     })
   }

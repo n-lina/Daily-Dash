@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { PrimaryNavigator } from "./primary-navigator"
 import auth from "@react-native-firebase/auth"
 import { LoadingScreen, SigninScreen, WelcomeScreen } from "../screens"
+import { useStores } from "../models"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -35,12 +36,17 @@ const Stack = createNativeStackNavigator<RootParamList>()
 const RootStack = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
+  // const [user, setUser] = useState()
 
+  const { userStore } = useStores();
+ 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user)
-    if (initializing) setInitializing(false)
+  function onAuthStateChanged(res) {
+    res.getIdToken().then(token => {
+      userStore.getUser(token, res._user.uid).then(res => {if (initializing) setInitializing(false)});
+    })
+    // setUser(user)
+    if (initializing && !res) setInitializing(false)
   }
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const RootStack = () => {
             headerShown: false,
           }}
         />
-      ) : user == null ? (
+      ) : !userStore.signedIn ? (
         <>
           <Stack.Screen
             name="welcome"
