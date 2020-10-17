@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { View, ViewStyle, TextStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { Button, Header, Screen, Text } from "../../components"
+import { Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import auth from "@react-native-firebase/auth"
 import { GoogleSignin } from "@react-native-community/google-signin"
 import { useStores } from "../../models"
+import { GoogleSigninButton } from '@react-native-community/google-signin';
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -40,17 +41,32 @@ const TITLE: TextStyle = {
 
 const CONTENT_WRAP: ViewStyle = {
   flex: 1,
-  justifyContent: "center",
+  justifyContent: "flex-end",
+  alignItems: 'center'
+}
+
+const SIGNIN_BUTTON: ViewStyle = {
+  width: 300, 
+  height: 48,
+}
+
+const CONT_TEXT: TextStyle = {
+  ...TEXT,
+  width: 300,
+  marginTop: 20,
+  marginBottom: 50,
 }
 
 export const SigninScreen = observer(function SigninScreen() {
 
   const { userStore } = useStores()
+  const [signingIn, setSigningIn] = useState(false)
 
   async function onGoogleButtonPress() {
+    setSigningIn(true);
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn()
-  
+
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken)
   
@@ -71,14 +87,21 @@ export const SigninScreen = observer(function SigninScreen() {
           <Text style={TITLE} text="Please select a sign in method" />
         </Text>
         <View style={CONTENT_WRAP}>
-          <Button
-            text="Google Sign-In"
+          <GoogleSigninButton
+            style={SIGNIN_BUTTON}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            disabled={signingIn}
             onPress={() =>
               onGoogleButtonPress()
                 .then(() => __DEV__ && console.log("Signed in with Google!"))
                 .catch((err) => __DEV__ && console.error(err))
+                .finally(() => setSigningIn(false))
             }
           />
+          <Text style={CONT_TEXT}>
+            By continuining, you are agreeing to our non-existent privacy policy.
+          </Text>
         </View>
       </Screen>
     </View>

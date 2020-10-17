@@ -56,7 +56,7 @@ export const HomeScreen = observer(function HomeScreen() {
         <View style={CONTENT_WRAP}>
           <Text style={CONTENT}>Hello World!</Text>
           <Button
-            text="log ou"
+            text="log out"
             onPress={signOut}
           ></Button>
         </View>

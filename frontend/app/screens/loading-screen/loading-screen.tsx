@@ -1,14 +1,19 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { TextStyle, ViewStyle } from "react-native"
 import { Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color } from "../../theme"
 
 const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
   flex: 1,
+  alignContent: 'center',
+  justifyContent: 'center'
+}
+
+const LOADING_TXT: TextStyle = {
+    color: 'black',
+    textAlign: 'center'
 }
 
 export const LoadingScreen = observer(function LoadingScreen() {
@@ -21,7 +26,7 @@ export const LoadingScreen = observer(function LoadingScreen() {
   // const navigation = useNavigation()
   return (
     <Screen style={ROOT} preset="scroll">
-      <Text preset="header" text="loadingScreen" />
+      <Text style={LOADING_TXT} text="loading..." />
     </Screen>
   )
 })

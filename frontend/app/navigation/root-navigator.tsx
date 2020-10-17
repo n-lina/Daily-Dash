@@ -36,7 +36,6 @@ const Stack = createNativeStackNavigator<RootParamList>()
 const RootStack = observer(() => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true)
-  // const [user, setUser] = useState()
 
   const { userStore } = useStores()
 
