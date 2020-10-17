@@ -1,20 +1,37 @@
 const express = require("express");
 const router = express.Router();
 
-const addLongTermGoal = (req, res) => {
-  const { userId } = req.body;
-  const { description } = req.body;
+const GoalModel = require('../models/goals');
 
-  if (userId == null || description == null) {
+const getGoal = async (req, res) => {
+  const { id } = req.params;
+  
+  if (id == null) {
     console.log(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
     return;
   }
 
-	res.send("added goal");
-}
+  try {
+    var result = await GoalModel.findOne({userId: id});
 
-router.post("/longterm", addLongTermGoal);
+    console.log(result);
+
+    if (result == null) {
+      res.status(400);
+      res.send(null);
+      return;
+    }
+
+    res.send(result)
+  } catch (error) {
+    res.status(400);
+    res.end();
+    return;
+  }
+};
+
+router.get("/:id", getGoal);
 
 module.exports = router;
