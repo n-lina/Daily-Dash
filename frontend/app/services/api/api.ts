@@ -50,7 +50,7 @@ export class Api {
    */
   async postUserSignIn(id: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
 
-    const postUsr: Types.PostUser = {email: email, name: name, id: id}
+    const postUsr: Types.PostUser = {email: email, username: name, id: id}
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
@@ -63,7 +63,7 @@ export class Api {
     const convertUser = (raw) => {
       return {
         email: raw.email,
-        name: raw.name,
+        name: raw.username,
       }
     }
 
@@ -95,7 +95,7 @@ export class Api {
     try {
       const resultUser: Types.User = {
         email: response.data.email,
-        name: response.data.name,
+        name: response.data.username,
       }
       return { kind: "ok", user: resultUser }
     } catch {

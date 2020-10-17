@@ -16,9 +16,9 @@ export const UserStoreModel = types
   .actions(self => ({
     setUser: (user) => {
       if (user)
-      console.log("Setting user "+ user.toString())
+      __DEV__ && console.log("Setting user "+ user.toString())
       else 
-      console.log("unsetting user")
+      __DEV__ && console.log("unsetting user")
       if (user && user.name && user.email) {
         self.name = user.name;
         self.email = user.email;
@@ -34,7 +34,7 @@ export const UserStoreModel = types
       self.environment.api.postUserSignIn(id, name, email).then(res => {
         if (res.kind == "ok") {
           self.setUser(res.user);
-          console.log("got response")
+          __DEV__ && console.log("got response")
         } else {
           __DEV__ && console.log(res.kind);
         }
@@ -47,7 +47,7 @@ export const UserStoreModel = types
      return self.environment.api.getUser(token, id).then(res => {
       if (res.kind == "ok") {
         self.setUser(res.user);
-        console.log("got response")
+        __DEV__ && console.log("got response")
       } else {
         __DEV__ && console.log(res.kind);
       }

@@ -7,7 +7,7 @@ export interface User {
 
 export interface PostUser {
   id: string
-  name: string
+  username: string
   email: string
 }
 

@@ -31,11 +31,11 @@ const CONTENT_WRAP: ViewStyle = {
 
 export const HomeScreen = observer(function HomeScreen() {
   async function signOut() {
-    console.log("signing out")
+    __DEV__ && console.log("signing out")
     try {
       auth().signOut()
     } catch (e) {
-      console.log(e)
+      __DEV__ && console.log(e)
     }
   }
   // Pull in one of our MST stores

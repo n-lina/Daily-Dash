@@ -57,7 +57,7 @@ export const SigninScreen = observer(function SigninScreen() {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential).then(res => {
       res.user.getIdToken(true).then(token => {
-        console.log(res.user.displayName, res.user.email, token);
+        __DEV__ && console.log(res.user.displayName, res.user.email, token);
         userStore.postUser(res.user.displayName, res.user.email, res.user.uid);
       })
     })
@@ -75,8 +75,8 @@ export const SigninScreen = observer(function SigninScreen() {
             text="Google Sign-In"
             onPress={() =>
               onGoogleButtonPress()
-                .then(() => console.log("Signed in with Google!"))
-                .catch((err) => console.error(err))
+                .then(() => __DEV__ && console.log("Signed in with Google!"))
+                .catch((err) => __DEV__ && console.error(err))
             }
           />
         </View>
