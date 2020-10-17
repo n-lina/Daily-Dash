@@ -38,8 +38,6 @@ enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
-
-
 /**
  * This is the root component of our app.
  */
