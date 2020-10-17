@@ -3,7 +3,7 @@ const router = express.Router();
 
 const UserModel = require('../models/users');
 
-const addUser = (req, res) => {
+const addUser = async (req, res) => {
   const { id } = req.body;
   const { email } = req.body;
   const { username } = req.body;
@@ -21,7 +21,7 @@ const addUser = (req, res) => {
     username: username
   });
 
-  userObj.save()
+  await userObj.save()
     .then((doc) => {
       console.log(doc);
     })
@@ -29,7 +29,7 @@ const addUser = (req, res) => {
       console.error(err);
   });
 
-  var response = res.json({email: email, username: username});
+  var response = {email: email, username: username};
 
 	res.send(response);
 };
