@@ -1,14 +1,15 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { Header, Screen, Text } from "../../components"
+import { Button, Header, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
+import auth from "@react-native-firebase/auth"
 
 const FULL: ViewStyle = { flex: 1 }
 const TEXT: TextStyle = {
-  color: 'black'
+  color: "black",
 }
 const HEADER_TEXT_STYLE: TextStyle = {
   ...TEXT,
@@ -16,20 +17,27 @@ const HEADER_TEXT_STYLE: TextStyle = {
   lineHeight: 22,
 }
 
-const HEADER_STYLE: ViewStyle = {
-}
+const HEADER_STYLE: ViewStyle = {}
 
 const CONTENT: TextStyle = {
   ...TEXT,
 }
 
 const CONTENT_WRAP: ViewStyle = {
-  flex:1,
-  alignItems: 'center',
-  justifyContent: 'center'
+  flex: 1,
+  alignItems: "center",
+  justifyContent: "center",
 }
 
 export const HomeScreen = observer(function HomeScreen() {
+  async function signOut() {
+    __DEV__ && console.log("signing out")
+    try {
+      auth().signOut()
+    } catch (e) {
+      __DEV__ && console.log(e)
+    }
+  }
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -46,7 +54,11 @@ export const HomeScreen = observer(function HomeScreen() {
           style={HEADER_STYLE}
         /> */}
         <View style={CONTENT_WRAP}>
-        <Text style={CONTENT}>Hello World!</Text>
+          <Text style={CONTENT}>Hello World!</Text>
+          <Button
+            text="log out"
+            onPress={signOut}
+          ></Button>
         </View>
       </Screen>
     </View>
