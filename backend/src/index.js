@@ -2,12 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const debug = require("debug")("index.js");
+const database = require('./db/database');
 
 const port = 3000;
 
 app.use(bodyParser.json());
 
-const database = require('./db/database');
+
 const goals = require("./goals/goals");
 const users = require("./users/users");
 

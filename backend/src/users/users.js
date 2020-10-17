@@ -34,35 +34,30 @@ const addUser = (req, res) => {
 	res.send(response);
 };
 
-// const getUser = (req, res) => {
-//   const { id } = req.body;
+const getUser = async (req, res) => {
+  const { id } = req.params;
   
-//   if (id == null) {
-//     console.log(`Missing parameters in ${req.body}`);
-//     res.status(400);
-//     res.end();
-//     return;
-//   }
+  if (id == null) {
+    console.log(`Missing parameters in ${req.body}`);
+    res.status(400);
+    res.end();
+    return;
+  }
 
-//   UserModel.findOne({ userId: id})
-//     .then((user) => {
-//       if (user === null) {
-//         console.log(`User ${id} was not found`);
-//         res.status(400);
+  try {
+    var result = await UserModel.findOne({userId: id});
 
-//         return;
-//       }
+    console.log(result);
 
-//       var response = res.json({email: user.email, username: user.username});
+    response = {email: result.email, username: result.username};
 
-//       res.send(response)
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
+    res.send(response)
+  } catch (error) {
+    response.status(500).send(error);
+  }
+};
 
 router.post("/", addUser);
-// router.get("/", getUser);
+router.get("/:id", getUser);
 
 module.exports = router;
