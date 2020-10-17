@@ -49,6 +49,12 @@ const getUser = async (req, res) => {
 
     console.log(result);
 
+    if (result == null) {
+      res.status(400);
+      res.send(null);
+      return;
+    }
+
     response = {email: result.email, username: result.username};
 
     res.send(response)
