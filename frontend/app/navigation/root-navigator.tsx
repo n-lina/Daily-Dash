@@ -10,7 +10,7 @@ import { NavigationContainer, NavigationContainerRef } from "@react-navigation/n
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { PrimaryNavigator } from "./primary-navigator"
 import auth from "@react-native-firebase/auth"
-import { LoadingScreen, SigninScreen, WelcomeScreen } from "../screens"
+import { AddGoalScreen, GoalDetailScreen, LoadingScreen, LtgoalsScreen, SigninScreen, WelcomeScreen } from "../screens"
 import { useStores } from "../models"
 import { observer } from "mobx-react-lite"
 
@@ -79,7 +79,8 @@ const RootStack = observer(() => {
         <>
           <Stack.Screen
             name="welcome"
-            component={WelcomeScreen}
+ //           component={WelcomeScreen}
+            component={AddGoalScreen}
             options={{
               headerShown: false,
             }}
