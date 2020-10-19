@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { result } from "validate.js"
 
 /**
  * Manages all requests to the API.
@@ -43,6 +44,16 @@ export class Api {
       },
     })
   }
+
+  convertGoal = (raw) => {
+    return {
+      LTgoal: raw.LTgoals,
+      STgoals: raw.STgoals, 
+      date_added: new Date(Number.parseInt(raw.date)),
+      id: raw._id
+    }
+  }
+
 
   /**
    * Post a user to database (may already exist)
@@ -102,4 +113,58 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
+
+  async getAllGoals(user_id: string): Promise<Types.GetLTGoalsResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${user_id}`)
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoals = response.data
+      const resultGoalList: Types.Goal[] = rawGoals.map(this.convertGoal)
+      return { kind: "ok", LTgoals: resultGoalList}
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async postLTgoal(LTgoal: string, STgoals: Array<string>, date: Date): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.post(`/newgoal`)
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoal = response.data
+      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok", goal: resultGoal }
+    } catch {
+      return { kind: "bad-data"}
+    } 
+  }
+  
+  async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.post(`/LTgoals/${goal_id}`)
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoal = response.data
+      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok", goal: resultGoal }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  // editOneLTgoal
+  // deleteLTgoal
 }

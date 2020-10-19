@@ -1,11 +1,15 @@
+import { useEffect, useState} from "react"
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
-import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList} from "react-native"
+import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView} from "react-native"
 import { Button, Header, Screen, Text } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
+import { Goal } from "../../services/api"
+import { ListItem, Avatar } from "react-native-elements"
+
+
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -48,19 +52,52 @@ const FULL: ViewStyle = {
   flex: 1 
 }
 
+const renderGoal = ({ item }) => {
+  const goal: Goal = item
+
+  return (
+    <View>
+      <Text style={{marginLeft: 10, marginTop: 1}}> {goal.LTgoal}</Text>
+      <ListItem>   
+        <Avatar source={require('../../../assets/mountain.png')} />
+        <ListItem.Content>
+          <ListItem.Title>{goal.LTgoal}</ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
+    </View>
+  )
+}
+
+
 export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
+    const {goalsStore} = useStores()
+    // OR
+    // const rootStore = useStores()
 
-  // Pull in navigation via hook
- const navigation = useNavigation()
- const nextScreen = () => navigation.navigate("signInScreen")
+    // Pull in navigation via hook
+
+  const navigation = useNavigation()
+  const nextScreen = () => navigation.navigate("signInScreen")
+
+  useEffect(() => {
+    if (goalsStore.goals.length == 0)
+    fetchGoals()
+  }, [])
+
+  const fetchGoals = () => {
+    setRefreshing(true)
+    goalsStore.getAllGoals("TODO").then(() => {
+      setRefreshing(false)
+    })
+  }
+
+  const [refreshing, setRefreshing] = useState(false)
 
   return (
     <View style={FULL}>
-      <Screen style={ROOT} preset="scroll" backgroundColor={color.transparent}>
+    {/*  <Screen style={ROOT} preset="scroll" backgroundColor={color.transparent}> */}
+      <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   My Goals   ]" />
@@ -73,6 +110,20 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           text="Click Me"
           onPress={() => console.log("Button pressed!")} /> */}
           {/* FETCH DATA FROM API AND RENDER FROM FLATLIST */}
+        <SafeAreaView style={{flex: 1}}>
+          <FlatList
+            style={styles.flatlist}
+            data={goalsStore.goals}
+            renderItem={renderGoal}
+            extraData={{
+              extraDataForMobX:
+                goalsStore.goals.length > 0 ? goalsStore.goals[0].LTgoal : "",
+            }}
+            keyExtractor={(item) => item.id}
+            onRefresh={fetchGoals}
+            refreshing={refreshing}
+          ></FlatList>
+        </SafeAreaView>
       </Screen>
     </View>
   )
@@ -87,5 +138,11 @@ const styles = StyleSheet.create({
   image: {
     width:50,
     height:50,
-  }
+  },
+  flatlist: {
+    marginTop: 40,
+    overflow: 'scroll',
+    height: 400,
+    width: Dimensions.get('window').width - 20
+  },
 })
