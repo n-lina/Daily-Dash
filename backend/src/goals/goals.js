@@ -3,43 +3,9 @@ const router = express.Router();
 
 const GoalModel = require('../models/goals');
 
-const getGoal = async (req, res) => {
+const getGoals = async (req, res) => {
   const { id } = req.query;
 
-  console.log("hit");
-
-//   const goalObj = new GoalModel({
-//     userId: id,
-//     title: "test",
-//     description: "test",
-//     shortTermGoals: [{
-//       title: "test",
-//       description: "test",
-//       mon: [
-//         {
-//           minute: 700  
-//         },
-//         {
-//           minute: 600
-//         }],
-//       tue: [],
-//       wed: [],
-//       thu: [],
-//       fri: [],
-//       sat: [],
-//       sun: [],
-//     }],
-// });
-
-//   await goalObj.save()
-//     .then((doc) => {
-//       console.log(doc);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//   });
-
-  
   if (id == null) {
     console.log(`Missing parameters in ${req.body}`);
     res.status(400);
@@ -58,9 +24,40 @@ const getGoal = async (req, res) => {
       return;
     }
 
-    res.send(result)
+    var responseObj = {
+      longTermGoals: []
+    };
+
+    result.forEach(function(goal) {
+      var goalResponse = {
+        title: goal.title,
+        description: goal.description,
+        shortTermGoals: []
+      };
+
+      goal.shortTermGoals.forEach(function(shortTermGoal) {
+        var shortTermGoal = {
+          title: shortTermGoal.title,
+          description: shortTermGoal.description,
+          mon: shortTermGoal.mon,
+          tue: shortTermGoal.tue,
+          wed: shortTermGoal.wed,
+          thu: shortTermGoal.thu,
+          fri: shortTermGoal.fri,
+          sat: shortTermGoal.sat,
+          sun: shortTermGoal.sun,
+        };
+
+        goalResponse.shortTermGoals.push(shortTermGoal);
+      });
+
+      responseObj.longTermGoals.push(goalResponse);
+    });
+
+    res.send(responseObj);
   } catch (error) {
     res.status(400);
+    console.log(error);
     res.end();
     return;
   }
@@ -69,8 +66,6 @@ const getGoal = async (req, res) => {
 const getShortTermGoals = async (req, res) => {
   const { id } = req.query;
   const { dayOfWeek } = req.query;
-
-  console.log("hit");
 
   if (id == null || dayOfWeek == null) {
     console.log(`Missing parameters in ${req.params}`);
@@ -90,27 +85,36 @@ const getShortTermGoals = async (req, res) => {
       return;
     }
 
-    let shortTermGoals = [];
+    console.log(result);
+
+    var responseObj = {
+      shortTermGoals: []
+    };
 
     result.forEach(function(goal) {
       goal.shortTermGoals.forEach(function(shortTermGoal) {
         if (shortTermGoal[dayOfWeek].length > 0) {
-          shortTermGoals.push(shortTermGoal);
+          shortTermGoalResponse = {
+            title: shortTermGoal.title,
+            description: shortTermGoal.description,
+            times: shortTermGoal[dayOfWeek]
+          }
+
+          responseObj.shortTermGoals.push(shortTermGoalResponse);
         }
       });
     });
 
-    console.log(shortTermGoals);
-
-    res.send(shortTermGoals)
+    res.send(responseObj)
   } catch (error) {
     res.status(400);
+    console.log(error);
     res.end();
     return;
   }
 };
 
-router.get("/", getGoal);
+router.get("/", getGoals);
 router.get("/shortterm", getShortTermGoals);
 
 module.exports = router;
