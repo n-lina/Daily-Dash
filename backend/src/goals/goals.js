@@ -3,9 +3,9 @@ const router = express.Router();
 
 const GoalModel = require('../models/goals');
 
-const getGoals = async (req, res) => {
-  const { id } = req.query;
-
+const getGoal = async (req, res) => {
+  const { id } = req.params;
+  
   if (id == null) {
     console.log(`Missing parameters in ${req.body}`);
     res.status(400);
@@ -14,7 +14,7 @@ const getGoals = async (req, res) => {
   }
 
   try {
-    var result = await GoalModel.find({userId: id});
+    var result = await GoalModel.findOne({userId: id});
 
     console.log(result);
 
@@ -24,97 +24,14 @@ const getGoals = async (req, res) => {
       return;
     }
 
-    var responseObj = {
-      longTermGoals: []
-    };
-
-    result.forEach(function(goal) {
-      var goalResponse = {
-        title: goal.title,
-        description: goal.description,
-        shortTermGoals: []
-      };
-
-      goal.shortTermGoals.forEach(function(shortTermGoal) {
-        var shortTermGoal = {
-          title: shortTermGoal.title,
-          description: shortTermGoal.description,
-          mon: shortTermGoal.mon,
-          tue: shortTermGoal.tue,
-          wed: shortTermGoal.wed,
-          thu: shortTermGoal.thu,
-          fri: shortTermGoal.fri,
-          sat: shortTermGoal.sat,
-          sun: shortTermGoal.sun,
-        };
-
-        goalResponse.shortTermGoals.push(shortTermGoal);
-      });
-
-      responseObj.longTermGoals.push(goalResponse);
-    });
-
-    res.send(responseObj);
+    res.send(result)
   } catch (error) {
     res.status(400);
-    console.log(error);
     res.end();
     return;
   }
 };
 
-const getShortTermGoals = async (req, res) => {
-  const { id } = req.query;
-  const { dayOfWeek } = req.query;
-
-  if (id == null || dayOfWeek == null) {
-    console.log(`Missing parameters in ${req.params}`);
-    res.status(400);
-    res.end();
-    return;
-  }
-
-  try {
-    var result = await GoalModel.find({userId: id});
-
-    console.log(result);
-
-    if (result == null) {
-      res.status(400);
-      res.send(null);
-      return;
-    }
-
-    console.log(result);
-
-    var responseObj = {
-      shortTermGoals: []
-    };
-
-    result.forEach(function(goal) {
-      goal.shortTermGoals.forEach(function(shortTermGoal) {
-        if (shortTermGoal[dayOfWeek].length > 0) {
-          shortTermGoalResponse = {
-            title: shortTermGoal.title,
-            description: shortTermGoal.description,
-            times: shortTermGoal[dayOfWeek]
-          }
-
-          responseObj.shortTermGoals.push(shortTermGoalResponse);
-        }
-      });
-    });
-
-    res.send(responseObj)
-  } catch (error) {
-    res.status(400);
-    console.log(error);
-    res.end();
-    return;
-  }
-};
-
-router.get("/", getGoals);
-router.get("/shortterm", getShortTermGoals);
+router.get("/:id", getGoal);
 
 module.exports = router;
