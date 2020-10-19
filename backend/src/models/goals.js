@@ -8,13 +8,27 @@ const Goal = new Schema({
     shortTermGoals: [{
       title: { type: String, required: true },
       description: { type: String, required: true },
-      mon: { type: Date, required: true },
-      tue: { type: Date, required: true },
-      wed: { type: Date, required: true },
-      thu: { type: Date, required: true },
-      fri: { type: Date, required: true },
-      sat: { type: Date, required: true },
-      sun: { type: Date, required: true },
+      mon: [{
+        minute: {type: Number, required: false}
+      }],
+      tue: [{
+        minute: {type: Number, required: false}
+      }],
+      wed: [{
+        minute: {type: Number, required: false}
+      }],
+      thu: [{
+        minute: {type: Number, required: false}
+      }],
+      fri: [{
+        minute: {type: Number, required: false}
+      }],
+      sat: [{
+        minute: {type: Number, required: false}
+      }],
+      sun: [{
+        minute: {type: Number, required: false}
+      }],
     }],
 });
 
