@@ -8,7 +8,6 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-
 const goals = require("./goals/goals");
 const users = require("./users/users");
 
