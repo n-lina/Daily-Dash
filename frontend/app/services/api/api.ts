@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import auth from "@react-native-firebase/auth"
 
 /**
  * Manages all requests to the API.
@@ -50,6 +51,9 @@ export class Api {
    */
   async postUserSignIn(id: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
 
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
+
     const postUsr: Types.PostUser = {email: email, username: name, id: id}
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
@@ -81,8 +85,10 @@ export class Api {
    * Gets a single user by ID
    */
 
-  async getUser(token: string, id: string): Promise<Types.GetUserResult> {
+  async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 
     // the typical ways to die when calling an api
