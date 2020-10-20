@@ -84,6 +84,9 @@ export class Api {
 
     const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId }
 
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
+
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
     // the typical ways to die when calling an api
@@ -113,8 +116,10 @@ export class Api {
    * Gets a single user by ID
    */
 
-  async getUser(token: string, id: string): Promise<Types.GetUserResult> {
+  async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 
     // the typical ways to die when calling an api
