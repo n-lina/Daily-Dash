@@ -6,8 +6,10 @@
  */
 import React from "react"
 
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { HomeScreen } from "../screens"
+// import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { HomeScreen, ProfileScreen } from "../screens"
+import { Icon } from "react-native-elements"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -23,21 +25,44 @@ import { HomeScreen } from "../screens"
  */
 export type PrimaryParamList = {
   home: undefined
+  profile: undefined
+  goals: undefined
 }
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Stack = createNativeStackNavigator<PrimaryParamList>()
+// const Stack = createNativeStackNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator<PrimaryParamList>()
 
 export function PrimaryNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
+    <Tab.Navigator
+      initialRouteName="home"
+      tabBarOptions={{
+        activeTintColor: "#101010",
       }}
     >
-      <Stack.Screen name="home" component={HomeScreen} />
-    </Stack.Navigator>
+      <Tab.Screen
+        name="profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="person" size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="goals"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="list" size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
   )
 }
 
