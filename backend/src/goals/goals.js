@@ -114,7 +114,46 @@ const getShortTermGoals = async (req, res) => {
   }
 };
 
+
+const postGoal = async (req, res) => {
+  // read in variables from req object
+  const { userId } = req.body;
+  const { title } = req.body;
+  const { description } = req.body;
+  const { shortTermGoals } = req.body;
+  // directly access shortTermGoals fields like shortTermGoals[0].title
+ 
+  // checks if all JSON entries in model present, except does not check elements of shortTermGoals
+  if (userId == null || title == null || description == null || shortTermGoals == null) {
+    console.log(`Missing parameters in ${req.params}`);
+    res.status(400);
+    res.end();
+    return;
+  }
+  
+  const goalObj = new GoalModel({
+    userId: userId,
+    title: title,
+    description: description,
+    shortTermGoals: shortTermGoals
+  });
+
+  await goalObj.save()
+    .then((doc) => {
+      console.log(doc);
+    })
+    .catch((err) => {
+      console.error(err);
+  });
+
+  var response = {id: userId};
+
+  res.send(response);
+  
+};
+
 router.get("/", getGoals);
 router.get("/shortterm", getShortTermGoals);
+router.post("/", postGoal);
 
 module.exports = router;
