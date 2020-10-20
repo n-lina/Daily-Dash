@@ -55,7 +55,7 @@ export class Api {
     const deleteNotId: Types.DeleteNotificationToken = { token: notId }
 
     const response: ApiResponse<any> = await this.apisauce.delete(
-      "/users/" + userId + "/notification/",
+      "/users/" + userId + "/notification",
       deleteNotId,
     )
 
