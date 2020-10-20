@@ -21,8 +21,8 @@ export const GoalsStoreModel = types
       __DEV__ && console.log("Unsetting LTgoals list")
     }
   })).actions(self => ({
-    getAllGoals: (user_id: string) => {
-      return self.environment.api.getAllGoals(user_id).then(res => {
+    getAllGoals: () => {
+      return self.environment.api.getAllGoals().then(res => {
         if (res.kind == "ok" ) {
           self.setLTgoals(res.LTgoals);
           __DEV__ && console.log("Got list of LT goals")
@@ -48,16 +48,19 @@ export const GoalsStoreModel = types
     },
 
     getOneLTgoal: (goal_id: string) => {
-      self.environment.api.getOneLTgoal(goal_id).then(res => {
-        if (res.kind == "ok"){
-          // how to display?
-          __DEV__ && console.log("Got one LT goal")
-        } else {
-          __DEV__ && console.log(res.kind);
-        }
-      }).catch(err => {
-        __DEV__ && console.error(err);
-      })
+      // self.environment.api.getOneLTgoal(goal_id).then(res => {
+      //   if (res.kind == "ok"){
+      //     // how to display?
+      //     __DEV__ && console.log("Got one LT goal")
+      //   } else {
+      //     __DEV__ && console.log(res.kind);
+      //   }
+      // }).catch(err => {
+      //   __DEV__ && console.error(err);
+      // })
+      return self.goals.filter(goal => {
+        return goal.id == goal_id
+      })[0] 
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

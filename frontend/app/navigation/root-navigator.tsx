@@ -79,8 +79,7 @@ const RootStack = observer(() => {
         <>
           <Stack.Screen
             name="welcome"
- //           component={WelcomeScreen}
-            component={LtgoalsScreen}
+            component={WelcomeScreen}
             options={{
               headerShown: false,
             }}

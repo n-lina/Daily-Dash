@@ -3,6 +3,7 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 import { result } from "validate.js"
+import auth from "@react-native-firebase/auth"
 
 /**
  * Manages all requests to the API.
@@ -12,7 +13,6 @@ export class Api {
    * The underlying apisauce instance which performs the requests.
    */
   apisauce: ApisauceInstance
-
   /**
    * Configurable options.
    */
@@ -54,6 +54,9 @@ export class Api {
     }
   }
 
+  getUserID(){
+    return auth().currentUser.uid
+  }
 
   /**
    * Post a user to database (may already exist)
@@ -114,7 +117,7 @@ export class Api {
     }
   }
 
-  async getAllGoals(user_id: string): Promise<Types.GetLTGoalsResult> {
+  async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
     const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${user_id}`)
 
     if (!response.ok){
