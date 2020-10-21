@@ -54,6 +54,20 @@ export const UserStoreModel = types
      }).catch(err => {
         __DEV__ && console.error(err);
       })
+    },
+
+    signUserOut: () => {
+      return self.environment.api.signOut().then(res => {
+        if (res.kind == "ok") {
+          self.setUser(null);
+          __DEV__ && console.log("successful signout")
+        } else {
+          self.setUser(null);
+          __DEV__ && console.log(res.kind + " Did not delete user notification token");
+        }
+      }).catch(err => {
+        __DEV__ && console.log(err + " Could not sign user out")
+      })
     }
   }))
 
