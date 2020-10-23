@@ -153,8 +153,18 @@ const postGoal = async (req, res) => {
   
 };
 
+
+const getSuggestedShortTermGoal = async (req, res) => {
+
+  var response = {title: "Suggested STG title", description: "Suggested STG description"} 
+
+  res.send(response);
+  
+};
+
 router.get("/", getGoals);
 router.get("/shortterm", getShortTermGoals);
 router.post("/", postGoal);
+router.get("/getsugstg", getSuggestedShortTermGoal);
 
 module.exports = router;
