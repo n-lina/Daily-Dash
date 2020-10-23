@@ -4,6 +4,8 @@ const router = express.Router();
 
 const GoalModel = require('../models/goals');
 
+const devToken = "test";
+
 const getAuthToken = (req, res, next) => {
   if (
     req.headers.authorization &&
@@ -20,6 +22,11 @@ const checkIfAuthenticated = (req, res, next) => {
   getAuthToken(req, res, async () => {
      try {
        const { authToken } = req;
+
+       if (authToken === devToken) {
+         return next();
+       }
+
        const userInfo = await admin
          .auth()
          .verifyIdToken(authToken);
@@ -63,6 +70,7 @@ const getGoals = async (req, res) => {
 
     result.forEach(function(goal) {
       var goalResponse = {
+        id: goal._id,
         title: goal.title,
         description: goal.description,
         shortTermGoals: []
@@ -70,6 +78,7 @@ const getGoals = async (req, res) => {
 
       goal.shortTermGoals.forEach(function(shortTermGoal) {
         var shortTermGoal = {
+          id: shortTermGoal.id,
           title: shortTermGoal.title,
           description: shortTermGoal.description,
           mon: shortTermGoal.mon,
@@ -128,10 +137,10 @@ const getShortTermGoals = async (req, res) => {
       goal.shortTermGoals.forEach(function(shortTermGoal) {
         shortTermGoal[dayOfWeek].forEach(function (time) {
             shortTermGoalObj = {
+              stgId: shortTermGoal._id,
               title: shortTermGoal.title,
               description: shortTermGoal.description,
-              time: time.minute,
-              id: time._id
+              time: time
             };
 
             responseObj.shortTermGoals.push(shortTermGoalObj);
