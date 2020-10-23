@@ -1603,6 +1603,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-9.3.0.tgz#b539fffc56bbdfa8faa0039939b8e32bc13c71b4"
   integrity sha512-1lpsYW8dwaBKqMNYroIvOcawWqXDwnK1LgEFHBTkvKqisJ8MVY3+0DpBmrg+ZzEUGOe+KFiFhPQCVO2uUYKezQ==
 
+"@react-native-firebase/messaging@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-7.9.1.tgz#4011272129ae36b034625a2b615934daa210537d"
+  integrity sha512-/BQPs4L9/Bz01cYHNzq40NmihpRn+I3Y/1LX/RXj8Nf6LGh3q+1xx02ycOwm2FqBrb1x6nUC95LCxfwe/lF8Ug==
+
 "@react-navigation/bottom-tabs@^5.9.2":
   version "5.9.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.9.2.tgz#b071d9f39b275d4ea256df7bfb1ee83bbddeebeb"

@@ -43,8 +43,8 @@ export const UserStoreModel = types
       })
     },
 
-    getUser: (token: string, id: string) => {
-     return self.environment.api.getUser(token, id).then(res => {
+    getUser: (id: string) => {
+     return self.environment.api.getUser(id).then(res => {
       if (res.kind == "ok") {
         self.setUser(res.user);
         __DEV__ && console.log("got response")
@@ -53,6 +53,20 @@ export const UserStoreModel = types
       }
      }).catch(err => {
         __DEV__ && console.error(err);
+      })
+    },
+
+    signUserOut: () => {
+      return self.environment.api.signOut().then(res => {
+        if (res.kind == "ok") {
+          self.setUser(null);
+          __DEV__ && console.log("successful signout")
+        } else {
+          self.setUser(null);
+          __DEV__ && console.log(res.kind + " Did not delete user notification token");
+        }
+      }).catch(err => {
+        __DEV__ && console.log(err + " Could not sign user out")
       })
     }
   }))
