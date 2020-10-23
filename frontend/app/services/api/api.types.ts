@@ -20,13 +20,14 @@ export interface Goal {
 
 export interface STGoal {
   id: string 
-  monday: number
-  tuesday: number
-  wednesday: number
-  thursday: number
-  friday: number
-  saturday: number
-  sunday: number
+  text: string
+  monday: Array<number>
+  tuesday: Array<number>
+  wednesday: Array<number>
+  thursday: Array<number>
+  friday: Array<number>
+  saturday: Array<number>
+  sunday: Array<number>
 }
 
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem

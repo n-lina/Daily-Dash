@@ -118,7 +118,7 @@ export class Api {
   }
 
   async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${user_id}`)
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals/${user_id}`)
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
@@ -135,7 +135,7 @@ export class Api {
   }
 
   async postLTgoal(LTgoal: string, STgoals: Array<Types.STGoal>, date_added: Date, id: string ): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post("/newgoal", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
+    const response: ApiResponse<any> = await this.apisauce.post("/users/goals", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
@@ -151,22 +151,22 @@ export class Api {
     } 
   }
   
-  async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post(`/LTgoals/${goal_id}`)
+  // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
+  //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 
-    if (!response.ok){
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
+  //   if (!response.ok){
+  //     const problem = getGeneralApiProblem(response)
+  //     if (problem) return problem
+  //   }
 
-    try {
-      const rawGoal = response.data
-      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok", goal: resultGoal }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
+  //   try {
+  //     const rawGoal = response.data
+  //     const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+  //     return { kind: "ok", goal: resultGoal }
+  //   } catch {
+  //     return { kind: "bad-data" }
+  //   }
+  // }
 
   // editOneLTgoal
   // deleteLTgoal
