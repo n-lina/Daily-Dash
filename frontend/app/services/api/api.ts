@@ -152,7 +152,7 @@ export class Api {
   }
   
   async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post(`/LTgoals/${goal_id}`)
+    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
