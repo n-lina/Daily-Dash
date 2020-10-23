@@ -93,19 +93,20 @@ const getShortTermGoals = async (req, res) => {
 
     result.forEach(function(goal) {
       goal.shortTermGoals.forEach(function(shortTermGoal) {
-        if (shortTermGoal[dayOfWeek].length > 0) {
-          shortTermGoalResponse = {
-            title: shortTermGoal.title,
-            description: shortTermGoal.description,
-            times: shortTermGoal[dayOfWeek]
-          }
+        shortTermGoal[dayOfWeek].forEach(function (time) {
+            shortTermGoalObj = {
+              title: shortTermGoal.title,
+              description: shortTermGoal.description,
+              time: time.minute,
+              id: time._id
+            };
 
-          responseObj.shortTermGoals.push(shortTermGoalResponse);
-        }
+            responseObj.shortTermGoals.push(shortTermGoalObj);
+          });
       });
     });
 
-    res.send(responseObj)
+    res.send(responseObj);
   } catch (error) {
     res.status(400);
     console.log(error);

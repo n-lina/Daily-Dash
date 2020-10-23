@@ -9,6 +9,7 @@ export interface PostUser {
   id: string
   username: string
   email: string
+  notificationId: string
 }
 
 export interface Goal {
@@ -32,5 +33,10 @@ export interface STGoal {
 
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
 export type GetOneGoalResult = { kind: "ok"; goal: Goal } | GeneralApiProblem
+export interface DeleteNotificationToken {
+  token: string
+}
+
+export type SignOutResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem

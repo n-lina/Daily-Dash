@@ -42,10 +42,8 @@ const RootStack = observer(() => {
   // Handle user state changes
   function onAuthStateChanged(res) {
     if (res)
-      res.getIdToken().then((token) => {
-        userStore.getUser(token, res._user.uid).then((_) => {
-          if (initializing) setInitializing(false)
-        })
+      userStore.getUser(res._user.uid).then((_) => {
+        if (initializing) setInitializing(false)
       })
     else {
       if (initializing) setInitializing(false)
