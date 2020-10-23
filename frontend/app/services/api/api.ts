@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { result } from "validate.js"
 import messaging from "@react-native-firebase/messaging"
 import auth from "@react-native-firebase/auth"
 
@@ -13,7 +14,6 @@ export class Api {
    * The underlying apisauce instance which performs the requests.
    */
   apisauce: ApisauceInstance
-
   /**
    * Configurable options.
    */
@@ -44,6 +44,19 @@ export class Api {
         Accept: "application/json",
       },
     })
+  }
+
+  convertGoal = (raw) => {
+    return {
+      LTgoal: raw.LTgoals,
+      STgoals: raw.STgoals, 
+      date_added: new Date(Number.parseInt(raw.date)),
+      id: raw._id
+    }
+  }
+
+  getUserID(){
+    return auth().currentUser.uid
   }
 
   /**
@@ -139,4 +152,58 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
+
+  async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${user_id}`)
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoals = response.data
+      const resultGoalList: Types.Goal[] = rawGoals.map(this.convertGoal)
+      return { kind: "ok", LTgoals: resultGoalList}
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async postLTgoal(LTgoal: string, STgoals: Array<Types.STGoal>, date_added: Date, id: string ): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.post("/newgoal", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoal = response.data
+      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok", goal: resultGoal }
+    } catch {
+      return { kind: "bad-data"}
+    } 
+  }
+  
+  async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawGoal = response.data
+      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok", goal: resultGoal }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  // editOneLTgoal
+  // deleteLTgoal
 }
