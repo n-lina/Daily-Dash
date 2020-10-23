@@ -7,6 +7,9 @@ const addUser = async (req, res) => {
   const { id } = req.body;
   const { email } = req.body;
   const { username } = req.body;
+  const { notificationId } = req.body;
+  
+  console.log(notificationId);
 
   if (id == null || email == null || username == null) {
     console.log(`Missing parameters in ${req.body}`);
