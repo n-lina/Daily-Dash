@@ -4,7 +4,6 @@ const router = express.Router();
 
 const GoalModel = require('../models/goals');
 
-
 const getAuthToken = (req, res, next) => {
   if (
     req.headers.authorization &&
