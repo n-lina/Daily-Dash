@@ -1,5 +1,4 @@
 import React from "react"
-import { useState } from 'react';
 import { observer } from "mobx-react-lite"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions} from "react-native"
@@ -8,9 +7,6 @@ import { Button, Header, Screen, Text } from "../../components"
 // import { useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
 import { Goal, useStores } from "../../models"
-import { ListItem, Avatar } from "react-native-elements"
-
-
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -63,10 +59,12 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
   // Pull in navigation via hook
   const navigation = useNavigation()
   const route = useRoute()
-  //const {LTgoal, STgoals, date_added, id} = route.params as Goal
+  //const {LTgoal, STgoals, id} = route.params as Goal
+
   const LTgoal = "hello"
-  const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [-1], thursday: [100], friday: [-1], saturday: [-1], sunday: [-1]}, {text: "bye", monday: [24], tuesday: [225], wednesday: [-1], thursday: [10], friday: [88], saturday: [-1], sunday: [-1]}]
- // const nextScreen = () => navigation.navigate("signInScreen")
+  const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
+ 
+  // const nextScreen = () => navigation.navigate("signInScreen")
   
   var monday = []
   var tuesday = []
@@ -76,18 +74,14 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
   var saturday = []
   var sunday = []
 
-  const DNE = -1
-  var i = 0
-
   for (let goal of STgoals){
-    i++
-    if (goal.monday[0] != DNE) monday.push([goal.monday[0], goal.text, i])
-    if (goal.tuesday[0] != DNE) tuesday.push([goal.tuesday[0], goal.text, i])
-    if (goal.wednesday[0] != DNE) wednesday.push([goal.wednesday[0], goal.text, i])
-    if (goal.thursday[0] != DNE) thursday.push([goal.thursday[0], goal.text, i])
-    if (goal.friday[0] != DNE) friday.push([goal.friday[0], goal.text, i])
-    if (goal.saturday[0] != DNE) saturday.push([goal.saturday[0], goal.text, i])
-    if (goal.sunday[0] != DNE) sunday.push([goal.sunday[0], goal.text, i])
+    if (goal.monday.length > 0) monday.push([goal.monday[0], goal.text])
+    if (goal.tuesday.length > 0) tuesday.push([goal.tuesday[0], goal.text])
+    if (goal.wednesday.length > 0) wednesday.push([goal.wednesday[0], goal.text])
+    if (goal.thursday.length > 0) thursday.push([goal.thursday[0], goal.text])
+    if (goal.friday.length > 0) friday.push([goal.friday[0], goal.text])
+    if (goal.saturday.length > 0) saturday.push([goal.saturday[0], goal.text])
+    if (goal.sunday.length > 0) sunday.push([goal.sunday[0], goal.text])
   }
 
   function sortFunction(a, b) {
@@ -130,12 +124,33 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
     }
   ];
 
-  const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={{color: '#000'}}>{title[1]}</Text>
-      <Text style={styles.right}>{title[0]}</Text>
-    </View>
+  const createTwoButtonAlert = () =>
+  Alert.alert(
+    "Delete Goal",
+    "This cannot be undone.",
+    [
+      {
+        text: "No",
+       // onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Yes", onPress: () => console.log("OK Pressed") }
+    ],
+    { cancelable: false }
   );
+
+  const Item = ({ title }) => {
+
+    var mins = title[0]%60;
+    var hrs = Math.floor(title[0]/60);
+
+    return(
+      <View style={styles.item}>
+        <Text style={{color: '#000'}}>{title[1]}</Text>
+        <Text style={styles.right}>{hrs}:{mins}</Text>
+      </View>
+    )
+  };
 
   return (
     <View style={FULL}>
@@ -167,7 +182,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
           <Button
             style={styles.button}
             text="Delete"
-            onPress={() => navigation.navigate("signInScreen")}
+            onPress={createTwoButtonAlert}
           />
         </View>
       </Screen>
@@ -193,9 +208,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  // displaySTgoals: {
-  //   flexDirection: 'row',
-  // },
   right: {
     textAlign: 'right',
     flex: 1,

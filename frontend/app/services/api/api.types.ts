@@ -14,7 +14,6 @@ export interface PostUser {
 export interface Goal {
   LTgoal: string,
   STgoals: Array<STGoal>, 
-  date_added: Date,
   id: string
 }
 

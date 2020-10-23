@@ -8,7 +8,7 @@ import React from "react"
 
 // import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { HomeScreen, LtgoalsScreen, ProfileScreen } from "../screens"
+import { HomeScreen, ProfileScreen } from "../screens"
 import { Icon } from "react-native-elements"
 import { GoalsNavigator } from "./goals-navigator"
 

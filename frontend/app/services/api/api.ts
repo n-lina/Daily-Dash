@@ -45,11 +45,25 @@ export class Api {
     })
   }
 
-  convertGoal = (raw) => {
+  convertSTGoal = (raw) => {
     return {
-      LTgoal: raw.LTgoals,
-      STgoals: raw.STgoals, 
-      date_added: new Date(Number.parseInt(raw.date)),
+      id: raw._id,
+      text: raw.title,
+      monday: raw.monday,
+      tuesday: raw.tuesday,
+      wednesday: raw.wednesday,
+      thursday: raw.thursday,
+      friday: raw.friday,
+      saturday: raw.saturday,
+      sunday: raw.sunday
+    }
+  }
+
+  convertGoal = (raw) => {
+    const STgoalsList: Types.STGoal[] = raw.shortTermGoals.map(this.convertSTGoal)
+    return {
+      LTgoal: raw.title,
+      STgoals: STgoalsList,
       id: raw._id
     }
   }
@@ -126,7 +140,7 @@ export class Api {
     }
 
     try {
-      const rawGoals = response.data
+      const rawGoals = response.data.longTermGoals
       const resultGoalList: Types.Goal[] = rawGoals.map(this.convertGoal)
       return { kind: "ok", LTgoals: resultGoalList}
     } catch {
