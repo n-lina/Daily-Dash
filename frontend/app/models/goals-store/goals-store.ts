@@ -1,5 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { GoalModel } from "../goal/goal"
+import { StGoal } from "../st-goal/st-goal"
 import { withEnvironment } from "../extensions/with-environment";
 /**
  * Model description here for TypeScript hints.
@@ -34,8 +35,8 @@ export const GoalsStoreModel = types
       })
     },
 
-    postLTgoal: (LTgoal: string, STgoals: Array<string>) => {
-      self.environment.api.postLTgoal(LTgoal, STgoals, new Date()).then(res => {
+    postLTgoal: (LTgoal: string, STgoals: Array<StGoal>, id: string) => {
+      self.environment.api.postLTgoal(LTgoal, STgoals, new Date(), id).then(res => {
         if (res.kind == "ok"){
           self.goals.push(res.goal);
           __DEV__ && console.log("Added goal to list of LT goals")

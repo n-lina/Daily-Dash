@@ -13,9 +13,20 @@ export interface PostUser {
 
 export interface Goal {
   LTgoal: string,
-  STgoals: Array<string>, 
+  STgoals: Array<STGoal>, 
   date_added: Date,
   id: string
+}
+
+export interface STGoal {
+  id: string 
+  monday: number
+  tuesday: number
+  wednesday: number
+  thursday: number
+  friday: number
+  saturday: number
+  sunday: number
 }
 
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem

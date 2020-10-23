@@ -6,8 +6,12 @@
  */
 import React from "react"
 
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { HomeScreen} from "../screens"
+// import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { HomeScreen, LtgoalsScreen, ProfileScreen } from "../screens"
+import { Icon } from "react-native-elements"
+import { GoalsNavigator } from "./goals-navigator"
+
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -22,22 +26,45 @@ import { HomeScreen} from "../screens"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
-  home: undefined
+  Home: undefined
+  Profile: undefined
+  Goals: undefined
 }
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Stack = createNativeStackNavigator<PrimaryParamList>()
+// const Stack = createNativeStackNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator<PrimaryParamList>()
 
 export function PrimaryNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions={{
+        activeTintColor: "#101010",
       }}
     >
-      <Stack.Screen name="home" component={HomeScreen} />
-    </Stack.Navigator>
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="person" size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Goals"
+        component={GoalsNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => <Icon name="list" size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
   )
 }
 
@@ -50,5 +77,5 @@ export function PrimaryNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["home"]
+const exitRoutes = ["Home"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

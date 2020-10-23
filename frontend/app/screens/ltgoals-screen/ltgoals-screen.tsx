@@ -4,9 +4,8 @@ import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView} from "react-native"
 import { Button, Header, Screen, Text } from "../../components"
-import { useStores } from "../../models"
+import { Goal, useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
-import { Goal } from "../../services/api"
 import { ListItem, Avatar } from "react-native-elements"
 
 
@@ -52,33 +51,17 @@ const FULL: ViewStyle = {
   flex: 1 
 }
 
-const renderGoal = ({ item }) => {
-  const goal: Goal = item
-
-  return (
-    <View>
-      <Text style={{marginLeft: 10, marginTop: 1}}> {goal.LTgoal}</Text>
-      <ListItem>   
-        <Avatar source={require('../../../assets/mountain.png')} />
-        <ListItem.Content>
-          <ListItem.Title>{goal.LTgoal}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-    </View>
-  )
-}
-
-
 export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // Pull in one of our MST stores
-    const {goalsStore} = useStores()
+    
     // OR
     // const rootStore = useStores()
 
     // Pull in navigation via hook
-
+  const {goalsStore} = useStores()
   const navigation = useNavigation()
-  const nextScreen = () => navigation.navigate("signInScreen")
+  // how to pass the item in here from the renderGoal function?
+  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", {my_goal: goal})
 
   useEffect(() => {
     if (goalsStore.goals.length == 0)
@@ -87,9 +70,25 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
 
   const fetchGoals = () => {
     setRefreshing(true)
-    goalsStore.getAllGoals("TODO").then(() => {
+    goalsStore.getAllGoals().then(() => {
       setRefreshing(false)
     })
+  }
+
+  const renderGoal = ({ item }) => {
+    const goal: Goal = item
+  
+    return (
+      <View>
+        <Text style={{marginLeft: 10, marginTop: 1}}> {goal.LTgoal}</Text>
+        <ListItem onPress={() => getSpecificGoal(item)}>   
+          <Avatar source={require('../../../assets/mountain.png')} />
+          <ListItem.Content>
+            <ListItem.Title>{goal.LTgoal}</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+      </View>
+    )
   }
 
   const [refreshing, setRefreshing] = useState(false)

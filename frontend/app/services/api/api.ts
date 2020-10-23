@@ -134,8 +134,8 @@ export class Api {
     }
   }
 
-  async postLTgoal(LTgoal: string, STgoals: Array<string>, date: Date): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post(`/newgoal`)
+  async postLTgoal(LTgoal: string, STgoals: Array<Types.STGoal>, date_added: Date, id: string ): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.post("/newgoal", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)

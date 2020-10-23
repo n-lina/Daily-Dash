@@ -1,16 +1,19 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { StGoalModel } from "../st-goal/st-goal"
 
 /**
  * Model description here for TypeScript hints.
  */
-export const GoalModel = types
-  .model("Goal")
+export const StGoalModel = types
+  .model("StGoal")
   .props({
-    LTgoal: types.string,
-    STgoals: types.array(StGoalModel), 
-    date_added: types.Date,
-    id: types.string
+    id: types.string,
+    monday: types.integer,
+    tuesday: types.integer,
+    wednesday: types.integer,
+    thursday: types.integer,
+    friday: types.integer,
+    saturday: types.integer,
+    sunday: types.integer,
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -23,7 +26,7 @@ export const GoalModel = types
   *  .postProcessSnapshot(omit(["password", "socialSecurityNumber", "creditCardNumber"]))
   */
 
-type GoalType = Instance<typeof GoalModel>
-export interface Goal extends GoalType {}
-type GoalSnapshotType = SnapshotOut<typeof GoalModel>
-export interface GoalSnapshot extends GoalSnapshotType {}
+type StGoalType = Instance<typeof StGoalModel>
+export interface StGoal extends StGoalType {}
+type StGoalSnapshotType = SnapshotOut<typeof StGoalModel>
+export interface StGoalSnapshot extends StGoalSnapshotType {}
