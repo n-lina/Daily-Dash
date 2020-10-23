@@ -31,7 +31,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
   async function signOut() {
     __DEV__ && console.log("signing out")
     try {
-      auth().signOut()
+      userStore.signUserOut();
     } catch (e) {
       __DEV__ && console.log(e)
     }

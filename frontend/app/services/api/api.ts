@@ -3,6 +3,7 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 import { result } from "validate.js"
+import messaging from "@react-native-firebase/messaging"
 import auth from "@react-native-firebase/auth"
 
 /**
@@ -73,12 +74,45 @@ export class Api {
   }
 
   /**
+   * Sign a user out, delete there notification token from the server.
+   */
+  async signOut(): Promise<Types.SignOutResult> {
+    const notId = await messaging().getToken();
+    const userId = await auth().currentUser.uid;
+    const deleteNotId: Types.DeleteNotificationToken = { token: notId }
+
+    const response: ApiResponse<any> = await this.apisauce.delete(
+      "/users/" + userId + "/notification",
+      deleteNotId,
+    )
+
+    auth().signOut();
+    this.apisauce.deleteHeader("Authorization");
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok"}
+  }
+
+  /**
    * Post a user to database (may already exist)
    * @param usr user data received from Authentication
    */
-  async postUserSignIn(id: string, name: string, email: string): Promise<Types.PostUserSignInResult> {
+  async postUserSignIn(
+    id: string,
+    name: string,
+    email: string,
+  ): Promise<Types.PostUserSignInResult> {
+    const notId = await messaging().getToken()
 
-    const postUsr: Types.PostUser = {email: email, username: name, id: id}
+    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId }
+
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
@@ -109,8 +143,10 @@ export class Api {
    * Gets a single user by ID
    */
 
-  async getUser(token: string, id: string): Promise<Types.GetUserResult> {
+  async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
+    const idToken = await auth().currentUser.getIdToken();
+    this.apisauce.setHeader("Authorization", idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 
     // the typical ways to die when calling an api
@@ -165,22 +201,22 @@ export class Api {
     } 
   }
   
-  // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-  //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
+  async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 
-  //   if (!response.ok){
-  //     const problem = getGeneralApiProblem(response)
-  //     if (problem) return problem
-  //   }
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
 
-  //   try {
-  //     const rawGoal = response.data
-  //     const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-  //     return { kind: "ok", goal: resultGoal }
-  //   } catch {
-  //     return { kind: "bad-data" }
-  //   }
-  // }
+    try {
+      const rawGoal = response.data
+      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok", goal: resultGoal }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 
   // editOneLTgoal
   // deleteLTgoal
