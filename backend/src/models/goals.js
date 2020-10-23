@@ -15,11 +15,11 @@ const Goal = new Schema({
       fri: { type: [Number], unique: true },
       sat: { type: [Number], unique: true },
       sun: { type: [Number], unique: true },        
-  }, {_id: false} )],
+  } )],
   // Defining an object within an array schema element is implicitly 
   // treated as its own Schema object. As such they'll have their 
   // own _id field, which can be disabled by explicitly defining 
-  // the schema with the _id option disabled:
+  // the schema with the _id option disabled
 });
 
 module.exports = mongoose.model("Goal", Goal);
