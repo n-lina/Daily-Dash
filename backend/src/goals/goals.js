@@ -1,7 +1,41 @@
 const express = require("express");
+const admin = require('firebase-admin');
 const router = express.Router();
 
 const GoalModel = require('../models/goals');
+
+
+const getAuthToken = (req, res, next) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.split(' ')[0] === 'Bearer'
+  ) {
+    req.authToken = req.headers.authorization.split(' ')[1];
+  } else {
+    req.authToken = null;
+  }
+  next();
+};
+
+const checkIfAuthenticated = (req, res, next) => {
+  getAuthToken(req, res, async () => {
+     try {
+       const { authToken } = req;
+       const userInfo = await admin
+         .auth()
+         .verifyIdToken(authToken);
+       req.authId = userInfo.uid;
+
+       return next();
+     } catch (e) {
+      console.log(e);
+
+       return res
+         .status(401)
+         .send({ error: 'You are not authorized to make this request' });
+     }
+   });
+};
 
 const getGoals = async (req, res) => {
   const { id } = req.query;
@@ -115,7 +149,7 @@ const getShortTermGoals = async (req, res) => {
   }
 };
 
-router.get("/", getGoals);
-router.get("/shortterm", getShortTermGoals);
+router.get("/", checkIfAuthenticated, getGoals);
+router.get("/shortterm", checkIfAuthenticated, getShortTermGoals);
 
 module.exports = router;
