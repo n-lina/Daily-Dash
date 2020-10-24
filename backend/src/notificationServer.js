@@ -9,6 +9,8 @@ const UserModel = require('./models/users');
 const GoalModel = require('./models/goals');
 const database = require('./db/database');
 
+const notificationTitle = "Reminder from DailyDash!";
+
 const port = 8000;
 
 app.use(cors())
@@ -47,7 +49,7 @@ const sendNotifications = async () => {
         console.log("Current Time: " + currentHour + ":" + currentMinute);
 
         if (currentHour === notificationHour && currentMinute === notificationMinute) {
-          sendMessage(userRegistrationToken, shortTermGoalTitle, shortTermGoalTitle)
+          sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
           }
         })
       })
