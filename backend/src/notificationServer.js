@@ -3,8 +3,10 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require('cors');
 const admin = require('firebase-admin');
+const firebase = require('./firebase/firebase');
 const router = express.Router();
-const GoalModel = require('../models/goals');
+const UserModel = require('./models/users');
+const GoalModel = require('./models/goals');
 const database = require('./db/database');
 
 const port = 8000;
@@ -16,18 +18,53 @@ app.listen(port, () =>
   console.log(`Server listening on port ${port}!`),
 );
 
+const runServer = () => {
+  setInterval(sendNotifications, 60000)
+}
 
+const sendNotifications = async () => {
+  const options = {weekday: 'long'};
+  const day = new Date().toLocaleTimeString('en-us', options).substr(0, 3).toLowerCase();
 
-const sendMessage = () => {
-  var registrationToken = 'eysn1FN-RhGZ4ptNSqBZyR:APA91bGi5OqkOdoxRosRXmqU5WMEKObJbIdC5QgZQqKX9-BnspCi6LCAsrevL9bFU8pEQp0NXc8YwHVDCHAvTy2YP2C__PZgJX7E5zD7J3guQ9258CsmoMJAT93mQCRttfVIfIpgm56v';
+  const allUsers = await UserModel.find();
 
+  allUsers.forEach(async function(user) {
+    const userGoals = await GoalModel.find({userId: user.userId});
+    const userRegistrationToken = user.notificationId;
+
+    userGoals.forEach(function(userGoal) {
+      userGoal.shortTermGoals.forEach(function(shortTermGoal) {
+      const shortTermGoalTitle = shortTermGoal.title;
+
+      shortTermGoal[day].forEach(function(time) {
+        const currentTimeDate = new Date();
+        const currentHour = currentTimeDate.getHours();
+        const currentMinute = currentTimeDate.getMinutes();
+        const notificationHour = parseInt(time / 60);
+        const notificationMinute = time % 60;
+
+        console.log("Notification Time: " + notificationHour + ":" + notificationMinute);
+        console.log("Current Time: " + currentHour + ":" + currentMinute);
+
+        if (currentHour === notificationHour && currentMinute === notificationMinute) {
+          sendMessage(userRegistrationToken, shortTermGoalTitle, shortTermGoalTitle)
+          }
+        })
+      })
+    })
+  })
+}
+
+const sendMessage = (registrationToken, title, body) => {
   var message = {
     notification: {
-      title: "Test",
-      body: "test",
+      title: title,
+      body: body,
     },
     token: registrationToken
   };
+
+  console.log(message);
 
   // Send a message to the device corresponding to the provided
   // registration token.
@@ -40,5 +77,7 @@ const sendMessage = () => {
       console.log('Error sending message:', error);
     });
 }
+
+runServer();
 
 module.exports.app = app;
