@@ -1,7 +1,7 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, View, ViewStyle } from "react-native"
-import { Screen } from "../../components"
+import { FlatList, TextStyle, View, ViewStyle } from "react-native"
+import { Button, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { color } from "../../theme"
@@ -21,7 +21,6 @@ const CONTENT: TextStyle = {
 }
 
 const CONTENT_WRAP: ViewStyle = {
-  flex: 1,
   alignItems: "center",
 }
 
@@ -69,31 +68,27 @@ const LEVEL_NUM_WRAP: ViewStyle = {
   right: 4,
 }
 
-const DAILY_GOAL_WRAP: ViewStyle = {
-
-}
+const DAILY_GOAL_WRAP: ViewStyle = {}
 
 function getMultiplierColor(multiplier) {
-    if (multiplier < 0.2)
-      return "#008080";
-    if (multiplier < 0.5)
-      return "#00cd49"
-    if (multiplier < 0.8)
-      return "#e4e000"
-    else
-      return "#f20007"
+  if (multiplier < 0.2) return "#008080"
+  if (multiplier < 0.5) return "#00cd49"
+  if (multiplier < 0.8) return "#e4e000"
+  else return "#f20007"
 }
 
 export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { dailyGoalStore } = useStores()
+  const { goals } = dailyGoalStore
   const streakProgress = 0.8
   const level = 7
   const levelScore = 1248
   const totalLevelScore = 2000
-  const levelProgress = levelScore / totalLevelScore;
+  const levelProgress = levelScore / totalLevelScore
   const scoreMultiplier = 14
 
+  console.log("Goals: " + goals)
   // OR
   // const rootStore = useStores()
 
@@ -101,7 +96,7 @@ export const HomeScreen = observer(function HomeScreen() {
   // const navigation = useNavigation()
   return (
     <View style={FULL}>
-      <Screen style={FULL} preset="scroll" backgroundColor={color.transparent}>
+      <Screen style={FULL} backgroundColor={color.transparent}>
         {/* <Header
           headerText="Daily Dash"
           titleStyle={HEADER_TEXT_STYLE}
@@ -128,12 +123,27 @@ export const HomeScreen = observer(function HomeScreen() {
             <View style={NEXT_MULT_STYLE}>
               <Text>Next multiplier</Text>
             </View>
-            <Progress.Bar progress={streakProgress} width={progressWidth} color={getMultiplierColor(streakProgress)} />
-          </View>
-          <View style={DAILY_GOAL_WRAP}>
-            
+            <Progress.Bar
+              progress={streakProgress}
+              width={progressWidth}
+              color={getMultiplierColor(streakProgress)}
+            />
           </View>
         </View>
+        <View style={DAILY_GOAL_WRAP}>
+          <Text>{goals.length}</Text>
+          <FlatList
+          data={goals}
+          keyExtractor={item => item.id}
+          renderItem>
+          </FlatList>
+{/*           
+          {goals.map((goal, index) => 
+            <Text key={goal.id}>{goal.title}</Text>
+          )} */}
+        </View>
+        <Button onPress={dailyGoalStore.addGoal} text={"Add goal"}></Button>
+        <Button onPress={dailyGoalStore.clearGoals} text={"Clear"}></Button>
       </Screen>
     </View>
   )

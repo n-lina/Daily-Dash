@@ -1,3 +1,4 @@
+import { DailyGoalStoreModel } from "../daily-goal-store/daily-goal-store"
 import { GoalsStoreModel } from "../goals-store/goals-store"
 import { UserStoreModel } from "../user-store/user-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
@@ -7,6 +8,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
+  dailyGoalStore: types.optional(DailyGoalStoreModel, {}),
   goalsStore: types.optional(GoalsStoreModel, {}),
   userStore: types.optional(UserStoreModel, {}),
 
