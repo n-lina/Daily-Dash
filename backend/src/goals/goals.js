@@ -197,7 +197,21 @@ const postGoal = async (req, res) => {
 
 const getSuggestedShortTermGoal = async (req, res) => {
 
-  var response = {title: "Suggested STG title", description: "Suggested STG description"} 
+  var shortTermGoal = {
+    title:"STG1", 
+    description:"testRunWeekdays", 
+    mon:[5,15], 
+    wed:[30,20]
+  };
+
+  const goalObj = new GoalModel({
+    userId: "N/A",
+    title: "N/A",
+    description: "N/A",
+    shortTermGoals: shortTermGoal
+  });
+
+  var response = goalObj.shortTermGoals;
 
   res.send(response);
   
