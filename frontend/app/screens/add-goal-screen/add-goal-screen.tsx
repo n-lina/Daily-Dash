@@ -1,11 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
-import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList} from "react-native"
-import { Button, Header, Screen, Text } from "../../components"
+import { StyleSheet, TextStyle, Image, ViewStyle, View, TextInput} from "react-native"
+import { Button, Header, Screen, Text, FormRow } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
+//import {Picker} from '@react-native-community/picker'
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -64,8 +65,10 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
- const navigation = useNavigation()
- const nextScreen = () => navigation.navigate("primaryStack.home")
+  const navigation = useNavigation()
+  const nextScreen = () => navigation.navigate("primaryStack.home")
+  const [LTgoal, onChangeLTgoal] = React.useState('');
+  const [STgoal, onChangeSTgoal] = React.useState('');
 
   return (
     <View style={FULL}>
@@ -80,13 +83,32 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
         < Separator />
         < Separator />
         <Text style={TITLE2} text="I want to ... " />
+        <TextInput 
+          style={{ height: 40}}
+          onChangeText={text => onChangeLTgoal(text)}
+          value={LTgoal}
+          placeholder="be a happier person ..."
+        />
         < Separator />
-        < Separator />
-        {/* FORM FIELDS */}
         <Text style={TITLE2} text="Small tasks I can do regularly to achieve my goal include ..." />
+        <TextInput
+          style={{ height: 40}}
+          onChangeText={text => onChangeSTgoal(text)}
+          value={STgoal}
+          placeholder="smiling every morning!"
+        />
         < Separator />
-        < Separator />
-        {/* FORM FIELDS */}
+        {/* <View style={styles.sideByside}>
+        </View> */}
+        {/* <Picker
+          selectedValue={'monday'}
+          style={{height: 50, width: 100}}
+          onValueChange={(itemValue, itemIndex) =>
+            onChangeDay(itemValue as string)
+          }>
+          <Picker.Item label="Monday" value="monday" />
+          <Picker.Item label="Tuesday" value="tuesday" />
+        </Picker> */}
         <Button 
           style={styles.button}
           text="Submit"
@@ -108,5 +130,9 @@ const styles = StyleSheet.create({
     height:50,
   },
   button: {
-  }
+  },
+  sideByside: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 })

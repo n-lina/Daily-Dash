@@ -35,7 +35,7 @@ export function GoalsNavigator() {
   return (
     <Stack.Navigator
       // initialRouteName="allGoals"
-      initialRouteName="goalDetail"
+      initialRouteName="addGoal"
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
