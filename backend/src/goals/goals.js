@@ -211,7 +211,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
     shortTermGoals: shortTermGoal
   });
 
-  var response = goalObj.shortTermGoals;
+  var response = goalObj.shortTermGoals[0];
 
   res.send(response);
   
