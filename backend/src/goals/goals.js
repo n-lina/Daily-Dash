@@ -217,9 +217,9 @@ const getSuggestedShortTermGoal = async (req, res) => {
   
 };
 
-router.get("/", getGoals);
-router.get("/shortterm", getShortTermGoals);
-router.post("/", postGoal);
-router.get("/suggestedstg", getSuggestedShortTermGoal);
+router.get("/", checkIfAuthenticated, getGoals);
+router.get("/shortterm", checkIfAuthenticated, getShortTermGoals);
+router.post("/", checkIfAuthenticated, postGoal);
+router.get("/suggestedstg", checkIfAuthenticated, getSuggestedShortTermGoal);
 
 module.exports = router;
