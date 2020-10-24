@@ -9,7 +9,6 @@ export const GoalModel = types
   .props({
     LTgoal: types.string,
     STgoals: types.array(StGoalModel), 
-    date_added: types.Date,
     id: types.string
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

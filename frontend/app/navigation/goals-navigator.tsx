@@ -34,7 +34,8 @@ const Stack = createNativeStackNavigator<RootParamList>()
 export function GoalsNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="allGoals"
+      // initialRouteName="allGoals"
+      initialRouteName="goalDetail"
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,

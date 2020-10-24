@@ -46,11 +46,25 @@ export class Api {
     })
   }
 
-  convertGoal = (raw) => {
+  convertSTGoal = (raw) => {
     return {
-      LTgoal: raw.LTgoals,
-      STgoals: raw.STgoals, 
-      date_added: new Date(Number.parseInt(raw.date)),
+      id: raw._id,
+      text: raw.title,
+      monday: raw.monday,
+      tuesday: raw.tuesday,
+      wednesday: raw.wednesday,
+      thursday: raw.thursday,
+      friday: raw.friday,
+      saturday: raw.saturday,
+      sunday: raw.sunday
+    }
+  }
+
+  convertGoal = (raw) => {
+    const STgoalsList: Types.STGoal[] = raw.shortTermGoals.map(this.convertSTGoal)
+    return {
+      LTgoal: raw.title,
+      STgoals: STgoalsList,
       id: raw._id
     }
   }
@@ -154,7 +168,7 @@ export class Api {
   }
 
   async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${user_id}`)
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals/${user_id}`)
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
@@ -162,7 +176,7 @@ export class Api {
     }
 
     try {
-      const rawGoals = response.data
+      const rawGoals = response.data.longTermGoals
       const resultGoalList: Types.Goal[] = rawGoals.map(this.convertGoal)
       return { kind: "ok", LTgoals: resultGoalList}
     } catch {
@@ -171,7 +185,7 @@ export class Api {
   }
 
   async postLTgoal(LTgoal: string, STgoals: Array<Types.STGoal>, date_added: Date, id: string ): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post("/newgoal", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
+    const response: ApiResponse<any> = await this.apisauce.post("/users/goals", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)

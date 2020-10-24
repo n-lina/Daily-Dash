@@ -7,13 +7,14 @@ export const StGoalModel = types
   .model("StGoal")
   .props({
     id: types.string,
-    monday: types.integer,
-    tuesday: types.integer,
-    wednesday: types.integer,
-    thursday: types.integer,
-    friday: types.integer,
-    saturday: types.integer,
-    sunday: types.integer,
+    text: types.string,
+    monday: types.array(types.integer),
+    tuesday: types.array(types.integer),
+    wednesday: types.array(types.integer),
+    thursday: types.array(types.integer),
+    friday: types.array(types.integer),
+    saturday: types.array(types.integer),
+    sunday: types.array(types.integer),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
