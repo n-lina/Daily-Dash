@@ -80,7 +80,6 @@ const getGoals = async (req, res) => {
         var shortTermGoal = {
           id: shortTermGoal.id,
           title: shortTermGoal.title,
-          description: shortTermGoal.description,
           mon: shortTermGoal.mon,
           tue: shortTermGoal.tue,
           wed: shortTermGoal.wed,
@@ -139,7 +138,6 @@ const getShortTermGoals = async (req, res) => {
             shortTermGoalObj = {
               stgId: shortTermGoal._id,
               title: shortTermGoal.title,
-              description: shortTermGoal.description,
               time: time
             };
 
@@ -199,7 +197,6 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var shortTermGoal = {
     title:"STG1", 
-    description:"testRunWeekdays", 
     mon:[5,15], 
     wed:[30,20]
   };
