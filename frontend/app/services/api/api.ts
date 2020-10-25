@@ -2,7 +2,6 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
-import { result } from "validate.js"
 import messaging from "@react-native-firebase/messaging"
 import auth from "@react-native-firebase/auth"
 
@@ -114,7 +113,7 @@ export class Api {
     const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId }
 
     const idToken = await auth().currentUser.getIdToken();
-    this.apisauce.setHeader("Authorization", idToken);
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
@@ -148,7 +147,8 @@ export class Api {
   async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
     const idToken = await auth().currentUser.getIdToken();
-    this.apisauce.setHeader("Authorization", idToken);
+    __DEV__ && console.log(idToken);
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 
     // the typical ways to die when calling an api
@@ -164,6 +164,32 @@ export class Api {
         name: response.data.username,
       }
       return { kind: "ok", user: resultUser }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getDailyGoals(day: string) : Promise<Types.DailyGoalResult> {
+    const userId = auth().currentUser.uid;
+    const response: ApiResponse<any> = await this.apisauce.get('/goals/shortterm', {id: userId, dayOfWeek: day})
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    const convertGoal = (raw) => {
+      return {
+        id: raw.stgId + raw.time,
+        title: raw.title,
+        time: raw.time
+      }
+    }
+
+    try {
+      const rawGoals = response.data.shortTermGoals
+      const resultGoalList: Types.DailyGoal[] = rawGoals.map(convertGoal)
+      return { kind: "ok", goals: resultGoalList}
     } catch {
       return { kind: "bad-data" }
     }

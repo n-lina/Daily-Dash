@@ -7,6 +7,7 @@ const addUser = async (req, res) => {
   const { id } = req.body;
   const { email } = req.body;
   const { username } = req.body;
+  const { notificationId } = req.body;
 
   if (id == null || email == null || username == null) {
     console.log(`Missing parameters in ${req.body}`);
@@ -15,18 +16,20 @@ const addUser = async (req, res) => {
     return;
   }
 
-  const userObj = new UserModel({
+  const userObj = {
     userId: id,
     email: email,
-    username: username
-  });
+    username: username,
+    notificationId: notificationId
+  };
 
-  await userObj.save()
-    .then((doc) => {
-      console.log(doc);
-    })
-    .catch((err) => {
-      console.error(err);
+  const query = {'userId': id};
+
+  UserModel.findOneAndUpdate(query, userObj, {upsert: true}).then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.error(err);
   });
 
   var response = {email: email, username: username};

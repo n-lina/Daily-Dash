@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/n-lina/DailyDash#readme",
   "dependencies": {
+    "compute-cosine-similarity": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.9"
+    "firebase-admin": "^9.3.0",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.10"
   }
 }

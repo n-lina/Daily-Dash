@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors')
 const debug = require("debug")("index.js");
 const database = require('./db/database');
+const firebase = require('./firebase/firebase');
 const port = 3000;
 
 app.use(cors())
