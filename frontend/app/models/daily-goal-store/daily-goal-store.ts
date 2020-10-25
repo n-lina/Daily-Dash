@@ -9,7 +9,11 @@ export const DailyGoalStoreModel = types
   .props({
     goals: types.optional(types.array(DailyGoalModel), [])
   })
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({
+    getRemainingGoals(): number {
+      return self.goals.filter(g => !(g.cancelled || g.completed)).length
+    }
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addGoal(goal) {
       self.goals.push({

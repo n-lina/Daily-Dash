@@ -1,23 +1,39 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { FlatList, TextStyle, View, ViewStyle } from "react-native"
-import { Button, Screen } from "../../components"
+import { TextStyle, View, ViewStyle } from "react-native"
+import { Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
-import { useStores } from "../../models"
+import { DailyGoal, useStores } from "../../models"
 import { color } from "../../theme"
-import { Text } from "react-native-elements"
+import { CheckBox, ListItem, Text } from "react-native-elements"
 import * as Progress from "react-native-progress"
+import Swipeable from "react-native-gesture-handler/Swipeable"
 
 const progressWidth = 280
 const circleSize = 44
 
+const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+]
+
+const getCurrentDay = (getShort: boolean) => {
+  var day = weekDays[new Date().getDay()]
+  if (getShort) {
+    return day.toLowerCase().substring(0, 3)
+  }
+  return day
+}
+
 const FULL: ViewStyle = { flex: 1 }
 const TEXT: TextStyle = {
   color: "black",
-}
-
-const CONTENT: TextStyle = {
-  ...TEXT,
 }
 
 const CONTENT_WRAP: ViewStyle = {
@@ -68,6 +84,42 @@ const LEVEL_NUM_WRAP: ViewStyle = {
   right: 4,
 }
 
+const CHECK_BOX: ViewStyle = {
+  position: "absolute",
+  right: 5,
+}
+
+const HIDDEN_SWIPE: ViewStyle = {
+  justifyContent: "center",
+  paddingRight: 5,
+}
+
+const RESET_STYLE: ViewStyle = {
+  ...HIDDEN_SWIPE,
+}
+
+const COMPLETED_SWIPE: ViewStyle = {
+  ...HIDDEN_SWIPE,
+  backgroundColor: "rgba(0,255,255, .5)",
+}
+
+const CANCELLED_SWIPE: ViewStyle = {
+  ...HIDDEN_SWIPE,
+  backgroundColor: "rgba(255,0,0, .15)",
+}
+
+const COMPLETED_STYLE: ViewStyle = {
+  // backgroundColor: "rgb(100,255,255)",
+}
+
+const CANCELLED_STYLE: ViewStyle = {
+  // backgroundColor: "rgb(255, 204, 203)",
+}
+
+const DONE_STYLE: TextStyle = {
+  textDecorationLine: "line-through",
+}
+
 const DAILY_GOAL_WRAP: ViewStyle = {}
 
 function getMultiplierColor(multiplier) {
@@ -75,6 +127,14 @@ function getMultiplierColor(multiplier) {
   if (multiplier < 0.5) return "#00cd49"
   if (multiplier < 0.8) return "#e4e000"
   else return "#f20007"
+}
+
+function getFormattedTime(time: number): string {
+  const hours = Math.floor(time / 60)
+  const minutes = Math.round(time - hours * 60)
+  let timeStr = hours + ":" + minutes
+  if (minutes < 10) timeStr += "0"
+  return timeStr
 }
 
 export const HomeScreen = observer(function HomeScreen() {
@@ -89,19 +149,53 @@ export const HomeScreen = observer(function HomeScreen() {
   const scoreMultiplier = 14
 
   console.log("Goals: " + goals)
-  // OR
-  // const rootStore = useStores()
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const swipeRightCompleted = () => (
+    <View style={COMPLETED_SWIPE}>
+      <Text>Completed</Text>
+    </View>
+  )
+
+  const swipeLeftCancelled = () => (
+    <View style={CANCELLED_SWIPE}>
+      <Text>Cancel</Text>
+    </View>
+  )
+
+  const swipeReset = () => (
+    <View style={RESET_STYLE}>
+      <Text>Reset</Text>
+    </View>
+  )
+
+  const refs = []
+
+  const toggleCompleted = (index: number, goal: DailyGoal) => {
+    goal.setCancelled(false)
+    goal.setCompleted(!goal.completed)
+    if (refs[index]) refs[index].close()
+  }
+
+  const toggleCancelled = (index: number, goal: DailyGoal) => {
+    goal.setCompleted(false)
+    goal.setCancelled(!goal.cancelled)
+    if (refs[index]) refs[index].close()
+  }
+
+  const toggleToggle = (index: number, goal: DailyGoal) => {
+    if (goal.completed) {
+      goal.setCompleted(false)
+      goal.setCancelled(true)
+    } else if (goal.cancelled) {
+      goal.setCancelled(false)
+    } else {
+      goal.setCompleted(true)
+    }
+  }
+
   return (
     <View style={FULL}>
       <Screen style={FULL} backgroundColor={color.transparent}>
-        {/* <Header
-          headerText="Daily Dash"
-          titleStyle={HEADER_TEXT_STYLE}
-          style={HEADER_STYLE}
-        /> */}
         <View style={CONTENT_WRAP}>
           <View style={LEVEL_WRAP}>
             <View style={LEVEL_NUM_WRAP}>
@@ -131,19 +225,46 @@ export const HomeScreen = observer(function HomeScreen() {
           </View>
         </View>
         <View style={DAILY_GOAL_WRAP}>
-          <Text>{goals.length}</Text>
-          <FlatList
-          data={goals}
-          keyExtractor={item => item.id}
-          renderItem>
-          </FlatList>
-{/*           
-          {goals.map((goal, index) => 
-            <Text key={goal.id}>{goal.title}</Text>
-          )} */}
+          <Text h4 style={{margin: 10}}>
+            Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingGoals()}
+          </Text>
+          {goals.map((goal, index) => (
+            <Swipeable
+              style={goal.cancelled ? CANCELLED_STYLE : goal.completed ? COMPLETED_STYLE : {}}
+              key={goal.id}
+              renderLeftActions={goal.cancelled ? swipeReset : swipeLeftCancelled}
+              renderRightActions={goal.completed ? swipeReset : swipeRightCompleted}
+              onSwipeableLeftOpen={() => toggleCancelled(index, goal)}
+              onSwipeableRightOpen={() => toggleCompleted(index, goal)}
+              ref={(instance: any) => {
+                if (instance) refs[index] = instance
+              }}
+            >
+              <ListItem
+                bottomDivider
+                containerStyle={
+                  goal.cancelled ? CANCELLED_STYLE : goal.completed ? COMPLETED_STYLE : {}
+                }
+              >
+                <View style={CHECK_BOX}>
+                  <CheckBox
+                    checked={goal.cancelled || goal.completed}
+                    checkedIcon={goal.cancelled ? "close" : "check"}
+                    checkedColor={goal.cancelled ? "red" : "#008080"}
+                    iconRight
+                    onPress={() => toggleToggle(index, goal)}
+                  ></CheckBox>
+                </View>
+                <ListItem.Content>
+                  <ListItem.Title style={goal.cancelled || goal.completed ? DONE_STYLE : {}}>
+                    {goal.title}
+                  </ListItem.Title>
+                  <ListItem.Subtitle>{getFormattedTime(goal.time)}</ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            </Swipeable>
+          ))}
         </View>
-        <Button onPress={dailyGoalStore.addGoal} text={"Add goal"}></Button>
-        <Button onPress={dailyGoalStore.clearGoals} text={"Clear"}></Button>
       </Screen>
     </View>
   )

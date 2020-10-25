@@ -167,6 +167,32 @@ export class Api {
     }
   }
 
+  async getDailyGoals(day: string) : Promise<Types.DailyGoalResult> {
+    const userId = auth().currentUser.uid;
+    const response: ApiResponse<any> = await this.apisauce.get('/goals/shortterm', {id: userId, dayOfWeek: day})
+
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    const convertGoal = (raw) => {
+      return {
+        id: raw.stgId + raw.time,
+        title: raw.title,
+        time: raw.time
+      }
+    }
+
+    try {
+      const rawGoals = response.data.shortTermGoals
+      const resultGoalList: Types.DailyGoal[] = rawGoals.map(convertGoal)
+      return { kind: "ok", goals: resultGoalList}
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
   async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
     const response: ApiResponse<any> = await this.apisauce.get(`/goals/${user_id}`)
 
