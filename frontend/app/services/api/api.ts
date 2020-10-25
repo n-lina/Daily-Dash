@@ -49,14 +49,14 @@ export class Api {
   convertSTGoal = (raw) => {
     return {
       id: raw.id,
-      text: raw.title,
-      monday: raw.mon,
-      tuesday: raw.tue,
-      wednesday: raw.wed,
-      thursday: raw.thu,
-      friday: raw.fri,
-      saturday: raw.sat,
-      sunday: raw.sun
+      title: raw.title,
+      mon: raw.mon,
+      tue: raw.tue,
+      wed: raw.wed,
+      thu: raw.thu,
+      fri: raw.fri,
+      sat: raw.sat,
+      sun: raw.sun
     }
   }
 

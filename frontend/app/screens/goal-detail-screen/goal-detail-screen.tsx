@@ -78,13 +78,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
   var sunday = []
 
   for (let goal of STgoals){
-    if (goal.monday.length > 0) monday.push([goal.monday[0], goal.text])
-    if (goal.tuesday.length > 0) tuesday.push([goal.tuesday[0], goal.text])
-    if (goal.wednesday.length > 0) wednesday.push([goal.wednesday[0], goal.text])
-    if (goal.thursday.length > 0) thursday.push([goal.thursday[0], goal.text])
-    if (goal.friday.length > 0) friday.push([goal.friday[0], goal.text])
-    if (goal.saturday.length > 0) saturday.push([goal.saturday[0], goal.text])
-    if (goal.sunday.length > 0) sunday.push([goal.sunday[0], goal.text])
+    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title])
+    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title])
+    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title])
+    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title])
+    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title])
+    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title])
+    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title])
   }
 
   function sortFunction(a, b) {
