@@ -2,7 +2,6 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
-import { result } from "validate.js"
 import messaging from "@react-native-firebase/messaging"
 import auth from "@react-native-firebase/auth"
 
@@ -146,6 +145,7 @@ export class Api {
   async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
     const idToken = await auth().currentUser.getIdToken();
+    __DEV__ && console.log(idToken);
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 

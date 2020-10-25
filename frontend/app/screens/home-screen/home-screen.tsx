@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { DailyGoal, useStores } from "../../models"
@@ -9,27 +9,10 @@ import { CheckBox, ListItem, Text } from "react-native-elements"
 import * as Progress from "react-native-progress"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 
+/****           STYLES            ***** */
 const progressWidth = 280
 const circleSize = 44
-
-const weekDays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-]
-
-const getCurrentDay = (getShort: boolean) => {
-  var day = weekDays[new Date().getDay()]
-  if (getShort) {
-    return day.toLowerCase().substring(0, 3)
-  }
-  return day
-}
+const topSectionHeight = 180
 
 const FULL: ViewStyle = { flex: 1 }
 const TEXT: TextStyle = {
@@ -120,8 +103,20 @@ const DONE_STYLE: TextStyle = {
   textDecorationLine: "line-through",
 }
 
-const DAILY_GOAL_WRAP: ViewStyle = {}
+const LIST_STYLE: ViewStyle = {
+  overflow: "scroll",
+  height: Dimensions.get("window").height - topSectionHeight,
+}
 
+const TOP_SECTION: ViewStyle = {
+  height: topSectionHeight,
+}
+/********************************/
+
+/**
+ * Allow multiplier progress bar to change color if it gets closer
+ * @param multiplier current fraction of how close multiplier is
+ */
 function getMultiplierColor(multiplier) {
   if (multiplier < 0.2) return "#008080"
   if (multiplier < 0.5) return "#00cd49"
@@ -129,6 +124,33 @@ function getMultiplierColor(multiplier) {
   else return "#f20007"
 }
 
+const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+]
+
+/**
+ * Get string version of day on devices phone
+ * @param getShort true for short version (ex: mon) (long is Monday)
+ */
+const getCurrentDay = (getShort: boolean) => {
+  var day = weekDays[new Date().getDay()]
+  if (getShort) {
+    return day.toLowerCase().substring(0, 3)
+  }
+  return day
+}
+
+/**
+ * Convert mintues to a formatted string for time (24 clock)
+ * @param time minutes (ex: 1230 -> 20:30)
+ */
 function getFormattedTime(time: number): string {
   const hours = Math.floor(time / 60)
   const minutes = Math.round(time - hours * 60)
@@ -141,6 +163,7 @@ export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
   const { dailyGoalStore } = useStores()
   const { goals } = dailyGoalStore
+  // These should not be hardcoded in final product
   const streakProgress = 0.8
   const level = 7
   const levelScore = 1248
@@ -148,7 +171,20 @@ export const HomeScreen = observer(function HomeScreen() {
   const levelProgress = levelScore / totalLevelScore
   const scoreMultiplier = 14
 
-  console.log("Goals: " + goals)
+  __DEV__ && console.log("Goals: " + goals)
+
+  const [refreshing, setRefreshing] = useState(false)
+
+  const getGoals = () => {
+    setRefreshing(true)
+    dailyGoalStore.getGoalsForDay(getCurrentDay(true)).finally(() => {
+      setRefreshing(false)
+    })
+  }
+
+  useEffect(() => {
+    getGoals()
+  }, [])
 
   const swipeRightCompleted = () => (
     <View style={COMPLETED_SWIPE}>
@@ -168,6 +204,49 @@ export const HomeScreen = observer(function HomeScreen() {
     </View>
   )
 
+  const renderGoal = ({ item, index }) => {
+    return (
+      <View>
+        <Swipeable
+          style={item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}}
+          key={item.id}
+          renderLeftActions={item.cancelled ? swipeReset : swipeLeftCancelled}
+          renderRightActions={item.completed ? swipeReset : swipeRightCompleted}
+          onSwipeableLeftOpen={() => toggleCancelled(index, item as DailyGoal)}
+          onSwipeableRightOpen={() => toggleCompleted(index, item as DailyGoal)}
+          ref={(instance: any) => {
+            if (instance) refs[index] = instance
+          }}
+        >
+          <ListItem
+            bottomDivider
+            containerStyle={
+              item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
+            }
+          >
+            <View style={CHECK_BOX}>
+              <CheckBox
+                checked={item.cancelled || item.completed}
+                checkedIcon={item.cancelled ? "close" : "check"}
+                checkedColor={item.cancelled ? "red" : "#008080"}
+                iconRight
+                onPress={() => toggleToggle(item as DailyGoal)}
+              ></CheckBox>
+            </View>
+            <ListItem.Content>
+              <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
+                {item.title}
+              </ListItem.Title>
+              <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        </Swipeable>
+      </View>
+    )
+  }
+
+  // Keep track of the each instance in the goals list,
+  // used to close on after swipe
   const refs = []
 
   const toggleCompleted = (index: number, goal: DailyGoal) => {
@@ -182,7 +261,11 @@ export const HomeScreen = observer(function HomeScreen() {
     if (refs[index]) refs[index].close()
   }
 
-  const toggleToggle = (index: number, goal: DailyGoal) => {
+  /**
+   * Toggle through the three way toggle on screen
+   * @param goal goal to be toggled
+   */
+  const toggleToggle = (goal: DailyGoal) => {
     if (goal.completed) {
       goal.setCompleted(false)
       goal.setCancelled(true)
@@ -196,75 +279,49 @@ export const HomeScreen = observer(function HomeScreen() {
   return (
     <View style={FULL}>
       <Screen style={FULL} backgroundColor={color.transparent}>
-        <View style={CONTENT_WRAP}>
-          <View style={LEVEL_WRAP}>
-            <View style={LEVEL_NUM_WRAP}>
-              <Text>
-                {levelScore} / {totalLevelScore}
+        <View style={TOP_SECTION}>
+          <View style={CONTENT_WRAP}>
+            <View style={LEVEL_WRAP}>
+              <View style={LEVEL_NUM_WRAP}>
+                <Text>
+                  {levelScore} / {totalLevelScore}
+                </Text>
+              </View>
+              <View style={PROGRESS_WRAP}>
+                {/* <Button onPress={dailyGoalStore.clearGoals} text="dev clear goals"></Button> */}
+                <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
+              </View>
+              <View style={LEVEL_STYLE}>
+                <Text style={LEVEL_NUM_STYLE}>{level}</Text>
+              </View>
+            </View>
+            <View style={MULTIPLIER_WRAP}>
+              <Text h4 style={MULTIPLER_STYLE}>
+                Score multiplier x{scoreMultiplier}
               </Text>
-            </View>
-            <View style={PROGRESS_WRAP}>
-              <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
-            </View>
-            <View style={LEVEL_STYLE}>
-              <Text style={LEVEL_NUM_STYLE}>{level}</Text>
+              <View style={NEXT_MULT_STYLE}>
+                <Text>Next multiplier</Text>
+              </View>
+              <Progress.Bar
+                progress={streakProgress}
+                width={progressWidth}
+                color={getMultiplierColor(streakProgress)}
+              />
             </View>
           </View>
-          <View style={MULTIPLIER_WRAP}>
-            <Text h4 style={MULTIPLER_STYLE}>
-              Score multiplier x{scoreMultiplier}
-            </Text>
-            <View style={NEXT_MULT_STYLE}>
-              <Text>Next multiplier</Text>
-            </View>
-            <Progress.Bar
-              progress={streakProgress}
-              width={progressWidth}
-              color={getMultiplierColor(streakProgress)}
-            />
-          </View>
-        </View>
-        <View style={DAILY_GOAL_WRAP}>
-          <Text h4 style={{margin: 10}}>
-            Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingGoals()}
+          <Text h4 style={{ margin: 10 }}>
+            Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
           </Text>
-          {goals.map((goal, index) => (
-            <Swipeable
-              style={goal.cancelled ? CANCELLED_STYLE : goal.completed ? COMPLETED_STYLE : {}}
-              key={goal.id}
-              renderLeftActions={goal.cancelled ? swipeReset : swipeLeftCancelled}
-              renderRightActions={goal.completed ? swipeReset : swipeRightCompleted}
-              onSwipeableLeftOpen={() => toggleCancelled(index, goal)}
-              onSwipeableRightOpen={() => toggleCompleted(index, goal)}
-              ref={(instance: any) => {
-                if (instance) refs[index] = instance
-              }}
-            >
-              <ListItem
-                bottomDivider
-                containerStyle={
-                  goal.cancelled ? CANCELLED_STYLE : goal.completed ? COMPLETED_STYLE : {}
-                }
-              >
-                <View style={CHECK_BOX}>
-                  <CheckBox
-                    checked={goal.cancelled || goal.completed}
-                    checkedIcon={goal.cancelled ? "close" : "check"}
-                    checkedColor={goal.cancelled ? "red" : "#008080"}
-                    iconRight
-                    onPress={() => toggleToggle(index, goal)}
-                  ></CheckBox>
-                </View>
-                <ListItem.Content>
-                  <ListItem.Title style={goal.cancelled || goal.completed ? DONE_STYLE : {}}>
-                    {goal.title}
-                  </ListItem.Title>
-                  <ListItem.Subtitle>{getFormattedTime(goal.time)}</ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-            </Swipeable>
-          ))}
         </View>
+        <FlatList
+          style={LIST_STYLE}
+          data={goals}
+          refreshing={refreshing}
+          onRefresh={getGoals}
+          renderItem={renderGoal}
+          keyExtractor={(item) => item.id}
+          extraData={{ extraDataForMobX: goals.length > 0 ? goals[0].title : "" }}
+        />
       </Screen>
     </View>
   )
