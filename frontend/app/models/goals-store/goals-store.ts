@@ -8,7 +8,8 @@ import { withEnvironment } from "../extensions/with-environment";
 export const GoalsStoreModel = types
   .model("GoalsStore")
   .props({
-    goals: types.optional(types.array(GoalModel), [])
+    goals: types.optional(types.array(GoalModel), []),
+    STsuggestion: ""
   })
   .extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -46,22 +47,34 @@ export const GoalsStoreModel = types
         __DEV__ && console.error(err);
       })
     },
+    getSTsuggestion: (title: string) => {
+      self.environment.api.getSTsuggestion(title).then(res => {
+        if (res.kind == "ok"){
+            self.STsuggestion = res.suggestion;
+          __DEV__ && console.log("Got ST goal suggestion")
+        } else {
+          __DEV__ && console.log(res.kind);
+        }
+      }).catch(err => {
+        __DEV__ && console.error(err);
+      })
+    },
 
-    getOneLTgoal: (goal_id: string) => {
-      // self.environment.api.getOneLTgoal(goal_id).then(res => {
-      //   if (res.kind == "ok"){
-      //     // how to display?
-      //     __DEV__ && console.log("Got one LT goal")
-      //   } else {
-      //     __DEV__ && console.log(res.kind);
-      //   }
-      // }).catch(err => {
-      //   __DEV__ && console.error(err);
-      // })
-      return self.goals.filter(goal => {
-        return goal.id == goal_id
-      })[0] 
-    }
+    // getOneLTgoal: (goal_id: string) => {
+    //   // self.environment.api.getOneLTgoal(goal_id).then(res => {
+    //   //   if (res.kind == "ok"){
+    //   //     // how to display?
+    //   //     __DEV__ && console.log("Got one LT goal")
+    //   //   } else {
+    //   //     __DEV__ && console.log(res.kind);
+    //   //   }
+    //   // }).catch(err => {
+    //   //   __DEV__ && console.error(err);
+    //   // })
+    //   return self.goals.filter(goal => {
+    //     return goal.id == goal_id
+    //   })[0] 
+    // }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**

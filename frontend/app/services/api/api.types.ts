@@ -39,4 +39,5 @@ export type SignOutResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type PostGoalResult = { kind: "ok"} | GeneralApiProblem
+export type GetSTsuggestion = {kind: "ok"; suggestion: string} | GeneralApiProblem
 

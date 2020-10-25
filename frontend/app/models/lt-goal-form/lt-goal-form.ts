@@ -29,6 +29,11 @@ export const LtGoalFormModel = types
       self.STgoalForm.forEach(g => console.log("ST.title " + g.title +" "+ g.day + " "+ g.hour +" " + g.minute))
       console.log("-------------------")
     },
+    clearForm(){
+      self.title = ""
+      self.description = ""
+      self.STgoalForm.length = 0
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**

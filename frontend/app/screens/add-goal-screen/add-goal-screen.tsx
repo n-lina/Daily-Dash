@@ -1,5 +1,5 @@
 import React from "react"
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, TextStyle, Image, ViewStyle, View, TextInput, Alert, ScrollView} from "react-native"
@@ -75,7 +75,7 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
         [goal.day]: time,
       })
     }
-    console.log(my_st_goal)
+    // console.log(my_st_goal)
     return my_st_goal
   }
 
@@ -86,15 +86,29 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>){
     var my_st_goal = convertSTgoals(fromForm)
     goalsStore.postLTgoal(LTgoal, description, my_st_goal)
-    console.log(my_st_goal)
+    LtGoalFormStore.clearForm()
+    console.log("cleared")
+    navigation.navigate("allGoals")
     return 1
   }
+
+  function getSuggestion(){
+    goalsStore.getSTsuggestion(LtGoalFormStore.title)
+    console.log(goalsStore.STsuggestion)
+    Alert.alert(goalsStore.STsuggestion)
+    return 1
+  }
+  
 
   const {LtGoalFormStore, goalsStore } = useStores()
   const navigation = useNavigation()
  // const nextScreen = () => navigation.navigate("primaryStack.home")
 
   const {STgoalForm} = LtGoalFormStore
+
+  useEffect(() => {
+    if (LtGoalFormStore.STgoalForm.length == 0) LtGoalFormStore.addSTgoal()
+  }, [])
 
   return (
     <View style={FULL}>
@@ -132,11 +146,11 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
         <Button 
           style={styles.button}
           text="Add New ST Goal"
-          onPress={LtGoalFormStore.addSTgoal} />
-        {/* <Button 
+          onPress={() => LtGoalFormStore.addSTgoal()} />
+        <Button 
           style={styles.button}
-          text="Submit"
-          onPress={() => LtGoalFormStore.submitData()} /> */}
+          text="Get Suggestion"
+          onPress={() => getSuggestion()} />
         <Button 
           style={styles.button}
           text="Submit"

@@ -2,7 +2,7 @@ import { useEffect, useState} from "react"
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
-import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView} from "react-native"
+import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView, Alert} from "react-native"
 import { Button, Header, Screen, Text } from "../../components"
 import { Goal, useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
@@ -137,6 +137,10 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
             refreshing={refreshing}
           ></FlatList>
         </SafeAreaView>
+        <Button 
+          //style={styles.button}
+          text="Add New Goal"
+          onPress={() => navigation.navigate("addGoal")} />
       </Screen>
     </View>
   )
