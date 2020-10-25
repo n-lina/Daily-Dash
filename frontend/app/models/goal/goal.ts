@@ -8,6 +8,7 @@ export const GoalModel = types
   .model("Goal")
   .props({
     LTgoal: types.string,
+    description: types.string,
     STgoals: types.array(StGoalModel), 
     id: types.string
   })

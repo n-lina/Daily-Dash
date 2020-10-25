@@ -1,5 +1,6 @@
 import { GoalsStoreModel } from "../goals-store/goals-store"
 import { UserStoreModel } from "../user-store/user-store"
+import { LtGoalFormModel } from "../lt-goal-form/lt-goal-form"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
 /**
@@ -9,6 +10,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const RootStoreModel = types.model("RootStore").props({
   goalsStore: types.optional(GoalsStoreModel, {}),
   userStore: types.optional(UserStoreModel, {}),
+  LtGoalFormStore: types.optional(LtGoalFormModel, {}),
 
 })
 

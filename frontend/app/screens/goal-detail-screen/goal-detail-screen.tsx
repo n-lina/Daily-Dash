@@ -59,10 +59,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
   // Pull in navigation via hook
   const navigation = useNavigation()
   const route = useRoute()
-  //const {LTgoal, STgoals, id} = route.params as Goal
+  console.log("banana" + JSON.stringify(route.params))
+  const {LTgoal, STgoals} = route.params as Goal
+  console.log("banana" + LTgoal + " " + STgoals)
+  
 
-  const LTgoal = "hello"
-  const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
+ // const LTgoal = "hello"
+ // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
  
   // const nextScreen = () => navigation.navigate("signInScreen")
   

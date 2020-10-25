@@ -8,7 +8,7 @@ import { withEnvironment } from "../extensions/with-environment";
 export const GoalsStoreModel = types
   .model("GoalsStore")
   .props({
-    goals: types.optional(types.array(GoalModel), []),
+    goals: types.optional(types.array(GoalModel), [])
   })
   .extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -35,11 +35,10 @@ export const GoalsStoreModel = types
       })
     },
 
-    postLTgoal: (LTgoal: string, STgoals: Array<StGoal>, id: string) => {
-      self.environment.api.postLTgoal(LTgoal, STgoals, new Date(), id).then(res => {
+    postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
+      self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
         if (res.kind == "ok"){
-          self.goals.push(res.goal);
-          __DEV__ && console.log("Added goal to list of LT goals")
+          __DEV__ && console.log("Added goal to database")
         } else {
           __DEV__ && console.log(res.kind);
         }

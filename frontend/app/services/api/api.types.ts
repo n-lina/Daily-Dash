@@ -19,15 +19,14 @@ export interface Goal {
 }
 
 export interface STGoal {
-  id: string 
-  text: string
-  monday: Array<number>
-  tuesday: Array<number>
-  wednesday: Array<number>
-  thursday: Array<number>
-  friday: Array<number>
-  saturday: Array<number>
-  sunday: Array<number>
+  title: string
+  mon: Array<number>
+  tue: Array<number>
+  wed: Array<number>
+  thu: Array<number>
+  fri: Array<number>
+  sat: Array<number>
+  sun: Array<number>
 }
 
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
@@ -39,3 +38,5 @@ export interface DeleteNotificationToken {
 export type SignOutResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
+export type PostGoalResult = { kind: "ok"} | GeneralApiProblem
+
