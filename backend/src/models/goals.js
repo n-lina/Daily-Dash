@@ -7,13 +7,13 @@ const Goal = new Schema({
     description: { type: String, required: true },
     shortTermGoals: [new Schema({
       title: { type: String, required: true },
-      mon: { type: [Number], unique: true },
-      tue: { type: [Number], unique: true },
-      wed: { type: [Number], unique: true },
-      thu: { type: [Number], unique: true },
-      fri: { type: [Number], unique: true },
-      sat: { type: [Number], unique: true },
-      sun: { type: [Number], unique: true },        
+      mon: { type: [Number] },
+      tue: { type: [Number] },
+      wed: { type: [Number] },
+      thu: { type: [Number] },
+      fri: { type: [Number] },
+      sat: { type: [Number] },
+      sun: { type: [Number] },
   } )],
   // Defining an object within an array schema element is implicitly 
   // treated as its own Schema object. As such they'll have their 
