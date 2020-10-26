@@ -216,9 +216,11 @@ const getSuggestedShortTermGoal = async (req, res) => {
   var STG_title_array = [];   // fill array with all of most similar LTG's STG titles
   await GoalModel.findOne({ title: LTG_title_array[index_highest_cossim_LTG] },  
     function (err, docs) {
-      docs.shortTermGoals.forEach(function (item) {
-        STG_title_array.push(item.title);
-      });
+      if (docs !== null) {
+          docs.shortTermGoals.forEach(function (item) {
+          STG_title_array.push(item.title);
+        });
+      }
     });
 
   var arr_of_STG_cossim_scores = [STG_title_array.length];
@@ -226,9 +228,11 @@ const getSuggestedShortTermGoal = async (req, res) => {
     arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
   }
   let index_highest_cossim_STG = arr_of_STG_cossim_scores.indexOf(Math.max(...arr_of_STG_cossim_scores));
-  response = STG_title_array[index_highest_cossim_STG];   // get most similar LTG title, else random-ish one
-  res.send({ "answer": response });
+  var mostSimilarLTG = STG_title_array[index_highest_cossim_STG];   // get most similar LTG title, else random-ish one
 
+  var response = mostSimilarLTG == null ? "No suggested long term goal." : mostSimilarLTG;
+
+  res.send({ "answer": response });
 };
 
 
