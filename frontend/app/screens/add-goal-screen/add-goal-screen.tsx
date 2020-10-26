@@ -119,9 +119,12 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
   const [showPickers, setPickers] = useState(false)
 
   useEffect(() => {
-    if (LtGoalFormStore.STgoalForm.length == 0) LtGoalFormStore.addSTgoal()
+    LtGoalFormStore.cleanPickers()
+    if (LtGoalFormStore.STgoalForm.length == 0) {
+      LtGoalFormStore.addSTgoal()
+      setPickers(true)
+    }
     else {
-      LtGoalFormStore.cleanPickers()
       setPickers(true);
     }
   }, [])

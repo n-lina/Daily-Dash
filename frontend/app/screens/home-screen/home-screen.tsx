@@ -207,17 +207,17 @@ export const HomeScreen = observer(function HomeScreen() {
   const renderGoal = ({ item, index }) => {
     return (
       <View>
-        <Swipeable
+        {/* <Swipeable
           style={item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}}
           key={item.id}
           renderLeftActions={item.cancelled ? swipeReset : swipeLeftCancelled}
           renderRightActions={item.completed ? swipeReset : swipeRightCompleted}
-          onSwipeableLeftOpen={() => toggleCancelled(index, item as DailyGoal)}
-          onSwipeableRightOpen={() => toggleCompleted(index, item as DailyGoal)}
+          onSwipeableLeftOpen={() => false && toggleCancelled(index, item as DailyGoal)}
+          onSwipeableRightOpen={() => false && toggleCompleted(index, item as DailyGoal)}
           ref={(instance: any) => {
             if (instance) refs[index] = instance
           }}
-        >
+        > */}
           <ListItem
             bottomDivider
             containerStyle={
@@ -240,7 +240,7 @@ export const HomeScreen = observer(function HomeScreen() {
               <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
-        </Swipeable>
+        {/* </Swipeable> */}
       </View>
     )
   }
