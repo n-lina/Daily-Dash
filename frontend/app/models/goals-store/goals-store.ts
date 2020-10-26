@@ -21,6 +21,14 @@ export const GoalsStoreModel = types
       }
       else
       __DEV__ && console.log("Unsetting LTgoals list")
+    },
+    setSuggestion: (suggestion) => {
+      if (suggestion){
+        __DEV__ && console.log("Setting suggestion list " + suggestion)
+        self.STsuggestion = suggestion
+      }
+      else
+      __DEV__ && console.log("Unsetting suggestion")
     }
   })).actions(self => ({
     getAllGoals: () => {
@@ -50,7 +58,8 @@ export const GoalsStoreModel = types
     getSTsuggestion: (title: string) => {
       self.environment.api.getSTsuggestion(title).then(res => {
         if (res.kind == "ok"){
-            self.STsuggestion = res.suggestion;
+           // self.STsuggestion = res.suggestion;
+          self.setSuggestion(res.suggestion)
           __DEV__ && console.log("Got ST goal suggestion")
         } else {
           __DEV__ && console.log(res.kind);

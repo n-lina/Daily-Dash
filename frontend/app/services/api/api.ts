@@ -191,12 +191,10 @@ export class Api {
   }
 
   async getSTsuggestion(title: string): Promise<Types.GetSTsuggestion> {
-    console.log("helloooo")
     const idToken = await auth().currentUser.getIdToken();
     // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.get(`/goals/suggestedstg`, {title: title})
-    console.log('byebye')
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals/suggestedstg?title=${title}`)
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
@@ -204,7 +202,7 @@ export class Api {
 
     try {
       const answer = response.data.answer
-      console.log(answer)
+      console.log("This is the answer:" + answer)
       return { kind: "ok", suggestion: answer}
     } catch {
       return { kind: "bad-data" }
