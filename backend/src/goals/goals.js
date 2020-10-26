@@ -196,7 +196,7 @@ const postGoal = async (req, res) => {
 
 const getSuggestedShortTermGoal = async (req, res) => {
 
-  const { title } = req.body;
+  const { title } = req.query;
   
   var LTG_title_array = [];   // create an array with all LTG titles
   await GoalModel.find({}, function (err, docs) {
