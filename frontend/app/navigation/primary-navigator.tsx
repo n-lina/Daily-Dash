@@ -41,6 +41,7 @@ export function PrimaryNavigator() {
       initialRouteName="Home"
       tabBarOptions={{
         activeTintColor: "#101010",
+        keyboardHidesTabBar: true
       }}
     >
       <Tab.Screen

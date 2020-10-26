@@ -7,6 +7,7 @@ import { Button, Header, Screen, Text } from "../../components"
 import { Goal, useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
 import { ListItem, Avatar } from "react-native-elements"
+import { palette } from "../../theme/palette"
 
 
 
@@ -49,6 +50,19 @@ const TITLE: TextStyle = {
 
 const FULL: ViewStyle = { 
   flex: 1 
+}
+
+const ADD_GOAL: ViewStyle = {
+  paddingVertical: spacing[4],
+  paddingHorizontal: spacing[4],
+  backgroundColor: "#008080",
+}
+const ADD_GOAL_TEXT: TextStyle = {
+  ...TEXT,
+  ...BOLD,
+  color: palette.white,
+  fontSize: 13,
+  letterSpacing: 2,
 }
 
 export const LtgoalsScreen = observer(function LtgoalsScreen() {
@@ -138,7 +152,8 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           ></FlatList>
         </SafeAreaView>
         <Button 
-          //style={styles.button}
+          style={ADD_GOAL}
+          textStyle={ADD_GOAL_TEXT}
           text="Add New Goal"
           onPress={() => navigation.navigate("addGoal")} />
       </Screen>

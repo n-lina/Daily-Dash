@@ -15,6 +15,8 @@ export const LtGoalFormModel = types
   .actions(self => ({
     setTitle(title: string){
       self.title = title
+    }, cleanPickers() {
+      self.STgoalForm.replace(self.STgoalForm.filter(goal => goal.title.length > 0 || goal.hour > 0))
     },
     setDescription(desc: string){
       self.description = desc

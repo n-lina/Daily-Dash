@@ -7,6 +7,8 @@ import { Button, Header, Screen, Text, StGoal } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { StGoalForm, useStores } from "../../models"
 import { color, spacing, typography} from "../../theme"
+import { palette } from "../../theme/palette"
+import HideWithKeyboard from "react-native-hide-with-keyboard"
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -34,7 +36,7 @@ const HEADER: TextStyle = {
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
-  marginTop: spacing[5],
+  marginTop: spacing[8],
 }
 const TITLE: TextStyle = {
   ...TEXT,
@@ -56,6 +58,14 @@ const TITLE2: TextStyle = {
 
 const FULL: ViewStyle = { 
   flex: 1 
+}
+
+const BUTTON_TEXT: TextStyle = {
+  ...TEXT,
+  ...BOLD,
+  color: palette.white,
+  fontSize: 13,
+  letterSpacing: 2,
 }
 
 export const AddGoalScreen = observer(function AddGoalScreen()  {
@@ -106,14 +116,19 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
 
   const {STgoalForm} = LtGoalFormStore
 
+  const [showPickers, setPickers] = useState(false)
+
   useEffect(() => {
     if (LtGoalFormStore.STgoalForm.length == 0) LtGoalFormStore.addSTgoal()
+    else {
+      LtGoalFormStore.cleanPickers()
+      setPickers(true);
+    }
   }, [])
 
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Add New Goal   ]" />
         </Text>
@@ -140,23 +155,28 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal my_goal={goal} key={index}/>))}
+          {showPickers && STgoalForm.map((goal, index) => (< StGoal my_goal={goal} key={index}/>))}
           < Separator />
-        </ScrollView>
-        <Button 
-          style={styles.button}
+          <Button 
+          style={{...styles.button, marginBottom: 110}}
+          textStyle={BUTTON_TEXT}
           text="Add New ST Goal"
           onPress={() => LtGoalFormStore.addSTgoal()} />
-        <Button 
-          style={styles.button}
-          text="Get Suggestion"
-          onPress={() => getSuggestion()} />
-        <Button 
-          style={styles.button}
-          text="Submit"
-          onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
-          {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
-          {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN*/}
+        </ScrollView>
+        <HideWithKeyboard>
+          <Button 
+            style={styles.button}
+            textStyle={BUTTON_TEXT}
+            text="Get Suggestion"
+            onPress={() => getSuggestion()} />
+          <Button 
+            style={styles.button}
+            textStyle={BUTTON_TEXT}
+            text="Submit"
+            onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
+            {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
+            {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN*/}
+        </HideWithKeyboard>
       </Screen>
     </View>
   )
@@ -173,6 +193,10 @@ const styles = StyleSheet.create({
     height:50,
   },
   button: {
+    paddingVertical: spacing[2],
+    paddingHorizontal: spacing[2],
+    margin: 1,
+    backgroundColor: "#008080",
   },
   sideByside: {
     flexDirection: 'row',
