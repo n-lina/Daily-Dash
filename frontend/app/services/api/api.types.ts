@@ -29,12 +29,19 @@ export interface STGoal {
   sun: Array<number>
 }
 
-export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
-export type GetOneGoalResult = { kind: "ok"; goal: Goal } | GeneralApiProblem
+export interface DailyGoal {
+  id: string,
+  title: string,
+  time: number, // in minutes
+}
+
 export interface DeleteNotificationToken {
   token: string
 }
 
+export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
+export type GetOneGoalResult = { kind: "ok"; goal: Goal } | GeneralApiProblem
+export type DailyGoalResult = { kind: "ok"; goals: DailyGoal[] } | GeneralApiProblem
 export type SignOutResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
