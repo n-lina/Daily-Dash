@@ -3,6 +3,10 @@ const getGoalsResponseFromDBResult = (result) =>  {
     longTermGoals: []
   };
 
+  if (result == null) {
+    return responseObj;
+  }
+
   result.forEach(function (goal) {
     var goalResponse = {
       id: goal._id,
@@ -37,6 +41,10 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   var responseObj = {
     shortTermGoals: []
   };
+
+  if (result == null) {
+    return responseObj;
+  }
 
   result.forEach(function (goal) {
     goal.shortTermGoals.forEach(function (shortTermGoal) {

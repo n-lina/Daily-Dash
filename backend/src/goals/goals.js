@@ -18,16 +18,8 @@ const getGoals = async (req, res) => {
 
   try {
     var result = await GoalModel.find({ userId: id });
-    console.log(result);
-
-    if (result == null) {
-      res.status(400);
-      res.send(null);
-
-      return;
-    }
-
     var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
+    console.log(responseObj);
 
     res.send(responseObj);
   } catch (error) {
@@ -52,15 +44,8 @@ const getShortTermGoals = async (req, res) => {
 
   try {
     var result = await GoalModel.find({ userId: id });
-    console.log(result);
-
-    if (result == null) {
-      res.status(400);
-      res.send(null);
-      return;
-    }
-
-    responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
+    var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
+    console.log(responseObj);
 
     res.send(responseObj);
   } catch (error) {

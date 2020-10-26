@@ -1,13 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
 const cors = require('cors');
+
 const admin = require('firebase-admin');
 const firebase = require('./firebase/firebase');
-const router = express.Router();
 const UserModel = require('./models/users');
 const GoalModel = require('./models/goals');
 const database = require('./db/database');
+
+const app = express();
 
 const notificationTitle = "Reminder from DailyDash!";
 
