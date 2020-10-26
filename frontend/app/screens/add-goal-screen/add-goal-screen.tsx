@@ -92,9 +92,9 @@ export const AddGoalScreen = observer(function AddGoalScreen()  {
     return 1
   }
 
-  function getSuggestion(){
+  async function getSuggestion(){
     console.log(LtGoalFormStore.title)
-    goalsStore.getSTsuggestion(LtGoalFormStore.title)
+    await goalsStore.getSTsuggestion(LtGoalFormStore.title)
     Alert.alert(goalsStore.STsuggestion)
     return 1
   }

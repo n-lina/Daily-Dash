@@ -177,7 +177,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
           />
         </SafeAreaView>
         <View style={styles.fixToText}>
-          <Button
+          {/* <Button
             style={styles.button}
             text="Edit"
             onPress={() => navigation.navigate("editGoal")}
@@ -186,7 +186,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
             style={styles.button}
             text="Delete"
             onPress={createTwoButtonAlert}
-          />
+          /> */}
         </View>
       </Screen>
     </View>

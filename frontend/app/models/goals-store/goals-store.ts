@@ -56,7 +56,7 @@ export const GoalsStoreModel = types
       })
     },
     getSTsuggestion: (title: string) => {
-      self.environment.api.getSTsuggestion(title).then(res => {
+      return self.environment.api.getSTsuggestion(title).then(res => {
         if (res.kind == "ok"){
            // self.STsuggestion = res.suggestion;
           self.setSuggestion(res.suggestion)
