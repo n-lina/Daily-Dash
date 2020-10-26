@@ -1,48 +1,10 @@
 const express = require("express");
-const admin = require('firebase-admin');
 const router = express.Router();
+
 const cossim = require('./cossim.js');
-
+const auth = require('../firebase/auth');
+const goalsHelper = require('./goalsHelper')
 const GoalModel = require('../models/goals');
-
-const devToken = "test";
-
-const getAuthToken = (req, res, next) => {
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.split(' ')[0] === 'Bearer'
-  ) {
-    req.authToken = req.headers.authorization.split(' ')[1];
-  } else {
-    req.authToken = null;
-  }
-  next();
-};
-
-const checkIfAuthenticated = (req, res, next) => {
-  getAuthToken(req, res, async () => {
-    try {
-      const { authToken } = req;
-
-      if (authToken === devToken) {
-        return next();
-      }
-
-      const userInfo = await admin
-        .auth()
-        .verifyIdToken(authToken);
-      req.authId = userInfo.uid;
-
-      return next();
-    } catch (e) {
-      console.log(e);
-
-      return res
-        .status(401)
-        .send({ error: 'You are not authorized to make this request' });
-    }
-  });
-};
 
 const getGoals = async (req, res) => {
   const { id } = req.query;
@@ -56,51 +18,23 @@ const getGoals = async (req, res) => {
 
   try {
     var result = await GoalModel.find({ userId: id });
-
     console.log(result);
 
     if (result == null) {
       res.status(400);
       res.send(null);
+
       return;
     }
 
-    var responseObj = {
-      longTermGoals: []
-    };
-
-    result.forEach(function (goal) {
-      var goalResponse = {
-        id: goal._id,
-        title: goal.title,
-        description: goal.description,
-        shortTermGoals: []
-      };
-
-      goal.shortTermGoals.forEach(function (shortTermGoal) {
-        var shortTermGoal = {
-          id: shortTermGoal.id,
-          title: shortTermGoal.title,
-          mon: shortTermGoal.mon,
-          tue: shortTermGoal.tue,
-          wed: shortTermGoal.wed,
-          thu: shortTermGoal.thu,
-          fri: shortTermGoal.fri,
-          sat: shortTermGoal.sat,
-          sun: shortTermGoal.sun,
-        };
-
-        goalResponse.shortTermGoals.push(shortTermGoal);
-      });
-
-      responseObj.longTermGoals.push(goalResponse);
-    });
+    var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
 
     res.send(responseObj);
   } catch (error) {
     res.status(400);
     console.log(error);
     res.end();
+
     return;
   }
 };
@@ -118,7 +52,6 @@ const getShortTermGoals = async (req, res) => {
 
   try {
     var result = await GoalModel.find({ userId: id });
-
     console.log(result);
 
     if (result == null) {
@@ -127,25 +60,7 @@ const getShortTermGoals = async (req, res) => {
       return;
     }
 
-    console.log(result);
-
-    var responseObj = {
-      shortTermGoals: []
-    };
-
-    result.forEach(function (goal) {
-      goal.shortTermGoals.forEach(function (shortTermGoal) {
-        shortTermGoal[dayOfWeek].forEach(function (time) {
-          shortTermGoalObj = {
-            stgId: shortTermGoal._id,
-            title: shortTermGoal.title,
-            time: time
-          };
-
-          responseObj.shortTermGoals.push(shortTermGoalObj);
-        });
-      });
-    });
+    responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
 
     res.send(responseObj);
   } catch (error) {
@@ -193,9 +108,7 @@ const postGoal = async (req, res) => {
 
 };
 
-
 const getSuggestedShortTermGoal = async (req, res) => {
-
   const { title } = req.query;
   
   var LTG_title_array = [];   // create an array with all LTG titles
@@ -235,10 +148,9 @@ const getSuggestedShortTermGoal = async (req, res) => {
   res.send({ "answer": response });
 };
 
-
-router.get("/", checkIfAuthenticated, getGoals);
-router.get("/shortterm", checkIfAuthenticated, getShortTermGoals);
-router.post("/", checkIfAuthenticated, postGoal);
-router.get("/suggestedstg", checkIfAuthenticated, getSuggestedShortTermGoal);
+router.get("/", auth.checkIfAuthenticated, getGoals);
+router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
+router.post("/", auth.checkIfAuthenticated, postGoal);
+router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
 
 module.exports = router;
