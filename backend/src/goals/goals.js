@@ -23,7 +23,7 @@ const getGoals = async (req, res) => {
 
     res.send(responseObj);
   } catch (error) {
-    res.status(400);
+    res.status(500);
     console.log(error);
     res.end();
 
@@ -49,7 +49,7 @@ const getShortTermGoals = async (req, res) => {
 
     res.send(responseObj);
   } catch (error) {
-    res.status(400);
+    res.status(500);
     console.log(error);
     res.end();
     return;
