@@ -73,7 +73,7 @@ const RootStack = observer(() => {
           }}
         />
       // ) : !userStore.signedIn ? (
-        ) : userStore.signedIn ? (
+        ) : !userStore.signedIn ? (
         <>
           <Stack.Screen
             name="welcome"
