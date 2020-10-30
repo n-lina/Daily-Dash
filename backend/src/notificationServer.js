@@ -35,26 +35,28 @@ const sendNotifications = async () => {
     const userGoals = await GoalModel.find({userId: user.userId});
     const userRegistrationToken = user.notificationId;
 
-    userGoals.forEach(function(userGoal) {
-      userGoal.shortTermGoals.forEach(function(shortTermGoal) {
-      const shortTermGoalTitle = shortTermGoal.title;
+    if (userRegistrationToken !== "") {
+      userGoals.forEach(function(userGoal) {
+        userGoal.shortTermGoals.forEach(function(shortTermGoal) {
+        const shortTermGoalTitle = shortTermGoal.title;
 
-      shortTermGoal[day].forEach(function(time) {
-        const currentTimeDate = new Date();
-        const currentHour = currentTimeDate.getHours();
-        const currentMinute = currentTimeDate.getMinutes();
-        const notificationHour = parseInt(time / 60);
-        const notificationMinute = time % 60;
+        shortTermGoal[day].forEach(function(time) {
+          const currentTimeDate = new Date();
+          const currentHour = currentTimeDate.getHours();
+          const currentMinute = currentTimeDate.getMinutes();
+          const notificationHour = parseInt(time / 60);
+          const notificationMinute = time % 60;
 
-        console.log("Notification Time: " + notificationHour + ":" + notificationMinute);
-        console.log("Current Time: " + currentHour + ":" + currentMinute);
+          console.log("Notification Time: " + notificationHour + ":" + notificationMinute);
+          console.log("Current Time: " + currentHour + ":" + currentMinute);
 
-        if (currentHour === notificationHour && currentMinute === notificationMinute) {
-          sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
-          }
+          if (currentHour === notificationHour && currentMinute === notificationMinute) {
+            sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
+            }
+          })
         })
       })
-    })
+    }
   })
 }
 

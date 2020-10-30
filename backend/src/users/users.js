@@ -68,7 +68,37 @@ const getUser = async (req, res) => {
   }
 };
 
+const expireNotificationToken = async (req, res) => {
+  const { id } = req.params;
+  const { token } = req.query;
+  
+  if (id == null || token == null) {
+    console.log(`Missing parameters in ${req.body}`);
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  const userObj = {
+    notificationId: "",
+  };
+
+  const query = {'userId': id, 'notificationId': token};
+
+  UserModel.findOneAndUpdate(query, userObj, {upsert: false}).then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+  var response = {userId: id};
+
+	res.send(response);
+};
+
 router.post("/", addUser);
 router.get("/:id", getUser);
+router.delete('/:id/notification', expireNotificationToken);
 
 module.exports = router;
