@@ -4,7 +4,7 @@ const router = express.Router();
 const cossim = require('./cossim.js');
 const auth = require('../firebase/auth');
 const goalsHelper = require('./goalsHelper')
-const goalsSugHelper = require('./goalsSugHelper')
+const goalsSugHelper = require('./goalsSugHelper.js')
 const GoalModel = require('../models/goals');
 
 const getGoals = async (req, res) => {
@@ -141,7 +141,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   highest_cossim_LTG_title = LTG_title_array[index_highest_cossim_LTG];   // get most similar LTG title, else random-ish one
 
   var STG_title_array = [];
-  try{  // fill array with all of most similar LTG's STG titles
+  try {  // fill array with all of most similar LTG's STG titles
     await goalsSugHelper.fillArrayWithValidSTGtitles(STG_title_array, LTG_title_array, index_highest_cossim_LTG);
   }
   catch (error) {
