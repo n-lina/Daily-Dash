@@ -1,4 +1,4 @@
-const getGoalsResponseFromDBResult = (result) =>  {
+const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
     longTermGoals: []
   };
@@ -63,4 +63,4 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   return responseObj;
 }
 
-module.exports = {getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult}
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult }
