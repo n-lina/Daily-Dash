@@ -73,11 +73,11 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
-          <Text style={TITLE} text="Welcome to Daily Dash!" />
+          <Text style={TITLE} text="Welcome to Daily Dash" />
         </Text>
         <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
         {/* <Image source={bowserLogo} style={BOWSER} /> */}
-        <View style={CONTENT_WRAP}>
+        <View style={CONTENT_WRAP} testID="welcomeMessage">
           <Text style={CONTENT}>This is just a template for what should go here.</Text>
           <Text style={CONTENT}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pharetra aliquet
@@ -89,6 +89,7 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
           <Button
+            testID="nextScreenButton"
             style={CONTINUE}
             textStyle={CONTINUE_TEXT}
             tx="welcomeScreen.continue"

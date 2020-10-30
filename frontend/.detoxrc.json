@@ -1,0 +1,15 @@
+{
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "configurations": {
+    "android": {
+      "type": "android.emulator",
+      "binaryPath": "./android/app/build/outputs/apk/debug/app-debug.apk",
+      "device": {
+        "avdName": "Pixel_2_API_29"
+      },
+      "build":
+            "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd .."
+    }
+  }
+}
