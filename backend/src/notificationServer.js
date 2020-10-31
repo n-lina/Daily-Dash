@@ -1,13 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
 const cors = require('cors');
+
 const admin = require('firebase-admin');
 const firebase = require('./firebase/firebase');
-const router = express.Router();
 const UserModel = require('./models/users');
 const GoalModel = require('./models/goals');
 const database = require('./db/database');
+
+const app = express();
 
 const notificationTitle = "Reminder from DailyDash!";
 
@@ -34,26 +35,28 @@ const sendNotifications = async () => {
     const userGoals = await GoalModel.find({userId: user.userId});
     const userRegistrationToken = user.notificationId;
 
-    userGoals.forEach(function(userGoal) {
-      userGoal.shortTermGoals.forEach(function(shortTermGoal) {
-      const shortTermGoalTitle = shortTermGoal.title;
+    if (userRegistrationToken !== "") {
+      userGoals.forEach(function(userGoal) {
+        userGoal.shortTermGoals.forEach(function(shortTermGoal) {
+        const shortTermGoalTitle = shortTermGoal.title;
 
-      shortTermGoal[day].forEach(function(time) {
-        const currentTimeDate = new Date();
-        const currentHour = currentTimeDate.getHours();
-        const currentMinute = currentTimeDate.getMinutes();
-        const notificationHour = parseInt(time / 60);
-        const notificationMinute = time % 60;
+        shortTermGoal[day].forEach(function(time) {
+          const currentTimeDate = new Date();
+          const currentHour = currentTimeDate.getHours();
+          const currentMinute = currentTimeDate.getMinutes();
+          const notificationHour = parseInt(time / 60);
+          const notificationMinute = time % 60;
 
-        console.log("Notification Time: " + notificationHour + ":" + notificationMinute);
-        console.log("Current Time: " + currentHour + ":" + currentMinute);
+          console.log("Notification Time: " + notificationHour + ":" + notificationMinute);
+          console.log("Current Time: " + currentHour + ":" + currentMinute);
 
-        if (currentHour === notificationHour && currentMinute === notificationMinute) {
-          sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
-          }
+          if (currentHour === notificationHour && currentMinute === notificationMinute) {
+            sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
+            }
+          })
         })
       })
-    })
+    }
   })
 }
 

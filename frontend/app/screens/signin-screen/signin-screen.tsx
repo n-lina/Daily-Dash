@@ -86,7 +86,7 @@ export const SigninScreen = observer(function SigninScreen() {
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="Please select a sign in method" />
         </Text>
-        <View style={CONTENT_WRAP}>
+        <View style={CONTENT_WRAP} testID="signInWrap">
           <GoogleSigninButton
             style={SIGNIN_BUTTON}
             size={GoogleSigninButton.Size.Wide}

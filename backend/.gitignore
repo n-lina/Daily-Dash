@@ -1,5 +1,5 @@
 # For DailyDash
-fbServiceAccountKey.json
+src/config/fbServiceAccountKey.json
 
 # Logs
 logs
