@@ -8,5 +8,8 @@ export * from "./user-store/user-store"
 export * from "./goals-store/goals-store"
 export * from "./goal/goal"
 export * from "./st-goal/st-goal"
+export * from "./lt-goal-form/lt-goal-form"
+export * from "./st-goal-form/st-goal-form"
 export * from "./daily-goal-store/daily-goal-store"
 export * from "./daily-goal/daily-goal"
+
