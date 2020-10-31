@@ -105,7 +105,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
     return;
   }
 
-  let noSugSTGString = "No suggested short term goal."; // value returned if no suggested STG for valid input
+  const noSugSTGString = "No suggested short term goal."; // value returned if no suggested STG for valid input
 
   var LTG_title_array = [];
   try {   // fill array with all valid LTG titles (i.e. has both, a valid title, and at least 1 STG with valid title)
@@ -118,7 +118,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
     return;
   }
 
-  if (LTG_title_array.length == 0) {    // do the following if no valid LTGs (and, by extension, STGs)
+  if (LTG_title_array.length === 0) {    // do the following if no valid LTGs (and, by extension, STGs)
     console.log("No long term goal with a valid short term goal in database.");
     res.send({ "answer": noSugSTGString });
     return;
@@ -151,7 +151,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
     return;
   }
 
-  if (STG_title_array.length == 0) {  // redundant check: do the following if no valid STGs (and, by extension, STGs)
+  if (STG_title_array.length === 0) {  // redundant check: do the following if no valid STGs (and, by extension, STGs)
     console.log("No valid short term goals in database.");
     res.send({ "answer": noSugSTGString });
     return;
