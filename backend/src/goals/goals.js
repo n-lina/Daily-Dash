@@ -90,7 +90,6 @@ const postGoal = async (req, res) => {
   var response = { id: userId };
 
   res.send(response);
-
 };
 
 const getSuggestedShortTermGoal = async (req, res) => {
