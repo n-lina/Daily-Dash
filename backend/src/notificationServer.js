@@ -15,16 +15,12 @@ const notificationTitle = "Reminder from DailyDash!";
 
 const port = 8000;
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 
 app.listen(port, () =>
   logger.info(`Server listening on port ${port}!`),
 );
-
-const runServer = () => {
-  setInterval(sendNotifications, 60000);
-};
 
 const sendMessage = (registrationToken, title, body) => {
   var message = {
@@ -75,7 +71,7 @@ const sendNotifications = async () => {
           logger.info("Current Time: " + currentHour + ":" + currentMinute);
 
           if (currentHour === notificationHour && currentMinute === notificationMinute) {
-            sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle)
+            sendMessage(userRegistrationToken, notificationTitle, shortTermGoalTitle);
             }
           });
         });
@@ -84,7 +80,9 @@ const sendNotifications = async () => {
   });
 };
 
-
+const runServer = () => {
+  setInterval(sendNotifications, 60000);
+};
 
 runServer();
 
