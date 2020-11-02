@@ -60,7 +60,7 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
 
   _shortTermGoals.sort(function (a, b) {
     return a.time - b.time;
-  })
+  });
 
   var responseObj = {
     shortTermGoals: _shortTermGoals

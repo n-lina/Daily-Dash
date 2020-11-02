@@ -1,17 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const cossim = require('./cossim.js');
-const auth = require('../firebase/auth');
-const goalsHelper = require('./goalsHelper')
-const goalsSugHelper = require('./goalsSugHelper.js')
-const GoalModel = require('../models/goals');
+const logger = require("../logger/logging");
+const cossim = require("./cossim.js");
+const auth = require("../firebase/auth");
+const goalsHelper = require("./goalsHelper");
+const goalsSugHelper = require("./goalsSugHelper.js");
+const GoalModel = require("../models/goals");
 
 const getGoals = async (req, res) => {
   const { id } = req.query;
 
   if (id == null) {
-    console.log(`Missing parameters in ${req.body}`);
+    logger.info(`Missing parameters in ${JSON.stringify(req.query)}.`);
+
     res.status(400);
     res.end();
     return;
@@ -20,12 +22,12 @@ const getGoals = async (req, res) => {
   try {
     var result = await GoalModel.find({ userId: id });
     var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
-    console.log(responseObj);
+    logger.info(responseObj);
 
     res.send(responseObj);
   } catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
 
     return;
@@ -37,7 +39,7 @@ const getShortTermGoals = async (req, res) => {
   const { dayOfWeek } = req.query;
 
   if (id == null || dayOfWeek == null) {
-    console.log(`Missing parameters in ${req.params}`);
+    logger.info(`Missing parameters in ${req.params}`);
     res.status(400);
     res.end();
     return;
@@ -46,12 +48,12 @@ const getShortTermGoals = async (req, res) => {
   try {
     var result = await GoalModel.find({ userId: id });
     var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
-    console.log(responseObj);
+    logger.info(responseObj);
 
     res.send(responseObj);
   } catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
     return;
   }
@@ -67,7 +69,7 @@ const postGoal = async (req, res) => {
 
   // checks if all JSON entries in model present, except does not check elements of shortTermGoals
   if (userId == null || title == null || description == null || shortTermGoals == null) {
-    console.log(`Missing parameters in ${req.params}`);
+    logger.info(`Missing parameters in ${req.params}`);
     res.status(400);
     res.end();
     return;
@@ -82,7 +84,7 @@ const postGoal = async (req, res) => {
 
   await goalObj.save()
     .then((doc) => {
-      console.log(doc);
+      logger.info(doc);
     })
     .catch((err) => {
       console.error(err);
@@ -98,7 +100,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   // ensure title param not null, empty, or undefined, and is string or String object
   if ((!title || 0 === title.length) || !(typeof title == "string" || title instanceof String)) {
-    console.log(`Missing parameters in query url, or param is empty or not string`);
+    logger.info(`Missing parameters in query url, or param is empty or not string`);
     res.status(400);
     res.end();
     return;
@@ -112,13 +114,13 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
     return;
   }
 
   if (LTG_title_array.length === 0) {    // do the following if no valid LTGs (and, by extension, STGs)
-    console.log("No long term goal with a valid short term goal in database.");
+    logger.info("No long term goal with a valid short term goal in database.");
     res.send({ "answer": noSugSTGString });
     return;
   } // if code after this if statement runs, LTG_title_array has at least 1 LTG that has both, a valid title, and at least 1 STG with valid title
@@ -131,7 +133,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
     return;
   }
@@ -145,13 +147,13 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
     return;
   }
 
   if (STG_title_array.length === 0) {  // redundant check: do the following if no valid STGs (and, by extension, STGs)
-    console.log("No valid short term goals in database.");
+    logger.info("No valid short term goals in database.");
     res.send({ "answer": noSugSTGString });
     return;
   }
@@ -164,7 +166,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    console.log(error);
+    logger.info(error);
     res.end();
     return;
   }

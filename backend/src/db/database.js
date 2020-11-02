@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const logger = require("../logger/logging");
 
 const url = `mongodb://localhost:27017/dailydashdb`;
 
@@ -10,10 +11,10 @@ class Database {
   _connect() {
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
       .then(() => {
-        console.log('Database connection successful.');
+        logger.info("Database connection successful.");
       })
       .catch((err) => {
-        console.error('Database connection error.', err);
+        console.error("Database connection error.", err);
       });
   }
 }
