@@ -19,15 +19,14 @@ export interface Goal {
 }
 
 export interface STGoal {
-  id: string 
-  text: string
-  monday: Array<number>
-  tuesday: Array<number>
-  wednesday: Array<number>
-  thursday: Array<number>
-  friday: Array<number>
-  saturday: Array<number>
-  sunday: Array<number>
+  title: string
+  mon: Array<number>
+  tue: Array<number>
+  wed: Array<number>
+  thu: Array<number>
+  fri: Array<number>
+  sat: Array<number>
+  sun: Array<number>
 }
 
 export interface DailyGoal {
@@ -46,3 +45,6 @@ export type DailyGoalResult = { kind: "ok"; goals: DailyGoal[] } | GeneralApiPro
 export type SignOutResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
+export type PostGoalResult = { kind: "ok"} | GeneralApiProblem
+export type GetSTsuggestion = {kind: "ok"; suggestion: string} | GeneralApiProblem
+

@@ -9,6 +9,7 @@ export const GoalsStoreModel = types
   .model("GoalsStore")
   .props({
     goals: types.optional(types.array(GoalModel), []),
+    STsuggestion: ""
   })
   .extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -20,6 +21,14 @@ export const GoalsStoreModel = types
       }
       else
       __DEV__ && console.log("Unsetting LTgoals list")
+    },
+    setSuggestion: (suggestion) => {
+      if (suggestion){
+        __DEV__ && console.log("Setting suggestion list " + suggestion)
+        self.STsuggestion = suggestion
+      }
+      else
+      __DEV__ && console.log("Unsetting suggestion")
     }
   })).actions(self => ({
     getAllGoals: () => {
@@ -35,11 +44,23 @@ export const GoalsStoreModel = types
       })
     },
 
-    postLTgoal: (LTgoal: string, STgoals: Array<StGoal>, id: string) => {
-      self.environment.api.postLTgoal(LTgoal, STgoals, new Date(), id).then(res => {
+    postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
+      self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
         if (res.kind == "ok"){
-          self.goals.push(res.goal);
-          __DEV__ && console.log("Added goal to list of LT goals")
+          __DEV__ && console.log("Added goal to database")
+        } else {
+          __DEV__ && console.log(res.kind);
+        }
+      }).catch(err => {
+        __DEV__ && console.error(err);
+      })
+    },
+    getSTsuggestion: (title: string) => {
+      return self.environment.api.getSTsuggestion(title).then(res => {
+        if (res.kind == "ok"){
+           // self.STsuggestion = res.suggestion;
+          self.setSuggestion(res.suggestion)
+          __DEV__ && console.log("Got ST goal suggestion")
         } else {
           __DEV__ && console.log(res.kind);
         }
@@ -48,21 +69,21 @@ export const GoalsStoreModel = types
       })
     },
 
-    getOneLTgoal: (goal_id: string) => {
-      // self.environment.api.getOneLTgoal(goal_id).then(res => {
-      //   if (res.kind == "ok"){
-      //     // how to display?
-      //     __DEV__ && console.log("Got one LT goal")
-      //   } else {
-      //     __DEV__ && console.log(res.kind);
-      //   }
-      // }).catch(err => {
-      //   __DEV__ && console.error(err);
-      // })
-      return self.goals.filter(goal => {
-        return goal.id == goal_id
-      })[0] 
-    }
+    // getOneLTgoal: (goal_id: string) => {
+    //   // self.environment.api.getOneLTgoal(goal_id).then(res => {
+    //   //   if (res.kind == "ok"){
+    //   //     // how to display?
+    //   //     __DEV__ && console.log("Got one LT goal")
+    //   //   } else {
+    //   //     __DEV__ && console.log(res.kind);
+    //   //   }
+    //   // }).catch(err => {
+    //   //   __DEV__ && console.error(err);
+    //   // })
+    //   return self.goals.filter(goal => {
+    //     return goal.id == goal_id
+    //   })[0] 
+    // }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**

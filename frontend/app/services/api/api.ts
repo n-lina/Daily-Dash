@@ -47,24 +47,26 @@ export class Api {
 
   convertSTGoal = (raw) => {
     return {
-      id: raw._id,
-      text: raw.title,
-      monday: raw.monday,
-      tuesday: raw.tuesday,
-      wednesday: raw.wednesday,
-      thursday: raw.thursday,
-      friday: raw.friday,
-      saturday: raw.saturday,
-      sunday: raw.sunday
+      id: raw.id,
+      title: raw.title,
+      mon: raw.mon,
+      tue: raw.tue,
+      wed: raw.wed,
+      thu: raw.thu,
+      fri: raw.fri,
+      sat: raw.sat,
+      sun: raw.sun
     }
   }
 
   convertGoal = (raw) => {
+    // console.log(JSON.stringify(raw));
     const STgoalsList: Types.STGoal[] = raw.shortTermGoals.map(this.convertSTGoal)
     return {
       LTgoal: raw.title,
+      description: raw.description,
       STgoals: STgoalsList,
-      id: raw._id
+      id: raw.id
     }
   }
 
@@ -194,7 +196,11 @@ export class Api {
   }
 
   async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    const response: ApiResponse<any> = await this.apisauce.get(`/goals/${user_id}`)
+ // async getAllGoals(user_id: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${user_id}`)
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
@@ -210,8 +216,30 @@ export class Api {
     }
   }
 
-  async postLTgoal(LTgoal: string, STgoals: Array<Types.STGoal>, date_added: Date, id: string ): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.post("/users/goals", {LTgoal: LTgoal, STgoals: STgoals, date_added: date_added, id: id })
+  async getSTsuggestion(title: string): Promise<Types.GetSTsuggestion> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals/suggestedstg?title=${title}`)
+    if (!response.ok){
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const answer = response.data.answer
+      console.log("This is the answer:" + answer)
+      return { kind: "ok", suggestion: answer}
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async postLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, user_id: string = this.getUserID()): Promise<Types.PostGoalResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.post("/goals", {userId: user_id, title: LTgoal, description: description, shortTermGoals: STgoals})
 
     if (!response.ok){
       const problem = getGeneralApiProblem(response)
@@ -219,30 +247,31 @@ export class Api {
     }
 
     try {
-      const rawGoal = response.data
-      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok", goal: resultGoal }
+      // const rawGoal = response.data
+      console.log(JSON.stringify(response.data))
+     // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok" }
     } catch {
       return { kind: "bad-data"}
     } 
   }
   
-  async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-    const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
+  // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
+  //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 
-    if (!response.ok){
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
+  //   if (!response.ok){
+  //     const problem = getGeneralApiProblem(response)
+  //     if (problem) return problem
+  //   }
 
-    try {
-      const rawGoal = response.data
-      const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok", goal: resultGoal }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
+  //   try {
+  //     const rawGoal = response.data
+  //     const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+  //     return { kind: "ok", goal: resultGoal }
+  //   } catch {
+  //     return { kind: "bad-data" }
+  //   }
+  // }
 
   // editOneLTgoal
   // deleteLTgoal

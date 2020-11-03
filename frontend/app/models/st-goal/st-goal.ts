@@ -6,15 +6,14 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const StGoalModel = types
   .model("StGoal")
   .props({
-    id: types.string,
-    text: types.string,
-    monday: types.array(types.integer),
-    tuesday: types.array(types.integer),
-    wednesday: types.array(types.integer),
-    thursday: types.array(types.integer),
-    friday: types.array(types.integer),
-    saturday: types.array(types.integer),
-    sunday: types.array(types.integer),
+    title: types.string,
+    mon: types.optional(types.array(types.integer),[]),
+    tue: types.optional(types.array(types.integer),[]),
+    wed: types.optional(types.array(types.integer),[]),
+    thu: types.optional(types.array(types.integer),[]),
+    fri: types.optional(types.array(types.integer),[]),
+    sat: types.optional(types.array(types.integer),[]),
+    sun: types.optional(types.array(types.integer),[])
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
