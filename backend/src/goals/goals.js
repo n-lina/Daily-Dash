@@ -9,10 +9,10 @@ const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 
 const getGoals = async (req, res) => {
-  const { id } = req.query;
+  const id = req.query.id;
 
   if (id == null) {
-    logger.info(`Missing parameters in ${JSON.stringify(req.query)}.`);
+    logger.info("Missing parameters in ${JSON.stringify(req.query)}.");
 
     res.status(400);
     res.end();
@@ -87,7 +87,7 @@ const postGoal = async (req, res) => {
       logger.info(doc);
     })
     .catch((err) => {
-      console.error(err);
+      logger.info(err);
     });
 
   var response = { id: userId };

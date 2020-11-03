@@ -30,7 +30,7 @@ const addUser = async (req, res) => {
     logger.info(doc);
   })
   .catch((err) => {
-    console.error(err);
+    logger.info(err);
   });
 
   var response = {email: email, username: username};
