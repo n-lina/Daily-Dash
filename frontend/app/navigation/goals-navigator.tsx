@@ -3,11 +3,11 @@
  * You can use RootNavigator to also display an auth flow or other user flows.
  *
  */
-import React from "react"
+import React from "react";
 
 // import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { AddGoalScreen, EditGoalScreen, GoalDetailScreen, LtgoalsScreen } from "../screens"
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import { AddGoalScreen, EditGoalScreen, GoalDetailScreen, LtgoalsScreen } from "../screens";
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,7 +29,7 @@ export type RootParamList = {
     allGoals: undefined
   }
 
-const Stack = createNativeStackNavigator<RootParamList>()
+const Stack = createNativeStackNavigator<RootParamList>();
 
 export function GoalsNavigator() {
   return (
@@ -71,7 +71,7 @@ export function GoalsNavigator() {
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }
 
 /**
@@ -83,5 +83,5 @@ export function GoalsNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["Home"]
-export const canExit = (routeName: string) => exitRoutes.includes(routeName)
+const exitRoutes = ["Home"];
+export const canExit = (routeName: string) => exitRoutes.includes(routeName);

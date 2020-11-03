@@ -1,5 +1,5 @@
-import { getEnv, IStateTreeNode } from "mobx-state-tree"
-import { Environment } from "../environment"
+import { getEnv, IStateTreeNode } from "mobx-state-tree";
+import { Environment } from "../environment";
 
 /**
  * Adds a environment property to the node for accessing our
@@ -11,7 +11,7 @@ export const withEnvironment = (self: IStateTreeNode) => ({
      * The environment.
      */
     get environment() {
-      return getEnv<Environment>(self)
+      return getEnv<Environment>(self);
     },
   },
-})
+});

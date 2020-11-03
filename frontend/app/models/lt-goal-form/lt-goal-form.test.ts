@@ -1,7 +1,7 @@
-import { LtGoalFormModel, LtGoalForm } from "./lt-goal-form"
+import { LtGoalFormModel, LtGoalForm } from "./lt-goal-form";
 
 test("can be created", () => {
-  const instance: LtGoalForm = LtGoalFormModel.create({})
+  const instance: LtGoalForm = LtGoalFormModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

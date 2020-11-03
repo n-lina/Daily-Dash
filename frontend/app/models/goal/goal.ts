@@ -1,5 +1,5 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { StGoalModel } from "../st-goal/st-goal"
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { StGoalModel } from "../st-goal/st-goal";
 
 /**
  * Model description here for TypeScript hints.
@@ -13,7 +13,7 @@ export const GoalModel = types
     id: types.string
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions(self => ({})); // eslint-disable-line @typescript-eslint/no-unused-vars
 
 /**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).

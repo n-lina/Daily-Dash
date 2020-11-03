@@ -1,7 +1,7 @@
-import { StGoalFormModel, StGoalForm } from "./st-goal-form"
+import { StGoalFormModel, StGoalForm } from "./st-goal-form";
 
 test("can be created", () => {
-  const instance: StGoalForm = StGoalFormModel.create({})
+  const instance: StGoalForm = StGoalFormModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

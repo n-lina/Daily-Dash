@@ -1,7 +1,7 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { GoalModel } from "../goal/goal"
-import { StGoal } from "../st-goal/st-goal"
-import { withEnvironment } from "../extensions/with-environment"
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { GoalModel } from "../goal/goal";
+import { StGoal } from "../st-goal/st-goal";
+import { withEnvironment } from "../extensions/with-environment";
 /**
  * Model description here for TypeScript hints.
  */
@@ -16,53 +16,53 @@ export const GoalsStoreModel = types
   .actions(self => ({
     setLTgoals: (LTgoalsList) => {
       if (LTgoalsList) {
-        __DEV__ && console.log("Setting LTgoals list " + LTgoalsList.toString())
-        self.goals = LTgoalsList
-      } else { __DEV__ && console.log("Unsetting LTgoals list") }
+        __DEV__ && console.log("Setting LTgoals list " + LTgoalsList.toString());
+        self.goals = LTgoalsList;
+      } else { __DEV__ && console.log("Unsetting LTgoals list"); }
     },
     setSuggestion: (suggestion) => {
       if (suggestion) {
-        __DEV__ && console.log("Setting suggestion list " + suggestion)
-        self.STsuggestion = suggestion
-      } else { __DEV__ && console.log("Unsetting suggestion") }
+        __DEV__ && console.log("Setting suggestion list " + suggestion);
+        self.STsuggestion = suggestion;
+      } else { __DEV__ && console.log("Unsetting suggestion"); }
     }
   })).actions(self => ({
     getAllGoals: () => {
       return self.environment.api.getAllGoals().then(res => {
         if (res.kind == "ok") {
-          self.setLTgoals(res.LTgoals)
-          __DEV__ && console.log("Got list of LT goals")
+          self.setLTgoals(res.LTgoals);
+          __DEV__ && console.log("Got list of LT goals");
         } else {
-          __DEV__ && console.log(res.kind)
+          __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
-        __DEV__ && console.error(err)
-      })
+        __DEV__ && console.error(err);
+      });
     },
 
     postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
       self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
         if (res.kind == "ok") {
-          __DEV__ && console.log("Added goal to database")
+          __DEV__ && console.log("Added goal to database");
         } else {
-          __DEV__ && console.log(res.kind)
+          __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
-        __DEV__ && console.error(err)
-      })
+        __DEV__ && console.error(err);
+      });
     },
     getSTsuggestion: (title: string) => {
       return self.environment.api.getSTsuggestion(title).then(res => {
         if (res.kind == "ok") {
           // self.STsuggestion = res.suggestion;
-          self.setSuggestion(res.suggestion)
-          __DEV__ && console.log("Got ST goal suggestion")
+          self.setSuggestion(res.suggestion);
+          __DEV__ && console.log("Got ST goal suggestion");
         } else {
-          __DEV__ && console.log(res.kind)
+          __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
-        __DEV__ && console.error(err)
-      })
+        __DEV__ && console.error(err);
+      });
     },
 
     // getOneLTgoal: (goal_id: string) => {
@@ -80,7 +80,7 @@ export const GoalsStoreModel = types
     //     return goal.id == goal_id
     //   })[0]
     // }
-  })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  })); // eslint-disable-line @typescript-eslint/no-unused-vars
 
 /**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).

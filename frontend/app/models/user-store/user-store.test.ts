@@ -1,7 +1,7 @@
-import { UserStoreModel, UserStore } from "./user-store"
+import { UserStoreModel, UserStore } from "./user-store";
 
 test("can be created", () => {
-  const instance: UserStore = UserStoreModel.create({})
+  const instance: UserStore = UserStoreModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

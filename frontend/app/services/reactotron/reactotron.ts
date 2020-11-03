@@ -1,11 +1,11 @@
-import Tron from "reactotron-react-native"
-import AsyncStorage from "@react-native-community/async-storage"
-import { RootStore } from "../../models/root-store/root-store"
-import { onSnapshot } from "mobx-state-tree"
-import { ReactotronConfig, DEFAULT_REACTOTRON_CONFIG } from "./reactotron-config"
-import { mst } from "reactotron-mst"
-import { clear } from "../../utils/storage"
-import { RootNavigation } from "../../navigation"
+import Tron from "reactotron-react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { RootStore } from "../../models/root-store/root-store";
+import { onSnapshot } from "mobx-state-tree";
+import { ReactotronConfig, DEFAULT_REACTOTRON_CONFIG } from "./reactotron-config";
+import { mst } from "reactotron-mst";
+import { clear } from "../../utils/storage";
+import { RootNavigation } from "../../navigation";
 
 // Teach TypeScript about the bad things we want to do.
 declare global {
@@ -18,11 +18,11 @@ declare global {
 }
 
 /** Do Nothing. */
-const noop = () => undefined
+const noop = () => undefined;
 
 // in dev, we attach Reactotron, in prod we attach a interface-compatible mock.
 if (__DEV__) {
-  console.tron = Tron // attach reactotron to `console.tron`
+  console.tron = Tron; // attach reactotron to `console.tron`
 } else {
   // attach a mock so if things sneaky by our __DEV__ guards, we won't crash.
   console.tron = {
@@ -45,7 +45,7 @@ if (__DEV__) {
     use: noop,
     useReactNative: noop,
     warn: noop,
-  }
+  };
 }
 
 /**
@@ -74,7 +74,7 @@ export class Reactotron {
         snapshots: false,
         ...(config && config.state),
       },
-    }
+    };
   }
 
   /**
@@ -84,25 +84,25 @@ export class Reactotron {
    */
   setRootStore(rootStore: any, initialData: any) {
     if (__DEV__) {
-      rootStore = rootStore as RootStore // typescript hack
-      this.rootStore = rootStore
+      rootStore = rootStore as RootStore; // typescript hack
+      this.rootStore = rootStore;
 
-      const { initial, snapshots } = this.config.state
-      const name = "ROOT STORE"
+      const { initial, snapshots } = this.config.state;
+      const name = "ROOT STORE";
 
       // logging features
       if (initial) {
-        console.tron.display({ name, value: initialData, preview: "Initial State" })
+        console.tron.display({ name, value: initialData, preview: "Initial State" });
       }
       // log state changes?
       if (snapshots) {
         onSnapshot(rootStore, snapshot => {
-          console.tron.display({ name, value: snapshot, preview: "New State" })
-        })
+          console.tron.display({ name, value: snapshot, preview: "New State" });
+        });
       }
 
       // @ts-ignore
-      console.tron.trackMstNode(rootStore)
+      console.tron.trackMstNode(rootStore);
     }
   }
 
@@ -116,29 +116,29 @@ export class Reactotron {
       Tron.configure({
         name: this.config.name || require("../../../package.json").name,
         host: this.config.host,
-      })
+      });
 
       // hookup middleware
       if (this.config.useAsyncStorage) {
-        Tron.setAsyncStorageHandler(AsyncStorage)
+        Tron.setAsyncStorageHandler(AsyncStorage);
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       Tron.useReactNative({
         asyncStorage: this.config.useAsyncStorage ? undefined : false,
-      })
+      });
 
       // ignore some chatty `mobx-state-tree` actions
-      const RX = /postProcessSnapshot|@APPLY_SNAPSHOT/
+      const RX = /postProcessSnapshot|@APPLY_SNAPSHOT/;
 
       // hookup mobx-state-tree middleware
       Tron.use(
         mst({
           filter: event => RX.test(event.name) === false,
         }),
-      )
+      );
 
       // connect to the app
-      Tron.connect()
+      Tron.connect();
 
       // Register Custom Commands
       Tron.onCustomCommand({
@@ -146,34 +146,34 @@ export class Reactotron {
         description: "Resets the MST store",
         command: "resetStore",
         handler: () => {
-          console.tron.log("resetting store")
-          clear()
+          console.tron.log("resetting store");
+          clear();
         },
-      })
+      });
 
       Tron.onCustomCommand({
         title: "Reset Navigation State",
         description: "Resets the navigation state",
         command: "resetNavigation",
         handler: () => {
-          console.tron.log("resetting navigation state")
-          RootNavigation.resetRoot({ routes: [] })
+          console.tron.log("resetting navigation state");
+          RootNavigation.resetRoot({ routes: [] });
         },
-      })
+      });
 
       Tron.onCustomCommand({
         title: "Go Back",
         description: "Goes back",
         command: "goBack",
         handler: () => {
-          console.tron.log("Going back")
-          RootNavigation.goBack()
+          console.tron.log("Going back");
+          RootNavigation.goBack();
         },
-      })
+      });
 
       // clear if we should
       if (this.config.clearOnLoad) {
-        Tron.clear()
+        Tron.clear();
       }
     }
   }

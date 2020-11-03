@@ -1,39 +1,39 @@
-import React from "react"
-import { observer } from "mobx-react-lite"
-import { View, ViewStyle } from "react-native"
-import { Screen } from "../../components"
+import React from "react";
+import { observer } from "mobx-react-lite";
+import { View, ViewStyle } from "react-native";
+import { Screen } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
-import { useStores } from "../../models"
-import { color } from "../../theme"
-import auth from "@react-native-firebase/auth"
-import { Avatar, Text, Button } from "react-native-elements"
+import { useStores } from "../../models";
+import { color } from "../../theme";
+import auth from "@react-native-firebase/auth";
+import { Avatar, Text, Button } from "react-native-elements";
 
-const FULL: ViewStyle = { flex: 1 }
+const FULL: ViewStyle = { flex: 1 };
 
 const CONTENT_WRAP: ViewStyle = {
   flex: 1,
   alignItems: "center",
   justifyContent: "center",
-}
+};
 
 const LOGOUT_STYLE: ViewStyle = {
   paddingTop: 50,
-}
+};
 
 const LOGOUT_BUTTON: ViewStyle = {
   backgroundColor: "#008080"
-}
+};
 
 export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore } = useStores();
 
   async function signOut() {
-    __DEV__ && console.log("signing out")
+    __DEV__ && console.log("signing out");
     try {
-      userStore.signUserOut()
+      userStore.signUserOut();
     } catch (e) {
-      __DEV__ && console.log(e)
+      __DEV__ && console.log(e);
     }
   }
 
@@ -57,5 +57,5 @@ export const ProfileScreen = observer(function ProfileScreen() {
         </View>
       </Screen>
     </View>
-  )
-})
+  );
+});

@@ -1,8 +1,8 @@
-import { DailyGoalStoreModel } from "../daily-goal-store/daily-goal-store"
-import { GoalsStoreModel } from "../goals-store/goals-store"
-import { UserStoreModel } from "../user-store/user-store"
-import { LtGoalFormModel } from "../lt-goal-form/lt-goal-form"
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { DailyGoalStoreModel } from "../daily-goal-store/daily-goal-store";
+import { GoalsStoreModel } from "../goals-store/goals-store";
+import { UserStoreModel } from "../user-store/user-store";
+import { LtGoalFormModel } from "../lt-goal-form/lt-goal-form";
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
  * A RootStore model.
@@ -14,7 +14,7 @@ export const RootStoreModel = types.model("RootStore").props({
   userStore: types.optional(UserStoreModel, {}),
   LtGoalFormStore: types.optional(LtGoalFormModel, {}),
 
-})
+});
 
 /**
  * The RootStore instance.

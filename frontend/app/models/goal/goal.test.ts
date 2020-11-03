@@ -1,7 +1,7 @@
-import { GoalModel, Goal } from "./goal"
+import { GoalModel, Goal } from "./goal";
 
 test("can be created", () => {
-  const instance: Goal = GoalModel.create({})
+  const instance: Goal = GoalModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

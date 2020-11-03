@@ -1,32 +1,32 @@
-import React from "react"
-import { View, ViewStyle, TextStyle, SafeAreaView } from "react-native"
-import { useNavigation } from "@react-navigation/native"
-import { observer } from "mobx-react-lite"
-import { Button, Header, Screen, Text } from "../../components"
-import { color, spacing, typography } from "../../theme"
+import React from "react";
+import { View, ViewStyle, TextStyle, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { observer } from "mobx-react-lite";
+import { Button, Header, Screen, Text } from "../../components";
+import { color, spacing, typography } from "../../theme";
 
-const FULL: ViewStyle = { flex: 1 }
+const FULL: ViewStyle = { flex: 1 };
 const CONTAINER: ViewStyle = {
   flex: 1,
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
-}
+};
 const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
-}
-const BOLD: TextStyle = { fontWeight: "bold" }
+};
+const BOLD: TextStyle = { fontWeight: "bold" };
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
   paddingHorizontal: 0,
-}
+};
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   marginTop: spacing[5],
-}
+};
 const TITLE: TextStyle = {
   ...TEXT,
   ...BOLD,
@@ -34,7 +34,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
-}
+};
 
 const CONTENT: TextStyle = {
   ...TEXT,
@@ -42,31 +42,31 @@ const CONTENT: TextStyle = {
   fontSize: 15,
   lineHeight: 22,
   marginBottom: spacing[3],
-}
+};
 const CONTINUE: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
   backgroundColor: "#008080",
-}
+};
 const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
   ...BOLD,
   fontSize: 13,
   letterSpacing: 2,
-}
+};
 const CONTENT_WRAP: ViewStyle = {
   flex: 1,
-  justifyContent: 'center'
-}
-const FOOTER: ViewStyle = {}
+  justifyContent: "center"
+};
+const FOOTER: ViewStyle = {};
 const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
-}
+};
 
 export const WelcomeScreen = observer(function WelcomeScreen() {
-  const navigation = useNavigation()
-  const nextScreen = () => navigation.navigate("signInScreen")
+  const navigation = useNavigation();
+  const nextScreen = () => navigation.navigate("signInScreen");
 
   return (
     <View style={FULL}>
@@ -98,5 +98,5 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
         </View>
       </SafeAreaView>
     </View>
-  )
-})
+  );
+});

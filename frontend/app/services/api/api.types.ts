@@ -1,4 +1,4 @@
-import { GeneralApiProblem } from "./api-problem"
+import { GeneralApiProblem } from "./api-problem";
 
 export interface User {
   email: string

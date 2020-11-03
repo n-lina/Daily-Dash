@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
  * Model description here for TypeScript hints.
@@ -15,12 +15,12 @@ export const DailyGoalModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setCancelled(cancelled: boolean) {
-      self.cancelled = cancelled
+      self.cancelled = cancelled;
     },
     setCompleted(completed: boolean) {
-      self.completed = completed
+      self.completed = completed;
     }
-  })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  })); // eslint-disable-line @typescript-eslint/no-unused-vars
 
 /**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).

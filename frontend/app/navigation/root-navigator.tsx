@@ -4,15 +4,15 @@
  * and a "main" flow (which is contained in your PrimaryNavigator) which the user
  * will use once logged in.
  */
-import React, { useEffect, useState } from "react"
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
+import React, { useEffect, useState } from "react";
+import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native";
 
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { PrimaryNavigator } from "./primary-navigator"
-import auth from "@react-native-firebase/auth"
-import { LoadingScreen, SigninScreen, WelcomeScreen } from "../screens"
-import { useStores } from "../models"
-import { observer } from "mobx-react-lite"
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import { PrimaryNavigator } from "./primary-navigator";
+import auth from "@react-native-firebase/auth";
+import { LoadingScreen, SigninScreen, WelcomeScreen } from "../screens";
+import { useStores } from "../models";
+import { observer } from "mobx-react-lite";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -31,31 +31,31 @@ export type RootParamList = {
   welcome: undefined
 }
 
-const Stack = createNativeStackNavigator<RootParamList>()
+const Stack = createNativeStackNavigator<RootParamList>();
 
 const RootStack = observer(() => {
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true)
+  const [initializing, setInitializing] = useState(true);
 
-  const { userStore } = useStores()
+  const { userStore } = useStores();
 
   // Handle user state changes
   function onAuthStateChanged(res) {
     if (res) {
       userStore.getUser(res._user.uid).then(() => {
-        if (initializing) setInitializing(false)
-      })
+        if (initializing) setInitializing(false);
+      });
     } else {
-      if (initializing) setInitializing(false)
-      userStore.setUser(null)
+      if (initializing) setInitializing(false);
+      userStore.setUser(null);
     }
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber // unsubscribe on unmount
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <Stack.Navigator
@@ -100,8 +100,8 @@ const RootStack = observer(() => {
         />
       )}
     </Stack.Navigator>
-  )
-})
+  );
+});
 
 export const RootNavigator = React.forwardRef<
   NavigationContainerRef,
@@ -111,7 +111,7 @@ export const RootNavigator = React.forwardRef<
     <NavigationContainer {...props} ref={ref}>
       <RootStack />
     </NavigationContainer>
-  )
-})
+  );
+});
 
-RootNavigator.displayName = "RootNavigator"
+RootNavigator.displayName = "RootNavigator";

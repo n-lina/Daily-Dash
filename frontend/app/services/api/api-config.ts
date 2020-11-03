@@ -1,7 +1,7 @@
 // Use this import if you want to use "env.js" file
 // const { API_URL } = require("../../config/env")
 // Or just specify it directly like this:
-const API_URL = "http://18.224.140.58:3000"
+const API_URL = "http://18.224.140.58:3000";
 
 /**
  * The options used to configure the API.
@@ -24,4 +24,4 @@ export interface ApiConfig {
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: API_URL || "https://jsonplaceholder.typicode.com",
   timeout: 10000,
-}
+};
