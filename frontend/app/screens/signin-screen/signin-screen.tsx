@@ -4,9 +4,8 @@ import { observer } from "mobx-react-lite"
 import { Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import auth from "@react-native-firebase/auth"
-import { GoogleSignin } from "@react-native-community/google-signin"
+import { GoogleSignin, GoogleSigninButton } from "@react-native-community/google-signin"
 import { useStores } from "../../models"
-import { GoogleSigninButton } from '@react-native-community/google-signin';
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -46,7 +45,7 @@ const CONTENT_WRAP: ViewStyle = {
 }
 
 const SIGNIN_BUTTON: ViewStyle = {
-  width: 300, 
+  width: 300,
   height: 48,
 }
 
@@ -58,23 +57,22 @@ const CONT_TEXT: TextStyle = {
 }
 
 export const SigninScreen = observer(function SigninScreen() {
-
   const { userStore } = useStores()
   const [signingIn, setSigningIn] = useState(false)
 
   async function onGoogleButtonPress() {
-    setSigningIn(true);
+    setSigningIn(true)
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn()
 
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken)
-  
+
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential).then(res => {
       res.user.getIdToken(true).then(token => {
-        __DEV__ && console.log(res.user.displayName, res.user.email, token);
-        userStore.postUser(res.user.displayName, res.user.email, res.user.uid);
+        __DEV__ && console.log(res.user.displayName, res.user.email, token)
+        userStore.postUser(res.user.displayName, res.user.email, res.user.uid)
       })
     })
   }

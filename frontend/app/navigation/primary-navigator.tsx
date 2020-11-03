@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /**
  * This is the navigator you will modify to display the logged-in screens of your app.
  * You can use RootNavigator to also display an auth flow or other user flows.
@@ -11,7 +12,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { HomeScreen, ProfileScreen } from "../screens"
 import { Icon } from "react-native-elements"
 import { GoalsNavigator } from "./goals-navigator"
-
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -67,8 +67,6 @@ export function PrimaryNavigator() {
     </Tab.Navigator>
   )
 }
-
-
 
 /**
  * A list of routes from which we're allowed to leave the app when

@@ -13,23 +13,23 @@ export const StGoalFormModel = types
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
-    setTitle(title: string){
+    setTitle(title: string) {
       self.title = title
       console.log(self.title)
-    }, 
-    setDay(day: string){
-      self.day = day 
+    },
+    setDay(day: string) {
+      self.day = day
       console.log("st goal day")
     },
-    setHour(hour: number){
+    setHour(hour: number) {
       self.hour = hour
-    }, 
-    setMin(minute: number){
+    },
+    setMin(minute: number) {
       self.minute = minute
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  /**
+/**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).
   * Useful for sensitive data like passwords, or transitive state like whether a modal is open.
 

@@ -12,8 +12,8 @@ const ROOT: ViewStyle = {
 }
 
 const LOADING_TXT: TextStyle = {
-    color: 'black',
-    textAlign: 'center'
+  color: 'black',
+  textAlign: 'center'
 }
 
 export const LoadingScreen = observer(function LoadingScreen() {

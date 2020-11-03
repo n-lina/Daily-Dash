@@ -7,7 +7,7 @@ import { color, spacing, typography } from "../../theme"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-  flex:1,
+  flex: 1,
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
 }
@@ -55,7 +55,7 @@ const CONTINUE_TEXT: TextStyle = {
   letterSpacing: 2,
 }
 const CONTENT_WRAP: ViewStyle = {
-  flex:1,
+  flex: 1,
   justifyContent: 'center'
 }
 const FOOTER: ViewStyle = {}

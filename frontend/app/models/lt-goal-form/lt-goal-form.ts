@@ -13,30 +13,30 @@ export const LtGoalFormModel = types
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
-    setTitle(title: string){
+    setTitle(title: string) {
       self.title = title
     },
-    setDescription(desc: string){
+    setDescription(desc: string) {
       self.description = desc
     },
-    addSTgoal(){
+    addSTgoal() {
       self.STgoalForm.push(StGoalFormModel.create())
     },
-    submitData(){
+    submitData() {
       console.log("-------------------")
       console.log("self.title " + self.title)
       console.log("self.description " + self.description)
-      self.STgoalForm.forEach(g => console.log("ST.title " + g.title +" "+ g.day + " "+ g.hour +" " + g.minute))
+      self.STgoalForm.forEach(g => console.log("ST.title " + g.title + " " + g.day + " " + g.hour + " " + g.minute))
       console.log("-------------------")
     },
-    clearForm(){
+    clearForm() {
       self.title = ""
       self.description = ""
       self.STgoalForm.length = 0
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  /**
+/**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).
   * Useful for sensitive data like passwords, or transitive state like whether a modal is open.
 

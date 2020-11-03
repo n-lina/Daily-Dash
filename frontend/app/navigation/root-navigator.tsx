@@ -41,11 +41,11 @@ const RootStack = observer(() => {
 
   // Handle user state changes
   function onAuthStateChanged(res) {
-    if (res)
-      userStore.getUser(res._user.uid).then((_) => {
+    if (res) {
+      userStore.getUser(res._user.uid).then(() => {
         if (initializing) setInitializing(false)
       })
-    else {
+    } else {
       if (initializing) setInitializing(false)
       userStore.setUser(null)
     }
@@ -54,6 +54,7 @@ const RootStack = observer(() => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

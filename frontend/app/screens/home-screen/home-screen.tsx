@@ -9,7 +9,7 @@ import { CheckBox, ListItem, Text } from "react-native-elements"
 import * as Progress from "react-native-progress"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 
-/****           STYLES            ***** */
+/** **           STYLES            ***** */
 const progressWidth = 280
 const circleSize = 44
 const topSectionHeight = 180
@@ -111,6 +111,10 @@ const LIST_STYLE: ViewStyle = {
 const TOP_SECTION: ViewStyle = {
   height: topSectionHeight,
 }
+
+const REMAINING_GOALS: ViewStyle = {
+  marginTop: 10
+}
 /********************************/
 
 /**
@@ -140,7 +144,7 @@ const weekDays = [
  * @param getShort true for short version (ex: mon) (long is Monday)
  */
 const getCurrentDay = (getShort: boolean) => {
-  var day = weekDays[new Date().getDay()]
+  const day = weekDays[new Date().getDay()]
   if (getShort) {
     return day.toLowerCase().substring(0, 3)
   }
@@ -184,6 +188,7 @@ export const HomeScreen = observer(function HomeScreen() {
 
   useEffect(() => {
     getGoals()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const swipeRightCompleted = () => (
@@ -203,6 +208,37 @@ export const HomeScreen = observer(function HomeScreen() {
       <Text>Reset</Text>
     </View>
   )
+
+  // Keep track of the each instance in the goals list,
+  // used to close on after swipe
+  const refs = []
+
+  const toggleCompleted = (index: number, goal: DailyGoal) => {
+    goal.setCancelled(false)
+    goal.setCompleted(!goal.completed)
+    if (refs[index]) refs[index].close()
+  }
+
+  const toggleCancelled = (index: number, goal: DailyGoal) => {
+    goal.setCompleted(false)
+    goal.setCancelled(!goal.cancelled)
+    if (refs[index]) refs[index].close()
+  }
+
+  /**
+   * Toggle through the three way toggle on screen
+   * @param goal goal to be toggled
+   */
+  const toggleToggle = (goal: DailyGoal) => {
+    if (goal.completed) {
+      goal.setCompleted(false)
+      goal.setCancelled(true)
+    } else if (goal.cancelled) {
+      goal.setCancelled(false)
+    } else {
+      goal.setCompleted(true)
+    }
+  }
 
   const renderGoal = ({ item, index }) => {
     return (
@@ -245,37 +281,6 @@ export const HomeScreen = observer(function HomeScreen() {
     )
   }
 
-  // Keep track of the each instance in the goals list,
-  // used to close on after swipe
-  const refs = []
-
-  const toggleCompleted = (index: number, goal: DailyGoal) => {
-    goal.setCancelled(false)
-    goal.setCompleted(!goal.completed)
-    if (refs[index]) refs[index].close()
-  }
-
-  const toggleCancelled = (index: number, goal: DailyGoal) => {
-    goal.setCompleted(false)
-    goal.setCancelled(!goal.cancelled)
-    if (refs[index]) refs[index].close()
-  }
-
-  /**
-   * Toggle through the three way toggle on screen
-   * @param goal goal to be toggled
-   */
-  const toggleToggle = (goal: DailyGoal) => {
-    if (goal.completed) {
-      goal.setCompleted(false)
-      goal.setCancelled(true)
-    } else if (goal.cancelled) {
-      goal.setCancelled(false)
-    } else {
-      goal.setCompleted(true)
-    }
-  }
-
   return (
     <View style={FULL}>
       <Screen style={FULL} backgroundColor={color.transparent}>
@@ -309,7 +314,7 @@ export const HomeScreen = observer(function HomeScreen() {
               />
             </View>
           </View>
-          <Text h4 style={{ margin: 10 }}>
+          <Text h4 style={REMAINING_GOALS}>
             Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
           </Text>
         </View>

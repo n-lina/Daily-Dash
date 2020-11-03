@@ -70,7 +70,7 @@ export class Api {
     }
   }
 
-  getUserID(){
+  getUserID() {
     return auth().currentUser.uid
   }
 
@@ -78,8 +78,8 @@ export class Api {
    * Sign a user out, delete there notification token from the server.
    */
   async signOut(): Promise<Types.SignOutResult> {
-    const notId = await messaging().getToken();
-    const userId = await auth().currentUser.uid;
+    const notId = await messaging().getToken()
+    const userId = await auth().currentUser.uid
     const deleteNotId: Types.DeleteNotificationToken = { token: notId }
 
     const response: ApiResponse<any> = await this.apisauce.delete(
@@ -87,8 +87,8 @@ export class Api {
       deleteNotId,
     )
 
-    auth().signOut();
-    this.apisauce.deleteHeader("Authorization");
+    auth().signOut()
+    this.apisauce.deleteHeader("Authorization")
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -96,7 +96,7 @@ export class Api {
       if (problem) return problem
     }
 
-    return { kind: "ok"}
+    return { kind: "ok" }
   }
 
   /**
@@ -112,8 +112,8 @@ export class Api {
 
     const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId }
 
-    const idToken = await auth().currentUser.getIdToken();
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const idToken = await auth().currentUser.getIdToken()
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken)
 
     const response: ApiResponse<any> = await this.apisauce.post("/users", postUsr)
 
@@ -146,9 +146,9 @@ export class Api {
 
   async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
-    const idToken = await auth().currentUser.getIdToken();
-    __DEV__ && console.log(idToken);
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const idToken = await auth().currentUser.getIdToken()
+    __DEV__ && console.log(idToken)
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken)
     const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
 
     // the typical ways to die when calling an api
@@ -169,11 +169,11 @@ export class Api {
     }
   }
 
-  async getDailyGoals(day: string) : Promise<Types.DailyGoalResult> {
-    const userId = auth().currentUser.uid;
-    const response: ApiResponse<any> = await this.apisauce.get('/goals/shortterm', {id: userId, dayOfWeek: day})
+  async getDailyGoals(day: string): Promise<Types.DailyGoalResult> {
+    const userId = auth().currentUser.uid
+    const response: ApiResponse<any> = await this.apisauce.get('/goals/shortterm', { id: userId, dayOfWeek: day })
 
-    if (!response.ok){
+    if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
@@ -189,20 +189,20 @@ export class Api {
     try {
       const rawGoals = response.data.shortTermGoals
       const resultGoalList: Types.DailyGoal[] = rawGoals.map(convertGoal)
-      return { kind: "ok", goals: resultGoalList}
+      return { kind: "ok", goals: resultGoalList }
     } catch {
       return { kind: "bad-data" }
     }
   }
 
   async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
- // async getAllGoals(user_id: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
-    const idToken = await auth().currentUser.getIdToken();
+    // async getAllGoals(user_id: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
+    const idToken = await auth().currentUser.getIdToken()
     // const idToken = "test"
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken)
     const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${user_id}`)
 
-    if (!response.ok){
+    if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
@@ -210,18 +210,18 @@ export class Api {
     try {
       const rawGoals = response.data.longTermGoals
       const resultGoalList: Types.Goal[] = rawGoals.map(this.convertGoal)
-      return { kind: "ok", LTgoals: resultGoalList}
+      return { kind: "ok", LTgoals: resultGoalList }
     } catch {
       return { kind: "bad-data" }
     }
   }
 
   async getSTsuggestion(title: string): Promise<Types.GetSTsuggestion> {
-    const idToken = await auth().currentUser.getIdToken();
+    const idToken = await auth().currentUser.getIdToken()
     // const idToken = "test"
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken)
     const response: ApiResponse<any> = await this.apisauce.get(`/goals/suggestedstg?title=${title}`)
-    if (!response.ok){
+    if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
@@ -229,19 +229,19 @@ export class Api {
     try {
       const answer = response.data.answer
       console.log("This is the answer:" + answer)
-      return { kind: "ok", suggestion: answer}
+      return { kind: "ok", suggestion: answer }
     } catch {
       return { kind: "bad-data" }
     }
   }
 
   async postLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, user_id: string = this.getUserID()): Promise<Types.PostGoalResult> {
-    const idToken = await auth().currentUser.getIdToken();
+    const idToken = await auth().currentUser.getIdToken()
     // const idToken = "test"
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.post("/goals", {userId: user_id, title: LTgoal, description: description, shortTermGoals: STgoals})
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken)
+    const response: ApiResponse<any> = await this.apisauce.post("/goals", { userId: user_id, title: LTgoal, description: description, shortTermGoals: STgoals })
 
-    if (!response.ok){
+    if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
@@ -249,13 +249,13 @@ export class Api {
     try {
       // const rawGoal = response.data
       console.log(JSON.stringify(response.data))
-     // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
       return { kind: "ok" }
     } catch {
-      return { kind: "bad-data"}
-    } 
+      return { kind: "bad-data" }
+    }
   }
-  
+
   // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
   //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 

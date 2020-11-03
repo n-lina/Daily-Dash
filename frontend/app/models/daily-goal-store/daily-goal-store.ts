@@ -47,12 +47,12 @@ export const DailyGoalStoreModel = types
       return self.environment.api
         .getDailyGoals(day)
         .then((res) => {
-          if (res.kind == "ok") {
-            if (day == self.day) {
+          if (res.kind === "ok") {
+            if (day === self.day) {
               __DEV__ && console.log("filtering for new goals")
               res.goals.forEach((goal) => {
-                const oldGoals = self.goals.filter((oldGoal) => oldGoal.id == goal.id)
-                if (oldGoals.length == 0) {
+                const oldGoals = self.goals.filter((oldGoal) => oldGoal.id === goal.id)
+                if (oldGoals.length === 0) {
                   // If the goal is not present, add the new goal as is
                   self.addGoal(goal)
                 } else {

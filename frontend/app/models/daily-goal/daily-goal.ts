@@ -15,14 +15,14 @@ export const DailyGoalModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setCancelled(cancelled: boolean) {
-      self.cancelled = cancelled;
+      self.cancelled = cancelled
     },
     setCompleted(completed: boolean) {
-      self.completed = completed;
+      self.completed = completed
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  /**
+/**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).
   * Useful for sensitive data like passwords, or transitive state like whether a modal is open.
 

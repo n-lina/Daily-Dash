@@ -24,16 +24,16 @@ import {
 } from "./navigation"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 
-import { GoogleSignin } from '@react-native-community/google-signin';
-
-GoogleSignin.configure({
-  webClientId: "139558566075-ocmb5fj142sd6v6ukr27kb8ngf89r6jb.apps.googleusercontent.com",
-});
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
 import { enableScreens } from 'react-native-screens'
+
+GoogleSignin.configure({
+  webClientId: "139558566075-ocmb5fj142sd6v6ukr27kb8ngf89r6jb.apps.googleusercontent.com",
+})
 enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
