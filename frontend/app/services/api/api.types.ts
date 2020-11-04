@@ -1,4 +1,4 @@
-import { GeneralApiProblem } from "./api-problem"
+import { GeneralApiProblem } from "./api-problem";
 
 export interface User {
   email: string
@@ -14,7 +14,7 @@ export interface PostUser {
 
 export interface Goal {
   LTgoal: string,
-  STgoals: Array<STGoal>, 
+  STgoals: Array<STGoal>,
   id: string
 }
 
@@ -47,4 +47,3 @@ export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProble
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type PostGoalResult = { kind: "ok"} | GeneralApiProblem
 export type GetSTsuggestion = {kind: "ok"; suggestion: string} | GeneralApiProblem
-

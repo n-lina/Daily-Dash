@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
 
-import * as React from "react"
-import { storiesOf } from "@storybook/react-native"
-import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { Text, TextField } from "../"
-import { State } from "react-powerplug"
-import { ViewStyle, TextStyle, Alert } from "react-native"
+import * as React from "react";
+import { storiesOf } from "@storybook/react-native";
+import { StoryScreen, Story, UseCase } from "../../../storybook/views";
+import { Text, TextField } from "../";
+import { State } from "react-powerplug";
+import { ViewStyle, TextStyle, Alert } from "react-native";
 
-declare let module
+declare let module;
 
-const styleArray: ViewStyle[] = [{ paddingHorizontal: 30 }, { borderWidth: 30 }]
+const styleArray: ViewStyle[] = [{ paddingHorizontal: 30 }, { borderWidth: 30 }];
 
 const inputStyleArray: TextStyle[] = [
   {
@@ -23,8 +23,8 @@ const inputStyleArray: TextStyle[] = [
     borderRadius: 4,
     borderColor: "#7fff00",
   },
-]
-let alertWhenFocused = true
+];
+let alertWhenFocused = true;
 
 storiesOf("TextField", module)
   .addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)
@@ -146,8 +146,8 @@ storiesOf("TextField", module)
               onFocus={() => {
                 if (alertWhenFocused) {
                   // Prevent text field focus from being repeatedly triggering alert
-                  alertWhenFocused = false
-                  Alert.alert("Text field focuesed with forwarded ref!")
+                  alertWhenFocused = false;
+                  Alert.alert("Text field focuesed with forwarded ref!");
                 }
               }}
             />
@@ -156,4 +156,4 @@ storiesOf("TextField", module)
         <Text text="* attention designers:  i am so sorry" preset="secondary" />
       </UseCase>
     </Story>
-  ))
+  ));

@@ -1,7 +1,7 @@
-import { GoalsStoreModel, GoalsStore } from "./goals-store"
+import { GoalsStoreModel, GoalsStore } from "./goals-store";
 
 test("can be created", () => {
-  const instance: GoalsStore = GoalsStoreModel.create({})
+  const instance: GoalsStore = GoalsStoreModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

@@ -27,4 +27,4 @@ export const DEFAULT_REACTOTRON_CONFIG: ReactotronConfig = {
     initial: true,
     snapshots: false,
   },
-}
+};

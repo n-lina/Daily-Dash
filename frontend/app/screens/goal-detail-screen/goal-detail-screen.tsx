@@ -1,19 +1,19 @@
-import React from "react"
-import { observer } from "mobx-react-lite"
-import { useNavigation, useRoute } from "@react-navigation/native"
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions} from "react-native"
-import { Button, Header, Screen, Text } from "../../components"
+import React from "react";
+import { observer } from "mobx-react-lite";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions } from "react-native";
+import { Button, Header, Screen, Text } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color, spacing, typography} from "../../theme"
-import { Goal, useStores } from "../../models"
+import { color, spacing, typography } from "../../theme";
+import { Goal, useStores } from "../../models";
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
   flex: 1,
   alignItems: "center",
- // justifyContent: "center",
-}
+  // justifyContent: "center",
+};
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -22,20 +22,20 @@ const Separator = () => (
 const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
-}
-const BOLD: TextStyle = { fontWeight: "bold" }
+};
+const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
   paddingHorizontal: 0,
-}
+};
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   marginTop: spacing[5],
-}
+};
 const TITLE: TextStyle = {
   ...TEXT,
   ...BOLD,
@@ -43,56 +43,53 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
-}
+};
 
-const FULL: ViewStyle = { 
-  flex: 1 
-}
+const FULL: ViewStyle = {
+  flex: 1
+};
 
-
-export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
+export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  const navigation = useNavigation()
-  const route = useRoute()
-  console.log("banana" + JSON.stringify(route.params))
-  const {LTgoal, STgoals} = route.params as Goal
-  console.log("banana" + LTgoal + " " + STgoals)
-  
+  const navigation = useNavigation();
+  const route = useRoute();
+  console.log("banana" + JSON.stringify(route.params));
+  const { LTgoal, STgoals } = route.params as Goal;
+  console.log("banana" + LTgoal + " " + STgoals);
 
- // const LTgoal = "hello"
- // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
- 
+  // const LTgoal = "hello"
+  // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
+
   // const nextScreen = () => navigation.navigate("signInScreen")
-  
-  var monday = []
-  var tuesday = []
-  var wednesday = []
-  var thursday = []
-  var friday = []
-  var saturday = []
-  var sunday = []
 
-  for (let goal of STgoals){
-    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title])
-    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title])
-    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title])
-    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title])
-    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title])
-    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title])
-    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title])
+  const monday = [];
+  const tuesday = [];
+  const wednesday = [];
+  const thursday = [];
+  const friday = [];
+  const saturday = [];
+  const sunday = [];
+
+  for (const goal of STgoals) {
+    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title]);
+    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title]);
+    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title]);
+    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title]);
+    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title]);
+    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title]);
+    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title]);
   }
 
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
-        return 0;
-    }
-    else {
-        return (a[0] < b[0]) ? -1 : 1;
+      return 0;
+    } else {
+      return (a[0] < b[0]) ? -1 : 1;
     }
   }
 
@@ -103,7 +100,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
     },
     {
       title: "Tuesday",
-      data:  tuesday.sort(sortFunction)
+      data: tuesday.sort(sortFunction)
     },
     {
       title: "Wednesday",
@@ -128,31 +125,30 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
   ];
 
   const createTwoButtonAlert = () =>
-  Alert.alert(
-    "Delete Goal",
-    "This cannot be undone.",
-    [
-      {
-        text: "No",
-       // onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "Yes", onPress: () => console.log("OK Pressed") }
-    ],
-    { cancelable: false }
-  );
+    Alert.alert(
+      "Delete Goal",
+      "This cannot be undone.",
+      [
+        {
+          text: "No",
+          // onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
 
   const Item = ({ title }) => {
+    const mins = title[0] % 60;
+    const hrs = Math.floor(title[0] / 60);
 
-    var mins = title[0]%60;
-    var hrs = Math.floor(title[0]/60);
-
-    return(
+    return (
       <View style={styles.item}>
-        <Text style={{color: '#000'}}>{title[1]}</Text>
+        <Text style={{ color: "#000" }}>{title[1]}</Text>
         <Text style={styles.right}>{hrs}:{mins}</Text>
       </View>
-    )
+    );
   };
 
   return (
@@ -165,9 +161,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
         < Separator />
         <Image source={require("../../../assets/hiking.png")} style={styles.image} />
         < Separator />
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{ flex: 1 }}>
           <SectionList
-            style={{flex: 1, width:350}}
+            style={{ flex: 1, width: 350 }}
             sections={allSTGoals}
             keyExtractor={(item, index) => item + index}
             renderItem={({ item }) => <Item title={item} />}
@@ -190,48 +186,48 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({  }) {
         </View>
       </Screen>
     </View>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  image: {
-    width:75,
-    height:75,
-  },
   button: {
-    marginRight:10,
-    marginLeft:10
+    marginLeft: 10,
+    marginRight: 10
   },
   fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  right: {
-    textAlign: 'right',
-    flex: 1,
-    color: '#000'
+  flatlist: {
+    height: 400,
+    marginTop: 40,
+    overflow: "scroll",
+    width: Dimensions.get("window").width - 20
   },
   header: {
-    fontSize: 32,
     backgroundColor: "#f9f",
-    flex: 1
+    flex: 1,
+    fontSize: 32
+  },
+  image: {
+    height: 75,
+    width: 75,
   },
   item: {
     backgroundColor: "#fff",
-    flexDirection: 'row',
-    padding: 20,
+    flexDirection: "row",
+    flex: 1,
     marginVertical: 8,
-    flex: 1
+    padding: 20
   },
-  flatlist: {
-    marginTop: 40,
-    overflow: 'scroll',
-    height: 400,
-    width: Dimensions.get('window').width - 20
+  right: {
+    color: "#000",
+    flex: 1,
+    textAlign: "right"
   },
-})
+  separator: {
+    borderBottomColor: "#737373",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+  },
+});

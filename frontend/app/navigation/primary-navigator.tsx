@@ -1,17 +1,17 @@
+/* eslint-disable react/display-name */
 /**
  * This is the navigator you will modify to display the logged-in screens of your app.
  * You can use RootNavigator to also display an auth flow or other user flows.
  *
  * You'll likely spend most of your time in this file.
  */
-import React from "react"
+import React from "react";
 
 // import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { HomeScreen, ProfileScreen } from "../screens"
-import { Icon } from "react-native-elements"
-import { GoalsNavigator } from "./goals-navigator"
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { HomeScreen, ProfileScreen } from "../screens";
+import { Icon } from "react-native-elements";
+import { GoalsNavigator } from "./goals-navigator";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -33,7 +33,7 @@ export type PrimaryParamList = {
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 // const Stack = createNativeStackNavigator<PrimaryParamList>()
-const Tab = createBottomTabNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator<PrimaryParamList>();
 
 export function PrimaryNavigator() {
   return (
@@ -65,10 +65,8 @@ export function PrimaryNavigator() {
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }
-
-
 
 /**
  * A list of routes from which we're allowed to leave the app when
@@ -79,5 +77,5 @@ export function PrimaryNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["Home"]
-export const canExit = (routeName: string) => exitRoutes.includes(routeName)
+const exitRoutes = ["Home"];
+export const canExit = (routeName: string) => exitRoutes.includes(routeName);

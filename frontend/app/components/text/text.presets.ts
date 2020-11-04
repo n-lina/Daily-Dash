@@ -1,5 +1,5 @@
-import { TextStyle } from "react-native"
-import { color, typography } from "../../theme"
+import { TextStyle } from "react-native";
+import { color, typography } from "../../theme";
 
 /**
  * All text will start off looking like this.
@@ -8,7 +8,7 @@ const BASE: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
   fontSize: 15,
-}
+};
 
 /**
  * All the variations of text styling within the app.
@@ -40,7 +40,7 @@ export const presets = {
    * A smaller piece of secondard information.
    */
   secondary: { ...BASE, fontSize: 9, color: color.dim } as TextStyle,
-}
+};
 
 /**
  * A list of preset names.

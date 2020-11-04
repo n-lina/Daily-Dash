@@ -1,1 +1,1 @@
-declare const tron
+declare const tron;
