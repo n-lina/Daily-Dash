@@ -28,8 +28,6 @@ const checkIfAuthenticated = (req, res, next) => {
         .auth()
         .verifyIdToken(authToken);
       req.authId = userInfo.uid;
-
-      return next();
     } catch (e) {
       logger.info(e);
 
@@ -37,6 +35,8 @@ const checkIfAuthenticated = (req, res, next) => {
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
+
+    return next();
   });
 };
 

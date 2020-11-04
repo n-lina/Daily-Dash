@@ -3,9 +3,9 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 
-const debug = require("debug")("index.js");
-const database = require("./db/database");
-const firebase = require("./firebase/firebase");
+const logger = require("./logger/logging");
+require("./db/database");
+
 const port = 3000;
 
 app.use(cors());
@@ -17,8 +17,9 @@ const users = require("./users/users");
 app.use("/goals", goals);
 app.use("/users", users);
 
-app.listen(port, () =>
-  debug(`Server listening on port ${port}!`),
+app.listen(port, () => {
+  logger.info("Server listening on port ${port}!");
+  }
 );
 
 module.exports.app = app;

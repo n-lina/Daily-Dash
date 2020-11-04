@@ -4,10 +4,10 @@ const cors = require("cors");
 
 const logger = require("./logger/logging");
 const admin = require("firebase-admin");
-const firebase = require("./firebase/firebase");
 const UserModel = require("./models/users");
 const GoalModel = require("./models/goals");
-const database = require("./db/database");
+require("./db/database");
+require("./firebase/firebase");
 
 const app = express();
 
@@ -25,8 +25,8 @@ app.listen(port, () =>
 const sendMessage = (registrationToken, title, body) => {
   var message = {
     notification: {
-      title: title,
-      body: body,
+      title,
+      body,
     },
     token: registrationToken
   };
@@ -43,7 +43,7 @@ const sendMessage = (registrationToken, title, body) => {
     .catch((error) => {
       logger.info("Error sending message:", error);
     });
-}
+};
 
 const sendNotifications = async () => {
   const options = {weekday: "long"};
@@ -64,7 +64,7 @@ const sendNotifications = async () => {
           const currentTimeDate = new Date();
           const currentHour = currentTimeDate.getHours();
           const currentMinute = currentTimeDate.getMinutes();
-          const notificationHour = parseInt(time / 60);
+          const notificationHour = parseInt(time / 60, 10);
           const notificationMinute = time % 60;
 
           logger.info("Notification Time: " + notificationHour + ":" + notificationMinute);

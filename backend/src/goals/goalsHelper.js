@@ -16,7 +16,7 @@ const getGoalsResponseFromDBResult = (result) => {
     };
 
     goal.shortTermGoals.forEach(function (shortTermGoal) {
-      var shortTermGoal = {
+      var shortTermGoalObj = {
         id: shortTermGoal.id,
         title: shortTermGoal.title,
         mon: shortTermGoal.mon,
@@ -28,7 +28,7 @@ const getGoalsResponseFromDBResult = (result) => {
         sun: shortTermGoal.sun,
       };
 
-      goalResponse.shortTermGoals.push(shortTermGoal);
+      goalResponse.shortTermGoals.push(shortTermGoalObj);
     });
 
     responseObj.longTermGoals.push(goalResponse);
@@ -51,10 +51,10 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   result.forEach(function (goal) {
     goal.shortTermGoals.forEach(function (shortTermGoal) {
       shortTermGoal[dayOfWeek].forEach(function (time) {
-        shortTermGoalObj = {
+        var shortTermGoalObj = {
           stgId: shortTermGoal._id,
           title: shortTermGoal.title,
-          time: time
+          time
         };
 
         _shortTermGoals.push(shortTermGoalObj);
