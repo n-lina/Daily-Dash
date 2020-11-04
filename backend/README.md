@@ -1,12 +1,4 @@
-## Project setup:
-
-
-```
-
-# set environment variables
-export $(xargs < cpen321.env)
+## Project setup
 
 npm install
-
-```
-
+npm start

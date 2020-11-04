@@ -1,13 +1,14 @@
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
+const logger = require("../logger/logging");
 
 const devToken = "test";
 
 const getAuthToken = (req, res, next) => {
   if (
     req.headers.authorization &&
-    req.headers.authorization.split(' ')[0] === 'Bearer'
+    req.headers.authorization.split(" ")[0] === "Bearer"
   ) {
-    req.authToken = req.headers.authorization.split(' ')[1];
+    req.authToken = req.headers.authorization.split(" ")[1];
   } else {
     req.authToken = null;
   }
@@ -30,11 +31,11 @@ const checkIfAuthenticated = (req, res, next) => {
 
       return next();
     } catch (e) {
-      console.log(e);
+      logger.info(e);
 
       return res
         .status(401)
-        .send({ error: 'You are not authorized to make this request' });
+        .send({ error: "You are not authorized to make this request" });
     }
   });
 };

@@ -35,10 +35,14 @@ const getGoalsResponseFromDBResult = (result) => {
   });
 
   return responseObj;
-}
+};
 
 const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   var _shortTermGoals = [];
+
+  var responseObj = {
+    shortTermGoals: _shortTermGoals
+  };
 
   if (result == null) {
     return responseObj;
@@ -60,13 +64,9 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
 
   _shortTermGoals.sort(function (a, b) {
     return a.time - b.time;
-  })
-
-  var responseObj = {
-    shortTermGoals: _shortTermGoals
-  };
+  });
 
   return responseObj;
-}
+};
 
 module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult }

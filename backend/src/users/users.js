@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const UserModel = require('../models/users');
+const logger = require("../logger/logging");
+const UserModel = require("../models/users");
 
 const addUser = async (req, res) => {
   const { id } = req.body;
@@ -10,7 +11,7 @@ const addUser = async (req, res) => {
   const { notificationId } = req.body;
 
   if (id == null || email == null || username == null) {
-    console.log(`Missing parameters in ${req.body}`);
+    logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
     return;
@@ -23,13 +24,13 @@ const addUser = async (req, res) => {
     notificationId: notificationId
   };
 
-  const query = {'userId': id};
+  const query = {"userId": id};
 
   UserModel.findOneAndUpdate(query, userObj, {upsert: true}).then((doc) => {
-    console.log(doc);
+    logger.info(doc);
   })
   .catch((err) => {
-    console.error(err);
+    logger.info(err);
   });
 
   var response = {email: email, username: username};
@@ -41,7 +42,7 @@ const getUser = async (req, res) => {
   const { id } = req.params;
   
   if (id == null) {
-    console.log(`Missing parameters in ${req.body}`);
+    logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
     return;
@@ -50,7 +51,7 @@ const getUser = async (req, res) => {
   try {
     var result = await UserModel.findOne({userId: id});
 
-    console.log(result);
+    logger.info(result);
 
     if (result == null) {
       res.status(400);
@@ -58,7 +59,7 @@ const getUser = async (req, res) => {
       return;
     }
 
-    response = {email: result.email, username: result.username};
+    var response = {email: result.email, username: result.username};
 
     res.send(response)
   } catch (error) {
@@ -73,7 +74,7 @@ const expireNotificationToken = async (req, res) => {
   const { token } = req.query;
   
   if (id == null || token == null) {
-    console.log(`Missing parameters in ${req.body}`);
+    logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
     return;
@@ -83,10 +84,10 @@ const expireNotificationToken = async (req, res) => {
     notificationId: "",
   };
 
-  const query = {'userId': id, 'notificationId': token};
+  const query = {"userId": id, "notificationId": token};
 
   UserModel.findOneAndUpdate(query, userObj, {upsert: false}).then((doc) => {
-    console.log(doc);
+    logger.info(doc);
   })
   .catch((err) => {
     console.error(err);
@@ -99,6 +100,6 @@ const expireNotificationToken = async (req, res) => {
 
 router.post("/", addUser);
 router.get("/:id", getUser);
-router.delete('/:id/notification', expireNotificationToken);
+router.delete("/:id/notification", expireNotificationToken);
 
 module.exports = router;
