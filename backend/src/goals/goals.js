@@ -35,11 +35,11 @@ const getGoals = async (req, res) => {
 };
 
 const getShortTermGoals = async (req, res) => {
-  const { id } = req.query;
-  const { dayOfWeek } = req.query;
+  const id = req.query.id;
+  const dayOfWeek = req.query.dayOfWeek;
 
   if (id == null || dayOfWeek == null) {
-    logger.info(`Missing parameters in ${req.params}`);
+    logger.info("Missing parameters in ${req.params}");
     res.status(400);
     res.end();
     return;

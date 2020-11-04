@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const logger = require("../logger/logging");
 
-const url = `mongodb://localhost:27017/dailydashdb`;
+const url = "mongodb://localhost:27017/dailydashdb";
 
 class Database {
   constructor() {

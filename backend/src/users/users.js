@@ -5,10 +5,10 @@ const logger = require("../logger/logging");
 const UserModel = require("../models/users");
 
 const addUser = async (req, res) => {
-  const { id } = req.body;
-  const { email } = req.body;
-  const { username } = req.body;
-  const { notificationId } = req.body;
+  const id = req.body.id;
+  const email = req.body.email;
+  const username = req.body.username;
+  const notificationId = req.body.notificationId;
 
   if (id == null || email == null || username == null) {
     logger.info(`Missing parameters in ${req.body}`);
@@ -19,9 +19,9 @@ const addUser = async (req, res) => {
 
   const userObj = {
     userId: id,
-    email: email,
-    username: username,
-    notificationId: notificationId
+    email,
+    username,
+    notificationId
   };
 
   const query = {"userId": id};
@@ -39,7 +39,7 @@ const addUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   
   if (id == null) {
     logger.info(`Missing parameters in ${req.body}`);
@@ -61,7 +61,7 @@ const getUser = async (req, res) => {
 
     var response = {email: result.email, username: result.username};
 
-    res.send(response)
+    res.send(response);
   } catch (error) {
     res.status(400);
     res.end();
@@ -70,8 +70,8 @@ const getUser = async (req, res) => {
 };
 
 const expireNotificationToken = async (req, res) => {
-  const { id } = req.params;
-  const { token } = req.query;
+  const id = req.params.id;
+  const token = req.query.token;
   
   if (id == null || token == null) {
     logger.info(`Missing parameters in ${req.body}`);
@@ -90,7 +90,7 @@ const expireNotificationToken = async (req, res) => {
     logger.info(doc);
   })
   .catch((err) => {
-    console.error(err);
+    logger.info(err);
   });
 
   var response = {userId: id};
