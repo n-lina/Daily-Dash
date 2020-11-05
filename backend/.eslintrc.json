@@ -4,7 +4,7 @@
         "browser": true,        
         "commonjs": true,
         "es2021": true,
-        "jest/globals": true    // ESLint recognizes Jest testing framework
+        "jest": true    // ESLint recognizes Jest testing framework
     },
     "extends": "eslint:recommended",
     "parserOptions": {
