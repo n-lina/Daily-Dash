@@ -9,13 +9,13 @@ var similarity = require('compute-cosine-similarity');  // used to compute cosin
  */
 function makeWordTally(str) {
 
-    words_in_str = str                  // must occur in this order
+    let words_in_str = str                  // must occur in this order
         .replace(/[.,?!;()"'-]/g, " ")  // replace punctuation
         .replace(/\s+/g, " ")           // make uniform white space usage
         .toLowerCase()                  // make uniform case for comparison
         .split(" ");                    // use space as splitter
 
-    var word_tally = {};                // create tally to return
+    let word_tally = {};                // create tally to return
     words_in_str.forEach(element => {
         // if word_tally does not already have word, add it, then initialize its count to 0
         if (!(word_tally.hasOwnProperty(element))) {
@@ -37,9 +37,9 @@ function makeWordTally(str) {
  */
 function makeAllValuesZero(tally) {
 
-    tally_ = Object.assign({}, tally); // make copy, since pass by reference
+    let tally_ = Object.assign({}, tally); // make copy, since pass by reference
 
-    for (key in tally_) {
+    for (let key in tally_) {
         if (tally_.hasOwnProperty(key)) {
             tally_[key] = 0;
         }
@@ -56,22 +56,22 @@ function makeAllValuesZero(tally) {
  */
 function getCosSim(str1,str2) {
     
-    var x = makeWordTally(str1);
-    var y = makeWordTally(str2);
+    let x = makeWordTally(str1);
+    let y = makeWordTally(str2);
 
     // to each object, add the keys that don't exist in it, but with their value being 0
-    var x2 = Object.assign( {}, makeAllValuesZero(y), x );
-    var y2 = Object.assign( {}, makeAllValuesZero(x), y );
+    let x2 = Object.assign( {}, makeAllValuesZero(y), x );
+    let y2 = Object.assign( {}, makeAllValuesZero(x), y );
     
     // sort alphabetically
-    x2 = Object.fromEntries(Object.entries(x2).sort());
-    y2 = Object.fromEntries(Object.entries(y2).sort());
+    let x2 = Object.fromEntries(Object.entries(x2).sort());
+    let y2 = Object.fromEntries(Object.entries(y2).sort());
     
     // transfer values into arrays, in same order
-    vec1 = Object.values(x2);
-    vec2 = Object.values(y2);
+    let vec1 = Object.values(x2);
+    let vec2 = Object.values(y2);
 
-    cosine_sim = similarity(vec1, vec2);
+    let cosine_sim = similarity(vec1, vec2);
     return cosine_sim;
 }
 

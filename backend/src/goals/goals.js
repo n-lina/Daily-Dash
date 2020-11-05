@@ -61,10 +61,10 @@ const getShortTermGoals = async (req, res) => {
 
 const postGoal = async (req, res) => {
   // read in variables from req object
-  const { userId } = req.body;
-  const { title } = req.body;
-  const { description } = req.body;
-  const { shortTermGoals } = req.body;
+  const userId = req.body;
+  const title = req.body;
+  const description = req.body;
+  const shortTermGoals = req.body;
   // directly access shortTermGoals fields like shortTermGoals[0].title
 
   // checks if all JSON entries in model present, except does not check elements of shortTermGoals
@@ -139,7 +139,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
 
   let index_highest_cossim_LTG = arr_of_LTG_cossim_scores.indexOf(Math.max(...arr_of_LTG_cossim_scores));
-  highest_cossim_LTG_title = LTG_title_array[index_highest_cossim_LTG];   // get most similar LTG title, else random-ish one
+  let highest_cossim_LTG_title = LTG_title_array[index_highest_cossim_LTG];   // get most similar LTG title, else random-ish one
 
   var STG_title_array = [];
   try {  // fill array with all of most similar LTG's STG titles
@@ -160,7 +160,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var arr_of_STG_cossim_scores = [STG_title_array.length];
   try { // fill array with all cossim scores for request title vs STG array
-    for (var i = 0; i < STG_title_array.length; i++) {
+    for (let i = 0; i < STG_title_array.length; i++) {
       arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
     }
   }
