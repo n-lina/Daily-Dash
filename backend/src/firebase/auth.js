@@ -17,27 +17,28 @@ const getAuthToken = (req, res, next) => {
 
 const checkIfAuthenticated = (req, res, next) => {
   getAuthToken(req, res, async () => {
+    const { authToken } = req;
+
+    if (authToken === devToken) {
+      return next();
+    }
+
     try {
-      const { authToken } = req;
-
-      if (authToken === devToken) {
-        return next();
-      }
-
       const userInfo = await admin
         .auth()
-        .verifyIdToken(authToken);
-      req.authId = userInfo.uid;
-    } catch (e) {
-      logger.info(e);
+        .verifyIdToken(authToken)
 
-      return res
+        req.authId = userInfo.uid;
+        
+        return next();
+    } catch (err) {
+        logger.info(err);
+        
+        return res
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
-
-    return next();
-  });
+  })
 };
 
 module.exports = { checkIfAuthenticated };
