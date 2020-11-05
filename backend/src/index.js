@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const logger = require("./logger/logging");
 require("./db/database");
+require("./firebase/firebase");
 
 const port = 3000;
 
