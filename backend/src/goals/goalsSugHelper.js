@@ -71,8 +71,8 @@ async function fillArrayWithValidLTGtitles(arrayParam) {
 * @return   nothing
 * @modifies array sent as parameter arrayParamSTG
 */
-async function fillArrayWithValidSTGtitles(arrayParamSTG, arrayParamLTG, indexHighCossimLTG) {
-  await GoalModel.findOne({ title: arrayParamLTG[indexHighCossimLTG] },
+async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle) {
+  await GoalModel.findOne({ title: highestCossimLTGTitle },
     function (err, docs) {
       if (docs !== null) {  // ensure there is >0 LTG
         docs.shortTermGoals.forEach(function (item) {

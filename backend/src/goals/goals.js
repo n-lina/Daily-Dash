@@ -143,7 +143,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var STG_title_array = [];
   try {  // fill array with all of most similar LTG's STG titles
-    await goalsSugHelper.fillArrayWithValidSTGtitles(STG_title_array, LTG_title_array, index_highest_cossim_LTG);
+    await goalsSugHelper.fillArrayWithValidSTGtitles(STG_title_array, highest_cossim_LTG_title);
   }
   catch (error) {
     res.status(500);

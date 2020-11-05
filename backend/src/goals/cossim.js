@@ -38,8 +38,7 @@ function makeAllValuesZero(tally) {
     let tally_ = Object.assign({}, tally); // make copy, since pass by reference
 
     for (let key in tally_) {
-        Object.prototype.hasOwnProperty.call(tally_, key)
-        if (tally_.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(tally_, key)) {
             tally_[key] = 0;
         }
     }
