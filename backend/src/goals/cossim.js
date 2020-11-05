@@ -1,6 +1,5 @@
 var similarity = require('compute-cosine-similarity');  // used to compute cosine similarity between 2 vectors
 
-
 /*
  * Accepts a string whose unique words are counted, and a tally object is returned
  * @param   str is the string to be analyzed
@@ -27,7 +26,6 @@ function makeWordTally(str) {
 
     return word_tally;
 }
-
 
 /*
  * Accepts an key-value object and returns copy with all values = 0
