@@ -1,6 +1,7 @@
 {
+    "plugins": ["jest"],        // eslint-plugin-jest
     "env": {
-        "browser": true,
+        "browser": true,        
         "commonjs": true,
         "es2021": true,
         "jest/globals": true    // ESLint recognizes Jest testing framework
