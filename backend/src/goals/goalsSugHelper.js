@@ -53,7 +53,7 @@ async function fillArrayWithValidLTGtitles(arrayParam) {
   await GoalModel.find({}, function (err, docs) {
     if (docs !== null) {  // ensure there is >0 LTG
       docs.forEach(function (item) {  // need && since only check 3rd condition if 2nd is true, else may get index out of range error
-        if (checkHasWords(item.title) == true && item.shortTermGoals !== null &&
+        if (checkHasWords(item.title) === true && item.shortTermGoals !== null &&
           checkMinimumOneNonemptySTGTitle(item.shortTermGoals)) {
           arrayParam.push(item.title); // ensure only add LTGs with a valid title and at least 1 STG with valid title
         }

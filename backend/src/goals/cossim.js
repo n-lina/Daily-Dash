@@ -18,7 +18,7 @@ function makeWordTally(str) {
     let word_tally = {};                // create tally to return
     words_in_str.forEach(element => {
         // if word_tally does not already have word, add it, then initialize its count to 0
-        if (!(word_tally.hasOwnProperty(element))) {
+        if (!(Object.prototype.hasOwnProperty.call(word_tally, element))) {
             word_tally[element] = 0;
         }
         // every time a word is seen in argument string, add 1 to its count
@@ -40,6 +40,7 @@ function makeAllValuesZero(tally) {
     let tally_ = Object.assign({}, tally); // make copy, since pass by reference
 
     for (let key in tally_) {
+        Object.prototype.hasOwnProperty.call(tally_, key)
         if (tally_.hasOwnProperty(key)) {
             tally_[key] = 0;
         }
@@ -64,8 +65,8 @@ function getCosSim(str1,str2) {
     let y2 = Object.assign( {}, makeAllValuesZero(x), y );
     
     // sort alphabetically
-    let x2 = Object.fromEntries(Object.entries(x2).sort());
-    let y2 = Object.fromEntries(Object.entries(y2).sort());
+    x2 = Object.fromEntries(Object.entries(x2).sort());
+    y2 = Object.fromEntries(Object.entries(y2).sort());
     
     // transfer values into arrays, in same order
     let vec1 = Object.values(x2);
