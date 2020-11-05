@@ -61,10 +61,10 @@ const getShortTermGoals = async (req, res) => {
 
 const postGoal = async (req, res) => {
   // read in variables from req object
-  const userId = req.body;
-  const title = req.body;
-  const description = req.body;
-  const shortTermGoals = req.body;
+  const userId = req.body.userId;
+  const title = req.body.title;
+  const description = req.body.description;
+  const shortTermGoals = req.body.shortTermGoals;
   // directly access shortTermGoals fields like shortTermGoals[0].title
 
   // checks if all JSON entries in model present, except does not check elements of shortTermGoals
@@ -96,7 +96,7 @@ const postGoal = async (req, res) => {
 };
 
 const getSuggestedShortTermGoal = async (req, res) => {
-  const { title } = req.query;
+  const title = req.query.title;
 
   // ensure title param not null, empty, or undefined, and is string or String object
   if ((!title || 0 === title.length) || !(typeof title == "string" || title instanceof String)) {
