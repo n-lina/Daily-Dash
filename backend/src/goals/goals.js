@@ -127,7 +127,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var arr_of_LTG_cossim_scores = [LTG_title_array.length];
   try { // fill array with all cossim scores for request title vs LTG titles in DB
-    for (var i = 0; i < LTG_title_array.length; i++) {
+    for (let i = 0; i < LTG_title_array.length; i++) {
       arr_of_LTG_cossim_scores[i] = cossim.getCosSim(title, LTG_title_array[i]);
     }
   }
