@@ -1,5 +1,5 @@
 {
-    "plugins": ["jest"],        // eslint-plugin-jest
+    "plugins": ["jest"],        // eslint-plugin-jest 
     "env": {
         "browser": true,        
         "commonjs": true,
