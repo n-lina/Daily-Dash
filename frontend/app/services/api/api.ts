@@ -195,12 +195,12 @@ export class Api {
     }
   }
 
-  async getAllGoals(user_id: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    // async getAllGoals(user_id: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
+  async getAllGoals(userId: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
+    // async getAllGoals(userId: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
     const idToken = await auth().currentUser.getIdToken();
     // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${user_id}`);
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${userId}`);
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response);
@@ -235,11 +235,11 @@ export class Api {
     }
   }
 
-  async postLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, user_id: string = this.getUserID()): Promise<Types.PostGoalResult> {
+  async postLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
     const idToken = await auth().currentUser.getIdToken();
     // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.post("/goals", { userId: user_id, title: LTgoal, description: description, shortTermGoals: STgoals });
+    const response: ApiResponse<any> = await this.apisauce.post("/goals", { userId: userId, title: LTgoal, description: description, shortTermGoals: STgoals });
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response);
