@@ -7,6 +7,7 @@ const Goal = new Schema({
     description: { type: String, required: true },
     shortTermGoals: [new Schema({
       title: { type: String, required: true },
+      timesCompleted: { type: Number , default: 0},
       mon: { type: [Number] },
       tue: { type: [Number] },
       wed: { type: [Number] },
