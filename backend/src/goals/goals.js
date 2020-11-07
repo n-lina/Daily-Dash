@@ -7,6 +7,7 @@ const auth = require("../firebase/auth");
 const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
+const UserModel = require("../models/users");
 
 const getGoals = async (req, res) => {
   const id = req.query.id;
@@ -27,7 +28,7 @@ const getGoals = async (req, res) => {
     res.send(responseObj);
   } catch (error) {
     res.status(500);
-    logger.info(error);
+    logger.error(error);
     res.end();
 
     return;
@@ -53,7 +54,7 @@ const getShortTermGoals = async (req, res) => {
     res.send(responseObj);
   } catch (error) {
     res.status(500);
-    logger.info(error);
+    logger.error(error);
     res.end();
     return;
   }
@@ -133,7 +134,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    logger.info(error);
+    logger.error(error);
     res.end();
     return;
   }
@@ -166,7 +167,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
   catch (error) {
     res.status(500);
-    logger.info(error);
+    logger.error(error);
     res.end();
     return;
   }
@@ -179,9 +180,52 @@ const getSuggestedShortTermGoal = async (req, res) => {
   res.send({ "answer": response });
 };
 
+const completeShortTermGoal = async (req, res) => {
+  const userId = req.body.userId;
+  const shortTermGoalId = req.body.shortTermGoalId;
+
+  if (userId == null || shortTermGoalId == null) {
+    logger.info("Missing parameters in ${req.params}");
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  try {
+    const goalUpdateQuery = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+
+    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateQuery,
+      {$inc: {"shortTermGoals.$.timesCompleted" : 1}});
+
+    var success = false;
+
+    if (goalUpdateResult != null) {
+      const userUpdateQuery = {"userId": userId};
+
+      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateQuery,
+        {$inc: {"goalsCompleted" : 1}});
+
+      if (userUpdateResult != null) {
+        success = true;
+        logger.info("Successfully incremented short term goal");
+      }
+    }
+
+    var responseObj = {"success": success};
+
+    res.send(responseObj);
+  } catch (error) {
+    res.status(500);
+    logger.error(error);
+    res.end();
+    return;
+  }
+};
+
 router.get("/", auth.checkIfAuthenticated, getGoals);
 router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
 router.post("/", auth.checkIfAuthenticated, postGoal);
 router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
+router.put("/shortterm/counter", auth.checkIfAuthenticated, completeShortTermGoal);
 
 module.exports = router;

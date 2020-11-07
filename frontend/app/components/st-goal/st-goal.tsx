@@ -5,9 +5,41 @@ import { Text } from "../";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StGoalForm } from "../../models";
 
+// const borderColor = "#737373";
+
+const styles = StyleSheet.create({
+  container: {
+    height: 35,
+    width: 120
+  },
+  flexStart: {
+    justifyContent: "flex-start"
+  },
+  picker: {
+    height: 35,
+    width: 65
+  },
+  // separator: {
+  //   borderBottomColor: borderColor,
+  //   borderBottomWidth: StyleSheet.hairlineWidth,
+  //   marginVertical: 8,
+  // },
+  sideByside: {
+    alignContent: "center",
+    flexDirection: "row"
+    // justifyContent: 'space-between',
+  },
+  textInput: {
+    fontSize: 15,
+    height: 40
+  }
+});
+
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
 };
+
+const pickerColor = "#fafafa";
 
 const TEXT: TextStyle = {
   fontFamily: typography.primary,
@@ -36,27 +68,27 @@ export interface StGoalProps {
   // onChangeMinutes: Function
   // TextStore: Object
   // TimesStore: Object
-  my_goal: StGoalForm
+  myGoal: StGoalForm
 }
 
 /**
  * Describe your component here
  */
 export function StGoal(props: StGoalProps) {
-  const { style } = props;
+  // const { style } = props;
 
-  const Separator = () => (
-    <View style={styles.separator} />
-  );
+  // const Separator = () => (
+  //   <View style={styles.separator} />
+  // );
 
   return (
     <View style={CONTAINER}>
       <View style={styles.sideByside}>
         <Text style={TITLE2}>●</Text>
         <TextInput
-          style={{ height: 40, fontSize: 15 }}
-          onChangeText={text => props.my_goal.setTitle(text)}
-          // value={props.my_goal.title}
+          style={styles.textInput}
+          onChangeText={text => props.myGoal.setTitle(text)}
+          // value={props.myGoal.title}
           placeholder="call a friend once a week"
         />
       </View>
@@ -73,13 +105,13 @@ export function StGoal(props: StGoalProps) {
             { label: "Sunday", value: "sun" },
           ]}
           defaultValue={"mon"}
-          containerStyle={{ height: 35, width: 120 }}
-          style={{ backgroundColor: "#fafafa" }}
-          itemStyle={{
-            justifyContent: "flex-start"
-          }}
-          dropDownStyle={{ backgroundColor: "#fafafa" }}
-          onChangeItem={item => props.my_goal.setDay(item.value)}
+          containerStyle={styles.container}
+          style={{ backgroundColor: pickerColor }}
+          itemStyle={
+            styles.flexStart
+          }
+          dropDownStyle={{ backgroundColor: pickerColor }}
+          onChangeItem={item => props.myGoal.setDay(item.value)}
         />
         <DropDownPicker
           items={[
@@ -109,13 +141,13 @@ export function StGoal(props: StGoalProps) {
             { label: "23", value: 23 },
           ]}
           defaultValue={0}
-          containerStyle={{ height: 35, width: 65 }}
-          style={{ backgroundColor: "#fafafa" }}
-          itemStyle={{
-            justifyContent: "flex-start"
-          }}
-          dropDownStyle={{ backgroundColor: "#fafafa" }}
-          onChangeItem={item => props.my_goal.setHour(item.value)}
+          containerStyle={styles.picker}
+          style={{ backgroundColor: pickerColor }}
+          itemStyle={
+            styles.flexStart
+          }
+          dropDownStyle={{ backgroundColor: pickerColor }}
+          onChangeItem={item => props.myGoal.setHour(item.value)}
         />
         <DropDownPicker
           items={[
@@ -181,28 +213,15 @@ export function StGoal(props: StGoalProps) {
             { label: "59", value: 59 },
           ]}
           defaultValue={0}
-          containerStyle={{ height: 35, width: 65 }}
-          style={{ backgroundColor: "#fafafa" }}
-          itemStyle={{
-            justifyContent: "flex-start"
-          }}
-          dropDownStyle={{ backgroundColor: "#fafafa" }}
-          onChangeItem={item => props.my_goal.setMin(item.value)}
+          containerStyle={styles.picker}
+          style={{ backgroundColor: pickerColor }}
+          itemStyle={
+            styles.flexStart
+          }
+          dropDownStyle={{ backgroundColor: pickerColor }}
+          onChangeItem={item => props.myGoal.setMin(item.value)}
         />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  separator: {
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-  },
-  sideByside: {
-    alignContent: "center",
-    flexDirection: "row"
-    // justifyContent: 'space-between',
-  },
-});

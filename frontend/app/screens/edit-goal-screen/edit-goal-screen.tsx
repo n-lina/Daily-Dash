@@ -1,11 +1,27 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
+
+const borderColor = "#737373";
+
+const styles = StyleSheet.create({
+  button: {
+  },
+  image: {
+    height: 50,
+    width: 50,
+  },
+  separator: {
+    borderBottomColor: borderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+  }
+});
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -22,7 +38,7 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
+// const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -65,7 +81,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   // Pull in navigation via hook
   const navigation = useNavigation();
-  const nextScreen = () => navigation.navigate("primaryStack.home");
+  // const nextScreen = () => navigation.navigate("primaryStack.home");
 
   return (
     <View style={FULL}>
@@ -95,18 +111,4 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
       </Screen>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  button: {
-  },
-  image: {
-    height: 50,
-    width: 50,
-  },
-  separator: {
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-  }
 });

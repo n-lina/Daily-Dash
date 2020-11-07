@@ -8,17 +8,17 @@ This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way 
 
 Currently includes:
 
-- React Native
-- React Navigation
-- MobX State Tree
-- TypeScript
-- And more!
+-   React Native
+-   React Navigation
+-   MobX State Tree
+-   TypeScript
+-   And more!
 
 ## Quick Start
 
 The Ignite Bowser boilerplate project's structure will look similar to this:
 
-```
+```js
 ignite-project
 ├── app
 │   ├── components
@@ -134,8 +134,8 @@ For Visual Studio Code users, there is a handy extension that makes it easy to l
 
 ## Previous Boilerplates
 
-- [2017 aka Andross](https://github.com/infinitered/ignite-andross)
-- [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
+-   [2017 aka Andross](https://github.com/infinitered/ignite-andross)
+-   [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
 
 ## Premium Support
 

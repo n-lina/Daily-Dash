@@ -1,8 +1,6 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { StoryScreen, Story, UseCase } from "../../../storybook/views";
-import { color } from "../../theme";
-import { StGoal } from "./st-goal";
+import { StoryScreen } from "../../../storybook/views";
 
 storiesOf("StGoal", module)
   .addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>);

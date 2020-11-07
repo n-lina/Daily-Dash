@@ -21,7 +21,8 @@ const addUser = async (req, res) => {
     userId: id,
     email,
     username,
-    notificationId
+    notificationId,
+    goalsCompleted: 0,
   };
 
   const query = {"userId": id};
@@ -30,7 +31,7 @@ const addUser = async (req, res) => {
     logger.info(doc);
   })
   .catch((err) => {
-    logger.info(err);
+    logger.error(err);
   });
 
   var response = {email: email, username: username};
@@ -63,6 +64,7 @@ const getUser = async (req, res) => {
 
     res.send(response);
   } catch (error) {
+    logger.error(error);
     res.status(400);
     res.end();
     return;
@@ -90,7 +92,7 @@ const expireNotificationToken = async (req, res) => {
     logger.info(doc);
   })
   .catch((err) => {
-    logger.info(err);
+    logger.error(err);
   });
 
   var response = {userId: id};
