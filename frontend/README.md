@@ -18,7 +18,7 @@ Currently includes:
 
 The Ignite Bowser boilerplate project's structure will look similar to this:
 
-```
+```js
 ignite-project
 ├── app
 │   ├── components
