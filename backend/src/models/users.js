@@ -6,6 +6,7 @@ const User = new Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     notificationId: { type: String, required: true },
+    goalsCompleted: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("User", User);
