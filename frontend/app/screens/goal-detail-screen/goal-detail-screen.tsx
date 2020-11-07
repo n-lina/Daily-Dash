@@ -1,12 +1,70 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions} from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
-import { Goal, useStores } from "../../models";
+import { Goal } from "../../models";
+
+const borderColor = "#737373";
+const white = "#fff";
+const black = "#000";
+const background = "#f9f";
+
+const styles = StyleSheet.create({
+  black: {
+    color: black
+  },
+  button: {
+    marginLeft: 10,
+    marginRight: 10
+  },
+  fixToText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  // flatlist: {
+  //   height: 400,
+  //   marginTop: 40,
+  //   overflow: "scroll",
+  //   width: Dimensions.get("window").width - 20
+  // },
+  flex: {
+    flex: 1
+  },
+  header: {
+    backgroundColor: background,
+    flex: 1,
+    fontSize: 32
+  },
+  image: {
+    height: 75,
+    width: 75,
+  },
+  item: {
+    backgroundColor: white,
+    flexDirection: "row",
+    flex: 1,
+    marginVertical: 8,
+    padding: 20
+  },
+  right: {
+    color: black,
+    flex: 1,
+    textAlign: "right"
+  },
+  sectionList: {
+    flex: 1,
+    width: 350
+  },
+  separator: {
+    borderBottomColor: borderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+  }
+});
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -49,7 +107,7 @@ const FULL: ViewStyle = {
   flex: 1
 };
 
-export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
+export const GoalDetailScreen = observer(function GoalDetailScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -145,7 +203,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
 
     return (
       <View style={styles.item}>
-        <Text style={{ color: "#000" }}>{title[1]}</Text>
+        <Text style={styles.black}>{title[1]}</Text>
         <Text style={styles.right}>{hrs}:{mins}</Text>
       </View>
     );
@@ -161,9 +219,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
         < Separator />
         <Image source={require("../../../assets/hiking.png")} style={styles.image} />
         < Separator />
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.flex}>
           <SectionList
-            style={{ flex: 1, width: 350 }}
+            style={styles.sectionList}
             sections={allSTGoals}
             keyExtractor={(item, index) => item + index}
             renderItem={({ item }) => <Item title={item} />}
@@ -173,7 +231,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
           />
         </SafeAreaView>
         <View style={styles.fixToText}>
-          {/* <Button
+          <Button
             style={styles.button}
             text="Edit"
             onPress={() => navigation.navigate("editGoal")}
@@ -182,52 +240,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen({ }) {
             style={styles.button}
             text="Delete"
             onPress={createTwoButtonAlert}
-          /> */}
+          />
         </View>
       </Screen>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  button: {
-    marginLeft: 10,
-    marginRight: 10
-  },
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  flatlist: {
-    height: 400,
-    marginTop: 40,
-    overflow: "scroll",
-    width: Dimensions.get("window").width - 20
-  },
-  header: {
-    backgroundColor: "#f9f",
-    flex: 1,
-    fontSize: 32
-  },
-  image: {
-    height: 75,
-    width: 75,
-  },
-  item: {
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    flex: 1,
-    marginVertical: 8,
-    padding: 20
-  },
-  right: {
-    color: "#000",
-    flex: 1,
-    textAlign: "right"
-  },
-  separator: {
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-  },
 });

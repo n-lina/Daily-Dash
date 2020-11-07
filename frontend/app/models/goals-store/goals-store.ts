@@ -29,7 +29,7 @@ export const GoalsStoreModel = types
   })).actions(self => ({
     getAllGoals: () => {
       return self.environment.api.getAllGoals().then(res => {
-        if (res.kind == "ok") {
+        if (res.kind === "ok") {
           self.setLTgoals(res.LTgoals);
           __DEV__ && console.log("Got list of LT goals");
         } else {
@@ -42,7 +42,7 @@ export const GoalsStoreModel = types
 
     postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
       self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
-        if (res.kind == "ok") {
+        if (res.kind === "ok") {
           __DEV__ && console.log("Added goal to database");
         } else {
           __DEV__ && console.log(res.kind);
@@ -53,7 +53,7 @@ export const GoalsStoreModel = types
     },
     getSTsuggestion: (title: string) => {
       return self.environment.api.getSTsuggestion(title).then(res => {
-        if (res.kind == "ok") {
+        if (res.kind === "ok") {
           // self.STsuggestion = res.suggestion;
           self.setSuggestion(res.suggestion);
           __DEV__ && console.log("Got ST goal suggestion");

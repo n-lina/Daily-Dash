@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useNavigation } from "@react-navigation/native";
@@ -7,6 +7,33 @@ import { Button, Header, Screen, Text, StGoal } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
+
+const borderColor = "#737373";
+
+const styles = StyleSheet.create({
+  button: {
+  },
+  content: {
+    alignItems: "center"
+  },
+  image: {
+    height: 50,
+    width: 50,
+  },
+  separator: {
+    borderBottomColor: borderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+  },
+  sideByside: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  textInput: {
+    fontSize: 15,
+    height: 40
+  }
+});
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -23,7 +50,7 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
+// const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -65,27 +92,32 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  function convertSTgoals(fromForm: Array<StGoalForm>) {
-    const my_st_goal = [];
-    for (const goal of fromForm) {
-      console.log("orange " + JSON.stringify(goal));
-      const time = [convertTimeToMin(goal.hour, goal.minute)];
-      my_st_goal.push({
-        title: goal.title,
-        [goal.day]: time,
-      });
-    }
-    // console.log(my_st_goal)
-    return my_st_goal;
-  }
+  const { LtGoalFormStore, goalsStore } = useStores();
 
   function convertTimeToMin(hr: number, min: number) {
     return (hr * 60) + min;
   }
 
+  function convertSTgoals(fromForm: Array<StGoalForm>) {
+    const myStGoal = [];
+    for (const goal of fromForm) {
+      console.log("orange " + JSON.stringify(goal));
+      const time = [convertTimeToMin(goal.hour, goal.minute)];
+      myStGoal.push({
+        title: goal.title,
+        [goal.day]: time,
+      });
+    }
+    // console.log(myStGoal)
+    return myStGoal;
+  }
+
+  const navigation = useNavigation();
+  // const nextScreen = () => navigation.navigate("primaryStack.home")
+
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
-    const my_st_goal = convertSTgoals(fromForm);
-    goalsStore.postLTgoal(LTgoal, description, my_st_goal);
+    const myStGoal = convertSTgoals(fromForm);
+    goalsStore.postLTgoal(LTgoal, description, myStGoal);
     LtGoalFormStore.clearForm();
     console.log("cleared");
     navigation.navigate("allGoals");
@@ -99,14 +131,10 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     return 1;
   }
 
-  const { LtGoalFormStore, goalsStore } = useStores();
-  const navigation = useNavigation();
-  // const nextScreen = () => navigation.navigate("primaryStack.home")
-
   const { STgoalForm } = LtGoalFormStore;
 
   useEffect(() => {
-    if (LtGoalFormStore.STgoalForm.length == 0) LtGoalFormStore.addSTgoal();
+    if (LtGoalFormStore.STgoalForm.length === 0) LtGoalFormStore.addSTgoal();
   }, []);
 
   return (
@@ -121,11 +149,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
         <Image source={require("../../../assets/compass.png")} style={styles.image} />
         < Separator />
         < Separator />
-        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+        <ScrollView contentContainerStyle={styles.content}>
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="My goal is to .. " />
             <TextInput
-              style={{ height: 40, fontSize: 15 }}
+              style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setTitle(text)}
               placeholder="be a happier person."
             />
@@ -133,13 +161,13 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="Description:" />
             <TextInput
-              style={{ height: 40, fontSize: 15 }}
+              style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setDescription(text)}
               placeholder="(Optional) I do better when I'm happy."
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal my_goal={goal} key={index}/>))}
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
           < Separator />
         </ScrollView>
         <Button
@@ -159,22 +187,4 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
       </Screen>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  button: {
-  },
-  image: {
-    height: 50,
-    width: 50,
-  },
-  separator: {
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-  },
-  sideByside: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
 });
