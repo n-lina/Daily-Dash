@@ -9,10 +9,16 @@ export const UserStoreModel = types
   .props({
     name: types.optional(types.string, ""),
     email: types.optional(types.string, ""),
-    signedIn: types.optional(types.boolean, false)
+    signedIn: types.optional(types.boolean, false),
+    goalsCompleted: types.optional(types.number, 0)
   })
   .extend(withEnvironment)
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({
+    getLevel: (): number => {
+      if (self.goalsCompleted === 0) return 0;
+      return self.goalsCompleted.toString().length;
+    }
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setUser: (user) => {
       if (user) { __DEV__ && console.log("Setting user " + user.toString()); } else { __DEV__ && console.log("unsetting user"); }
@@ -20,13 +26,28 @@ export const UserStoreModel = types
         self.name = user.name;
         self.email = user.email;
         self.signedIn = true;
+        self.goalsCompleted = user.goalsCompleted;
       } else {
         self.signedIn = false;
         self.name = "";
         self.email = "";
+        self.goalsCompleted = 0;
       }
+    },
+    incrementGoalCount: () => {
+      console.log("Incrementing goals");
+      self.goalsCompleted++;
+    },
+    decrementGoalCount: () => {
+      self.goalsCompleted--;
     }
-  })).actions(self => ({
+  }))
+  .views(self => ({
+    getGoalsForNextLevel: () => {
+      return Math.pow(10, self.getLevel());
+    }
+  }))
+  .actions(self => ({
     postUser: (name: string, email: string, id: string) => {
       self.environment.api.postUserSignIn(id, name, email).then(res => {
         if (res.kind === "ok") {

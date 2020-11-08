@@ -7,6 +7,7 @@ import { Button, Header, Screen, Text, StGoal } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
+import HideWithKeyboard from "react-native-hide-with-keyboard";
 
 const borderColor = "#737373";
 
@@ -69,6 +70,10 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+};
+
+const ADD_GOAL_BUTTON: ViewStyle = {
+  marginBottom: 110
 };
 
 const TITLE2: TextStyle = {
@@ -167,21 +172,23 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} />))}
           < Separator />
+          <Button
+            style={{ ...styles.button, ...ADD_GOAL_BUTTON }}
+            text="Add New ST Goal"
+            onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
-        <Button
-          style={styles.button}
-          text="Add New ST Goal"
-          onPress={() => LtGoalFormStore.addSTgoal()} />
-        <Button
-          style={styles.button}
-          text="Get Suggestion"
-          onPress={() => getSuggestion()} />
-        <Button
-          style={styles.button}
-          text="Submit"
-          onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
+        <HideWithKeyboard>
+          <Button
+            style={styles.button}
+            text="Get Suggestion"
+            onPress={() => getSuggestion()} />
+          <Button
+            style={styles.button}
+            text="Submit"
+            onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
+        </HideWithKeyboard>
         {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
         {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN */}
       </Screen>

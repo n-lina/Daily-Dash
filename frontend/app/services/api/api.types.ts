@@ -3,6 +3,7 @@ import { GeneralApiProblem } from "./api-problem";
 export interface User {
   email: string
   name: string
+  goalsCompleted: number
 }
 
 export interface PostUser {
@@ -42,7 +43,7 @@ export interface DeleteNotificationToken {
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
 export type GetOneGoalResult = { kind: "ok"; goal: Goal } | GeneralApiProblem
 export type DailyGoalResult = { kind: "ok"; goals: DailyGoal[] } | GeneralApiProblem
-export type SignOutResult = {kind: "ok" } | GeneralApiProblem
+export type SuccessResult = {kind: "ok" } | GeneralApiProblem
 export type PostUserSignInResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
 export type PostGoalResult = { kind: "ok"} | GeneralApiProblem

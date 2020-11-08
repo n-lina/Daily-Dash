@@ -24,7 +24,7 @@ export const GoalsStoreModel = types
       if (suggestion) {
         __DEV__ && console.log("Setting suggestion list " + suggestion);
         self.STsuggestion = suggestion;
-      } else { __DEV__ && console.log("Unsetting suggestion"); }
+      } else { __DEV__ && console.log("Unsetting suggestion"); self.STsuggestion = ""; }
     }
   })).actions(self => ({
     getAllGoals: () => {

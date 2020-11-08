@@ -7,3 +7,4 @@ export * from "./goal-detail-screen/goal-detail-screen";
 export * from "./add-goal-screen/add-goal-screen";
 export * from "./edit-goal-screen/edit-goal-screen";
 export * from "./profile-screen/profile-screen";
+export * from "./awards-screen/awards-screen";
