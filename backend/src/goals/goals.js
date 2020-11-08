@@ -155,24 +155,22 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
 
   var arr_of_STG_cossim_scores = [STG_title_array.length];
-    for (let i = 0; i < STG_title_array.length; i++) {
-      arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
-    }
+  for (let i = 0; i < STG_title_array.length; i++) {
+    arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
+  }
 
   let index_highest_cossim_STG = arr_of_STG_cossim_scores.indexOf(Math.max(...arr_of_STG_cossim_scores));
   var mostSimilarLTG = STG_title_array[index_highest_cossim_STG];   // get most similar LTG title, else random-ish one
 
   var response = mostSimilarLTG == null ? noSugSTGString : mostSimilarLTG;
-
   res.send({ "answer": response });
 
-} catch (error) {
-  res.status(500);
-  logger.error(error);
-  res.end();
-  return;
-}
-
+  } catch (error) {
+    res.status(500);
+    logger.error(error);
+    res.end();
+    return;
+  }
 };
 
 const completeShortTermGoal = async (req, res) => {
