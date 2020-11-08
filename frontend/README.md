@@ -73,7 +73,7 @@ Included in an Ignite boilerplate project is the `app` directory. This is a dire
 
 The inside of the src directory looks similar to the following:
 
-```
+```js
 app
 │── components
 │── i18n
