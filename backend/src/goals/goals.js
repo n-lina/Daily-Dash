@@ -8,6 +8,24 @@ const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
+var   cacheLTGsArray = [];
+const maxLTGsInArray = 50;
+const intervalRepopulatingTempLTGArray = 30000; // milliseconds
+
+async function repopulateCacheLTGArray() {
+  let countLTGs = await GoalModel.countDocuments({});
+  let numLTGsToSample = countLTGs<=maxLTGsInArray ? countLTGs : maxLTGsInArray;
+  cacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
+}
+
+// call repopulateCacheLTGArray once upon database startup to ensure it is populated before it is used elsewhere
+var done = false;
+if (!done) {
+    done = true;
+    repopulateCacheLTGArray();
+}
+
+setInterval(repopulateCacheLTGArray, intervalRepopulatingTempLTGArray);
 
 const getGoals = async (req, res) => {
   const id = req.query.id;
@@ -111,11 +129,12 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var LTG_title_array = [];
   try {   // fill array with all valid LTG titles (i.e. has both, a valid title, and at least 1 STG with valid title)
-    await goalsSugHelper.fillArrayWithValidLTGtitles(LTG_title_array);
+    await goalsSugHelper.fillArrayWithValidLTGtitles(LTG_title_array, cacheLTGsArray);
   }
   catch (error) {
     res.status(500);
     logger.info(error);
+    console.log(error);
     res.end();
     return;
   }
