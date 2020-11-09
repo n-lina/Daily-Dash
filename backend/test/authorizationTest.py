@@ -74,23 +74,3 @@ if failed > 0:
     logging.error("Tests failed: {0}".format(failed))
 else:
     logging.info("All tests passed! All are secure.")
-
-
-
-
-# def test_endpoint(endpoint: str, method, token: str, body=None, params=None):
-#     global tests
-#     tests += 1
-#     headers = get_header(token)
-#     request_args = {}
-#     if body:
-#         request_args['body'] = body
-#     if params:
-#         request_args['params'] = params
-
-#     request_args['headers'] = headers
-
-#     url = '{0}{1}'.format(base_url, endpoint)
-#     response = method(url, request_args)
-#     check_if_unauthorized(response, endpoint)
-
