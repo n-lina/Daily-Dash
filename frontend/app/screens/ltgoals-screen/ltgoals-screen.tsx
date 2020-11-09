@@ -9,7 +9,7 @@ import { color, spacing, typography } from "../../theme";
 import { ListItem, Avatar } from "react-native-elements";
 
 const borderColor = "#737373";
-const background = "aba";
+const background = "#aba";
 
 const styles = StyleSheet.create({
   LTgoal: {
