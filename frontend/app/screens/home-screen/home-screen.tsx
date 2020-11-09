@@ -282,7 +282,7 @@ export const HomeScreen = observer(function HomeScreen() {
   };
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="homeSreenWrap">
       <Screen style={FULL} backgroundColor={color.transparent}>
         <View style={TOP_SECTION}>
           <View style={CONTENT_WRAP}>
