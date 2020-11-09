@@ -46,20 +46,19 @@ function checkMinimumOneNonemptySTGTitle(arrayParam) {
 * Fills parameter array with all valid LTG titles
 * i.e. those with a valid title and at least 1 STG with valid title
 * @param    arrayParam is the array to be filled
+* @param    cacheLTGsArray_ is an array containing a cache of LTG goals
 * @return   nothing
-* @modifies array sent
+* @modifies arrayParam
 */
-async function fillArrayWithValidLTGtitles(arrayParam) {
-  await GoalModel.find({}, function (err, docs) {
-    if (docs !== null) {  // ensure there is >0 LTG
-      docs.forEach(function (item) {  // need && since only check 3rd condition if 2nd is true, else may get index out of range error
+function fillArrayWithValidLTGtitles(arrayParam, cacheLTGsArray_) {
+    if (cacheLTGsArray_ !== null) {  // ensure there is >0 LTG
+      cacheLTGsArray_.forEach(function (item) {  // need && since only check 3rd condition if 2nd is true, else may get index out of range error
         if (checkHasWords(item.title) === true && item.shortTermGoals !== null &&
           checkMinimumOneNonemptySTGTitle(item.shortTermGoals)) {
           arrayParam.push(item.title); // ensure only add LTGs with a valid title and at least 1 STG with valid title
         }
       });
     }
-  });
 }
 
 /*
@@ -67,9 +66,8 @@ async function fillArrayWithValidLTGtitles(arrayParam) {
 * i.e. those with a valid title and at least 1 STG with valid title
 * @param    arrayParamSTG is the array to be filled
 * @param    arrayParamLTG is used to find LTG goal by title
-* @param    indexHighCossimLTG is used to find LTG goal by title
 * @return   nothing
-* @modifies array sent as parameter arrayParamSTG
+* @modifies arrayParamSTG
 */
 async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle) {
   await GoalModel.findOne({ title: highestCossimLTGTitle },
