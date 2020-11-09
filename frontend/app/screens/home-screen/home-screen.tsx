@@ -243,7 +243,7 @@ export const HomeScreen = observer(function HomeScreen() {
   const renderGoal = ({ item, index }) => {
     return (
       <View>
-        <Swipeable
+        {/* <Swipeable
           style={item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}}
           key={item.id + item.time}
           renderLeftActions={item.cancelled ? swipeReset : swipeLeftCancelled}
@@ -253,30 +253,30 @@ export const HomeScreen = observer(function HomeScreen() {
           ref={(instance: any) => {
             if (instance) refs[index] = instance;
           }}
+        > */}
+        <ListItem
+          bottomDivider
+          containerStyle={
+            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
+          }
         >
-          <ListItem
-            bottomDivider
-            containerStyle={
-              item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
-            }
-          >
-            <View style={CHECK_BOX}>
-              <CheckBox
-                checked={item.cancelled || item.completed}
-                checkedIcon={item.cancelled ? "close" : "check"}
-                checkedColor={item.cancelled ? "red" : "#008080"}
-                iconRight
-                onPress={() => toggleToggle(item as DailyGoal)}
-              ></CheckBox>
-            </View>
-            <ListItem.Content>
-              <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
-                {item.title}
-              </ListItem.Title>
-              <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        </Swipeable>
+          <View style={CHECK_BOX}>
+            <CheckBox
+              checked={item.cancelled || item.completed}
+              checkedIcon={item.cancelled ? "close" : "check"}
+              checkedColor={item.cancelled ? "red" : "#008080"}
+              iconRight
+              onPress={() => toggleToggle(item as DailyGoal)}
+            ></CheckBox>
+          </View>
+          <ListItem.Content>
+            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
+              {item.title}
+            </ListItem.Title>
+            <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+        {/* </Swipeable> */}
       </View>
     );
   };
