@@ -8,6 +8,7 @@ const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
+const { count } = require("../models/goals");
 var   cacheLTGsArray = [];
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArray = 30000; // milliseconds
@@ -176,6 +177,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
 const completeShortTermGoal = async (req, res) => {
   const userId = req.body.userId;
   const shortTermGoalId = req.body.shortTermGoalId;
+  const complete = req.body.complete;
 
   if (userId == null || shortTermGoalId == null) {
     logger.info("Missing parameters in ${req.params}");
@@ -184,19 +186,20 @@ const completeShortTermGoal = async (req, res) => {
     return;
   }
 
+  const countIncrement = complete ? 1 : -1;
+  var success = false;
+
   try {
-    const goalUpdateQuery = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+    const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+    const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
 
-    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateQuery,
-      {$inc: {"shortTermGoals.$.timesCompleted" : 1}});
-
-    var success = false;
+    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
 
     if (goalUpdateResult != null) {
-      const userUpdateQuery = {"userId": userId};
+      const userUpdateFilter = {"userId": userId};
+      const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
 
-      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateQuery,
-        {$inc: {"goalsCompleted" : 1}});
+      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
 
       if (userUpdateResult != null) {
         success = true;
