@@ -176,35 +176,42 @@ const getSuggestedShortTermGoal = async (req, res) => {
 const completeShortTermGoal = async (req, res) => {
   const userId = req.body.userId;
   const shortTermGoalId = req.body.shortTermGoalId;
+  const complete = req.body.complete;
 
-  if (userId == null || shortTermGoalId == null) {
+  if (userId == null || shortTermGoalId == null || complete == null) {
     logger.info("Missing parameters in ${req.params}");
     res.status(400);
     res.end();
     return;
   }
 
+  const countIncrement = complete ? 1 : -1;
+  var success = false;
+
   try {
-    const goalUpdateQuery = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+    const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+    const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
 
-    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateQuery,
-      {$inc: {"shortTermGoals.$.timesCompleted" : 1}});
-
-    var success = false;
+    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
 
     if (goalUpdateResult != null) {
-      const userUpdateQuery = {"userId": userId};
+      const userUpdateFilter = {"userId": userId};
+      const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
 
-      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateQuery,
-        {$inc: {"goalsCompleted" : 1}});
+      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
 
-      if (userUpdateResult != null) {
-        success = true;
-        logger.info("Successfully incremented short term goal");
-      }
+      success = userUpdateResult != null ? true : false
     }
 
-    var responseObj = {"success": success};
+    if (complete && success) {
+      logger.info("Successfully incremented short term goal");
+    } else if (!complete && success) {
+      logger.info("Successfully decremented short term goal");
+    } else {
+      logger.info("Failed to update short term goal");
+    }
+
+    const responseObj = {"success": success};
 
     res.send(responseObj);
   } catch (error) {
