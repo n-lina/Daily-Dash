@@ -15,7 +15,8 @@ tests = 0
 # Write new tests below this section
 
 def get_header(token: str) -> dict:
-    """Get the HTTP header for a given token
+    """
+    Get the HTTP header for a given token
 
     Parameters:
     token (str): auth token (JWT)
@@ -27,7 +28,8 @@ def get_header(token: str) -> dict:
            'Authorization': 'Bearer {0}'.format(token)}
 
 def check_if_unauthorized(response, endpoint: str):
-    """Check if the resposne returned with 401 unauthorized. Log as an error if not.
+    """
+    Check if the resposne returned with 401 unauthorized. Log as an error if not.
 
     Parameters:
     respone (request.response): response to HTTP request
@@ -44,7 +46,8 @@ def check_if_unauthorized(response, endpoint: str):
         logging.info("Endpoint {0} is secure ✅".format(endpoint))
 
 def test_get(endpoint: str, token: str, params={}):
-    """Test an endpoint that uses a get REST request
+    """
+    Test an endpoint that uses a get REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -59,7 +62,8 @@ def test_get(endpoint: str, token: str, params={}):
     check_if_unauthorized(response, endpoint)
 
 def test_delete(endpoint: str, token: str):
-    """Test an endpoint that uses a delete REST request
+    """
+    Test an endpoint that uses a delete REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -72,8 +76,9 @@ def test_delete(endpoint: str, token: str):
     response = requests.delete(url, headers=headers)
     check_if_unauthorized(response, endpoint)
 
-def test_post(endpoint: str, token: str, body={}):
-    """Test an endpoint that uses a post REST request
+def test_post(endpoint: str, token: str, body=None):
+    """
+    Test an endpoint that uses a post REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -89,8 +94,9 @@ def test_post(endpoint: str, token: str, body={}):
     response = requests.post(url, json=data, headers=headers)
     check_if_unauthorized(response, endpoint)
 
-def test_put(endpoint: str, token: str, body={}):
-    """Test an endpoint that uses a put REST request
+def test_put(endpoint: str, token: str, body=None):
+    """
+    Test an endpoint that uses a put REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -126,7 +132,7 @@ test_delete('/users/{0}/notification?token=123456'.format(user_id), expired_toke
 test_post('/users', expired_token, body={'id': '123', 'email': 'ase@sfsf.com', 'username': 'bob', 'notificationId': 'notid'})
 
 # goals
-test_get('/goals'.format(user_id), expired_token)
+test_get('/goals', expired_token)
 test_get('/goals/shortterm', expired_token)
 test_get('/goals/suggestedstg', expired_token)
 test_post('/goals', expired_token, body={'id': '123'})
