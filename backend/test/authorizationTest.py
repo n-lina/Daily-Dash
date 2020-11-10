@@ -78,15 +78,15 @@ def test_post(endpoint: str, token: str, body={}):
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers
-    body (dict): NOT USED - body for the post request
+    body (dict): body for the post request
     """
     global tests
     tests += 1
     headers = get_header(token)
     url = '{0}{1}'.format(base_url, endpoint)
     data = {}
-    # data['body'] = json.dumps(body)
-    response = requests.post(url, data=data, headers=headers)
+    data['body'] = json.dumps(body)
+    response = requests.post(url, json=data, headers=headers)
     check_if_unauthorized(response, endpoint)
 
 def test_put(endpoint: str, token: str, body={}):
@@ -95,15 +95,15 @@ def test_put(endpoint: str, token: str, body={}):
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers
-    body (dict): NOT USED - body for the post request
+    body (dict): body for the put request
     """
     global tests
     tests += 1
     headers = get_header(token)
     url = '{0}{1}'.format(base_url, endpoint)
     data = {}
-    # data['body'] = json.dumps(body)
-    response = requests.put(url, data=data, headers=headers)
+    data['body'] = json.dumps(body)
+    response = requests.put(url, json=data, headers=headers)
     check_if_unauthorized(response, endpoint)
 
 ######################### Test config #########################
@@ -119,7 +119,6 @@ else:
     logging.getLogger().setLevel(logging.INFO)
 
 ######################### Run tests #########################
-# Note: Body has no effect, I could not get it working
 
 # users
 test_get('/users/{0}'.format(user_id), expired_token)
@@ -140,4 +139,4 @@ logging.info("Total tests run: {}".format(tests))
 if failed > 0:
     logging.error("Tests failed: {0} ❌".format(failed))
 else:
-    logging.info("All tests passed! All are secure. ✅")
+    logging.info("All tests passed! All endpoints are secure. ✅")
