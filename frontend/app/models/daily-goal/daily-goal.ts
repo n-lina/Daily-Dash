@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { withEnvironment } from "../extensions/with-environment";
 
 /**
  * Model description here for TypeScript hints.
@@ -11,14 +12,21 @@ export const DailyGoalModel = types
     id: types.identifier,
     cancelled: false,
     completed: false
-  })
+  }).extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setCancelled(cancelled: boolean) {
       self.cancelled = cancelled;
     },
     setCompleted(completed: boolean) {
+      const prevVal = self.completed;
       self.completed = completed;
+      if (completed !== prevVal) {
+        self.environment.api.toggleCompletedGoal(self.id, completed)
+          .catch(err => {
+            __DEV__ && console.error(err);
+          });
+      }
     }
   })); // eslint-disable-line @typescript-eslint/no-unused-vars
 
@@ -31,6 +39,6 @@ export const DailyGoalModel = types
   */
 
 type DailyGoalType = Instance<typeof DailyGoalModel>
-export interface DailyGoal extends DailyGoalType {}
+export interface DailyGoal extends DailyGoalType { }
 type DailyGoalSnapshotType = SnapshotOut<typeof DailyGoalModel>
-export interface DailyGoalSnapshot extends DailyGoalSnapshotType {}
+export interface DailyGoalSnapshot extends DailyGoalSnapshotType { }

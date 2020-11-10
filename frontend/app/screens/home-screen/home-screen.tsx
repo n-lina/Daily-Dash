@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native";
 import { Screen } from "../../components";
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
 import { color } from "../../theme";
-import { CheckBox, ListItem, Text } from "react-native-elements";
+import { CheckBox, ListItem, Text, Button, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
@@ -15,46 +15,40 @@ const circleSize = 44;
 const topSectionHeight = 180;
 
 const FULL: ViewStyle = { flex: 1 };
-const TEXT: TextStyle = {
-  color: "black",
-};
 
 const CONTENT_WRAP: ViewStyle = {
   alignItems: "center",
-};
-
-const MULTIPLER_STYLE: TextStyle = {
-  ...TEXT,
-  marginTop: 5,
-};
-
-const NEXT_MULT_STYLE: ViewStyle = {
-  alignItems: "flex-start",
-  width: progressWidth,
-  marginTop: 2,
+  height: 80
 };
 
 const LEVEL_WRAP: ViewStyle = {
   width: progressWidth,
   marginTop: 20,
-};
-
-const MULTIPLIER_WRAP: ViewStyle = {
-  width: progressWidth,
-  overflow: "visible",
+  position: "absolute",
+  left: 10
 };
 
 const LEVEL_STYLE: ViewStyle = {
   width: circleSize,
   height: circleSize,
   borderRadius: 1000,
-  backgroundColor: "#008080",
-  alignItems: "center",
-  justifyContent: "center",
+  backgroundColor: "#008080"
 };
 
 const LEVEL_NUM_STYLE: TextStyle = {
   fontSize: 30,
+  textAlign: "center"
+};
+
+const TROPHY_WRAP: ViewStyle = {
+  position: "absolute",
+  right: 5
+};
+
+const AWARD_SUBTITLE: TextStyle = {
+  textAlign: "center",
+  marginTop: -10,
+  paddingTop: 0
 };
 
 const PROGRESS_WRAP: ViewStyle = {
@@ -113,20 +107,10 @@ const TOP_SECTION: ViewStyle = {
 };
 
 const REMAINING_GOALS: ViewStyle = {
-  marginTop: 10
+  marginTop: 10,
+  marginLeft: 4
 };
 /********************************/
-
-/**
- * Allow multiplier progress bar to change color if it gets closer
- * @param multiplier current fraction of how close multiplier is
- */
-function getMultiplierColor(multiplier) {
-  if (multiplier < 0.2) return "#008080";
-  if (multiplier < 0.5) return "#00cd49";
-  if (multiplier < 0.8) return "#e4e000";
-  else return "#f20007";
-}
 
 const weekDays = [
   "Sunday",
@@ -158,24 +142,28 @@ const getCurrentDay = (getShort: boolean) => {
 function getFormattedTime(time: number): string {
   const hours = Math.floor(time / 60);
   const minutes = Math.round(time - hours * 60);
-  let timeStr = hours + ":" + minutes;
+  let timeStr = hours + ":";
   if (minutes < 10) timeStr += "0";
+  timeStr += minutes;
   return timeStr;
 }
 
 export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
-  const { dailyGoalStore } = useStores();
+  const { dailyGoalStore, userStore } = useStores();
   const { goals } = dailyGoalStore;
-  // These should not be hardcoded in final product
-  const streakProgress = 0.8;
-  const level = 7;
-  const levelScore = 1248;
-  const totalLevelScore = 2000;
+  const level = userStore.getLevel();
+  const levelScore = userStore.goalsCompleted;
+  const totalLevelScore = userStore.getGoalsForNextLevel();
   const levelProgress = levelScore / totalLevelScore;
-  const scoreMultiplier = 14;
+  // TODO: User userstore here
+  const awardCount = 4;
 
   __DEV__ && console.log("Goals: " + goals);
+
+  const navigation = useNavigation();
+
+  const goToAwards = () => navigation.navigate("awards");
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -213,14 +201,26 @@ export const HomeScreen = observer(function HomeScreen() {
   // used to close on after swipe
   const refs = [];
 
+  const setCompleted = (goal: DailyGoal, newVal: boolean) => {
+    const prev = goal.completed;
+    if (prev !== newVal) {
+      if (newVal) {
+        userStore.incrementGoalCount();
+      } else {
+        userStore.decrementGoalCount();
+      }
+    }
+    goal.setCompleted(newVal);
+  };
+
   const toggleCompleted = (index: number, goal: DailyGoal) => {
     goal.setCancelled(false);
-    goal.setCompleted(!goal.completed);
+    setCompleted(goal, !goal.completed);
     if (refs[index]) refs[index].close();
   };
 
   const toggleCancelled = (index: number, goal: DailyGoal) => {
-    goal.setCompleted(false);
+    setCompleted(goal, false);
     goal.setCancelled(!goal.cancelled);
     if (refs[index]) refs[index].close();
   };
@@ -231,21 +231,21 @@ export const HomeScreen = observer(function HomeScreen() {
    */
   const toggleToggle = (goal: DailyGoal) => {
     if (goal.completed) {
-      goal.setCompleted(false);
+      setCompleted(goal, false);
       goal.setCancelled(true);
     } else if (goal.cancelled) {
       goal.setCancelled(false);
     } else {
-      goal.setCompleted(true);
+      setCompleted(goal, true);
     }
   };
 
   const renderGoal = ({ item, index }) => {
     return (
       <View>
-        <Swipeable
+        {/* <Swipeable
           style={item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}}
-          key={item.id}
+          key={item.id + item.time}
           renderLeftActions={item.cancelled ? swipeReset : swipeLeftCancelled}
           renderRightActions={item.completed ? swipeReset : swipeRightCompleted}
           onSwipeableLeftOpen={() => toggleCancelled(index, item as DailyGoal)}
@@ -253,30 +253,30 @@ export const HomeScreen = observer(function HomeScreen() {
           ref={(instance: any) => {
             if (instance) refs[index] = instance;
           }}
+        > */}
+        <ListItem
+          bottomDivider
+          containerStyle={
+            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
+          }
         >
-          <ListItem
-            bottomDivider
-            containerStyle={
-              item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
-            }
-          >
-            <View style={CHECK_BOX}>
-              <CheckBox
-                checked={item.cancelled || item.completed}
-                checkedIcon={item.cancelled ? "close" : "check"}
-                checkedColor={item.cancelled ? "red" : "#008080"}
-                iconRight
-                onPress={() => toggleToggle(item as DailyGoal)}
-              ></CheckBox>
-            </View>
-            <ListItem.Content>
-              <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
-                {item.title}
-              </ListItem.Title>
-              <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        </Swipeable>
+          <View style={CHECK_BOX}>
+            <CheckBox
+              checked={item.cancelled || item.completed}
+              checkedIcon={item.cancelled ? "close" : "check"}
+              checkedColor={item.cancelled ? "red" : "#008080"}
+              iconRight
+              onPress={() => toggleToggle(item as DailyGoal)}
+            ></CheckBox>
+          </View>
+          <ListItem.Content>
+            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
+              {item.title}
+            </ListItem.Title>
+            <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+        {/* </Swipeable> */}
       </View>
     );
   };
@@ -300,18 +300,21 @@ export const HomeScreen = observer(function HomeScreen() {
                 <Text style={LEVEL_NUM_STYLE}>{level}</Text>
               </View>
             </View>
-            <View style={MULTIPLIER_WRAP}>
-              <Text h4 style={MULTIPLER_STYLE}>
-                Score multiplier x{scoreMultiplier}
-              </Text>
-              <View style={NEXT_MULT_STYLE}>
-                <Text>Next multiplier</Text>
-              </View>
-              <Progress.Bar
-                progress={streakProgress}
-                width={progressWidth}
-                color={getMultiplierColor(streakProgress)}
+            <View style={TROPHY_WRAP}>
+              <Button
+                type="clear"
+                onPress={goToAwards}
+                icon={
+                  <Icon
+                    name="star"
+                    size={60}
+                    color="gold"
+                  />
+                }
               />
+              <Text style={AWARD_SUBTITLE}>
+                {awardCount} awards
+              </Text>
             </View>
           </View>
           <Text h4 style={REMAINING_GOALS}>
