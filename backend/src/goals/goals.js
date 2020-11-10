@@ -8,7 +8,6 @@ const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
-const { count } = require("../models/goals");
 var   cacheLTGsArray = [];
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArray = 30000; // milliseconds
@@ -179,7 +178,7 @@ const completeShortTermGoal = async (req, res) => {
   const shortTermGoalId = req.body.shortTermGoalId;
   const complete = req.body.complete;
 
-  if (userId == null || shortTermGoalId == null) {
+  if (userId == null || shortTermGoalId == null || complete == null) {
     logger.info("Missing parameters in ${req.params}");
     res.status(400);
     res.end();
@@ -201,13 +200,18 @@ const completeShortTermGoal = async (req, res) => {
 
       const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
 
-      if (userUpdateResult != null) {
-        success = true;
-        logger.info("Successfully incremented short term goal");
-      }
+      success = userUpdateResult != null ? true : false
     }
 
-    var responseObj = {"success": success};
+    if (complete && success) {
+      logger.info("Successfully incremented short term goal");
+    } else if (!complete && success) {
+      logger.info("Successfully decremented short term goal");
+    } else {
+      logger.info("Failed to update short term goal");
+    }
+
+    const responseObj = {"success": success};
 
     res.send(responseObj);
   } catch (error) {
