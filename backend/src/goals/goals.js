@@ -160,9 +160,9 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
 
   let index_highest_cossim_STG = arr_of_STG_cossim_scores.indexOf(Math.max(...arr_of_STG_cossim_scores));
-  var mostSimilarLTG = STG_title_array[index_highest_cossim_STG];   // get most similar LTG title, else random-ish one
+  var mostSimilarSTG = STG_title_array[index_highest_cossim_STG];   // get most similar LTG title, else random-ish one
 
-  var response = mostSimilarLTG == null ? noSugSTGString : mostSimilarLTG;
+  var response = mostSimilarSTG == null ? noSugSTGString : mostSimilarSTG;
   res.send({ "answer": response });
 
   } catch (error) {
