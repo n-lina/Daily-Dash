@@ -9,9 +9,10 @@ import React from "react";
 
 // import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeScreen, ProfileScreen } from "../screens";
+import { ProfileScreen } from "../screens";
 import { Icon } from "react-native-elements";
 import { GoalsNavigator } from "./goals-navigator";
+import { HomeNavigator } from "./home-navigator";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -41,6 +42,7 @@ export function PrimaryNavigator() {
       initialRouteName="Home"
       tabBarOptions={{
         activeTintColor: "#101010",
+        keyboardHidesTabBar: true
       }}
     >
       <Tab.Screen
@@ -52,7 +54,7 @@ export function PrimaryNavigator() {
       />
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} />,
         }}

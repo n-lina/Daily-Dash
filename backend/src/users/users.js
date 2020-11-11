@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const auth = require("../firebase/auth");
 const logger = require("../logger/logging");
 const UserModel = require("../models/users");
 
@@ -100,8 +101,8 @@ const expireNotificationToken = async (req, res) => {
 	res.send(response);
 };
 
-router.post("/", addUser);
-router.get("/:id", getUser);
-router.delete("/:id/notification", expireNotificationToken);
+router.post("/", auth.checkIfAuthenticated, addUser);
+router.get("/:id", auth.checkIfAuthenticated, getUser);
+router.delete("/:id/notification", auth.checkIfAuthenticated, expireNotificationToken);
 
 module.exports = router;

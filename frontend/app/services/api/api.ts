@@ -77,7 +77,7 @@ export class Api {
   /**
    * Sign a user out, delete there notification token from the server.
    */
-  async signOut(): Promise<Types.SignOutResult> {
+  async signOut(): Promise<Types.SuccessResult> {
     const notId = await messaging().getToken();
     const userId = await auth().currentUser.uid;
     const deleteNotId: Types.DeleteNotificationToken = { token: notId };
@@ -127,6 +127,7 @@ export class Api {
       return {
         email: raw.email,
         name: raw.username,
+        goalsCompleted: raw.goalsCompleted
       };
     };
 
@@ -162,11 +163,25 @@ export class Api {
       const resultUser: Types.User = {
         email: response.data.email,
         name: response.data.username,
+        goalsCompleted: response.data.goalsCompleted
       };
       return { kind: "ok", user: resultUser };
     } catch {
       return { kind: "bad-data" };
     }
+  }
+
+  async toggleCompletedGoal(stgId: string, completed: boolean): Promise<Types.SuccessResult> {
+    const userId = auth().currentUser.uid;
+    const url = "/goals/shortterm/counter";
+    const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, completed: completed });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return { kind: "ok" };
   }
 
   async getDailyGoals(day: string): Promise<Types.DailyGoalResult> {
@@ -180,7 +195,7 @@ export class Api {
 
     const convertGoal = (raw) => {
       return {
-        id: raw.stgId + raw.time,
+        id: raw.stgId,
         title: raw.title,
         time: raw.time
       };
