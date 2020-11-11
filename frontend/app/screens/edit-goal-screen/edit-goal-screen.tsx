@@ -1,25 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import { observer } from "mobx-react-lite";
-import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View } from "react-native";
-import { Button, Header, Screen, Text } from "../../components";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, TextInput, Alert, ScrollView } from "react-native";
+import { Button, Header, Screen, Text, StGoal } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
+import { Goal } from "../../models";
 
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
   button: {
   },
+  content: {
+    alignItems: "center"
+  },
   image: {
-    height: 50,
-    width: 50,
+    height: 55,
+    width: 55,
   },
   separator: {
     borderBottomColor: borderColor,
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginVertical: 8,
+  },
+  sideByside: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  textInput: {
+    fontSize: 15,
+    height: 40
   }
 });
 
@@ -61,10 +74,10 @@ const TITLE: TextStyle = {
 
 const TITLE2: TextStyle = {
   ...TEXT,
-  fontSize: 20,
+  fontSize: 15,
   lineHeight: 30,
   textAlign: "center",
-  marginBottom: spacing[5],
+  marginTop: spacing[1],
   marginLeft: spacing[3],
   marginRight: spacing[3],
 };
@@ -80,33 +93,140 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
+  
+  const { LtGoalFormStore, goalsStore } = useStores();
+
+  function convertTimeToMin(hr: number, min: number) {
+    return (hr * 60) + min;
+  }
+
+  function convertSTgoals(fromForm: Array<StGoalForm>) {
+    const myStGoal = [];
+    for (const goal of fromForm) {
+      console.log("orange " + JSON.stringify(goal));
+      const time = [convertTimeToMin(goal.hour, goal.minute)];
+      myStGoal.push({
+        title: goal.title,
+        [goal.day]: time,
+      });
+    }
+    // console.log(myStGoal)
+    return myStGoal;
+  }
+
   const navigation = useNavigation();
-  // const nextScreen = () => navigation.navigate("primaryStack.home");
+  // const nextScreen = () => navigation.navigate("primaryStack.home")
+  const route = useRoute();
+  console.log(JSON.stringify(route.params));
+  const {    
+    LTgoal,  
+    mon, 
+    tue, 
+    wed, 
+    thu, 
+    fri, 
+    sat, 
+    sun, 
+    description, 
+    id
+  } = route.params as {LTgoal: string, mon: any[],tue: any[], wed:any[],thu:any[], fri:any[], sat:any[],sun:any[], description: string, id: string};
+  console.log(LTgoal + "/ " + mon + "/ " + tue + "/ " + wed + "/ " + thu + "/ " + fri + "/ " + sat + "/ " + sun+"/ "+description+"/ "+id);
+
+  function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
+    const myStGoal = convertSTgoals(fromForm);
+    goalsStore.postLTgoal(LTgoal, description, myStGoal);
+    LtGoalFormStore.clearForm();
+    console.log("cleared");
+    navigation.navigate("allGoals");
+    return 1;
+  }
+
+  function initialize(
+    LTgoal: string, 
+    description: string, 
+    mon: any[],
+    tue: any[],
+    wed: any[], 
+    thu: any[], 
+    fri: any[], 
+    sat: any[], 
+    sun: any[]
+    ){
+    LtGoalFormStore.setTitle(LTgoal)
+    console.log(LtGoalFormStore.title)
+    LtGoalFormStore.setDescription(description)
+    console.log(LtGoalFormStore.description)
+    
+    for (const day of [[mon,"mon"], [tue,"tue"], [wed,"wed"], [thu,"thu"], [fri,"fri"], [sat,"sat"], [sun,"sun"]]){
+      const arr = day[0]
+      const weekday = day[1] as string
+      for (const STgoal of arr){
+        const mins = STgoal[0] % 60;
+        const hrs = Math.floor(STgoal[0]/ 60);
+        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
+      }
+    }    
+  }
+
+  async function getSuggestion() {
+    console.log(LtGoalFormStore.title);
+    await goalsStore.getSTsuggestion(LtGoalFormStore.title);
+    Alert.alert(goalsStore.STsuggestion);
+    return 1;
+  }
+
+  const { STgoalForm } = LtGoalFormStore;
+
+  useEffect(() => {
+    if (LtGoalFormStore.STgoalForm.length === 0) initialize(LTgoal, description, mon, tue, wed, thu, fri, sat, sun);
+  }, []);
 
   return (
     <View style={FULL}>
-      <Screen style={ROOT} preset="scroll" backgroundColor={color.transparent}>
+      <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Edit Goal   ]" />
         </Text>
         < Separator />
         < Separator />
-        <Image source={require("../../../assets/compass.png")} style={styles.image} />
+        <Image source={require("../../../assets/map.png")} style={styles.image} />
         < Separator />
         < Separator />
-        <Text style={TITLE2} text="I want to ... " />
-        < Separator />
-        < Separator />
-        {/* FORM FIELDS */}
-        <Text style={TITLE2} text="Small tasks I can do regularly to achieve my goal include ..." />
-        < Separator />
-        < Separator />
-        {/* FORM FIELDS */}
+        <ScrollView contentContainerStyle={styles.content}>
+          <View style={styles.sideByside}>
+            <Text style={TITLE2} text="My goal is to .. " />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => LtGoalFormStore.setTitle(text)}
+              placeholder="be a happier person."
+            />
+          </View>
+          <View style={styles.sideByside}>
+            <Text style={TITLE2} text="Description:" />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => LtGoalFormStore.setDescription(text)}
+              placeholder="(Optional) I do better when I'm happy."
+            />
+          </View>
+          <Text style={TITLE2} text="Regular Habits: " />
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
+          < Separator />
+        </ScrollView>
+        <Button
+          style={styles.button}
+          text="Add New ST Goal"
+          onPress={() => LtGoalFormStore.addSTgoal()} />
+        <Button
+          style={styles.button}
+          text="Get Suggestion"
+          onPress={() => getSuggestion()} />
         <Button
           style={styles.button}
           text="Submit"
-          onPress={() => navigation.navigate("signInScreen")} />
+          onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
+        {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
         {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN */}
       </Screen>
     </View>

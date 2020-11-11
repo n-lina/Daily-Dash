@@ -116,9 +116,21 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation();
   const route = useRoute();
-  console.log("banana" + JSON.stringify(route.params));
-  const { LTgoal, STgoals } = route.params as Goal;
-  console.log("banana" + LTgoal + " " + STgoals);
+  console.log(JSON.stringify(route.params));
+  const { LTgoal, STgoals, description, id} = route.params as Goal;
+  console.log(LTgoal + " " + STgoals);
+
+  const editThisGoal = () => navigation.navigate("editGoal", { 
+    LTgoal: LTgoal, 
+    mon: monday,
+    tue: tuesday,
+    wed: wednesday,
+    thu: thursday, 
+    fri: friday, 
+    sat: saturday,
+    sun: sunday,
+    description: description, 
+    id: id });
 
   // const LTgoal = "hello"
   // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
@@ -234,7 +246,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           <Button
             style={styles.button}
             text="Edit"
-            onPress={() => navigation.navigate("editGoal")}
+            onPress={() => editThisGoal()}
           />
           <Button
             style={styles.button}

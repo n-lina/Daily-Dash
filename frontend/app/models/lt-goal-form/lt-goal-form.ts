@@ -19,6 +19,15 @@ export const LtGoalFormModel = types
     setDescription(desc: string) {
       self.description = desc;
     },
+    initSTgoals(title: string, day: string, hr: number, min: number){
+      let myGoal = StGoalFormModel.create();
+      myGoal.setTitle(title);
+      myGoal.setDay(day);
+      myGoal.setHour(hr);
+      myGoal.setMin(min);
+      self.STgoalForm.push(myGoal)
+      console.log("hello")
+    },
     addSTgoal() {
       self.STgoalForm.push(StGoalFormModel.create());
     },
