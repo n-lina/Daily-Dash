@@ -90,6 +90,7 @@ export function StGoal(props: StGoalProps) {
           onChangeText={text => props.myGoal.setTitle(text)}
           // value={props.myGoal.title}
           placeholder="call a friend once a week"
+          defaultValue={props.myGoal.title}
         />
       </View>
       {/* < Separator /> */}
@@ -104,7 +105,7 @@ export function StGoal(props: StGoalProps) {
             { label: "Saturday", value: "sat" },
             { label: "Sunday", value: "sun" },
           ]}
-          defaultValue={"mon"}
+          defaultValue={props.myGoal.day}
           containerStyle={styles.container}
           style={{ backgroundColor: pickerColor }}
           itemStyle={
@@ -140,7 +141,7 @@ export function StGoal(props: StGoalProps) {
             { label: "22", value: 22 },
             { label: "23", value: 23 },
           ]}
-          defaultValue={0}
+          defaultValue={props.myGoal.hour}
           containerStyle={styles.picker}
           style={{ backgroundColor: pickerColor }}
           itemStyle={
@@ -212,7 +213,7 @@ export function StGoal(props: StGoalProps) {
             { label: "58", value: 58 },
             { label: "59", value: 59 },
           ]}
-          defaultValue={0}
+          defaultValue={props.myGoal.minute}
           containerStyle={styles.picker}
           style={{ backgroundColor: pickerColor }}
           itemStyle={

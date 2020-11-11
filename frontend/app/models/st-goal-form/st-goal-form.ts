@@ -19,7 +19,6 @@ export const StGoalFormModel = types
     },
     setDay(day: string) {
       self.day = day;
-      console.log("st goal day");
     },
     setHour(hour: number) {
       self.hour = hour;

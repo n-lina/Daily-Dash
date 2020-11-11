@@ -271,6 +271,27 @@ export class Api {
     }
   }
 
+  async putLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.put("/goals", { userId: userId, title: LTgoal, description: description, shortTermGoals: STgoals });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    try {
+      // const rawGoal = response.data
+      console.log(JSON.stringify(response.data));
+      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok" };
+    } catch {
+      return { kind: "bad-data" };
+    }
+  }
+
   // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
   //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
 

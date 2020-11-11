@@ -26,7 +26,6 @@ export const LtGoalFormModel = types
       myGoal.setHour(hr);
       myGoal.setMin(min);
       self.STgoalForm.push(myGoal)
-      console.log("hello")
     },
     addSTgoal() {
       self.STgoalForm.push(StGoalFormModel.create());

@@ -6,7 +6,7 @@ import { Button, Header, Screen, Text } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
-import { Goal } from "../../models";
+import { Goal, useStores } from "../../models";
 
 const borderColor = "#737373";
 const white = "#fff";
@@ -109,7 +109,7 @@ const FULL: ViewStyle = {
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
   // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+  const { LtGoalFormStore} = useStores()
   // OR
   // const rootStore = useStores()
 
@@ -120,17 +120,38 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { LTgoal, STgoals, description, id} = route.params as Goal;
   console.log(LTgoal + " " + STgoals);
 
-  const editThisGoal = () => navigation.navigate("editGoal", { 
-    LTgoal: LTgoal, 
-    mon: monday,
-    tue: tuesday,
-    wed: wednesday,
-    thu: thursday, 
-    fri: friday, 
-    sat: saturday,
-    sun: sunday,
-    description: description, 
-    id: id });
+  // const editThisGoal = () => navigation.navigate("editGoal", { 
+  //   LTgoal: LTgoal, 
+  //   mon: monday,
+  //   tue: tuesday,
+  //   wed: wednesday,
+  //   thu: thursday, 
+  //   fri: friday, 
+  //   sat: saturday,
+  //   sun: sunday,
+  //   description: description, 
+  //   id: id });
+
+
+  function editThisGoal() {
+    LtGoalFormStore.clearForm()
+
+    LtGoalFormStore.setTitle(LTgoal)
+    LtGoalFormStore.setDescription(description)
+
+    for (const day of [[monday,"mon"], [tuesday,"tue"], [wednesday,"wed"], [thursday,"thu"], [friday,"fri"], [saturday,"sat"], [sunday,"sun"]]){
+      const arr = day[0]
+      const weekday = day[1] as string
+      for (const STgoal of arr){
+        const mins = STgoal[0] % 60;
+        const hrs = Math.floor(STgoal[0]/ 60);
+        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
+      }
+    }
+
+    navigation.navigate("editGoal")
+
+  }
 
   // const LTgoal = "hello"
   // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]

@@ -28,13 +28,40 @@ const styles = StyleSheet.create({
   },
   sideByside: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    flex: 1,
+    justifyContent: "center", 
+    alignContent: "center"
   },
   textInput: {
     fontSize: 15,
     height: 40
+  },
+  textInputTitle: {
+    fontSize: 15,
+    height: 40,
+    flex:1, 
+    textAlign: "left",
+    justifyContent: "flex-end",
+    alignContent: "center"
   }
 });
+
+const TEXT: TextStyle = {
+  color: color.palette.black,
+  fontFamily: typography.primary,
+};
+
+const TextPrompt: TextStyle = {
+  ...TEXT,
+  fontSize: 15,
+  lineHeight: 30,
+  //textAlign: "right",
+  //flex: 1,
+  marginTop: spacing[1],
+  // marginLeft: spacing[8],
+  marginRight: spacing[3],
+  justifyContent: "flex-start"
+};
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -47,10 +74,7 @@ const Separator = () => (
   <View style={styles.separator} />
 );
 
-const TEXT: TextStyle = {
-  color: color.palette.black,
-  fontFamily: typography.primary,
-};
+
 // const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
@@ -116,21 +140,21 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   const navigation = useNavigation();
   // const nextScreen = () => navigation.navigate("primaryStack.home")
-  const route = useRoute();
-  console.log(JSON.stringify(route.params));
-  const {    
-    LTgoal,  
-    mon, 
-    tue, 
-    wed, 
-    thu, 
-    fri, 
-    sat, 
-    sun, 
-    description, 
-    id
-  } = route.params as {LTgoal: string, mon: any[],tue: any[], wed:any[],thu:any[], fri:any[], sat:any[],sun:any[], description: string, id: string};
-  console.log(LTgoal + "/ " + mon + "/ " + tue + "/ " + wed + "/ " + thu + "/ " + fri + "/ " + sat + "/ " + sun+"/ "+description+"/ "+id);
+  // const route = useRoute();
+  // console.log(JSON.stringify(route.params));
+  // const {    
+  //   LTgoal,  
+  //   mon, 
+  //   tue, 
+  //   wed, 
+  //   thu, 
+  //   fri, 
+  //   sat, 
+  //   sun, 
+  //   description, 
+  //   id
+  // } = route.params as {LTgoal: string, mon: any[],tue: any[], wed:any[],thu:any[], fri:any[], sat:any[],sun:any[], description: string, id: string};
+  // console.log(LTgoal + "/ " + mon + "/ " + tue + "/ " + wed + "/ " + thu + "/ " + fri + "/ " + sat + "/ " + sun+"/ "+description+"/ "+id);
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
     const myStGoal = convertSTgoals(fromForm);
@@ -141,32 +165,32 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
     return 1;
   }
 
-  function initialize(
-    LTgoal: string, 
-    description: string, 
-    mon: any[],
-    tue: any[],
-    wed: any[], 
-    thu: any[], 
-    fri: any[], 
-    sat: any[], 
-    sun: any[]
-    ){
-    LtGoalFormStore.setTitle(LTgoal)
-    console.log(LtGoalFormStore.title)
-    LtGoalFormStore.setDescription(description)
-    console.log(LtGoalFormStore.description)
+  // function initialize(
+  //   LTgoal: string, 
+  //   description: string, 
+  //   mon: any[],
+  //   tue: any[],
+  //   wed: any[], 
+  //   thu: any[], 
+  //   fri: any[], 
+  //   sat: any[], 
+  //   sun: any[]
+  //   ){
+  //   LtGoalFormStore.setTitle(LTgoal)
+  //   console.log(LtGoalFormStore.title)
+  //   LtGoalFormStore.setDescription(description)
+  //   console.log(LtGoalFormStore.description)
     
-    for (const day of [[mon,"mon"], [tue,"tue"], [wed,"wed"], [thu,"thu"], [fri,"fri"], [sat,"sat"], [sun,"sun"]]){
-      const arr = day[0]
-      const weekday = day[1] as string
-      for (const STgoal of arr){
-        const mins = STgoal[0] % 60;
-        const hrs = Math.floor(STgoal[0]/ 60);
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
-      }
-    }    
-  }
+  //   for (const day of [[mon,"mon"], [tue,"tue"], [wed,"wed"], [thu,"thu"], [fri,"fri"], [sat,"sat"], [sun,"sun"]]){
+  //     const arr = day[0]
+  //     const weekday = day[1] as string
+  //     for (const STgoal of arr){
+  //       const mins = STgoal[0] % 60;
+  //       const hrs = Math.floor(STgoal[0]/ 60);
+  //       LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
+  //     }
+  //   }    
+  // }
 
   async function getSuggestion() {
     console.log(LtGoalFormStore.title);
@@ -177,9 +201,9 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   const { STgoalForm } = LtGoalFormStore;
 
-  useEffect(() => {
-    if (LtGoalFormStore.STgoalForm.length === 0) initialize(LTgoal, description, mon, tue, wed, thu, fri, sat, sun);
-  }, []);
+  // useEffect(() => {
+  //   if (LtGoalFormStore.STgoalForm.length === 0) initialize(LTgoal, description, mon, tue, wed, thu, fri, sat, sun);
+  // }, []);
 
   return (
     <View style={FULL}>
@@ -195,19 +219,21 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
         < Separator />
         <ScrollView contentContainerStyle={styles.content}>
           <View style={styles.sideByside}>
-            <Text style={TITLE2} text="My goal is to .. " />
+            <Text style={TextPrompt} text="My goal is to: " />
             <TextInput
-              style={styles.textInput}
+              style={styles.textInputTitle}
               onChangeText={text => LtGoalFormStore.setTitle(text)}
               placeholder="be a happier person."
+              defaultValue={LtGoalFormStore.title}
             />
           </View>
           <View style={styles.sideByside}>
-            <Text style={TITLE2} text="Description:" />
+            <Text style={TextPrompt} text="Description:" />
             <TextInput
-              style={styles.textInput}
+              style={styles.textInputTitle}
               onChangeText={text => LtGoalFormStore.setDescription(text)}
               placeholder="(Optional) I do better when I'm happy."
+              defaultValue={LtGoalFormStore.description}
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
