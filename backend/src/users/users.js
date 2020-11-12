@@ -28,7 +28,7 @@ const addUser = async (req, res) => {
 
   const query = {"userId": id};
 
-  UserModel.findOneAndUpdate(query, userObj, {upsert: true}).then((doc) => {
+  await UserModel.findOneAndUpdate(query, userObj, {upsert: true}).then((doc) => {
     logger.info(doc);
   })
   .catch((err) => {
