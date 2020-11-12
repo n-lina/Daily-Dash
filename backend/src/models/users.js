@@ -7,7 +7,7 @@ const User = new Schema({
     username: { type: String, required: true },
     notificationId: { type: String, required: true },
     goalsCompleted: { type: Number, default: 0 },
-    timeMode: { type: Number, default: 24 },
+    timeMode: { type: Number, default: 12 },
 });
 
 module.exports = mongoose.model("User", User);
