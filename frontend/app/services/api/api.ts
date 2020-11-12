@@ -116,7 +116,7 @@ export class Api {
   ): Promise<Types.PostUserSignInResult> {
     const notId = await messaging().getToken();
 
-    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId };
+    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId, timeMode: 12 };
 
     const idToken = await auth().currentUser.getIdToken();
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
@@ -133,7 +133,8 @@ export class Api {
       return {
         email: raw.email,
         name: raw.username,
-        goalsCompleted: raw.goalsCompleted
+        goalsCompleted: raw.goalsCompleted,
+        timeMode: raw.timeMode
       };
     };
 
@@ -169,7 +170,8 @@ export class Api {
       const resultUser: Types.User = {
         email: response.data.email,
         name: response.data.username,
-        goalsCompleted: response.data.goalsCompleted
+        goalsCompleted: response.data.goalsCompleted,
+        timeMode: response.data.timeMode
       };
       return { kind: "ok", user: resultUser };
     } catch {

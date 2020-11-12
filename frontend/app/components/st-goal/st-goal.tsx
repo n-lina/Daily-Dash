@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   // },
   sideByside: {
     alignContent: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    width: 220
     // justifyContent: 'space-between',
   },
   textInput: {
@@ -46,7 +47,6 @@ const styles = StyleSheet.create({
     height: 40, 
     textAlign: "left",
     alignContent: "center", 
-    flex: 1
   }, 
   colon: {
     fontSize: 16,
@@ -162,7 +162,7 @@ export function StGoal(props: StGoalProps) {
         <TextInput
           style={styles.textInputTime1}
           onChangeText={text => validateHour(text)}
-          placeholder="00"
+          placeholder="hh"
           defaultValue={props.myGoal.hour}
           keyboardType = 'numeric'
           maxLength = {2}
@@ -172,7 +172,7 @@ export function StGoal(props: StGoalProps) {
         <TextInput
           style={styles.textInputTime2}
           onChangeText={text => validateMin(text)}
-          placeholder="00"
+          placeholder="mm"
           defaultValue={props.myGoal.minute}
           keyboardType = 'numeric'
           maxLength = {2}

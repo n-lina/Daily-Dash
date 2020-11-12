@@ -1,4 +1,3 @@
-import { parse } from "@babel/core";
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
@@ -9,8 +8,8 @@ export const StGoalFormModel = types
   .props({
     title: "",
     day: "mon",
-    hour: "00",
-    minute: "00"
+    hour: "",
+    minute: ""
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
