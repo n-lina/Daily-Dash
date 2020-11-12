@@ -10,8 +10,9 @@ const addUser = async (req, res) => {
   const email = req.body.email;
   const username = req.body.username;
   const notificationId = req.body.notificationId;
+  const timeMode = req.body.timeMode;
 
-  if (id == null || email == null || username == null) {
+  if (id == null || email == null || username == null || notificationId == null || timeMode == null) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
@@ -24,6 +25,7 @@ const addUser = async (req, res) => {
     username,
     notificationId,
     goalsCompleted: 0,
+    timeMode,
   };
 
   const query = {"userId": id};
@@ -61,7 +63,12 @@ const getUser = async (req, res) => {
       return;
     }
 
-    var response = {email: result.email, username: result.username};
+    var response = {
+      email: result.email, 
+      username: result.username,
+      goalsCompleted: result.goalsCompleted,
+      timeMode: result.timeMode
+    };
 
     res.send(response);
   } catch (error) {

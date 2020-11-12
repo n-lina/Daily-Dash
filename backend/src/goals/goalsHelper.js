@@ -19,6 +19,7 @@ const getGoalsResponseFromDBResult = (result) => {
       var shortTermGoalObj = {
         id: shortTermGoal.id,
         title: shortTermGoal.title,
+        timesCompleted: shortTermGoal.timesCompleted,
         mon: shortTermGoal.mon,
         tue: shortTermGoal.tue,
         wed: shortTermGoal.wed,
