@@ -10,7 +10,7 @@ const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
 var   cacheLTGsArray = [];
 const maxLTGsInArray = 50;
-const intervalRepopulatingTempLTGArray = 30000; // milliseconds
+const intervalRepopulatingTempLTGArray = 3000; // milliseconds
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
@@ -117,9 +117,9 @@ const postGoal = async (req, res) => {
 const getSuggestedShortTermGoal = async (req, res) => {
   const title = req.query.title;
 
-  // ensure title param not null, empty, or undefined, and is string or String object
-  if ((!title || 0 === title.length) || !(typeof title == "string" || title instanceof String)) {
-    logger.info(`Missing parameters in query url, or param is empty or not string`);
+  // ensure title param is string or String object, and checkHasWords() checks that not null, empty, or undefined
+  if (!(typeof title == "string" || title instanceof String) || !goalsSugHelper.checkHasWords(title)) {
+    logger.info(`Parameter in query url is either missing or not string with at least 1 character.`);
     res.status(400);
     res.end();
     return;

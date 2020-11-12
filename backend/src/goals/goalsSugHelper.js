@@ -14,11 +14,13 @@ function checkHasWords(stringParam) {
     returnVal = false;  // if string is null, returns false
   }
   else {  // check if empty
-    str
-      .replace(/[.,?!;()"'-]/g, " ")  // replace punctuation
-      .replace(/\s+/g, " ")           // make uniform white space usage
-      .toLowerCase()                  // make uniform case for comparison
-      .replace(" ", "");
+    console.log(str);
+    str = str
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"") // replace punctuation
+      .replace(/\s+/g, " ")                       // make uniform white space usage
+      .toLowerCase()                              // make uniform case for comparison
+      console.log(str);
+
     returnVal = !(str == ""); // if string not empty, returnVal is true
   }
   return returnVal; // if string not null or empty, returns true
@@ -82,4 +84,4 @@ async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle)
     });
 }
 
-module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles }
+module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles, checkHasWords }
