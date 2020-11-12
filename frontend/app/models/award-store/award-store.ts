@@ -8,7 +8,7 @@ import { withEnvironment } from "../extensions/with-environment";
 export const AwardStoreModel = types
   .model("AwardStore")
   .props({
-    awards: types.optional(types.array(types.array(string)), [["No Awards Yet ...", "Keep completing goals to get one soon!"]]),
+    awards: types.optional(types.array(types.array(types.string)), [["No Awards Yet ...", "Keep completing goals to get one soon!"]]),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .extend(withEnvironment)
