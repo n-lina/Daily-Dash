@@ -1,9 +1,10 @@
-describe('Example', () => {
+describe('First screen', () => {
   // beforeEach(async () => {
   //   await device.reloadReactNative();
   // });
 
   it('should have welcome screen', async () => {
+    await waitFor(element(by.id('welcomeMessage'))).toExist().withTimeout(5000);
     await expect(element(by.id('welcomeMessage'))).toBeVisible();
   });
 

@@ -7,7 +7,6 @@ import { DailyGoal, useStores } from "../../models";
 import { color } from "../../theme";
 import { CheckBox, ListItem, Text, Button, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
-import Swipeable from "react-native-gesture-handler/Swipeable";
 
 /** **           STYLES            ***** */
 const progressWidth = 280;
@@ -64,25 +63,6 @@ const LEVEL_NUM_WRAP: ViewStyle = {
 const CHECK_BOX: ViewStyle = {
   position: "absolute",
   right: 5,
-};
-
-const HIDDEN_SWIPE: ViewStyle = {
-  justifyContent: "center",
-  paddingRight: 5,
-};
-
-const RESET_STYLE: ViewStyle = {
-  ...HIDDEN_SWIPE,
-};
-
-const COMPLETED_SWIPE: ViewStyle = {
-  ...HIDDEN_SWIPE,
-  backgroundColor: "rgba(0,255,255, .5)",
-};
-
-const CANCELLED_SWIPE: ViewStyle = {
-  ...HIDDEN_SWIPE,
-  backgroundColor: "rgba(255,0,0, .15)",
 };
 
 const COMPLETED_STYLE: ViewStyle = {
@@ -179,28 +159,6 @@ export const HomeScreen = observer(function HomeScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const swipeRightCompleted = () => (
-    <View style={COMPLETED_SWIPE}>
-      <Text>Completed</Text>
-    </View>
-  );
-
-  const swipeLeftCancelled = () => (
-    <View style={CANCELLED_SWIPE}>
-      <Text>Cancel</Text>
-    </View>
-  );
-
-  const swipeReset = () => (
-    <View style={RESET_STYLE}>
-      <Text>Reset</Text>
-    </View>
-  );
-
-  // Keep track of the each instance in the goals list,
-  // used to close on after swipe
-  const refs = [];
-
   const setCompleted = (goal: DailyGoal, newVal: boolean) => {
     const prev = goal.completed;
     if (prev !== newVal) {
@@ -211,18 +169,6 @@ export const HomeScreen = observer(function HomeScreen() {
       }
     }
     goal.setCompleted(newVal);
-  };
-
-  const toggleCompleted = (index: number, goal: DailyGoal) => {
-    goal.setCancelled(false);
-    setCompleted(goal, !goal.completed);
-    if (refs[index]) refs[index].close();
-  };
-
-  const toggleCancelled = (index: number, goal: DailyGoal) => {
-    setCompleted(goal, false);
-    goal.setCancelled(!goal.cancelled);
-    if (refs[index]) refs[index].close();
   };
 
   /**
@@ -240,7 +186,7 @@ export const HomeScreen = observer(function HomeScreen() {
     }
   };
 
-  const renderGoal = ({ item, index }) => {
+  const renderGoal = ({ item }) => {
     return (
       <View>
         {/* <Swipeable
@@ -282,7 +228,7 @@ export const HomeScreen = observer(function HomeScreen() {
   };
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="homeSreenWrap">
       <Screen style={FULL} backgroundColor={color.transparent}>
         <View style={TOP_SECTION}>
           <View style={CONTENT_WRAP}>
