@@ -131,7 +131,7 @@ const updateGoal = async (req, res) => {
   const query = {"_id": ltgId, "userId": userId};
 
   try {
-    var currentGoal = await GoalModel.findOne(query);
+    const currentGoal = await GoalModel.findOne(query);
 
     goalsHelper.updateShortTermGoalCounter(shortTermGoals, currentGoal.shortTermGoals);
 
