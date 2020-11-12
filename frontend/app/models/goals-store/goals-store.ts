@@ -40,7 +40,7 @@ export const GoalsStoreModel = types
       });
     },
     postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
-      self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
+      return self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
         if (res.kind === "ok") {
           __DEV__ && console.log("Added goal to database");
         } else {
@@ -51,7 +51,7 @@ export const GoalsStoreModel = types
       });
     },
     putLTgoal: (LTgoal: string, goalID: string, description: string, STgoals: Array<StGoal>) => {
-      self.environment.api.putLTgoal(LTgoal, description, STgoals, goalID).then(res => {
+      return self.environment.api.putLTgoal(LTgoal, description, STgoals, goalID).then(res => {
         if (res.kind === "ok") {
           __DEV__ && console.log("Edited goal in database");
         } else {
