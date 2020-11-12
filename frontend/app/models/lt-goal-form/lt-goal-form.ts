@@ -9,17 +9,21 @@ export const LtGoalFormModel = types
   .props({
     title: "",
     description: "",
+    id: "",
     STgoalForm: types.optional(types.array(StGoalFormModel), [])
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
+    setId(id: string){
+      self.id = id;
+    },
     setTitle(title: string) {
       self.title = title;
     },
     setDescription(desc: string) {
       self.description = desc;
     },
-    initSTgoals(title: string, day: string, hr: number, min: number){
+    initSTgoals(title: string, day: string, hr: string, min: string){
       let myGoal = StGoalFormModel.create();
       myGoal.setTitle(title);
       myGoal.setDay(day);

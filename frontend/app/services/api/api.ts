@@ -70,6 +70,12 @@ export class Api {
     };
   }
 
+  convertAward = (raw) => {
+    // console.log(JSON.stringify(raw));
+    const oneAward = [raw.title, raw.description]
+    return oneAward
+  }
+
   getUserID() {
     return auth().currentUser.uid;
   }
@@ -271,11 +277,11 @@ export class Api {
     }
   }
 
-  async putLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
+  async putLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
     const idToken = await auth().currentUser.getIdToken();
     // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.put("/goals", { userId: userId, title: LTgoal, description: description, shortTermGoals: STgoals });
+    const response: ApiResponse<any> = await this.apisauce.put(`/goals/${goalId}`, { userId: userId, title: LTgoal, description: description, shortTermGoals: STgoals, id: goalId });
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response);
@@ -292,23 +298,45 @@ export class Api {
     }
   }
 
-  // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-  //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
+  async deleteLTgoal(goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.delete(`/goals/${goalId}`, { userId: userId, id: goalId });
 
-  //   if (!response.ok){
-  //     const problem = getGeneralApiProblem(response)
-  //     if (problem) return problem
-  //   }
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
 
-  //   try {
-  //     const rawGoal = response.data
-  //     const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-  //     return { kind: "ok", goal: resultGoal }
-  //   } catch {
-  //     return { kind: "bad-data" }
-  //   }
-  // }
+    try {
+      // const rawGoal = response.data
+      console.log(JSON.stringify(response.data));
+      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok" };
+    } catch {
+      return { kind: "bad-data" };
+    }
+  }
 
-  // editOneLTgoal
-  // deleteLTgoal
+  async getAllAwards(userId: string = this.getUserID()): Promise<Types.GetAwardsResult> {
+    // async getAllGoals(userId: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${userId}`);
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    try {
+      const rawAwards = response.data.awards;
+      const resultAwardsList: Array<Array<String>> = rawAwards.map(this.convertAward);
+      return { kind: "ok", awards: resultAwardsList };
+    } catch {
+      return { kind: "bad-data" };
+    }
+  }
 }

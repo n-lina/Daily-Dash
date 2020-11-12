@@ -87,7 +87,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  const { goalsStore } = useStores();
+  const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
   // how to pass the item in here from the renderGoal function?
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { LTgoal: goal.LTgoal, STgoals: goal.STgoals, description: goal.description, id: goal.id });
@@ -106,7 +106,10 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
     if (goalsStore.goals.length === 0) { fetchGoals(); }
   }, []);
 
-  // const DATA = [{LTgoal: "example", description: "asdfasdf", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "1"}, {LTgoal: "example2", description: "kdkdkdk", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "2"}, {LTgoal: "example3", description: "uuuuuu", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "3"}]
+  function addNewGoal(){
+    LtGoalFormStore.clearForm()
+    navigation.navigate("addGoal")
+  }
 
   const renderGoal = ({ item }) => {
     const goal: Goal = item;
@@ -168,7 +171,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
         <Button
           // style={styles.button}
           text="Add New Goal"
-          onPress={() => navigation.navigate("addGoal")} />
+          onPress={() => addNewGoal()} />
       </Screen>
     </View>
   );

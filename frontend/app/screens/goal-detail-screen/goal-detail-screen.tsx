@@ -120,31 +120,19 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { LTgoal, STgoals, description, id} = route.params as Goal;
   console.log(LTgoal + " " + STgoals);
 
-  // const editThisGoal = () => navigation.navigate("editGoal", { 
-  //   LTgoal: LTgoal, 
-  //   mon: monday,
-  //   tue: tuesday,
-  //   wed: wednesday,
-  //   thu: thursday, 
-  //   fri: friday, 
-  //   sat: saturday,
-  //   sun: sunday,
-  //   description: description, 
-  //   id: id });
-
-
   function editThisGoal() {
     LtGoalFormStore.clearForm()
 
     LtGoalFormStore.setTitle(LTgoal)
+    LtGoalFormStore.setId(id)
     LtGoalFormStore.setDescription(description)
 
     for (const day of [[monday,"mon"], [tuesday,"tue"], [wednesday,"wed"], [thursday,"thu"], [friday,"fri"], [saturday,"sat"], [sunday,"sun"]]){
       const arr = day[0]
       const weekday = day[1] as string
       for (const STgoal of arr){
-        const mins = STgoal[0] % 60;
-        const hrs = Math.floor(STgoal[0]/ 60);
+        const mins = (STgoal[0] % 60).toString();
+        const hrs = (Math.floor(STgoal[0]/ 60)).toString();
         LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
       }
     }
