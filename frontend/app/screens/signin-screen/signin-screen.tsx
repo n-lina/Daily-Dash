@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, ViewStyle, TextStyle } from "react-native";
 import { observer } from "mobx-react-lite";
-import { Header, Screen, Text } from "../../components";
+import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin, GoogleSigninButton } from "@react-native-community/google-signin";
@@ -56,6 +56,15 @@ const CONT_TEXT: TextStyle = {
   marginBottom: 50,
 };
 
+const INVISIBLE: ViewStyle = {
+  position: "absolute",
+  top: 100,
+  height: 0,
+  width: 0,
+  left: 100,
+  backgroundColor: "rgb(241, 241, 241)"
+};
+
 export const SigninScreen = observer(function SigninScreen() {
   const { userStore } = useStores();
   const [signingIn, setSigningIn] = useState(false);
@@ -77,6 +86,16 @@ export const SigninScreen = observer(function SigninScreen() {
     });
   }
 
+  const testSignIn = () => {
+    auth().signInWithEmailAndPassword("testuser123@testy.com", "123456").then(res => {
+      res.user.getIdToken(true).then(() => {
+        userStore.postUser("Bob sagget test user", res.user.email, res.user.uid);
+      });
+    }).catch(err => {
+      __DEV__ && console.log("Failed to auth with test: " + err);
+    });
+  };
+
   return (
     <View style={FULL}>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
@@ -85,6 +104,11 @@ export const SigninScreen = observer(function SigninScreen() {
           <Text style={TITLE} text="Please select a sign in method" />
         </Text>
         <View style={CONTENT_WRAP} testID="signInWrap">
+          <Button
+            style={INVISIBLE}
+            testID="testSignIn"
+            onPress={testSignIn}
+          />
           <GoogleSigninButton
             style={SIGNIN_BUTTON}
             size={GoogleSigninButton.Size.Wide}

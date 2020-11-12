@@ -19,6 +19,7 @@ const getGoalsResponseFromDBResult = (result) => {
       var shortTermGoalObj = {
         id: shortTermGoal.id,
         title: shortTermGoal.title,
+        timesCompleted: shortTermGoal.timesCompleted,
         mon: shortTermGoal.mon,
         tue: shortTermGoal.tue,
         wed: shortTermGoal.wed,
@@ -69,4 +70,25 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   return responseObj;
 };
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult }
+
+const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
+  let currentShortTermGoalsMap = new Map();
+
+  currentShortTermGoals.forEach(function(shortTermGoal) {
+    currentShortTermGoalsMap.set(shortTermGoal.title,shortTermGoal.timesCompleted);
+  })
+
+  shortTermGoals.map(function(shortTermGoal) {
+    let shortTermGoalTitle = shortTermGoal.title;
+
+    if (currentShortTermGoalsMap.has(shortTermGoalTitle)) {
+      shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(shortTermGoalTitle);
+    } else {
+      shortTermGoal.timesCompleted = 0;
+    }
+
+    return shortTermGoal;
+  })
+}
+
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateShortTermGoalCounter }
