@@ -1,5 +1,4 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { string } from "mobx-state-tree/dist/internal"
 import { withEnvironment } from "../extensions/with-environment";
 
 /**
