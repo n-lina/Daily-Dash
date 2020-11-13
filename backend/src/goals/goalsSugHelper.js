@@ -14,7 +14,6 @@ function checkHasWords(stringParam) {
     returnVal = false;  // if string is null, returns false
   }
   else {  // check if empty
-    console.log(str);
     str = str
       .replace(/[^\w\s]|_/g, "") // deletes all but digits, letters, and whitespace
       .replace(/\s+/g, " ")      // make uniform white space usage
