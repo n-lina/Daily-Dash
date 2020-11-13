@@ -9,8 +9,9 @@ export const StGoalFormModel = types
   .props({
     title: "",
     day: "mon",
-    hour: "00",
-    minute: "00"
+    hour: "",
+    minute: "", 
+    id: ""
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -21,24 +22,14 @@ export const StGoalFormModel = types
     setDay(day: string) {
       self.day = day;
     },
-    // validateHour(hour: string){
-    //   self.hour = hour.replace(/[^0-9]/g, '');
-    //   if (parseInt(self.hour) > 23) {
-    //     self.hour = (23).toString()
-    //   }
-    //   console.log(self.hour)
-    // },
-    // validateMin(minute: string){
-    //   self.minute = minute.replace(/[^0-9]/g, '');
-    //   if (parseInt(self.minute) > 59) {
-    //     self.hour = (59).toString()
-    //   }
-    // },
     setHour(hour: string) {
       self.hour = hour;
     },
     setMin(minute: string) {
       self.minute = minute;
+    }, 
+    setID(id: string){
+      self.id = id;
     }
   })); // eslint-disable-line @typescript-eslint/no-unused-vars
 

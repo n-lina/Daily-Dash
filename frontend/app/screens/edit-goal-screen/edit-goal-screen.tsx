@@ -118,19 +118,19 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
       myStGoal.push({
         title: goal.title,
         [goal.day]: time,
+        id: goal.id
       });
     }
-    // console.log(myStGoal)
+    console.log(myStGoal)
     return myStGoal;
   }
 
   const navigation = useNavigation();
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>, goalID: string) {
-    const myStGoal = convertSTgoals(fromForm);
+    const myStGoal= convertSTgoals(fromForm);
     goalsStore.putLTgoal(LTgoal, goalID, description, myStGoal);
     LtGoalFormStore.clearForm();
-    console.log("cleared");
     navigation.navigate("allGoals");
     return 1;
   }
@@ -192,8 +192,6 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           <Button
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm, LtGoalFormStore.id)} />
-          {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
-          {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN */}
         </HideWithKeyboard>
       </Screen>
     </View>
