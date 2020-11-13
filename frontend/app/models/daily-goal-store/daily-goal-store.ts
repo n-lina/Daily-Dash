@@ -26,13 +26,9 @@ export const DailyGoalStoreModel = types
       });
     },
     updateGoal(newGoal, oldGoal) {
-      try {
-        oldGoal.title = newGoal.title;
-        oldGoal.time = newGoal.time;
-        self.goals[self.goals.indexOf(oldGoal)] = oldGoal;
-      } catch (err) {
-        __DEV__ && console.log("Could not merge goals: " + err);
-      }
+      oldGoal.title = newGoal.title;
+      oldGoal.time = newGoal.time;
+      return oldGoal;
     },
     setGoals(goals, day: string) {
       self.goals.replace(goals);
@@ -50,14 +46,17 @@ export const DailyGoalStoreModel = types
           if (res.kind === "ok") {
             if (day === self.day) {
               __DEV__ && console.log("filtering for new goals");
+              const oldGoals = [...self.goals]; // clone old goals
+              const newGoals = [];
               res.goals.forEach((goal) => {
-                const oldGoals = self.goals.filter((oldGoal) => oldGoal.id === goal.id);
-                if (oldGoals.length === 0) {
+                const oldGoalsFiltered = oldGoals.filter((oldGoal) => oldGoal.id === goal.id);
+                if (oldGoalsFiltered.length === 0) {
                   // If the goal is not present, add the new goal as is
-                  self.addGoal(goal);
+                  newGoals.push(goal);
                 } else {
-                  self.updateGoal(goal, oldGoals[0]);
+                  newGoals.push(self.updateGoal(goal, oldGoalsFiltered[0]));
                 }
+                self.setGoals(newGoals, day)
               });
             } else {
               self.setGoals(

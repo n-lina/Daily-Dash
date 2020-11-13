@@ -182,7 +182,7 @@ export class Api {
   async toggleCompletedGoal(stgId: string, completed: boolean): Promise<Types.SuccessResult> {
     const userId = auth().currentUser.uid;
     const url = "/goals/shortterm/counter";
-    const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, completed: completed });
+    const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, complete: completed });
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response);

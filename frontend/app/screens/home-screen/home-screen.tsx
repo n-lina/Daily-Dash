@@ -7,6 +7,7 @@ import { DailyGoal, useStores } from "../../models";
 import { color } from "../../theme";
 import { CheckBox, ListItem, Text, Button, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
+import { getDay } from "../../utils/getDay";
 
 /** **           STYLES            ***** */
 const progressWidth = 280;
@@ -92,28 +93,11 @@ const REMAINING_GOALS: ViewStyle = {
 };
 /********************************/
 
-const weekDays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
 /**
  * Get string version of day on devices phone
  * @param getShort true for short version (ex: mon) (long is Monday)
  */
-const getCurrentDay = (getShort: boolean) => {
-  const day = weekDays[new Date().getDay()];
-  if (getShort) {
-    return day.toLowerCase().substring(0, 3);
-  }
-  return day;
-};
+const getCurrentDay = getDay;
 
 /**
  * Convert mintues to a formatted string for time (24 clock)

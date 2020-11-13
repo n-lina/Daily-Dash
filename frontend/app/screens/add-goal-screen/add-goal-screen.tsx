@@ -8,6 +8,7 @@ import { Button, Header, Screen, Text, StGoal } from "../../components";
 import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
+import { getDay } from "../../utils/getDay";
 
 
 const borderColor = "#737373";
@@ -95,7 +96,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  const { LtGoalFormStore, goalsStore } = useStores();
+  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
 
   function convertTimeToMin(hr: number, min: number) {
     return (hr * 60) + min;
@@ -119,7 +120,10 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
     const myStGoal = convertSTgoals(fromForm);
-    goalsStore.postLTgoal(LTgoal, description, myStGoal);
+    goalsStore.postLTgoal(LTgoal, description, myStGoal).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
     LtGoalFormStore.clearForm();
     navigation.navigate("allGoals");
     return 1;
