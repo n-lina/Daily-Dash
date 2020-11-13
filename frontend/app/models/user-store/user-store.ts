@@ -60,7 +60,8 @@ export const UserStoreModel = types
     name: types.optional(types.string, ""),
     email: types.optional(types.string, ""),
     signedIn: types.optional(types.boolean, false),
-    goalsCompleted: types.optional(types.number, 0)
+    goalsCompleted: types.optional(types.number, 0),
+    timeMode: types.optional(types.number, 12)
   })
   .extend(withEnvironment)
   .views(self => ({
@@ -96,6 +97,8 @@ export const UserStoreModel = types
     },
     decrementGoalCount: () => {
       self.goalsCompleted--;
+    }, is24HourClock: () => {
+      return self.timeMode == 24
     }
   }))
   .views(self => ({

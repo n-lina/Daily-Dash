@@ -1,4 +1,3 @@
-import { parse } from "@babel/core";
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
