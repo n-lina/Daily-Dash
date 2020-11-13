@@ -14,11 +14,10 @@ function checkHasWords(stringParam) {
     returnVal = false;  // if string is null, returns false
   }
   else {  // check if empty
-    str
-      .replace(/[.,?!;()"'-]/g, " ")  // replace punctuation
-      .replace(/\s+/g, " ")           // make uniform white space usage
-      .toLowerCase()                  // make uniform case for comparison
-      .replace(" ", "");
+    str = str
+      .replace(/[^\w\s]|_/g, "") // deletes all but digits, letters, and whitespace
+      .replace(/\s+/g, " ")      // make uniform white space usage
+      .toLowerCase()             // make uniform case for comparison
     returnVal = !(str == ""); // if string not empty, returnVal is true
   }
   return returnVal; // if string not null or empty, returns true
@@ -52,7 +51,7 @@ function checkMinimumOneNonemptySTGTitle(arrayParam) {
 */
 function fillArrayWithValidLTGtitles(arrayParam, cacheLTGsArray_) {
     if (cacheLTGsArray_ !== null) {  // ensure there is >0 LTG
-      cacheLTGsArray_.forEach(function (item) {  // need && since only check 3rd condition if 2nd is true, else may get index out of range error
+      cacheLTGsArray_.forEach(function (item) { 
         if (checkHasWords(item.title) === true && item.shortTermGoals !== null &&
           checkMinimumOneNonemptySTGTitle(item.shortTermGoals)) {
           arrayParam.push(item.title); // ensure only add LTGs with a valid title and at least 1 STG with valid title
@@ -82,4 +81,4 @@ async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle)
     });
 }
 
-module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles }
+module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles, checkHasWords }
