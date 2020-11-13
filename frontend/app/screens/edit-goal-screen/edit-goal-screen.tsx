@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { observer } from "mobx-react-lite";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, TextInput, Alert, ScrollView } from "react-native";
 import { Button, Header, Screen, Text, StGoal } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
