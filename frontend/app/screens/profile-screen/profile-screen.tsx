@@ -38,7 +38,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
   }
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="profileScreenWrap">
       <Screen style={FULL} preset="scroll" backgroundColor={color.transparent}>
         <View style={CONTENT_WRAP}>
           <Avatar
@@ -52,7 +52,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
           <Text h3>Welcome {userStore.name}</Text>
           <Text>{__DEV__ && auth().currentUser.uid}</Text>
           <View style={LOGOUT_STYLE}>
-            <Button buttonStyle={LOGOUT_BUTTON} title="log out" onPress={signOut}></Button>
+            <Button testID="logoutButton" buttonStyle={LOGOUT_BUTTON} title="log out" onPress={signOut}></Button>
           </View>
         </View>
       </Screen>

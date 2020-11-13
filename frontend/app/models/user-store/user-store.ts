@@ -110,10 +110,10 @@ export const UserStoreModel = types
           self.setUser(res.user);
           __DEV__ && console.log("got response");
         } else {
-          __DEV__ && console.log(res.kind);
+          __DEV__ && console.log(res.kind + " error posting user");
         }
       }).catch(err => {
-        __DEV__ && console.error(err);
+        __DEV__ && console.error(err + " Could not sign in");
       });
     },
 
