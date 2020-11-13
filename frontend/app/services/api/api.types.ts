@@ -22,6 +22,7 @@ export interface Goal {
 }
 
 export interface STGoal {
+  id: string
   title: string
   mon: Array<number>
   tue: Array<number>
@@ -43,7 +44,6 @@ export interface DeleteNotificationToken {
 }
 
 export type GetLTGoalsResult = { kind: "ok"; LTgoals: Goal[] } | GeneralApiProblem
-export type GetAwardsResult = { kind: "ok"; awards: Array<Array<String>> } | GeneralApiProblem
 export type GetOneGoalResult = { kind: "ok"; goal: Goal } | GeneralApiProblem
 export type DailyGoalResult = { kind: "ok"; goals: DailyGoal[] } | GeneralApiProblem
 export type SuccessResult = {kind: "ok" } | GeneralApiProblem

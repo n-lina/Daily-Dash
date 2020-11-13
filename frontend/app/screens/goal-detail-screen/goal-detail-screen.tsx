@@ -3,8 +3,6 @@ import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
 
@@ -25,12 +23,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  // flatlist: {
-  //   height: 400,
-  //   marginTop: 40,
-  //   overflow: "scroll",
-  //   width: Dimensions.get("window").width - 20
-  // },
   flex: {
     flex: 1
   },
@@ -108,12 +100,8 @@ const FULL: ViewStyle = {
 };
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  // Pull in one of our MST stores
-  const { LtGoalFormStore} = useStores()
-  // OR
-  // const rootStore = useStores()
+  const { LtGoalFormStore,goalsStore} = useStores()
 
-  // Pull in navigation via hook
   const navigation = useNavigation();
   const route = useRoute();
   console.log(JSON.stringify(route.params));
@@ -133,18 +121,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       for (const STgoal of arr){
         const mins = (STgoal[0] % 60).toString();
         const hrs = (Math.floor(STgoal[0]/ 60)).toString();
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins)
+        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2])
       }
     }
 
     navigation.navigate("editGoal")
 
   }
-
-  // const LTgoal = "hello"
-  // const STgoals = [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}]
-
-  // const nextScreen = () => navigation.navigate("signInScreen")
 
   const monday = [];
   const tuesday = [];
@@ -155,13 +138,18 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const sunday = [];
 
   for (const goal of STgoals) {
-    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title]);
-    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title]);
-    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title]);
-    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title]);
-    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title]);
-    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title]);
-    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title]);
+    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title, goal.id]);
+    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title, goal.id]);
+    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title, goal.id]);
+    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title,, goal.id]);
+    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title, goal.id]);
+    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title, goal.id]);
+    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id]);
+  }
+
+  function deleteThisGoal(goalId){
+    goalsStore.deleteLTgoal(id)
+    navigation.navigate("allGoals")
   }
 
   function sortFunction(a, b) {
@@ -210,22 +198,28 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       [
         {
           text: "No",
-          // onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "Yes", onPress: () => console.log("OK Pressed") }
+        { text: "Yes", onPress: () => deleteThisGoal(id)}
       ],
       { cancelable: false }
     );
 
   const Item = ({ title }) => {
-    const mins = title[0] % 60;
-    const hrs = Math.floor(title[0] / 60);
+    let minsStr = ""
 
+    const mins = title[0] % 60;
+    if (Math.floor(mins/10) === 0) {
+      minsStr = "0" + mins.toString();
+    }
+    else{
+      minsStr = mins.toString();
+    }
+    const hrs = (Math.floor(title[0] / 60)).toString();
     return (
       <View style={styles.item}>
         <Text style={styles.black}>{title[1]}</Text>
-        <Text style={styles.right}>{hrs}:{mins}</Text>
+        <Text style={styles.right}>{hrs}:{minsStr}</Text>
       </View>
     );
   };

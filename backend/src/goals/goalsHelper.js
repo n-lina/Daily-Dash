@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
     longTermGoals: []
@@ -72,17 +74,19 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
 
 
 const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
-  let currentShortTermGoalsMap = new Map();
+  const currentShortTermGoalsMap = new Map();
 
   currentShortTermGoals.forEach(function(shortTermGoal) {
-    currentShortTermGoalsMap.set(shortTermGoal.title,shortTermGoal.timesCompleted);
+    const currentShortTermGoalId = shortTermGoal._id.toString();
+    currentShortTermGoalsMap.set(currentShortTermGoalId, shortTermGoal.timesCompleted);
   })
 
   shortTermGoals.map(function(shortTermGoal) {
-    let shortTermGoalTitle = shortTermGoal.title;
+    const shortTermGoalId = shortTermGoal.id;
+    shortTermGoal._id = mongoose.Types.ObjectId(shortTermGoalId);
 
-    if (currentShortTermGoalsMap.has(shortTermGoalTitle)) {
-      shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(shortTermGoalTitle);
+    if (currentShortTermGoalsMap.has(shortTermGoalId)) {
+      shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(shortTermGoalId);
     } else {
       shortTermGoal.timesCompleted = 0;
     }

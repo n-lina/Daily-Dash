@@ -219,9 +219,7 @@ export class Api {
   }
 
   async getAllGoals(userId: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    // async getAllGoals(userId: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
     const idToken = await auth().currentUser.getIdToken();
-    // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${userId}`);
 
@@ -316,27 +314,6 @@ export class Api {
       console.log(JSON.stringify(response.data));
       // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
       return { kind: "ok" };
-    } catch {
-      return { kind: "bad-data" };
-    }
-  }
-
-  async getAllAwards(userId: string = this.getUserID()): Promise<Types.GetAwardsResult> {
-    // async getAllGoals(userId: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
-    const idToken = await auth().currentUser.getIdToken();
-    // const idToken = "test"
-    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
-    const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${userId}`);
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response);
-      if (problem) return problem;
-    }
-
-    try {
-      const rawAwards = response.data.awards;
-      const resultAwardsList: Array<Array<String>> = rawAwards.map(this.convertAward);
-      return { kind: "ok", awards: resultAwardsList };
     } catch {
       return { kind: "bad-data" };
     }

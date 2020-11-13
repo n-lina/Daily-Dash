@@ -13,3 +13,4 @@ export * from "./st-goal-form/st-goal-form";
 export * from "./daily-goal-store/daily-goal-store";
 export * from "./daily-goal/daily-goal";
 export * from "./award-store/award-store"
+export * from "./award/award"
