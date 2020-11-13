@@ -267,7 +267,7 @@ const completeShortTermGoal = async (req, res) => {
 };
 
 const deleteLTG = async (req, res) => {
-  const ltgId = req.query.id;
+  const ltgId = req.params;
 
   if (ltgId == null) {
     logger.info("Missing parameters in ${JSON.stringify(req.query)}.");
@@ -277,7 +277,7 @@ const deleteLTG = async (req, res) => {
   }
 
   try {
-    GoalModel.findOneAndDelete({"_id": ltgId}, function (err, res) { 
+    GoalModel.findOneAndDelete(ltgId, function (err, res) { 
       if (err){ 
         logger.error(err); 
       } 
@@ -300,6 +300,6 @@ router.put("/:ltgId", auth.checkIfAuthenticated, updateGoal);
 router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
 router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
 router.put("/shortterm/counter", auth.checkIfAuthenticated, completeShortTermGoal);
-router.post("/deleteltg", auth.checkIfAuthenticated, deleteLTG);
+router.delete("/:_id", auth.checkIfAuthenticated, deleteLTG);
 
 module.exports = router;
