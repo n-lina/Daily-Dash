@@ -83,7 +83,10 @@ const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
 
   shortTermGoals.map(function(shortTermGoal) {
     const shortTermGoalId = shortTermGoal.id;
-    shortTermGoal._id = mongoose.Types.ObjectId(shortTermGoalId);
+
+    if (shortTermGoalId !== "" && mongoose.Types.ObjectId.isValid(shortTermGoalId)) {
+      shortTermGoal._id = mongoose.Types.ObjectId(shortTermGoalId);
+    }
 
     if (currentShortTermGoalsMap.has(shortTermGoalId)) {
       shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(shortTermGoalId);
