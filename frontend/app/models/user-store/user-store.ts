@@ -1,6 +1,56 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { withEnvironment } from "../extensions/with-environment";
 
+interface Award {
+  title: string
+  description: string
+  threshold: number
+}
+
+const noAward: Award = {
+  title: "No Awards Yet...", 
+  description: "Keep completing goals to earn one soon!", 
+  threshold: 0
+}
+
+const awards: Award[] = [{
+  title: "Baby Steps ...",
+  description: "Completed 5 sub-goals.",
+  threshold: 5
+}, {
+  title: "Getting the Hang of It !",
+  description: "Completed 10 sub-goals.",
+  threshold: 10
+}, {
+  title: "Nice One !",
+  description: "Completed 25 sub-goals.",
+  threshold: 25
+}, {
+  title: "Novice Goal Achiever",
+  description: "Completed 50 sub-goals.",
+  threshold: 50
+}, {
+  title: "Beginner Goal Achiever",
+  description: "Completed 100 sub-goals.",
+  threshold: 100
+}, {
+  title: "Intermediate Goal Achiever",
+  description: "Completed 250 sub-goals.",
+  threshold: 250
+}, {
+  title: "Senior Goal Achiever",
+  description: "Completed 500 sub-goals.",
+  threshold: 500
+}, {
+  title: "Expert Goal Achiever",
+  description: "Completed 750 sub-goals.",
+  threshold: 750
+}, {
+  title: "Master Goal Achiever",
+  description: "Completed 1000 sub-goals.",
+  threshold: 1000
+},]
+
 /**
  * Model description here for TypeScript hints.
  */
@@ -17,6 +67,12 @@ export const UserStoreModel = types
     getLevel: (): number => {
       if (self.goalsCompleted === 0) return 0;
       return self.goalsCompleted.toString().length;
+    }, 
+    getAwards: (): Award[] => {
+      console.log("Getting Awards")
+      const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
+      if (validAwards.length === 0) return [noAward]
+      return validAwards
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -54,10 +110,10 @@ export const UserStoreModel = types
           self.setUser(res.user);
           __DEV__ && console.log("got response");
         } else {
-          __DEV__ && console.log(res.kind);
+          __DEV__ && console.log(res.kind + " error posting user");
         }
       }).catch(err => {
-        __DEV__ && console.error(err);
+        __DEV__ && console.error(err + " Could not sign in");
       });
     },
 

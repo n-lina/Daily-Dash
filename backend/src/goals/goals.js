@@ -114,6 +114,50 @@ const postGoal = async (req, res) => {
   res.send(response);
 };
 
+const updateGoal = async (req, res) => {
+  const ltgId = req.params.ltgId;
+  const userId = req.body.userId;
+  const title = req.body.title;
+  const description = req.body.description;
+  const shortTermGoals = req.body.shortTermGoals;
+
+  if (ltgId == null || userId == null || title == null || description == null || shortTermGoals == null) {
+    logger.info(`Missing parameters in ${req.body}`);
+    res.status(400);
+    res.end();
+    return;
+  }
+  
+  const query = {"_id": ltgId, "userId": userId};
+
+  try {
+    const currentGoal = await GoalModel.findOne(query);
+
+    goalsHelper.updateShortTermGoalCounter(shortTermGoals, currentGoal.shortTermGoals);
+
+    const goalObj = {
+      userId: userId,
+      title: title,
+      description: description,
+      shortTermGoals: shortTermGoals
+    };
+
+    await GoalModel.findOneAndUpdate(query, goalObj, {upsert: true}).then((doc) => {
+      logger.info(doc);
+    })
+    .catch((err) => {
+      logger.error(err);
+    });
+
+    res.send();
+  } catch (error) {
+    res.status(500);
+    console.log(error);
+    res.end();
+    return;
+  }
+};
+
 const getSuggestedShortTermGoal = async (req, res) => {
   const title = req.query.title;
 
@@ -222,10 +266,40 @@ const completeShortTermGoal = async (req, res) => {
   }
 };
 
+const deleteLTG = async (req, res) => {
+  const ltgId = req.params;
+
+  if (ltgId == null) {
+    logger.info("Missing parameters in ${JSON.stringify(req.query)}.");
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  try {
+    GoalModel.findOneAndDelete(ltgId, function (err, res) { 
+      if (err){ 
+        logger.error(err); 
+      } 
+      else{ 
+        logger.info(res);
+      } 
+    }); 
+    res.send();
+  } catch (error) {
+    res.status(500);
+    logger.error(error);
+    res.end();
+    return;
+  }
+};
+
 router.get("/", auth.checkIfAuthenticated, getGoals);
-router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
 router.post("/", auth.checkIfAuthenticated, postGoal);
+router.put("/:ltgId", auth.checkIfAuthenticated, updateGoal);
+router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
 router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
 router.put("/shortterm/counter", auth.checkIfAuthenticated, completeShortTermGoal);
+router.delete("/:_id", auth.checkIfAuthenticated, deleteLTG);
 
 module.exports = router;

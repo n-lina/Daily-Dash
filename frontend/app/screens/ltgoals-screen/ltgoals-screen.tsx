@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { observer } from "mobx-react-lite";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView } from "react-native";
@@ -116,7 +115,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
 
     return (
       <View>
-        <Text style={styles.LTgoal}> {goal.LTgoal}</Text>
+        {/* <Text style={styles.LTgoal}> {goal.LTgoal}</Text> */}
         <ListItem onPress={() => getSpecificGoal(item)}>
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
@@ -149,15 +148,10 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
         < Separator />
         <Image source={require("../../../assets/mountain.png")} style={styles.image} />
         < Separator />
-        {/* <Button
-          text="Click Me"
-          onPress={() => console.log("Button pressed!")} /> */}
-        {/* FETCH DATA FROM API AND RENDER FROM FLATLIST */}
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
             data={goalsStore.goals}
-            // data={DATA}
             renderItem={renderGoal}
             extraData={{
               extraDataForMobX:

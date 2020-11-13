@@ -6,6 +6,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
 export const StGoalModel = types
   .model("StGoal")
   .props({
+    id: types.string,
     title: types.string,
     mon: types.optional(types.array(types.integer), []),
     tue: types.optional(types.array(types.integer), []),

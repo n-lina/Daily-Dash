@@ -50,6 +50,7 @@ export function PrimaryNavigator() {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Icon name="person" size={size} color={color} />,
+          tabBarTestID: "profileTabButton"
         }}
       />
       <Tab.Screen
