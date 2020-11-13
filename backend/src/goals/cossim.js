@@ -7,9 +7,9 @@
 function makeWordTally(str) {
 
     let words_in_str = str                  // must occur in this order
-        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"") // replace punctuation
-        .replace(/\s+/g, " ")                       // make uniform white space usage
-        .toLowerCase()                              // make uniform case for comparison
+        .replace(/[^\w\s]|_/g, "") // deletes all but digits, letters, and whitespace
+        .replace(/\s+/g, " ")      // make uniform white space usage
+        .toLowerCase()             // make uniform case for comparison
         .split(" ");                    // use space as splitter
 
     let word_tally = {};                // create tally to return

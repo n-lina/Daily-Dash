@@ -16,9 +16,10 @@ function checkHasWords(stringParam) {
   else {  // check if empty
     console.log(str);
     str = str
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"") // replace punctuation
-      .replace(/\s+/g, " ")                       // make uniform white space usage
-      .toLowerCase()                              // make uniform case for comparison
+      .replace(/[^\w\s]|_/g, "") // deletes all but digits, letters, and whitespace
+      .replace(/\s+/g, " ")      // make uniform white space usage
+      .toLowerCase()             // make uniform case for comparison
+      console.log("what remains:");
       console.log(str);
 
     returnVal = !(str == ""); // if string not empty, returnVal is true
