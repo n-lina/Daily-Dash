@@ -248,6 +248,7 @@ export const HomeScreen = observer(function HomeScreen() {
             </View>
             <View style={TROPHY_WRAP}>
               <Button
+                testID="awardsStar"
                 type="clear"
                 onPress={goToAwards}
                 icon={
@@ -258,7 +259,7 @@ export const HomeScreen = observer(function HomeScreen() {
                   />
                 }
               />
-              <Text style={AWARD_SUBTITLE}>
+              <Text style={AWARD_SUBTITLE} testID="awardsString">
                 {awardCount} award{awardCount != 1 ? "s" : ""}
               </Text>
             </View>
