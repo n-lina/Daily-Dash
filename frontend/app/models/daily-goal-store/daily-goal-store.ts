@@ -56,6 +56,7 @@ export const DailyGoalStoreModel = types
                 } else {
                   newGoals.push(self.updateGoal(goal, oldGoalsFiltered[0]));
                 }
+                self.setGoals(newGoals, day)
               });
               self.setGoals(newGoals, day)
             } else {
