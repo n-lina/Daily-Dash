@@ -8,11 +8,14 @@ import { Button, Header, Screen, Text, StGoal } from "../../components";
 import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
+import { getDay } from "../../utils/getDay";
+
 
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
   button: {
+    marginBottom: 110
   },
   content: {
     alignItems: "center"
@@ -72,10 +75,6 @@ const TITLE: TextStyle = {
   marginBottom: spacing[5],
 };
 
-const ADD_GOAL_BUTTON: ViewStyle = {
-  marginBottom: 110
-};
-
 const TITLE2: TextStyle = {
   ...TEXT,
   fontSize: 15,
@@ -97,7 +96,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  const { LtGoalFormStore, goalsStore } = useStores();
+  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
 
   function convertTimeToMin(hr: number, min: number) {
     return (hr * 60) + min;
@@ -106,8 +105,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   function convertSTgoals(fromForm: Array<StGoalForm>) {
     const myStGoal = [];
     for (const goal of fromForm) {
-      console.log("orange " + JSON.stringify(goal));
-      const time = [convertTimeToMin(goal.hour, goal.minute)];
+      const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
       myStGoal.push({
         title: goal.title,
         [goal.day]: time,
@@ -122,9 +120,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
     const myStGoal = convertSTgoals(fromForm);
-    goalsStore.postLTgoal(LTgoal, description, myStGoal);
+    goalsStore.postLTgoal(LTgoal, description, myStGoal).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
     LtGoalFormStore.clearForm();
-    console.log("cleared");
     navigation.navigate("allGoals");
     return 1;
   }
@@ -161,6 +161,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setTitle(text)}
               placeholder="be a happier person."
+              maxLength={50}
             />
           </View>
           <View style={styles.sideByside}>
@@ -169,23 +170,22 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setDescription(text)}
               placeholder="(Optional) I do better when I'm happy."
+              maxLength={100}
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
           {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} />))}
           < Separator />
           <Button
-            style={{ ...styles.button, ...ADD_GOAL_BUTTON }}
-            text="Add New ST Goal"
+            style={{ ...styles.button}}
+            text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
         <HideWithKeyboard>
           <Button
-            style={styles.button}
             text="Get Suggestion"
             onPress={() => getSuggestion()} />
           <Button
-            style={styles.button}
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
         </HideWithKeyboard>

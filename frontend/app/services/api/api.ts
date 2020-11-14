@@ -70,6 +70,12 @@ export class Api {
     };
   }
 
+  convertAward = (raw) => {
+    // console.log(JSON.stringify(raw));
+    const oneAward = [raw.title, raw.description]
+    return oneAward
+  }
+
   getUserID() {
     return auth().currentUser.uid;
   }
@@ -110,7 +116,7 @@ export class Api {
   ): Promise<Types.PostUserSignInResult> {
     const notId = await messaging().getToken();
 
-    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId };
+    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId, timeMode: 12 };
 
     const idToken = await auth().currentUser.getIdToken();
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
@@ -127,7 +133,8 @@ export class Api {
       return {
         email: raw.email,
         name: raw.username,
-        goalsCompleted: raw.goalsCompleted
+        goalsCompleted: raw.goalsCompleted,
+        timeMode: raw.timeMode
       };
     };
 
@@ -163,7 +170,8 @@ export class Api {
       const resultUser: Types.User = {
         email: response.data.email,
         name: response.data.username,
-        goalsCompleted: response.data.goalsCompleted
+        goalsCompleted: response.data.goalsCompleted,
+        timeMode: response.data.timeMode
       };
       return { kind: "ok", user: resultUser };
     } catch {
@@ -174,7 +182,7 @@ export class Api {
   async toggleCompletedGoal(stgId: string, completed: boolean): Promise<Types.SuccessResult> {
     const userId = auth().currentUser.uid;
     const url = "/goals/shortterm/counter";
-    const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, completed: completed });
+    const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, complete: completed });
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response);
@@ -211,9 +219,7 @@ export class Api {
   }
 
   async getAllGoals(userId: string = this.getUserID()): Promise<Types.GetLTGoalsResult> {
-    // async getAllGoals(userId: string = "eq06XtykrqSHJtqWblOYkhWat6s2"): Promise<Types.GetLTGoalsResult> {
     const idToken = await auth().currentUser.getIdToken();
-    // const idToken = "test"
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
     const response: ApiResponse<any> = await this.apisauce.get(`/goals?id=${userId}`);
 
@@ -271,23 +277,45 @@ export class Api {
     }
   }
 
-  // async getOneLTgoal(goal_id): Promise<Types.GetOneGoalResult> {
-  //   const response: ApiResponse<any> = await this.apisauce.get(`/LTgoals/${goal_id}`)
+  async putLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.put(`/goals/${goalId}`, { userId: userId, title: LTgoal, description: description, shortTermGoals: STgoals, id: goalId });
 
-  //   if (!response.ok){
-  //     const problem = getGeneralApiProblem(response)
-  //     if (problem) return problem
-  //   }
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
 
-  //   try {
-  //     const rawGoal = response.data
-  //     const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-  //     return { kind: "ok", goal: resultGoal }
-  //   } catch {
-  //     return { kind: "bad-data" }
-  //   }
-  // }
+    try {
+      // const rawGoal = response.data
+      console.log(JSON.stringify(response.data));
+      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok" };
+    } catch {
+      return { kind: "bad-data" };
+    }
+  }
 
-  // editOneLTgoal
-  // deleteLTgoal
+  async deleteLTgoal(goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
+    const idToken = await auth().currentUser.getIdToken();
+    // const idToken = "test"
+    this.apisauce.setHeader("Authorization", "Bearer " + idToken);
+    const response: ApiResponse<any> = await this.apisauce.delete(`/goals/${goalId}`, { userId: userId, id: goalId });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    try {
+      // const rawGoal = response.data
+      console.log(JSON.stringify(response.data));
+      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
+      return { kind: "ok" };
+    } catch {
+      return { kind: "bad-data" };
+    }
+  }
 }

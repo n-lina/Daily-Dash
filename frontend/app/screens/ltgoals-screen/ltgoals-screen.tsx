@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { observer } from "mobx-react-lite";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView } from "react-native";
@@ -87,7 +86,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  const { goalsStore } = useStores();
+  const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
   // how to pass the item in here from the renderGoal function?
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { LTgoal: goal.LTgoal, STgoals: goal.STgoals, description: goal.description, id: goal.id });
@@ -106,14 +105,17 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
     if (goalsStore.goals.length === 0) { fetchGoals(); }
   }, []);
 
-  // const DATA = [{LTgoal: "example", description: "asdfasdf", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "1"}, {LTgoal: "example2", description: "kdkdkdk", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "2"}, {LTgoal: "example3", description: "uuuuuu", STgoals: [{text: "hi", monday: [100], tuesday: [200], wednesday: [], thursday: [100], friday: [], saturday: [], sunday: []}, {text: "bye", monday: [24], tuesday: [225], wednesday: [], thursday: [10], friday: [88], saturday: [], sunday: []}], id: "3"}]
+  function addNewGoal(){
+    LtGoalFormStore.clearForm()
+    navigation.navigate("addGoal")
+  }
 
   const renderGoal = ({ item }) => {
     const goal: Goal = item;
 
     return (
       <View>
-        <Text style={styles.LTgoal}> {goal.LTgoal}</Text>
+        {/* <Text style={styles.LTgoal}> {goal.LTgoal}</Text> */}
         <ListItem onPress={() => getSpecificGoal(item)}>
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
@@ -146,15 +148,10 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
         < Separator />
         <Image source={require("../../../assets/mountain.png")} style={styles.image} />
         < Separator />
-        {/* <Button
-          text="Click Me"
-          onPress={() => console.log("Button pressed!")} /> */}
-        {/* FETCH DATA FROM API AND RENDER FROM FLATLIST */}
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
             data={goalsStore.goals}
-            // data={DATA}
             renderItem={renderGoal}
             extraData={{
               extraDataForMobX:
@@ -168,7 +165,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
         <Button
           // style={styles.button}
           text="Add New Goal"
-          onPress={() => navigation.navigate("addGoal")} />
+          onPress={() => addNewGoal()} />
       </Screen>
     </View>
   );

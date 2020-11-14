@@ -39,9 +39,8 @@ export const GoalsStoreModel = types
         __DEV__ && console.error(err);
       });
     },
-
     postLTgoal: (LTgoal: string, description: string, STgoals: Array<StGoal>) => {
-      self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
+      return self.environment.api.postLTgoal(LTgoal, description, STgoals).then(res => {
         if (res.kind === "ok") {
           __DEV__ && console.log("Added goal to database");
         } else {
@@ -50,6 +49,28 @@ export const GoalsStoreModel = types
       }).catch(err => {
         __DEV__ && console.error(err);
       });
+    },
+    putLTgoal: (LTgoal: string, goalID: string, description: string, STgoals: Array<StGoal>) => {
+      return self.environment.api.putLTgoal(LTgoal, description, STgoals, goalID).then(res => {
+        if (res.kind === "ok") {
+          __DEV__ && console.log("Edited goal in database");
+        } else {
+          __DEV__ && console.log(res.kind);
+        }
+      }).catch(err => {
+        __DEV__ && console.error(err);
+      });
+    },
+    deleteLTgoal: (goalID: string) => {
+      self.environment.api.deleteLTgoal(goalID).then(res => {
+        if (res.kind === "ok") {
+          __DEV__ && console.log("Deleted goal from database");
+        } else {
+          __DEV__ && console.log(res.kind);
+        }
+      }).catch(err => {
+        __DEV__ && console.error(err);
+      })
     },
     getSTsuggestion: (title: string) => {
       return self.environment.api.getSTsuggestion(title).then(res => {

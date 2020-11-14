@@ -4,6 +4,7 @@ export interface User {
   email: string
   name: string
   goalsCompleted: number
+  timeMode: number
 }
 
 export interface PostUser {
@@ -11,6 +12,7 @@ export interface PostUser {
   username: string
   email: string
   notificationId: string
+  timeMode: number
 }
 
 export interface Goal {
@@ -20,6 +22,7 @@ export interface Goal {
 }
 
 export interface STGoal {
+  id: string
   title: string
   mon: Array<number>
   tue: Array<number>

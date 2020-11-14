@@ -23,6 +23,13 @@ export const DailyGoalModel = types
       self.completed = completed;
       if (completed !== prevVal) {
         self.environment.api.toggleCompletedGoal(self.id, completed)
+          .then(res => {
+            if (res.kind === "ok") {
+              __DEV__ && console.log("Marked as completed");
+            } else {
+              __DEV__ && console.log(res.kind + " error updating completed");
+            }
+          })
           .catch(err => {
             __DEV__ && console.error(err);
           });
