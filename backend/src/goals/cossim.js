@@ -1,4 +1,4 @@
-var similarity = require('compute-cosine-similarity');  // used to compute cosine similarity between 2 vectors
+//var similarity = require('compute-cosine-similarity');  // used to compute cosine similarity between 2 vectors
 
 /*
  * Accepts a string whose unique words are counted, and a tally object is returned
@@ -48,6 +48,30 @@ function makeAllValuesZero(tally) {
 }
 
 /*
+ * Accepts 2 numeric vectors and calculates their cosine similarity
+ * @param   V1        1st vector
+ * @param   V2        2nd vector
+ * @return  cossim    cosine similarity score
+ */
+function similarity(V1,V2){
+
+    let denominator1=0;
+    let denominator2=0;
+    let numerator=0;
+
+    for(let i = 0; i < V2.length; i++){ 
+        denominator1 += V1[i]*V1[i];
+        denominator2 += V2[i]*V2[i];
+        numerator    += V1[i]*V2[i];
+    }
+    
+    denominator1 = Math.sqrt(denominator1);
+    denominator2 = Math.sqrt(denominator2);
+    var cossim = (numerator)/((denominator1)*(denominator2));
+    return cossim;
+}
+
+/*
  * Accepts 2 strings and calculates their cosine similarity
  * @param   str1        1st string; it is compared with str2
  * @param   str2        2nd string; it is compared with str1
@@ -75,4 +99,11 @@ function getCosSim(str1,str2) {
 }
 
 
-module.exports = { getCosSim };
+module.exports = { getCosSim, makeWordTally, makeAllValuesZero, similarity }
+
+/*
+ * Changes made:
+ * 1. implemented similarity function vs using required (vs imported) similarity
+ * 2. exported makeWordTally, makeAllValuesZero helper functions and new similarity to allow mocking
+ * 3. 
+ */
