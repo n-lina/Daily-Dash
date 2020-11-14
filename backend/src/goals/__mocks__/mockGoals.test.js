@@ -159,7 +159,7 @@ describe("Goals integration tests", () => {
     await server.shutdown();
   })
 
-  it("should successfully fetch goals", (done) => {
+  it("should successfully add long term goals", async(done) => {
     request(server)
       .post("/goals")
       .set({ Authorization: "Bearer test"})
@@ -179,10 +179,60 @@ describe("Goals integration tests", () => {
         ]
       })
       .expect(200)
-      .end(done);
 
-    // const dbResult = GoalModel.findOne({title: "testGoal2"})
+    const dbResult = await GoalModel.findOne({title: "testGoal2"})
 
-    // expect(res.statusCode).toEqual(200);
+    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
+
+    done();
+  })
+
+  it("should successfully fetch goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.longTermGoals.length > 0);
+
+    done();
+  })
+
+  it("should successfully no fetch goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/?id=nodata")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.longTermGoals.length).toEqual(0);
+
+    done();
+  })
+
+
+  it("should successfully fetch short term goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.shortTermGoals.length > 0);
+
+    done();
+  })
+
+  it("should successfully fetch no short term goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=wed")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.shortTermGoals.length).toEqual(0);
+
+    done();
   })
 })
