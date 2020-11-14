@@ -267,13 +267,13 @@ export const HomeScreen = observer(function HomeScreen() {
             Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
           </Text>
         </View>
-        {/* { goals.length === 0 &&
+        { goals.length === 0 &&
           <View style={NO_GOALS_MESSAGE}>
             <Text>
               You don't have any goals 😮
             </Text>
             <Button buttonStyle={ADD_ONE_BUTTON} title="Add one" onPress={goToAddGoal}></Button>
-          </View>} */}
+          </View>}
         <FlatList
           style={LIST_STYLE}
           data={goals}
