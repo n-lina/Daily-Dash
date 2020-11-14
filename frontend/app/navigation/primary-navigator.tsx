@@ -58,6 +58,7 @@ export function PrimaryNavigator() {
         component={HomeNavigator}
         options={{
           tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} />,
+          tabBarTestID: "homeTabButton"
         }}
       />
       <Tab.Screen
@@ -65,6 +66,7 @@ export function PrimaryNavigator() {
         component={GoalsNavigator}
         options={{
           tabBarIcon: ({ color, size }) => <Icon name="list" size={size} color={color} />,
+          tabBarTestID: "goalsTabButton"
         }}
       />
     </Tab.Navigator>

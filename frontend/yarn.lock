@@ -1643,6 +1643,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-7.9.1.tgz#4011272129ae36b034625a2b615934daa210537d"
   integrity sha512-/BQPs4L9/Bz01cYHNzq40NmihpRn+I3Y/1LX/RXj8Nf6LGh3q+1xx02ycOwm2FqBrb1x6nUC95LCxfwe/lF8Ug==
 
+"@react-native-picker/picker@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.9.2.tgz#c5e35f97d7982d2971ee3d74b1ba8ecf4b716627"
+  integrity sha512-eNMf5uF67CsiJ9SDzofSWKu9Gh2PDyPbCSXuUJ09tkRgcOefDx6DyQnXCOPCd+8vxC1DzJKVAgLy+s425jUIeA==
+
 "@react-navigation/bottom-tabs@^5.9.2":
   version "5.9.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.9.2.tgz#b071d9f39b275d4ea256df7bfb1ee83bbddeebeb"

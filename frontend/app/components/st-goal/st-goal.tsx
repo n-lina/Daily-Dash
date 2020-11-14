@@ -4,6 +4,7 @@ import { color, typography, spacing } from "../../theme";
 import { Text } from "../";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StGoalForm } from "../../models";
+import { getDay } from "../../utils/getDay";
 
 // const borderColor = "#737373";
 
@@ -35,27 +36,27 @@ const styles = StyleSheet.create({
     height: 40
   },
   textInputTime1: {
+    alignContent: "center",
+    flex: 1,
     fontSize: 15,
-    height: 40, 
-    textAlign: "right",
-    alignContent: "center", 
+    height: 40,
     marginLeft: spacing[3],
-    flex: 1
-  }, 
+    textAlign: "right"
+  },
   textInputTime2: {
+    alignContent: "center",
     fontSize: 15,
-    height: 40, 
+    height: 40,
     textAlign: "left",
-    alignContent: "center", 
-  }, 
+  },
   colon: {
+    alignContent: "center",
+    color: "#000",
+    flex: 1,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#000",
-    textAlign: "center",
-    alignContent: "center", 
-    flex:1,
-    marginTop: spacing[2]
+    marginTop: spacing[2],
+    textAlign: "center"
   }
 });
 
@@ -93,6 +94,7 @@ export interface StGoalProps {
   // TextStore: Object
   // TimesStore: Object
   myGoal: StGoalForm
+  index?: number
 }
 
 /**
@@ -105,32 +107,33 @@ export function StGoal(props: StGoalProps) {
   //   <View style={styles.separator} />
   // );
 
-  function validateHour(hour: string){
-    hour = hour.replace(/[^0-9]/g, '');
+  function validateHour(hour: string) {
+    hour = hour.replace(/[^0-9]/g, "");
     if (parseInt(hour) > 23) {
-      hour = (23).toString()
+      hour = (23).toString();
     }
-    changeHour(hour)
-    props.myGoal.setHour(hour) 
+    changeHour(hour);
+    props.myGoal.setHour(hour);
   }
 
-  function validateMin(minute: string){
-    minute = minute.replace(/[^0-9]/g, '');
+  function validateMin(minute: string) {
+    minute = minute.replace(/[^0-9]/g, "");
     if (parseInt(minute) > 59) {
-      minute = (59).toString()
+      minute = (59).toString();
     }
-    changeMin(minute)
-    props.myGoal.setMin(minute) 
+    changeMin(minute);
+    props.myGoal.setMin(minute);
   }
 
-  const [hour, changeHour] = React.useState(props.myGoal.hour)
-  const [min, changeMin] = React.useState(props.myGoal.minute)
+  const [hour, changeHour] = React.useState(props.myGoal.hour);
+  const [min, changeMin] = React.useState(props.myGoal.minute);
 
   return (
     <View style={CONTAINER}>
       <View style={styles.sideByside}>
         <Text style={TITLE2}>●</Text>
         <TextInput
+          testID={"stgTitle" + props.index}
           style={styles.textInput}
           onChangeText={text => props.myGoal.setTitle(text)}
           // value={props.myGoal.title}
@@ -140,6 +143,23 @@ export function StGoal(props: StGoalProps) {
       </View>
       {/* < Separator /> */}
       <View style={styles.sideByside}>
+        {/* <Picker
+          testID="dayPicker"
+         selectedValue={pickerVal}
+         style={{height: 50, width: 150}}
+         onValueChange={(itemValue, itemIndex) => {
+          props.myGoal.setDay(itemValue as string);
+          setPicker(itemValue as string)
+          }
+         }>
+         <Picker.Item label="Monday" value="mon" testID="mon"/>
+         <Picker.Item label="Tuesday" value="tue" testID="tue"/>
+         <Picker.Item label="Wednesday" value="wed" testID="wed"/>
+         <Picker.Item label="Thursday" value="thu" testID="thu"/>
+         <Picker.Item label="Friday" value="fri" testID="fri" />
+         <Picker.Item label="Saturday" value="sat" testID="sat"/>
+         <Picker.Item label="Sunday" value="sun" testID="sun"/>
+        </Picker> */}
         <DropDownPicker
           items={[
             { label: "Monday", value: "mon" },
@@ -160,6 +180,7 @@ export function StGoal(props: StGoalProps) {
           onChangeItem={item => props.myGoal.setDay(item.value)}
         />
         <TextInput
+          testID={"hourInput" + props.index}
           style={styles.textInputTime1}
           onChangeText={text => validateHour(text)}
           placeholder="hh"
@@ -170,6 +191,7 @@ export function StGoal(props: StGoalProps) {
         />
         <Text style={styles.colon}>:</Text>
         <TextInput
+          testID={"minInput" + props.index}
           style={styles.textInputTime2}
           onChangeText={text => validateMin(text)}
           placeholder="mm"

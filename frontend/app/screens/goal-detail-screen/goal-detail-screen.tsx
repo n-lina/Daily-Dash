@@ -101,33 +101,32 @@ const FULL: ViewStyle = {
 };
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore,goalsStore, dailyGoalStore} = useStores()
+  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
 
   const navigation = useNavigation();
   const route = useRoute();
   console.log(JSON.stringify(route.params));
-  const { LTgoal, STgoals, description, id} = route.params as Goal;
+  const { LTgoal, STgoals, description, id } = route.params as Goal;
   console.log(LTgoal + " " + STgoals);
 
   function editThisGoal() {
-    LtGoalFormStore.clearForm()
+    LtGoalFormStore.clearForm();
 
-    LtGoalFormStore.setTitle(LTgoal)
-    LtGoalFormStore.setId(id)
-    LtGoalFormStore.setDescription(description)
+    LtGoalFormStore.setTitle(LTgoal);
+    LtGoalFormStore.setId(id);
+    LtGoalFormStore.setDescription(description);
 
-    for (const day of [[monday,"mon"], [tuesday,"tue"], [wednesday,"wed"], [thursday,"thu"], [friday,"fri"], [saturday,"sat"], [sunday,"sun"]]){
-      const arr = day[0]
-      const weekday = day[1] as string
-      for (const STgoal of arr){
+    for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
+      const arr = day[0];
+      const weekday = day[1] as string;
+      for (const STgoal of arr) {
         const mins = (STgoal[0] % 60).toString();
-        const hrs = (Math.floor(STgoal[0]/ 60)).toString();
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2])
+        const hrs = (Math.floor(STgoal[0] / 60)).toString();
+        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2]);
       }
     }
 
-    navigation.navigate("editGoal")
-
+    navigation.navigate("editGoal");
   }
 
   const monday = [];
@@ -148,12 +147,12 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id]);
   }
 
-  function deleteThisGoal(goalId){
+  function deleteThisGoal(goalId) {
     goalsStore.deleteLTgoal(id).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
     });
-    navigation.navigate("allGoals")
+    navigation.navigate("allGoals");
   }
 
   function sortFunction(a, b) {
@@ -204,19 +203,18 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           text: "No",
           style: "cancel"
         },
-        { text: "Yes", onPress: () => deleteThisGoal(id)}
+        { text: "Yes", onPress: () => deleteThisGoal(id) }
       ],
       { cancelable: false }
     );
 
   const Item = ({ title }) => {
-    let minsStr = ""
+    let minsStr = "";
 
     const mins = title[0] % 60;
-    if (Math.floor(mins/10) === 0) {
+    if (Math.floor(mins / 10) === 0) {
       minsStr = "0" + mins.toString();
-    }
-    else{
+    } else {
       minsStr = mins.toString();
     }
     const hrs = (Math.floor(title[0] / 60)).toString();
@@ -256,6 +254,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             onPress={() => editThisGoal()}
           />
           <Button
+            testID="deleteGoalButton"
             style={styles.button}
             text="Delete"
             onPress={createTwoButtonAlert}

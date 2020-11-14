@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 
 export const AwardsScreen = observer(function AwardsScreen() {
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore } = useStores();
 
   // let myAwards = []
 
@@ -122,8 +122,8 @@ export const AwardsScreen = observer(function AwardsScreen() {
     );
   };
 
-  //const navigation = useNavigation();
-  //const goBack = () => navigation.goBack();
+  // const navigation = useNavigation();
+  // const goBack = () => navigation.goBack();
 
   return (
     <View style={FULL}>
@@ -145,7 +145,7 @@ export const AwardsScreen = observer(function AwardsScreen() {
               extraDataForMobX:
                 userStore.getAwards().length > 0 ? userStore.getAwards()[0][0] : "",
             }}
-            keyExtractor={(index) => '' + index}
+            keyExtractor={(index) => "" + index}
             onRefresh={() => userStore.getAwards()}
             refreshing={refreshing}
           ></FlatList>

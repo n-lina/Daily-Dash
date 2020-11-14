@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { getDay } from "../../utils/getDay";
 
 /**
  * Model description here for TypeScript hints.
@@ -7,9 +8,9 @@ export const StGoalFormModel = types
   .model("StGoalForm")
   .props({
     title: "",
-    day: "mon",
+    day: getDay(true),
     hour: "",
-    minute: "", 
+    minute: "",
     id: ""
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -26,8 +27,8 @@ export const StGoalFormModel = types
     },
     setMin(minute: string) {
       self.minute = minute;
-    }, 
-    setID(id: string){
+    },
+    setID(id: string) {
       self.id = id;
     }
   })); // eslint-disable-line @typescript-eslint/no-unused-vars

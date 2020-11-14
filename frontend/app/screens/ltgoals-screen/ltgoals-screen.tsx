@@ -105,12 +105,12 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
     if (goalsStore.goals.length === 0) { fetchGoals(); }
   }, []);
 
-  function addNewGoal(){
-    LtGoalFormStore.clearForm()
-    navigation.navigate("addGoal")
+  function addNewGoal() {
+    LtGoalFormStore.clearForm();
+    navigation.navigate("addGoal");
   }
 
-  const renderGoal = ({ item }) => {
+  const renderGoal = ({ item, index }) => {
     const goal: Goal = item;
 
     return (
@@ -130,14 +130,14 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
             <ListItem.Title>{goal.LTgoal}</ListItem.Title>
             <ListItem.Subtitle>{goal.description}</ListItem.Subtitle>
           </ListItem.Content>
-          <ListItem.Chevron />
+          <ListItem.Chevron testID={"ltGoal" + index} />
         </ListItem>
       </View>
     );
   };
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="ltgWrap">
       {/*  <Screen style={ROOT} preset="scroll" backgroundColor={color.transparent}> */}
       <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} />
@@ -163,6 +163,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           ></FlatList>
         </SafeAreaView>
         <Button
+          testID="newGoalButton"
           // style={styles.button}
           text="Add New Goal"
           onPress={() => addNewGoal()} />

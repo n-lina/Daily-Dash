@@ -100,9 +100,9 @@ const ADD_ONE_BUTTON: ViewStyle = {
 
 const NO_GOALS_MESSAGE: ViewStyle = {
   marginTop: 150,
-  alignContent: 'center',
-  alignItems: 'center'
-}
+  alignContent: "center",
+  alignItems: "center"
+};
 /********************************/
 
 /**
@@ -126,7 +126,7 @@ function getFormattedTime(time: number): string {
 
 export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
-  const { dailyGoalStore, userStore } = useStores();
+  const { dailyGoalStore, userStore, LtGoalFormStore } = useStores();
   const { goals } = dailyGoalStore;
   const level = userStore.getLevel();
   const levelScore = userStore.goalsCompleted;
@@ -141,8 +141,9 @@ export const HomeScreen = observer(function HomeScreen() {
 
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
-    navigation.navigate("Goals", { screen: "addGoal"})
-  }
+    LtGoalFormStore.clearForm();
+    navigation.navigate("Goals", { screen: "addGoal" });
+  };
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -185,7 +186,7 @@ export const HomeScreen = observer(function HomeScreen() {
     }
   };
 
-  const renderGoal = ({ item }) => {
+  const renderGoal = ({ item, index }) => {
     return (
       <View>
         {/* <Swipeable
@@ -205,7 +206,7 @@ export const HomeScreen = observer(function HomeScreen() {
             item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
           }
         >
-          <View style={CHECK_BOX}>
+          <View style={CHECK_BOX} testID={"goal" + index}>
             <CheckBox
               checked={item.cancelled || item.completed}
               checkedIcon={item.cancelled ? "close" : "check"}
@@ -233,7 +234,7 @@ export const HomeScreen = observer(function HomeScreen() {
           <View style={CONTENT_WRAP}>
             <View style={LEVEL_WRAP}>
               <View style={LEVEL_NUM_WRAP}>
-                <Text>
+                <Text testID="goalsCompletedDisplay">
                   {levelScore} / {totalLevelScore}
                 </Text>
               </View>
@@ -242,7 +243,7 @@ export const HomeScreen = observer(function HomeScreen() {
                 <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
               </View>
               <View style={LEVEL_STYLE}>
-                <Text style={LEVEL_NUM_STYLE}>{level}</Text>
+                <Text style={LEVEL_NUM_STYLE} testID="levelNumber">{level}</Text>
               </View>
             </View>
             <View style={TROPHY_WRAP}>
@@ -258,7 +259,7 @@ export const HomeScreen = observer(function HomeScreen() {
                 }
               />
               <Text style={AWARD_SUBTITLE}>
-              {awardCount} award{awardCount != 1 ? "s":""}
+                {awardCount} award{awardCount != 1 ? "s" : ""}
               </Text>
             </View>
           </View>
@@ -266,13 +267,13 @@ export const HomeScreen = observer(function HomeScreen() {
             Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
           </Text>
         </View>
-        { goals.length == 0 && 
+        {/* { goals.length === 0 &&
           <View style={NO_GOALS_MESSAGE}>
             <Text>
               You don't have any goals 😮
             </Text>
             <Button buttonStyle={ADD_ONE_BUTTON} title="Add one" onPress={goToAddGoal}></Button>
-          </View>}
+          </View>} */}
         <FlatList
           style={LIST_STYLE}
           data={goals}

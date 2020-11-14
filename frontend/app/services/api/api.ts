@@ -72,8 +72,8 @@ export class Api {
 
   convertAward = (raw) => {
     // console.log(JSON.stringify(raw));
-    const oneAward = [raw.title, raw.description]
-    return oneAward
+    const oneAward = [raw.title, raw.description];
+    return oneAward;
   }
 
   getUserID() {

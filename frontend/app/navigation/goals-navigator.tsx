@@ -83,5 +83,5 @@ export function GoalsNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["Home"];
+const exitRoutes = ["allGoals"];
 export const canExit = (routeName: string) => exitRoutes.includes(routeName);

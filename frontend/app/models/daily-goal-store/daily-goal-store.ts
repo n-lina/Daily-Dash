@@ -57,7 +57,7 @@ export const DailyGoalStoreModel = types
                   newGoals.push(self.updateGoal(goal, oldGoalsFiltered[0]));
                 }
               });
-              self.setGoals(newGoals, day)
+              self.setGoals(newGoals, day);
             } else {
               self.setGoals(
                 res.goals.map((g) => DailyGoalModel.create(g)),

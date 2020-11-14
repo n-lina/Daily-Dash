@@ -10,7 +10,6 @@ import { color, spacing, typography } from "../../theme";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
 import { getDay } from "../../utils/getDay";
 
-
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
@@ -143,7 +142,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   }, []);
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="addGoalWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
@@ -154,10 +153,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
         <Image source={require("../../../assets/compass.png")} style={styles.image} />
         < Separator />
         < Separator />
-        <ScrollView contentContainerStyle={styles.content}>
+        <ScrollView contentContainerStyle={styles.content} testID="addGoalScroll">
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="My goal is to .. " />
             <TextInput
+              testID="titleInput"
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setTitle(text)}
               placeholder="be a happier person."
@@ -167,17 +167,19 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="Description:" />
             <TextInput
+              testID="descriptionInput"
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setDescription(text)}
-              placeholder="(Optional) I do better when I'm happy."
+              placeholder="I do better when I'm happy."
               maxLength={100}
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} />))}
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} />))}
           < Separator />
           <Button
-            style={{ ...styles.button}}
+            testID="newSTGButton"
+            style={{ ...styles.button }}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
@@ -186,6 +188,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
             text="Get Suggestion"
             onPress={() => getSuggestion()} />
           <Button
+            testID="submitGoalButton"
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
         </HideWithKeyboard>
