@@ -18,9 +18,9 @@ const users = require("./users/users");
 app.use("/goals", goals);
 app.use("/users", users);
 
-app.listen(port, () => {
+var server = app.listen(port, () => {
   logger.info("Server listening on port ${port}!");
   }
 );
 
-module.exports.app = app;
+module.exports = server;
