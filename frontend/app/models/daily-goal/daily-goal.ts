@@ -13,7 +13,11 @@ export const DailyGoalModel = types
     cancelled: false,
     completed: false
   }).extend(withEnvironment)
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({
+    getTime: () => {
+      return self.time + 0;
+    }
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setCancelled(cancelled: boolean) {
       self.cancelled = cancelled;

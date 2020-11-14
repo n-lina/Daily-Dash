@@ -133,7 +133,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
     goalsStore.putLTgoal(LTgoal, goalID, description, myStGoal).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
-    });;
+    });
     LtGoalFormStore.clearForm();
     navigation.navigate("allGoals");
     return 1;

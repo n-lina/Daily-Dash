@@ -15,8 +15,8 @@ const noAward: Award = {
 
 const awards: Award[] = [{
   title: "Baby Steps ...",
-  description: "Completed 5 sub-goals.",
-  threshold: 5
+  description: "Completed 2 sub-goals.",
+  threshold: 2
 }, {
   title: "Getting the Hang of It !",
   description: "Completed 10 sub-goals.",
@@ -69,10 +69,10 @@ export const UserStoreModel = types
       if (self.goalsCompleted === 0) return 0;
       return self.goalsCompleted.toString().length;
     }, 
-    getAwards: (): Award[] => {
+    getAwards: (includeNoAward = true): Award[] => {
       console.log("Getting Awards")
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
-      if (validAwards.length === 0) return [noAward]
+      if (validAwards.length === 0 && includeNoAward) return [noAward]
       return validAwards
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

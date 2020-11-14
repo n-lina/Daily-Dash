@@ -5,6 +5,7 @@ import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, Safe
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
+import { getDay } from "../../utils/getDay";
 
 const borderColor = "#737373";
 const white = "#fff";
@@ -100,7 +101,7 @@ const FULL: ViewStyle = {
 };
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore,goalsStore} = useStores()
+  const { LtGoalFormStore,goalsStore, dailyGoalStore} = useStores()
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -148,7 +149,10 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   }
 
   function deleteThisGoal(goalId){
-    goalsStore.deleteLTgoal(id)
+    goalsStore.deleteLTgoal(id).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
     navigation.navigate("allGoals")
   }
 
