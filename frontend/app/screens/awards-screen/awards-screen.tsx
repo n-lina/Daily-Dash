@@ -117,7 +117,6 @@ export const AwardsScreen = observer(function AwardsScreen() {
             <ListItem.Title>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
-          <ListItem.Chevron />
         </ListItem>
       </View>
     );

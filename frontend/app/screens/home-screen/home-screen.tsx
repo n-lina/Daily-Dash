@@ -4,7 +4,7 @@ import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native";
 import { Screen } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
-import { color } from "../../theme";
+import { color, spacing } from "../../theme";
 import { CheckBox, ListItem, Text, Button, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
@@ -91,6 +91,18 @@ const REMAINING_GOALS: ViewStyle = {
   marginTop: 10,
   marginLeft: 4
 };
+
+const ADD_ONE_BUTTON: ViewStyle = {
+  marginTop: 20,
+  paddingHorizontal: spacing[4],
+  backgroundColor: "#008080",
+};
+
+const NO_GOALS_MESSAGE: ViewStyle = {
+  marginTop: 150,
+  alignContent: 'center',
+  alignItems: 'center'
+}
 /********************************/
 
 /**
@@ -121,13 +133,16 @@ export const HomeScreen = observer(function HomeScreen() {
   const totalLevelScore = userStore.getGoalsForNextLevel();
   const levelProgress = levelScore / totalLevelScore;
   // TODO: User userstore here
-  const awardCount = 4;
+  const awardCount = userStore.getAwards(false).length;
 
   __DEV__ && console.log("Goals: " + goals);
 
   const navigation = useNavigation();
 
   const goToAwards = () => navigation.navigate("awards");
+  const goToAddGoal = () => {
+    navigation.navigate("Goals", { screen: "addGoal"})
+  }
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -203,7 +218,7 @@ export const HomeScreen = observer(function HomeScreen() {
             <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
               {item.title}
             </ListItem.Title>
-            <ListItem.Subtitle>{getFormattedTime(item.time)}</ListItem.Subtitle>
+            <ListItem.Subtitle>{getFormattedTime(item.getTime())}</ListItem.Subtitle>
           </ListItem.Content>
         </ListItem>
         {/* </Swipeable> */}
@@ -243,7 +258,7 @@ export const HomeScreen = observer(function HomeScreen() {
                 }
               />
               <Text style={AWARD_SUBTITLE}>
-                {awardCount} awards
+              {awardCount} award{awardCount != 1 ? "s":""}
               </Text>
             </View>
           </View>
@@ -251,6 +266,13 @@ export const HomeScreen = observer(function HomeScreen() {
             Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
           </Text>
         </View>
+        { goals.length == 0 && 
+          <View style={NO_GOALS_MESSAGE}>
+            <Text>
+              You don't have any goals 😮
+            </Text>
+            <Button buttonStyle={ADD_ONE_BUTTON} title="Add one" onPress={goToAddGoal}></Button>
+          </View>}
         <FlatList
           style={LIST_STYLE}
           data={goals}

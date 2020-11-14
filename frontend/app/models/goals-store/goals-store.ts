@@ -62,7 +62,7 @@ export const GoalsStoreModel = types
       });
     },
     deleteLTgoal: (goalID: string) => {
-      self.environment.api.deleteLTgoal(goalID).then(res => {
+      return self.environment.api.deleteLTgoal(goalID).then(res => {
         if (res.kind === "ok") {
           __DEV__ && console.log("Deleted goal from database");
         } else {
