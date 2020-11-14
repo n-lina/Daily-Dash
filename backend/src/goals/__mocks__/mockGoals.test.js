@@ -1,10 +1,19 @@
 const request = require('supertest');
-const server = require('../../index');
 const admin = require("firebase-admin");
+const server = require('../../index');
+const GoalModel = require("../../models/goals");
 
 describe("Unauthorized Goals endpoints", () => {
-  it("should fail to add a new goal because not authorized", async() => {
-    const res = await request(server.app)
+  beforeEach(() => {
+    jest.setTimeout(30000);
+  })
+
+  afterAll(async () => {
+    server.close();
+  })
+
+  it("should fail to add a new goal because not authorized", (done) => {
+    request(server)
       .post("/goals")
       .send({
         "userId": "eq06XtykrqSHJtqWblOYkhWat6s2",
@@ -20,25 +29,25 @@ describe("Unauthorized Goals endpoints", () => {
             ]
           }
         ]
-      });
-
-    expect(res.statusCode).toEqual(401);
+      })
+      .expect(401)
+      .end(done);
   })
 
-  it("should fail to get user goals", async() => {
-    const res = await request(server.app)
+  it("should fail to get user goals", (done) => {
+    request(server)
       .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
-      .send();
-
-    expect(res.statusCode).toEqual(401);
+      .send()
+      .expect(401)
+      .end(done);
   })
 
-  it("should fail to get short term goals because of missing parameters", async() => {
-    const res = await request(server.app)
+  it("should fail to get short term goals because of missing parameters", (done) => {
+    request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
-      .send();
-
-    expect(res.statusCode).toEqual(401);
+      .send()
+      .expect(401)
+      .end(done);
   })
 })
 
@@ -50,9 +59,13 @@ describe("Goals endpoints", () => {
       });
     }));
   });
-  
-  it("should successfully add a new goal", async() => {
-    const res = await request(server.app)
+
+  afterAll(async () => {
+    await server.shutdown();
+  })
+
+  it("should successfully add a new goal", (done) => {
+    request(server)
       .post("/goals")
       .set({ Authorization: "Bearer ExampleAuth"})
       .send({
@@ -69,13 +82,13 @@ describe("Goals endpoints", () => {
             ]
           }
         ]
-      });
-
-    expect(res.statusCode).toEqual(200);
+      })
+      .expect(200)
+      .end(done);
   })
 
-  it("should fail to a new goal when request parameters are missing", async() => {
-    const res = await request(server.app)
+  it("should fail to a new goal when request parameters are missing", (done) => {
+    request(server)
       .post("/goals")
       .set({ Authorization: "Bearer ExampleAuth"})
       .send({
@@ -90,53 +103,86 @@ describe("Goals endpoints", () => {
             ]
           }
         ]
-      });
-
-    expect(res.statusCode).toEqual(400);
+      })
+      .expect(400)
+      .end(done);
   })
 
-  it("should successfully get user goals", async() => {
-    const res = await request(server.app)
+  it("should successfully get user goals", (done) => {
+    request(server)
       .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
       .set({ Authorization: "Bearer ExampleAuth"})
-      .send();
-
-    expect(res.statusCode).toEqual(200);
+      .send()
+      .expect(200)
+      .end(done);
   })
 
-  it("should fail to get user goals because of missing parameters", async() => {
-    const res = await request(server.app)
+  it("should fail to get user goals because of missing parameters", (done) => {
+    request(server)
       .get("/goals/?idsss=eq06XtykrqSHJtqWblOYkhWat6s2")
       .set({ Authorization: "Bearer ExampleAuth"})
-      .send();
-
-    expect(res.statusCode).toEqual(400);
+      .send()
+      .expect(400)
+      .end(done);
   })
 
-  it("should successfully get short term goals", async() => {
-    const res = await request(server.app)
+  it("should successfully get short term goals", (done) => {
+    request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
       .set({ Authorization: "Bearer ExampleAuth"})
-      .send();
-
-    expect(res.statusCode).toEqual(200);
+      .send()
+      .expect(200)
+      .end(done);
   })
 
-  it("should fail to get short term goals because of missing parameters", async() => {
-    const res = await request(server.app)
+  it("should fail to get short term goals because of missing parameters", (done) => {
+    request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2")
       .set({ Authorization: "Bearer ExampleAuth"})
-      .send();
-
-    expect(res.statusCode).toEqual(400);
+      .send()
+      .expect(400)
+      .end(done);
   })
 
-  it("should fail to get short term goals because of missing parameters", async() => {
-    const res = await request(server.app)
+  it("should fail to get short term goals because of missing parameters", (done) => {
+    request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=modn")
       .set({ Authorization: "Bearer ExampleAuth"})
-      .send();
+      .send()
+      .expect(500)
+      .end(done);
+  })
+})
 
-    expect(res.statusCode).toEqual(500);
+describe("Goals integration tests", () => {
+  afterAll(async () => {
+    await server.shutdown();
+  })
+
+  it("should successfully fetch goals", (done) => {
+    request(server)
+      .post("/goals")
+      .set({ Authorization: "Bearer test"})
+      .send({
+        "userId": "eq06XtykrqSHJtqWblOYkhWat6s2",
+        "title": "testGoal2",
+        "description": "testRunning",
+        "shortTermGoals": [
+          {
+            "title": "STG1",
+            "description": "testRunWeekdays",
+            "mon": [
+              699,
+              15
+            ]
+          }
+        ]
+      })
+      .expect(200)
+      .end(done);
+
+    // const dbResult = GoalModel.findOne({title: "testGoal2"})
+
+    // expect(res.statusCode).toEqual(200);
   })
 })
