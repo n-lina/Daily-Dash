@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     height: 40
   },
   textInputTitle: {
+    alignContent: "center",
+    flex: 1,
     fontSize: 15,
     height: 40,
-    flex:1, 
-    textAlign: "left",
     justifyContent: "flex-end",
-    alignContent: "center"
+    textAlign: "left"
   }
 });
 
@@ -61,7 +61,6 @@ const ROOT: ViewStyle = {
 const Separator = () => (
   <View style={styles.separator} />
 );
-
 
 // const BOLD: TextStyle = { fontWeight: "bold" };
 
@@ -105,7 +104,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  
+
   const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
 
   function convertTimeToMin(hr: number, min: number) {
@@ -122,7 +121,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
         id: goal.id
       });
     }
-    console.log(myStGoal)
+    console.log(myStGoal);
     return myStGoal;
   }
 
@@ -185,7 +184,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
           < Separator />
           <Button
-            style={{ ...styles.button}}
+            style={{ ...styles.button }}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>

@@ -70,7 +70,7 @@ export const GoalsStoreModel = types
         }
       }).catch(err => {
         __DEV__ && console.error(err);
-      })
+      });
     },
     getSTsuggestion: (title: string) => {
       return self.environment.api.getSTsuggestion(title).then(res => {

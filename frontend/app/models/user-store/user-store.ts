@@ -8,10 +8,10 @@ interface Award {
 }
 
 const noAward: Award = {
-  title: "No Awards Yet...", 
-  description: "Keep completing goals to earn one soon!", 
+  title: "No Awards Yet...",
+  description: "Keep completing goals to earn one soon!",
   threshold: 0
-}
+};
 
 const awards: Award[] = [{
   title: "Baby Steps ...",
@@ -49,7 +49,7 @@ const awards: Award[] = [{
   title: "Master Goal Achiever",
   description: "Completed 1000 sub-goals.",
   threshold: 1000
-},]
+},];
 
 /**
  * Model description here for TypeScript hints.
@@ -68,12 +68,12 @@ export const UserStoreModel = types
     getLevel: (): number => {
       if (self.goalsCompleted === 0) return 0;
       return self.goalsCompleted.toString().length;
-    }, 
+    },
     getAwards: (includeNoAward = true): Award[] => {
-      console.log("Getting Awards")
+      console.log("Getting Awards");
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
-      if (validAwards.length === 0 && includeNoAward) return [noAward]
-      return validAwards
+      if (validAwards.length === 0 && includeNoAward) return [noAward];
+      return validAwards;
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -97,8 +97,9 @@ export const UserStoreModel = types
     },
     decrementGoalCount: () => {
       self.goalsCompleted--;
-    }, is24HourClock: () => {
-      return self.timeMode == 24
+    },
+    is24HourClock: () => {
+      return self.timeMode == 24;
     }
   }))
   .views(self => ({
