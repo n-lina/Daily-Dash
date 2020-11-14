@@ -10,9 +10,8 @@ const addUser = async (req, res) => {
   const email = req.body.email;
   const username = req.body.username;
   const notificationId = req.body.notificationId;
-  const timeMode = req.body.timeMode;
 
-  if (id == null || email == null || username == null || notificationId == null || timeMode == null) {
+  if (id == null || email == null || username == null || notificationId == null) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
@@ -24,13 +23,11 @@ const addUser = async (req, res) => {
     email,
     username,
     notificationId,
-    goalsCompleted: 0,
-    timeMode,
   };
 
   const query = {"userId": id};
 
-  await UserModel.findOneAndUpdate(query, userObj, {upsert: true}).then((doc) => {
+  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true}).then((doc) => {
     logger.info(doc);
   })
   .catch((err) => {
@@ -40,6 +37,33 @@ const addUser = async (req, res) => {
   var response = {email: email, username: username};
 
 	res.send(response);
+};
+
+const updateUserTime = async (req, res) => {
+  const id = req.params.id;
+  const timeMode = req.body.timeMode;
+
+  if (id == null || timeMode == null) {
+    logger.info(`Missing parameters in ${req.body}`);
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  const userObj = {
+    timeMode
+  };
+
+  const query = {"userId": id};
+
+  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true}).then((doc) => {
+    logger.info(doc);
+  })
+  .catch((err) => {
+    logger.error(err);
+  });
+
+	res.send();
 };
 
 const getUser = async (req, res) => {
@@ -110,6 +134,7 @@ const expireNotificationToken = async (req, res) => {
 
 router.post("/", auth.checkIfAuthenticated, addUser);
 router.get("/:id", auth.checkIfAuthenticated, getUser);
+router.put("/time/:id", auth.checkIfAuthenticated, updateUserTime);
 router.delete("/:id/notification", auth.checkIfAuthenticated, expireNotificationToken);
 
 module.exports = router;
