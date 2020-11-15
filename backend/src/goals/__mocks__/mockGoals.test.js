@@ -18,7 +18,7 @@ describe("Goals integration tests", () => {
   })
 
   it("should successfully add long term goals", async(done) => {
-    request(server)
+    const res = await request(server)
       .post("/goals")
       .set({ Authorization: "Bearer test"})
       .send({
@@ -45,6 +45,16 @@ describe("Goals integration tests", () => {
     done();
   })
 
+  it("should successfully fetch suggested goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/suggestedstg?title=guitar")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+
+    done();
+  })
+
   it("should successfully fetch goals", async(done) => {
     const res = await request(server)
       .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
@@ -58,12 +68,6 @@ describe("Goals integration tests", () => {
   })
 
   it("should successfully no fetch goals", async(done) => {
-    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {
-      return {
-        "longTermGoals": []
-      }
-    })
-
     const res = await request(server)
       .get("/goals/?id=nodata")
       .set({ Authorization: "Bearer test"})
