@@ -25,8 +25,6 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
-setInterval(repopulateCacheLTGArray, intervalRepopulatingTempLTGArray);
-
 const getGoals = async (req, res) => {
   const id = req.query.id;
 
