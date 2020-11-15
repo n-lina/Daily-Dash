@@ -19,19 +19,11 @@ const getGoals = async (req, res) => {
     return;
   }
 
-  try {
-    var result = await GoalModel.find({ userId: id });
-    var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
-    logger.info(responseObj);
+  var result = await GoalModel.find({ userId: id });
+  var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
+  logger.info(responseObj);
 
-    res.send(responseObj);
-  } catch (error) {
-    res.status(500);
-    logger.info(error);
-    res.end();
-
-    return;
-  }
+  res.send(responseObj);
 };
 
 const getShortTermGoals = async (req, res) => {
@@ -87,9 +79,6 @@ const postGoal = async (req, res) => {
     .then((doc) => {
       logger.info(doc);
     })
-    .catch((err) => {
-      logger.info(err);
-    });
 
   var response = { id: userId };
 
