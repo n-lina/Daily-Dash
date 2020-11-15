@@ -148,7 +148,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   const { STgoalForm } = LtGoalFormStore;
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="editGoalWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
@@ -163,6 +163,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="My goal is to: " />
             <TextInput
+              testID="titleInput"
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setTitle(text)}
               placeholder="be a happier person."
@@ -173,6 +174,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           <View style={styles.sideByside}>
             <Text style={TITLE2} text="Description:" />
             <TextInput
+              testID="descriptionInput"
               style={styles.textInput}
               onChangeText={text => LtGoalFormStore.setDescription(text)}
               placeholder="(Optional) I do better when I'm happy."
@@ -184,15 +186,18 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
           < Separator />
           <Button
+            testID="newSTGButton"
             style={{ ...styles.button }}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
         <HideWithKeyboard>
           <Button
+            testID="suggestionButton"
             text="Get Suggestion"
             onPress={() => getSuggestion()} />
           <Button
+            testID="submitGoalButton"
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm, LtGoalFormStore.id)} />
         </HideWithKeyboard>

@@ -89,7 +89,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
   // how to pass the item in here from the renderGoal function?
-  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { LTgoal: goal.LTgoal, STgoals: goal.STgoals, description: goal.description, id: goal.id });
+  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", {id: goal.id });
   //  const getSpecificGoal = (goal) => console.log(goal);
 
   const [refreshing, setRefreshing] = useState(false);
