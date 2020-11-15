@@ -1,7 +1,96 @@
 const request = require('supertest');
 const admin = require("firebase-admin");
 const server = require('../../index');
+const goalsHelper = require("../goalsHelper");
 const GoalModel = require("../../models/goals");
+
+describe("Goals integration tests", () => {
+  afterAll(async () => {
+    await server.shutdown();
+  })
+
+  it("should successfully add long term goals", async(done) => {
+    request(server)
+      .post("/goals")
+      .set({ Authorization: "Bearer test"})
+      .send({
+        "userId": "eq06XtykrqSHJtqWblOYkhWat6s2",
+        "title": "testGoal2",
+        "description": "testRunning",
+        "shortTermGoals": [
+          {
+            "title": "STG1",
+            "description": "testRunWeekdays",
+            "mon": [
+              699,
+              15
+            ]
+          }
+        ]
+      })
+      .expect(200)
+
+    const dbResult = await GoalModel.findOne({title: "testGoal2"})
+
+    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
+
+    done();
+  })
+
+  it("should successfully fetch goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+
+    expect(res.body.longTermGoals.length > 0);
+
+    done();
+  })
+
+  it("should successfully no fetch goals", async(done) => {
+    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {
+      return {
+        "longTermGoals": []
+      }
+    })
+
+    const res = await request(server)
+      .get("/goals/?id=nodata")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.longTermGoals.length).toEqual(0);
+
+    done();
+  })
+
+  it("should successfully fetch short term goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.shortTermGoals.length > 0);
+
+    done();
+  })
+
+  it("should successfully fetch no short term goals", async(done) => {
+    const res = await request(server)
+      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=wed")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
+    
+    expect(res.body.shortTermGoals.length).toEqual(0);
+
+    done();
+  })
+})
 
 describe("Unauthorized Goals endpoints", () => {
   beforeEach(() => {
@@ -87,7 +176,7 @@ describe("Goals endpoints", () => {
       .end(done);
   })
 
-  it("should fail to a new goal when request parameters are missing", (done) => {
+  it("should fail to add a new goal when request parameters are missing", (done) => {
     request(server)
       .post("/goals")
       .set({ Authorization: "Bearer ExampleAuth"})
@@ -109,6 +198,26 @@ describe("Goals endpoints", () => {
   })
 
   it("should successfully get user goals", (done) => {
+    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {
+      return {
+      "userId": "testUser3",
+      "title": "Become a great coder within 6 months.",
+      "description": "irrelevant words",
+      "shortTermGoals": [
+        {
+          "title": "Do a coding challenge practice problem each weekday.",
+          "mon": [
+            5,
+            15
+          ],
+          "wed": [
+            30,
+            20
+          ]
+        }
+      ]
+    }});
+
     request(server)
       .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
       .set({ Authorization: "Bearer ExampleAuth"})
@@ -127,6 +236,18 @@ describe("Goals endpoints", () => {
   })
 
   it("should successfully get short term goals", (done) => {
+    goalsHelper.getShortTermGoals = jest.fn(() => {
+      return {
+        "shortTermGoals": [
+          {
+            "stgId": "5fb085e26d499219752df1d4",
+            "title": "Do a coding challenge practice problem each weekday.",
+            "time": 5
+          },
+        ]
+      }
+    });
+
     request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
       .set({ Authorization: "Bearer ExampleAuth"})
@@ -136,6 +257,12 @@ describe("Goals endpoints", () => {
   })
 
   it("should fail to get short term goals because of missing parameters", (done) => {
+    goalsHelper.getShortTermGoals = jest.fn(() => {
+      return {
+        "shortTermGoals": []
+      }
+    });
+
     request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2")
       .set({ Authorization: "Bearer ExampleAuth"})
@@ -144,95 +271,18 @@ describe("Goals endpoints", () => {
       .end(done);
   })
 
-  it("should fail to get short term goals because of missing parameters", (done) => {
+  it("should fail to get short term goals because incorrect day of week", (done) => {
+    goalsHelper.getShortTermGoals = jest.fn(() => {
+      return {
+        "shortTermGoals": []
+      }
+    });
+
     request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=modn")
       .set({ Authorization: "Bearer ExampleAuth"})
       .send()
       .expect(500)
       .end(done);
-  })
-})
-
-describe("Goals integration tests", () => {
-  afterAll(async () => {
-    await server.shutdown();
-  })
-
-  it("should successfully add long term goals", async(done) => {
-    request(server)
-      .post("/goals")
-      .set({ Authorization: "Bearer test"})
-      .send({
-        "userId": "eq06XtykrqSHJtqWblOYkhWat6s2",
-        "title": "testGoal2",
-        "description": "testRunning",
-        "shortTermGoals": [
-          {
-            "title": "STG1",
-            "description": "testRunWeekdays",
-            "mon": [
-              699,
-              15
-            ]
-          }
-        ]
-      })
-      .expect(200)
-
-    const dbResult = await GoalModel.findOne({title: "testGoal2"})
-
-    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
-
-    done();
-  })
-
-  it("should successfully fetch goals", async(done) => {
-    const res = await request(server)
-      .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-    
-    expect(res.body.longTermGoals.length > 0);
-
-    done();
-  })
-
-  it("should successfully no fetch goals", async(done) => {
-    const res = await request(server)
-      .get("/goals/?id=nodata")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-    
-    expect(res.body.longTermGoals.length).toEqual(0);
-
-    done();
-  })
-
-
-  it("should successfully fetch short term goals", async(done) => {
-    const res = await request(server)
-      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-    
-    expect(res.body.shortTermGoals.length > 0);
-
-    done();
-  })
-
-  it("should successfully fetch no short term goals", async(done) => {
-    const res = await request(server)
-      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=wed")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-    
-    expect(res.body.shortTermGoals.length).toEqual(0);
-
-    done();
   })
 })
