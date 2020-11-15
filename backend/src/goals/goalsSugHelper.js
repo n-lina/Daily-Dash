@@ -14,11 +14,7 @@ function checkHasWords(stringParam) {
     returnVal = false;  // if string is null, returns false
   }
   else {  // check if empty
-    str
-      .replace(/[.,?!;()"'-]/g, " ")  // replace punctuation
-      .replace(/\s+/g, " ")           // make uniform white space usage
-      .toLowerCase()                  // make uniform case for comparison
-      .replace(" ", "");
+    str = str.replace(/[^\w]|_/g, "")  // deletes all but digits, letters (includes whitespace deletion)
     returnVal = !(str == ""); // if string not empty, returnVal is true
   }
   return returnVal; // if string not null or empty, returns true
@@ -46,20 +42,19 @@ function checkMinimumOneNonemptySTGTitle(arrayParam) {
 * Fills parameter array with all valid LTG titles
 * i.e. those with a valid title and at least 1 STG with valid title
 * @param    arrayParam is the array to be filled
+* @param    cacheLTGsArray_ is an array containing a cache of LTG goals
 * @return   nothing
-* @modifies array sent
+* @modifies arrayParam
 */
-async function fillArrayWithValidLTGtitles(arrayParam) {
-  await GoalModel.find({}, function (err, docs) {
-    if (docs !== null) {  // ensure there is >0 LTG
-      docs.forEach(function (item) {  // need && since only check 3rd condition if 2nd is true, else may get index out of range error
+function fillArrayWithValidLTGtitles(arrayParam, cacheLTGsArray_) {
+    if (cacheLTGsArray_ !== null) {  // ensure there is >0 LTG
+      cacheLTGsArray_.forEach(function (item) { 
         if (checkHasWords(item.title) === true && item.shortTermGoals !== null &&
           checkMinimumOneNonemptySTGTitle(item.shortTermGoals)) {
           arrayParam.push(item.title); // ensure only add LTGs with a valid title and at least 1 STG with valid title
         }
       });
     }
-  });
 }
 
 /*
@@ -67,12 +62,11 @@ async function fillArrayWithValidLTGtitles(arrayParam) {
 * i.e. those with a valid title and at least 1 STG with valid title
 * @param    arrayParamSTG is the array to be filled
 * @param    arrayParamLTG is used to find LTG goal by title
-* @param    indexHighCossimLTG is used to find LTG goal by title
 * @return   nothing
-* @modifies array sent as parameter arrayParamSTG
+* @modifies arrayParamSTG
 */
-async function fillArrayWithValidSTGtitles(arrayParamSTG, arrayParamLTG, indexHighCossimLTG) {
-  await GoalModel.findOne({ title: arrayParamLTG[indexHighCossimLTG] },
+async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle) {
+  await GoalModel.findOne({ title: highestCossimLTGTitle },
     function (err, docs) {
       if (docs !== null) {  // ensure there is >0 LTG
         docs.shortTermGoals.forEach(function (item) {
@@ -84,4 +78,4 @@ async function fillArrayWithValidSTGtitles(arrayParamSTG, arrayParamLTG, indexHi
     });
 }
 
-module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles }
+module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles, checkHasWords }
