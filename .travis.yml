@@ -3,7 +3,7 @@ node_js:
   - 12
 services: mongodb
 before_install:
-  openssl aes-256-cbc -K $encrypted_35c8e4cc1596_key -iv $encrypted_35c8e4cc1596_iv -in fbServiceAccountKey.json.enc -out fbServiceAccountKey.json -d
+  openssl aes-256-cbc -K $encrypted_35c8e4cc1596_key -iv $encrypted_35c8e4cc1596_iv -in backend/src/config/fbServiceAccountKey.json.enc -out backend/src/config/fbServiceAccountKey.json -d
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/backend
   - npm install
