@@ -106,8 +106,11 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   console.log(JSON.stringify(route.params));
-  const { LTgoal, STgoals, description, id } = route.params as Goal;
-  console.log(LTgoal + " " + STgoals);
+  //const { LTgoal, STgoals, description, id } = route.params as Goal;
+  const { id } = route.params as Goal;
+  //console.log(LTgoal + " " + STgoals);
+  const myGoal: Goal =  goalsStore.goals.filter(goal => goal.id == id)[0]
+  const {LTgoal, description, STgoals} = myGoal
 
   function editThisGoal() {
     LtGoalFormStore.clearForm();
@@ -249,6 +252,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
         </SafeAreaView>
         <View style={styles.fixToText}>
           <Button
+            testID="editGoalButton"
             style={styles.button}
             text="Edit"
             onPress={() => editThisGoal()}
