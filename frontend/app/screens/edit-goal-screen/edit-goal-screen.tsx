@@ -114,14 +114,18 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   function convertSTgoals(fromForm: Array<StGoalForm>) {
     const myStGoal = [];
     for (const goal of fromForm) {
-      const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
-      myStGoal.push({
-        title: goal.title,
-        [goal.day]: time,
-        id: goal.id
-      });
+      if (goal.hour == "" || goal.minute == "" || goal.title == "") {
+        return [];
+      }
+      else{
+        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
+        myStGoal.push({
+          title: goal.title,
+          [goal.day]: time,
+        });
+      }
     }
-    console.log(myStGoal);
+    __DEV__ && console.log(myStGoal);
     return myStGoal;
   }
 
@@ -129,6 +133,11 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>, goalID: string) {
     const myStGoal = convertSTgoals(fromForm);
+    if (myStGoal.length == 0 || LTgoal == ""){
+      Alert.alert("Please fill in all required fields before submitting.")
+      return false;
+    }
+    if (description == "") description = " "
     goalsStore.putLTgoal(LTgoal, goalID, description, myStGoal).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
@@ -139,7 +148,6 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   }
 
   async function getSuggestion() {
-    console.log(LtGoalFormStore.title);
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
     Alert.alert(goalsStore.STsuggestion);
     return 1;
@@ -183,7 +191,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index}/>))}
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index}/>))}
           < Separator />
           <Button
             testID="newSTGButton"

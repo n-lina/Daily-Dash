@@ -9,6 +9,7 @@ import { ListItem, Avatar } from "react-native-elements";
 
 const borderColor = "#737373";
 const background = "#aba";
+const green = "#46BFAC";
 
 const styles = StyleSheet.create({
   LTgoal: {
@@ -17,6 +18,9 @@ const styles = StyleSheet.create({
   },
   background: {
     backgroundColor: background
+  },
+  green: {
+    backgroundColor: green
   },
   flatlist: {
     height: 400,
@@ -88,9 +92,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // Pull in navigation via hook
   const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
-  // how to pass the item in here from the renderGoal function?
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", {id: goal.id });
-  //  const getSpecificGoal = (goal) => console.log(goal);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -122,7 +124,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
             rounded
             icon={{ name: "tree", type: "font-awesome" }}
             onPress={() => console.log("Works!")}
-            overlayContainerStyle={styles.background}
+            overlayContainerStyle={styles.green}
             activeOpacity={0.7}
             // containerStyle={{flex: 2, marginTop: 2}}
           />
