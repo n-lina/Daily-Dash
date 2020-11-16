@@ -17,7 +17,6 @@ export const StGoalFormModel = types
   .actions(self => ({
     setTitle(title: string) {
       self.title = title;
-      console.log(self.title);
     },
     setDay(day: string) {
       self.day = day;

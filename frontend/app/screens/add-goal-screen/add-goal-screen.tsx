@@ -104,11 +104,16 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   function convertSTgoals(fromForm: Array<StGoalForm>) {
     const myStGoal = [];
     for (const goal of fromForm) {
-      const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
-      myStGoal.push({
-        title: goal.title,
-        [goal.day]: time,
-      });
+      if (goal.hour == "" || goal.minute == "" || goal.title == "") {
+        return [];
+      }
+      else{
+        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
+        myStGoal.push({
+          title: goal.title,
+          [goal.day]: time,
+        });
+      }
     }
     // console.log(myStGoal)
     return myStGoal;
@@ -119,6 +124,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
     const myStGoal = convertSTgoals(fromForm);
+    if (myStGoal.length == 0 || LTgoal == ""){
+      Alert.alert("Please fill in all required fields before submitting.")
+      return false;
+    }
+    if (description == "") description = " "
     goalsStore.postLTgoal(LTgoal, description, myStGoal).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
@@ -129,7 +139,6 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   }
 
   async function getSuggestion() {
-    console.log(LtGoalFormStore.title);
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
     Alert.alert(goalsStore.STsuggestion);
     return 1;
