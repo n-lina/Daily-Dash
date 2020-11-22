@@ -84,6 +84,7 @@ export const UserStoreModel = types
         self.email = user.email;
         self.signedIn = true;
         self.goalsCompleted = user.goalsCompleted;
+        console.log(self.goalsCompleted);
       } else {
         self.signedIn = false;
         self.name = "";
