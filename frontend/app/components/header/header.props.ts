@@ -41,4 +41,9 @@ export interface HeaderProps {
    * Title style overrides.
    */
   titleStyle?: TextStyle
+
+  /**
+   * Overrides button style for left icon
+   */
+  buttonStyle?: ViewStyle
 }
