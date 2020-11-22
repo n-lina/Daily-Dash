@@ -21,15 +21,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic", 
     fontSize: 17
   },
-  button: {
-    marginLeft: 10,
-    marginRight: 10, 
-    backgroundColor: "#008080",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-  },
   buttonText: {
     fontSize: 15, 
   },
@@ -211,37 +202,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     }
   }
 
-  // const allSTGoals = [
-  //   {
-  //     title: "Monday",
-  //     data: monday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Tuesday",
-  //     data: tuesday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Wednesday",
-  //     data: wednesday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Thursday",
-  //     data: thursday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Friday",
-  //     data: friday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Saturday",
-  //     data: saturday.sort(sortFunction)
-  //   },
-  //   {
-  //     title: "Sunday",
-  //     data: sunday.sort(sortFunction)
-  //   }
-  // ];
-
   const createTwoButtonAlert = () =>
     Alert.alert(
       "Delete Goal",
@@ -300,14 +260,12 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
         <View style={styles.fixToText}>
           <Button
             testID="editGoalButton"
-            style={styles.button}
             text="EDIT"
             textStyle={styles.buttonText}
             onPress={() => editThisGoal()}
           />
           <Button
             testID="deleteGoalButton"
-            style={styles.button}
             text="DELETE"
             textStyle={styles.buttonText}
             onPress={createTwoButtonAlert}
