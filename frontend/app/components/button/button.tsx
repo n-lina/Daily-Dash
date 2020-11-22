@@ -23,19 +23,19 @@ export function Button(props: ButtonProps) {
   } = props;
 
   const dailyDashBtnStyle = {
-      marginLeft: 10,
-      marginRight: 10, 
-      backgroundColor: "#008080",
-      borderTopLeftRadius: 8,
-      borderTopRightRadius: 8,
-      borderBottomLeftRadius: 8,
-      borderBottomRightRadius: 8,
-      marginBottom: 5
-  }
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "#008080",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    marginBottom: 5
+  };
 
   const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, dailyDashBtnStyle, styleOverride]));
   const textStyle = mergeAll(
-    flatten([textPresets[preset] || textPresets.primary, {fontSize: 12}, textStyleOverride]),
+    flatten([textPresets[preset] || textPresets.primary, { fontSize: 12 }, textStyleOverride]),
   );
 
   const content = children || <Text tx={tx} text={text} style={textStyle} />;

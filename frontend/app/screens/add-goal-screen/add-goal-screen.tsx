@@ -13,15 +13,15 @@ import { palette } from "../../theme/palette";
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   buttonNewHabbit: {
     marginBottom: 110
   },
   content: {
     alignItems: "center"
+  },
+  fixToText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   image: {
     height: 50,
@@ -68,7 +68,7 @@ const HEADER: TextStyle = {
 
 const BACK_BUTTON: ViewStyle = {
   backgroundColor: palette.white,
-}
+};
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
@@ -115,8 +115,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     for (const goal of fromForm) {
       if (goal.hour == "" || goal.minute == "" || goal.title == "") {
         return [];
-      }
-      else{
+      } else {
         const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
         myStGoal.push({
           title: goal.title,
@@ -133,11 +132,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>) {
     const myStGoal = convertSTgoals(fromForm);
-    if (myStGoal.length == 0 || LTgoal == ""){
-      Alert.alert("Please fill in all required fields before submitting.")
+    if (myStGoal.length == 0 || LTgoal == "") {
+      Alert.alert("Please fill in all required fields before submitting.");
       return false;
     }
-    if (description == "") description = " "
+    if (description == "") description = " ";
     goalsStore.postLTgoal(LTgoal, description, myStGoal).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
@@ -159,7 +158,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     if (LtGoalFormStore.STgoalForm.length === 0) LtGoalFormStore.addSTgoal();
   }, []);
 
-  const onBackPress = () => navigation.navigate("allGoals")
+  const onBackPress = () => navigation.navigate("allGoals");
 
   return (
     <View style={FULL} testID="addGoalWrap">
@@ -205,14 +204,14 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
         </ScrollView>
         <HideWithKeyboard>
           <View style={styles.fixToText}>
-          <Button
-            text="Get Suggestion"
-            onPress={() => getSuggestion()} />
-          <Button
-            testID="submitGoalButton"
-            text="Submit"
-            onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
-            </View>
+            <Button
+              text="Get Suggestion"
+              onPress={() => getSuggestion()} />
+            <Button
+              testID="submitGoalButton"
+              text="Submit"
+              onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
+          </View>
         </HideWithKeyboard>
         {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
         {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN */}
