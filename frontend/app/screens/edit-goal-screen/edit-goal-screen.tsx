@@ -13,11 +13,7 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  buttonNewHabbit: {
+  button: {
     marginBottom: 110
   },
   content: {
@@ -38,8 +34,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 15,
-    height: 40,
-    maxWidth: 250
+    height: 40
   },
   textInputTitle: {
     alignContent: "center",
@@ -200,12 +195,11 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           < Separator />
           <Button
             testID="newSTGButton"
-            style={ styles.buttonNewHabbit }
+            style={{ ...styles.button }}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
         <HideWithKeyboard>
-          <View style={styles.fixToText}>
           <Button
             testID="suggestionButton"
             text="Get Suggestion"
@@ -214,7 +208,6 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
             testID="submitGoalButton"
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm, LtGoalFormStore.id)} />
-        </View>
         </HideWithKeyboard>
       </Screen>
     </View>

@@ -90,6 +90,7 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
         <View style={FOOTER_CONTENT}>
           <Button
             testID="nextScreenButton"
+            style={CONTINUE}
             textStyle={CONTINUE_TEXT}
             tx="welcomeScreen.continue"
             onPress={nextScreen}

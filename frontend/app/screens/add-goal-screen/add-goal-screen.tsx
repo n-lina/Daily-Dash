@@ -4,20 +4,16 @@ import { observer } from "mobx-react-lite";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, TextInput, Alert, ScrollView } from "react-native";
 import { Button, Header, Screen, Text, StGoal } from "../../components";
+// import { useNavigation } from "@react-navigation/native"
 import { StGoalForm, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
 import { getDay } from "../../utils/getDay";
-import { palette } from "../../theme/palette";
 
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  buttonNewHabbit: {
+  button: {
     marginBottom: 110
   },
   content: {
@@ -38,8 +34,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 15,
-    height: 40,
-    maxWidth: 250
+    height: 40
   }
 });
 
@@ -65,10 +60,6 @@ const HEADER: TextStyle = {
   paddingBottom: spacing[4] + spacing[1],
   paddingHorizontal: 0,
 };
-
-const BACK_BUTTON: ViewStyle = {
-  backgroundColor: palette.white,
-}
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
@@ -159,12 +150,10 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     if (LtGoalFormStore.STgoalForm.length === 0) LtGoalFormStore.addSTgoal();
   }, []);
 
-  const onBackPress = () => navigation.navigate("allGoals")
-
   return (
     <View style={FULL} testID="addGoalWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
+        <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Add New Goal   ]" />
         </Text>
@@ -199,12 +188,11 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           < Separator />
           <Button
             testID="newSTGButton"
-            style={styles.buttonNewHabbit}
+            style={{ ...styles.button }}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
         <HideWithKeyboard>
-          <View style={styles.fixToText}>
           <Button
             text="Get Suggestion"
             onPress={() => getSuggestion()} />
@@ -212,7 +200,6 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
             testID="submitGoalButton"
             text="Submit"
             onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} />
-            </View>
         </HideWithKeyboard>
         {/* // onPress={() => goalsStore.postLTgoal(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm)} /> */}
         {/* BUTTON TO ADD ANOTHER FIELD, CHANGE REDIRECT SCREEN */}

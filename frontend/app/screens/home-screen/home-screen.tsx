@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native";
-import { Screen, Button } from "../../components";
+import { Screen } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
 import { color, spacing } from "../../theme";
-import { CheckBox, ListItem, Text, Button as StarButton, Icon } from "react-native-elements";
+import { CheckBox, ListItem, Text, Button, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
 
@@ -93,7 +93,9 @@ const REMAINING_GOALS: ViewStyle = {
 };
 
 const ADD_ONE_BUTTON: ViewStyle = {
-  marginTop: 20
+  marginTop: 20,
+  paddingHorizontal: spacing[4],
+  backgroundColor: "#008080",
 };
 
 const NO_GOALS_MESSAGE: ViewStyle = {
@@ -245,7 +247,7 @@ export const HomeScreen = observer(function HomeScreen() {
               </View>
             </View>
             <View style={TROPHY_WRAP}>
-              <StarButton
+              <Button
                 testID="awardsStar"
                 type="clear"
                 onPress={goToAwards}
@@ -271,7 +273,7 @@ export const HomeScreen = observer(function HomeScreen() {
             <Text>
               You don't have any goals 😮
             </Text>
-            <Button style={ADD_ONE_BUTTON} text="Add one" onPress={goToAddGoal}></Button>
+            <Button buttonStyle={ADD_ONE_BUTTON} title="Add one" onPress={goToAddGoal}></Button>
           </View>}
         <FlatList
           style={LIST_STYLE}
