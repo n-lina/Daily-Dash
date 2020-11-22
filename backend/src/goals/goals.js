@@ -8,7 +8,7 @@ const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 
-var   cacheLTGsArray = [];
+var cacheLTGsArray = [];
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArray = 3000; // milliseconds
 
@@ -25,7 +25,7 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
-const getGoals = async (req, res) => {
+router.get("/", auth.checkIfAuthenticated, async (req, res) => {
   const id = req.query.id;
 
   if (id == null) {
@@ -41,9 +41,9 @@ const getGoals = async (req, res) => {
   logger.info(responseObj);
 
   res.send(responseObj);
-};
+});
 
-const getShortTermGoals = async (req, res) => {
+router.get("/shortterm", auth.checkIfAuthenticated, async (req, res) => {
   const id = req.query.id;
   const dayOfWeek = req.query.dayOfWeek;
 
@@ -66,18 +66,14 @@ const getShortTermGoals = async (req, res) => {
     res.end();
     return;
   }
-};
+});
 
-const postGoal = async (req, res) => {
-  // read in variables from req object
+router.post("/", auth.checkIfAuthenticated, async (req, res) => {
   const userId = req.body.userId;
   const title = req.body.title;
   const description = req.body.description;
   const shortTermGoals = req.body.shortTermGoals;
 
-  // directly access shortTermGoals fields like shortTermGoals[0].title
-
-  // checks if all JSON entries in model present, except does not check elements of shortTermGoals
   if (userId == null || title == null || description == null || shortTermGoals == null) {
     logger.info(`Missing parameters in ${req.params}`);
     res.status(400);
@@ -100,9 +96,9 @@ const postGoal = async (req, res) => {
   var response = { id: userId };
 
   res.send(response);
-};
+});
 
-const getSuggestedShortTermGoal = async (req, res) => {
+router.get("/suggestedstg", auth.checkIfAuthenticated, async (req, res) => {
   const title = req.query.title;
 
   // ensure title param is string or String object, and checkHasWords() checks that not null, empty, or undefined
@@ -161,11 +157,6 @@ const getSuggestedShortTermGoal = async (req, res) => {
     res.end();
     return;
   }
-};
-
-router.get("/", auth.checkIfAuthenticated, getGoals);
-router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
-router.post("/", auth.checkIfAuthenticated, postGoal);
-router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
+});
 
 module.exports = router;

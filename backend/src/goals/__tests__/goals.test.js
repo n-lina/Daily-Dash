@@ -45,6 +45,33 @@ describe("Goals integration tests", () => {
     done();
   })
 
+  it("should fail to add long term goals due to missing params", async(done) => {
+    const res = await request(server)
+      .post("/goals")
+      .set({ Authorization: "Bearer test"})
+      .send({
+        "title": "testGoal2",
+        "description": "testRunning",
+        "shortTermGoals": [
+          {
+            "title": "STG1",
+            "description": "testRunWeekdays",
+            "mon": [
+              699,
+              15
+            ]
+          }
+        ]
+      })
+      .expect(400)
+
+    const dbResult = await GoalModel.findOne({title: "testGoal2"})
+
+    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
+
+    done();
+  })
+
   it("should successfully fetch suggested goals", async(done) => {
     const res = await request(server)
       .get("/goals/suggestedstg?title=guitar")
@@ -79,6 +106,16 @@ describe("Goals integration tests", () => {
     done();
   })
 
+  it("should fail to fetch goals due to missing params", async(done) => {
+    const res = await request(server)
+      .get("/goals/?idd=sd")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(400)
+
+    done();
+  })
+
   it("should successfully fetch short term goals", async(done) => {
     const res = await request(server)
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=mon")
@@ -102,9 +139,28 @@ describe("Goals integration tests", () => {
 
     done();
   })
+
+  it("should fail to fetch short term goals due to missing params", async(done) => {
+    const res = await request(server)
+      .get("/goals/shortterm?idd=ss")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(400)
+
+    done();
+  })
+
+  it("should fail to get short term goals because incorrect day of week", (done) => {
+    request(server)
+      .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=modn")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(500)
+      .end(done);
+  })
 })
 
-describe("Unauthorized Goals endpoints", () => {
+describe("Unauthorized Goals Mock Tests", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.runAllTimers();
@@ -170,7 +226,7 @@ describe("Unauthorized Goals endpoints", () => {
   
 })
 
-describe("Goals endpoints", () => {
+describe("Goals mock tests", () => {
   beforeEach(async () => {
     admin.auth().verifyIdToken = jest.fn(() => new Promise((resolve) => {
       resolve({
