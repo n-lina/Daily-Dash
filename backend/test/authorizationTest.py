@@ -15,8 +15,7 @@ tests = 0
 # Write new tests below this section
 
 def get_header(token: str) -> dict:
-    """
-    Get the HTTP header for a given token
+    """Get the HTTP header for a given token
 
     Parameters:
     token (str): auth token (JWT)
@@ -28,8 +27,7 @@ def get_header(token: str) -> dict:
            'Authorization': 'Bearer {0}'.format(token)}
 
 def check_if_unauthorized(response, endpoint: str):
-    """
-    Check if the resposne returned with 401 unauthorized. Log as an error if not.
+    """Check if the resposne returned with 401 unauthorized. Log as an error if not.
 
     Parameters:
     respone (request.response): response to HTTP request
@@ -45,9 +43,8 @@ def check_if_unauthorized(response, endpoint: str):
     else:
         logging.info("Endpoint {0} is secure ✅".format(endpoint))
 
-def test_get(endpoint: str, token: str, params={}):
-    """
-    Test an endpoint that uses a get REST request
+def test_get(endpoint: str, token: str, params=None):
+    """Test an endpoint that uses a get REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -62,8 +59,7 @@ def test_get(endpoint: str, token: str, params={}):
     check_if_unauthorized(response, endpoint)
 
 def test_delete(endpoint: str, token: str):
-    """
-    Test an endpoint that uses a delete REST request
+    """Test an endpoint that uses a delete REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -77,8 +73,7 @@ def test_delete(endpoint: str, token: str):
     check_if_unauthorized(response, endpoint)
 
 def test_post(endpoint: str, token: str, body=None):
-    """
-    Test an endpoint that uses a post REST request
+    """Test an endpoint that uses a post REST request
 
     Parameters:
     endpoint (str): endpoint to test
@@ -95,8 +90,7 @@ def test_post(endpoint: str, token: str, body=None):
     check_if_unauthorized(response, endpoint)
 
 def test_put(endpoint: str, token: str, body=None):
-    """
-    Test an endpoint that uses a put REST request
+    """Test an endpoint that uses a put REST request
 
     Parameters:
     endpoint (str): endpoint to test
