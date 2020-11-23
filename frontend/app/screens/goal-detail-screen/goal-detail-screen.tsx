@@ -105,6 +105,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  textTransform: "capitalize"
 };
 
 const FULL: ViewStyle = {
@@ -278,13 +279,11 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           <Button
             testID="editGoalButton"
             text="EDIT"
-            textStyle={styles.buttonText}
             onPress={() => editThisGoal()}
           />
           <Button
             testID="deleteGoalButton"
             text="DELETE"
-            textStyle={styles.buttonText}
             onPress={createTwoButtonAlert}
           />
         </View>

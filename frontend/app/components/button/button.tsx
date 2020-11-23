@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity } from "react-native";
+import { TextStyle, TouchableOpacity } from "react-native";
 import { Text } from "../text/text";
 import { viewPresets, textPresets } from "./button.presets";
 import { ButtonProps } from "./button.props";
@@ -26,16 +26,21 @@ export function Button(props: ButtonProps) {
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: "#008080",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 9,
+    borderTopRightRadius: 9,
+    borderBottomLeftRadius: 9,
+    borderBottomRightRadius: 9,
     marginBottom: 5
   };
 
+  const buttonTextStyle: TextStyle = {
+    fontSize: 15, 
+    textTransform: 'capitalize'
+  }
+
   const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, dailyDashBtnStyle, styleOverride]));
   const textStyle = mergeAll(
-    flatten([textPresets[preset] || textPresets.primary, { fontSize: 12 }, textStyleOverride]),
+    flatten([textPresets[preset] || textPresets.primary, buttonTextStyle, textStyleOverride]),
   );
 
   const content = children || <Text tx={tx} text={text} style={textStyle} />;

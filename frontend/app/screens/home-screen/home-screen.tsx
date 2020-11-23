@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native";
+import { Dimensions, FlatList, Image, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
@@ -10,6 +10,64 @@ import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
 
 /** **           STYLES            ***** */
+
+const borderColor = "#737373";
+const lightseagreen = "#616F6C";
+
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#46BFAC",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    fontSize: 32,
+    textAlign: "center",
+    color: color.palette.white, 
+    marginTop: spacing[3],
+    marginBottom: spacing[3],
+    marginLeft: spacing[3],
+    marginRight: spacing[3]
+  },
+  image: {
+    marginTop: 10, 
+    height:93,
+    marginBottom: 5
+  },
+  quote_left:{
+    fontSize: 16,
+    fontStyle: "italic", 
+    textAlign: "left", 
+    color: lightseagreen, 
+    marginTop: spacing[2],
+    marginLeft: spacing[5], 
+  },
+  quote_right:{
+    fontSize: 16,
+    fontStyle: "italic", 
+    textAlign: "right", 
+    color: lightseagreen, 
+    marginRight: spacing[5],
+    marginBottom: spacing[2]
+  },
+  subheading: {
+    fontSize: 16,
+    fontStyle: "italic", 
+    textAlign: "center", 
+    color: lightseagreen, 
+    // marginLeft: spacing[0],
+    // marginRight: spacing[2],
+
+  },
+  separator: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+    borderBottomColor: borderColor
+  }
+});
+
+
 const progressWidth = 280;
 const circleSize = 44;
 const topSectionHeight = 180;
@@ -18,31 +76,31 @@ const FULL: ViewStyle = { flex: 1 };
 
 const CONTENT_WRAP: ViewStyle = {
   alignItems: "center",
-  height: 80
+  height: 80, 
 };
 
 const LEVEL_WRAP: ViewStyle = {
   width: progressWidth,
   marginTop: 20,
   position: "absolute",
-  left: 10
+  left: 10, 
 };
 
 const LEVEL_STYLE: ViewStyle = {
   width: circleSize,
   height: circleSize,
   borderRadius: 1000,
-  backgroundColor: "#008080"
+  backgroundColor: "#008080", 
 };
 
 const LEVEL_NUM_STYLE: TextStyle = {
   fontSize: 30,
-  textAlign: "center"
+  textAlign: "center", 
 };
 
 const TROPHY_WRAP: ViewStyle = {
   position: "absolute",
-  right: 5
+  right: 5, 
 };
 
 const AWARD_SUBTITLE: TextStyle = {
@@ -53,7 +111,7 @@ const AWARD_SUBTITLE: TextStyle = {
 
 const PROGRESS_WRAP: ViewStyle = {
   position: "absolute",
-  top: circleSize / 2 - 4, // minus height of progress bar
+  top: circleSize / 2 - 4, // minus height of progress bar, 
 };
 
 const LEVEL_NUM_WRAP: ViewStyle = {
@@ -84,7 +142,6 @@ const LIST_STYLE: ViewStyle = {
 };
 
 const TOP_SECTION: ViewStyle = {
-  height: topSectionHeight,
 };
 
 const REMAINING_GOALS: ViewStyle = {
@@ -101,6 +158,10 @@ const NO_GOALS_MESSAGE: ViewStyle = {
   alignContent: "center",
   alignItems: "center"
 };
+
+const Separator = () => (
+  <View style={styles.separator} />
+);
 /********************************/
 
 /**
@@ -227,7 +288,7 @@ export const HomeScreen = observer(function HomeScreen() {
 
   return (
     <View style={FULL} testID="homeSreenWrap">
-      <Screen style={FULL} backgroundColor={color.transparent}>
+      <Screen style={FULL} backgroundColor={color.palette.white}>
         <View style={TOP_SECTION}>
           <View style={CONTENT_WRAP}>
             <View style={LEVEL_WRAP}>
@@ -262,8 +323,20 @@ export const HomeScreen = observer(function HomeScreen() {
               </Text>
             </View>
           </View>
-          <Text h4 style={REMAINING_GOALS}>
-            Remianing goals for {getCurrentDay(false)}: {dailyGoalStore.getRemainingCount()}
+          <Text style={styles.quote_left}>
+            A journey of a thousand miles ...
+          </Text>
+          <Image style={styles.image}
+            source={require("../../../assets/meadow.jpg")}
+          />
+          <Text style={styles.quote_right}>
+            ... begins with a single step.
+          </Text>
+          <Text style={styles.header}>
+            {getCurrentDay(false)}
+          </Text>
+          <Text style={styles.subheading}>
+            {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>
         </View>
         { goals.length === 0 &&
@@ -273,6 +346,7 @@ export const HomeScreen = observer(function HomeScreen() {
             </Text>
             <Button style={ADD_ONE_BUTTON} text="Add one" onPress={goToAddGoal}></Button>
           </View>}
+        <Separator/>
         <FlatList
           style={LIST_STYLE}
           data={goals}
