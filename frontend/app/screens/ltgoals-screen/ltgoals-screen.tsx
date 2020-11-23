@@ -19,9 +19,6 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: background
   },
-  green: {
-    backgroundColor: green
-  },
   flatlist: {
     height: 400,
     marginTop: 40,
@@ -30,6 +27,9 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1
+  },
+  green: {
+    backgroundColor: green
   },
   image: {
     height: 50,
@@ -92,7 +92,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // Pull in navigation via hook
   const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
-  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", {id: goal.id });
+  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id });
 
   const [refreshing, setRefreshing] = useState(false);
 

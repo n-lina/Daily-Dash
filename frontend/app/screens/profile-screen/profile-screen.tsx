@@ -1,12 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { View, ViewStyle } from "react-native";
-import { Screen } from "../../components";
+import { Button, Screen } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models";
 import { color } from "../../theme";
 import auth from "@react-native-firebase/auth";
-import { Avatar, Text, Button } from "react-native-elements";
+import { Avatar, Text } from "react-native-elements";
 
 const FULL: ViewStyle = { flex: 1 };
 
@@ -18,10 +18,6 @@ const CONTENT_WRAP: ViewStyle = {
 
 const LOGOUT_STYLE: ViewStyle = {
   paddingTop: 50,
-};
-
-const LOGOUT_BUTTON: ViewStyle = {
-  backgroundColor: "#008080"
 };
 
 export const ProfileScreen = observer(function ProfileScreen() {
@@ -52,7 +48,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
           <Text h3>Welcome {userStore.name}</Text>
           <Text>{__DEV__ && auth().currentUser.uid}</Text>
           <View style={LOGOUT_STYLE}>
-            <Button testID="logoutButton" buttonStyle={LOGOUT_BUTTON} title="log out" onPress={signOut}></Button>
+            <Button testID="logoutButton" text="log out" onPress={signOut}></Button>
           </View>
         </View>
       </Screen>
