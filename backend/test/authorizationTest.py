@@ -45,7 +45,7 @@ def check_if_unauthorized(response, endpoint: str):
     else:
         logging.info("Endpoint {0} is secure ✅".format(endpoint))
 
-def test_get(endpoint: str, token: str, params={}):
+def test_get(endpoint: str, token: str, params=None):
     """
     Test an endpoint that uses a get REST request
 
