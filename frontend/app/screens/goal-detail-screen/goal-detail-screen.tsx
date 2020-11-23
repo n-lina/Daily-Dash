@@ -10,30 +10,21 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
+
 const lightseagreen = "#616F6C"; 
 const almostBlack = "#00231C";
-
 
 const styles = StyleSheet.create({
   black: {
     color: almostBlack
   },
+  buttonText: {
+    fontSize: 15,
+  },
   description: {
     color: lightseagreen,
-    fontStyle: "italic", 
-    fontSize: 17
-  },
-  button: {
-    marginLeft: 10,
-    marginRight: 10, 
-    backgroundColor: "#008080",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-  },
-  buttonText: {
-    fontSize: 15, 
+    fontSize: 17,
+    fontStyle: "italic"
   },
   fixToText: {
     flexDirection: "row",
@@ -43,14 +34,14 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    textAlign:"center",
     backgroundColor: "#46BFAC",
-    flex: 1,
-    fontSize: 32, 
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10, 
+    flex: 1,
+    fontSize: 32,
+    textAlign: "center",
   },
   image: {
     height: 75,
@@ -70,7 +61,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    width: 350, 
+    width: 350,
   },
   separator: {
     borderBottomColor: borderColor,
@@ -126,9 +117,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { id } = route.params as Goal;
-  const myGoal: Goal =  goalsStore.goals.filter(goal => goal.id == id)[0]
-  console.log(myGoal)
-  const {LTgoal, description, STgoals} = myGoal
+
+  const myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
+  const { LTgoal, description, STgoals } = myGoal;
 
   function editThisGoal() {
     LtGoalFormStore.clearForm();
@@ -169,34 +160,48 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id, "Sunday"]);
   }
 
-  if (monday.length > 0) allSTGoals.push({
-    title: monday[0][3],
-    data: monday.sort(sortFunction)
-  })
-  if (tuesday.length > 0) allSTGoals.push({
-    title: tuesday[0][3],
-    data: tuesday.sort(sortFunction)
-  })
-  if (wednesday.length > 0) allSTGoals.push({
-    title: wednesday[0][3],
-    data: wednesday.sort(sortFunction)
-  })
-  if (thursday.length > 0) allSTGoals.push({
-    title: thursday[0][3],
-    data: thursday.sort(sortFunction)
-  })
-  if (friday.length > 0) allSTGoals.push({
-    title: friday[0][3],
-    data: friday.sort(sortFunction)
-  })
-  if (saturday.length > 0) allSTGoals.push({
-    title: saturday[0][3],
-    data: saturday.sort(sortFunction)
-  })
-  if (sunday.length > 0) allSTGoals.push({
-    title: sunday[0][3],
-    data: sunday.sort(sortFunction)
-  })
+  if (monday.length > 0) {
+    allSTGoals.push({
+      title: monday[0][3],
+      data: monday.sort(sortFunction)
+    });
+  }
+  if (tuesday.length > 0) {
+    allSTGoals.push({
+      title: tuesday[0][3],
+      data: tuesday.sort(sortFunction)
+    });
+  }
+  if (wednesday.length > 0) {
+    allSTGoals.push({
+      title: wednesday[0][3],
+      data: wednesday.sort(sortFunction)
+    });
+  }
+  if (thursday.length > 0) {
+    allSTGoals.push({
+      title: thursday[0][3],
+      data: thursday.sort(sortFunction)
+    });
+  }
+  if (friday.length > 0) {
+    allSTGoals.push({
+      title: friday[0][3],
+      data: friday.sort(sortFunction)
+    });
+  }
+  if (saturday.length > 0) {
+    allSTGoals.push({
+      title: saturday[0][3],
+      data: saturday.sort(sortFunction)
+    });
+  }
+  if (sunday.length > 0) {
+    allSTGoals.push({
+      title: sunday[0][3],
+      data: sunday.sort(sortFunction)
+    });
+  }
 
   function deleteThisGoal(goalId) {
     goalsStore.deleteLTgoal(id).then(res => {
@@ -272,14 +277,12 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
         <View style={styles.fixToText}>
           <Button
             testID="editGoalButton"
-            style={styles.button}
             text="EDIT"
             textStyle={styles.buttonText}
             onPress={() => editThisGoal()}
           />
           <Button
             testID="deleteGoalButton"
-            style={styles.button}
             text="DELETE"
             textStyle={styles.buttonText}
             onPress={createTwoButtonAlert}

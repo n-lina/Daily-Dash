@@ -13,11 +13,15 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  button: {
+  buttonNewHabbit: {
     marginBottom: 110
   },
   content: {
     alignItems: "center"
+  },
+  fixToText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   image: {
     height: 55,
@@ -34,7 +38,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 15,
-    height: 40
+    height: 40,
+    maxWidth: 250
   },
   textInputTitle: {
     alignContent: "center",
@@ -116,8 +121,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
     for (const goal of fromForm) {
       if (goal.hour == "" || goal.minute == "" || goal.title == "") {
         return [];
-      }
-      else{
+      } else {
         const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
         myStGoal.push({
           title: goal.title,
@@ -133,11 +137,11 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>, goalID: string) {
     const myStGoal = convertSTgoals(fromForm);
-    if (myStGoal.length == 0 || LTgoal == ""){
-      Alert.alert("Please fill in all required fields before submitting.")
+    if (myStGoal.length == 0 || LTgoal == "") {
+      Alert.alert("Please fill in all required fields before submitting.");
       return false;
     }
-    if (description == "") description = " "
+    if (description == "") description = " ";
     goalsStore.putLTgoal(LTgoal, goalID, description, myStGoal).then(res => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
@@ -205,17 +209,18 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
               text="Delete Habit"
               onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
-
         </ScrollView>
         <HideWithKeyboard>
-          <Button
-            testID="suggestionButton"
-            text="Get Suggestion"
-            onPress={() => getSuggestion()} />
-          <Button
-            testID="submitGoalButton"
-            text="Submit"
-            onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm, LtGoalFormStore.id)} />
+          <View style={styles.fixToText}>
+            <Button
+              testID="suggestionButton"
+              text="Get Suggestion"
+              onPress={() => getSuggestion()} />
+            <Button
+              testID="submitGoalButton"
+              text="Submit"
+              onPress={() => submitForm(LtGoalFormStore.title, LtGoalFormStore.description, LtGoalFormStore.STgoalForm, LtGoalFormStore.id)} />
+          </View>
         </HideWithKeyboard>
       </Screen>
     </View>
