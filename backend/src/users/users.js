@@ -34,11 +34,11 @@ const addUser = async (req, res) => {
     logger.info(doc);
   })
   .catch((err) => {
-    response = {error: "Database update error"};
+    response = {email: email, username: username, goalsCompleted: 0};
     logger.error(err);
   });
   
-	res.send(response);
+  res.send(response);
 };
 
 const updateUserTime = async (req, res) => {
