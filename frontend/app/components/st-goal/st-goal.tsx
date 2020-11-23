@@ -4,7 +4,6 @@ import { color, typography, spacing } from "../../theme";
 import { Text } from "../";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StGoalForm } from "../../models";
-import { getDay } from "../../utils/getDay";
 
 // const borderColor = "#737373";
 

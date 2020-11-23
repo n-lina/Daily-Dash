@@ -15,6 +15,10 @@ export interface PostUser {
   timeMode: number
 }
 
+export interface PutTimeMode {
+  timeMode: number
+}
+
 export interface Goal {
   LTgoal: string,
   STgoals: Array<STGoal>,

@@ -84,11 +84,13 @@ export const UserStoreModel = types
         self.email = user.email;
         self.signedIn = true;
         self.goalsCompleted = user.goalsCompleted;
+        self.timeMode = user.timeMode
       } else {
         self.signedIn = false;
         self.name = "";
         self.email = "";
         self.goalsCompleted = 0;
+        self.timeMode = 12;
       }
     },
     incrementGoalCount: () => {
@@ -145,6 +147,19 @@ export const UserStoreModel = types
         }
       }).catch(err => {
         __DEV__ && console.log(err + " Could not sign user out");
+      });
+    },
+
+    updateTimeMode: async (mode: number) => {
+      self.timeMode = mode;
+      return self.environment.api.putUserTimeMode(mode).then(res => {
+        if (res.kind === "ok") {
+          __DEV__ && console.log("successful timemode change");
+        } else {
+          __DEV__ && console.log(res.kind + " Did not update timemode");
+        }
+      }).catch(err => {
+        __DEV__ && console.log(err + " Could not update timemode");
       });
     }
   }));

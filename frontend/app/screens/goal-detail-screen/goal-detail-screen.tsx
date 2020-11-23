@@ -6,6 +6,7 @@ import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
 import { getDay } from "../../utils/getDay";
+import { getDisplayTime } from "../../utils/getDisplayTime";
 
 const borderColor = "#737373";
 const white = "#fff";
@@ -110,7 +111,7 @@ const FULL: ViewStyle = {
 };
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
+  const { LtGoalFormStore, goalsStore, dailyGoalStore, userStore } = useStores();
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -231,19 +232,11 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     );
 
   const Item = ({ title }) => {
-    let minsStr = "";
-
-    const mins = title[0] % 60;
-    if (Math.floor(mins / 10) === 0) {
-      minsStr = "0" + mins.toString();
-    } else {
-      minsStr = mins.toString();
-    }
-    const hrs = (Math.floor(title[0] / 60)).toString();
+    const timeStr = getDisplayTime(userStore.timeMode, title[0])
     return (
       <View style={styles.item}>
         <Text style={styles.black}>{title[1]}</Text>
-        <Text style={styles.right}>{hrs}:{minsStr}</Text>
+        <Text style={styles.right}>{timeStr}</Text>
       </View>
     );
   };

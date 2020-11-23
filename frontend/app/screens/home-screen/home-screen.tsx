@@ -4,10 +4,11 @@ import { Dimensions, FlatList, TextStyle, View, ViewStyle } from "react-native";
 import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
-import { color, spacing } from "../../theme";
+import { color } from "../../theme";
 import { CheckBox, ListItem, Text, Button as StarButton, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
+import { getDisplayTime } from "../../utils/getDisplayTime";
 
 /** **           STYLES            ***** */
 const progressWidth = 280;
@@ -109,19 +110,6 @@ const NO_GOALS_MESSAGE: ViewStyle = {
  */
 const getCurrentDay = getDay;
 
-/**
- * Convert mintues to a formatted string for time (24 clock)
- * @param time minutes (ex: 1230 -> 20:30)
- */
-function getFormattedTime(time: number): string {
-  const hours = Math.floor(time / 60);
-  const minutes = Math.round(time - hours * 60);
-  let timeStr = hours + ":";
-  if (minutes < 10) timeStr += "0";
-  timeStr += minutes;
-  return timeStr;
-}
-
 export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
   const { dailyGoalStore, userStore, LtGoalFormStore } = useStores();
@@ -136,6 +124,10 @@ export const HomeScreen = observer(function HomeScreen() {
   __DEV__ && console.log("Goals: " + goals);
 
   const navigation = useNavigation();
+
+  const getFormattedTime = (time: number) => {
+    return getDisplayTime(userStore.timeMode, time);
+  }
 
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
@@ -280,7 +272,11 @@ export const HomeScreen = observer(function HomeScreen() {
           onRefresh={getGoals}
           renderItem={renderGoal}
           keyExtractor={(item) => item.id}
-          extraData={{ extraDataForMobX: goals.length > 0 ? goals[0].title : "" }}
+          extraData={[
+            { extraDataForMobX: goals.length > 0 ? goals[0].title : ""}, 
+            userStore.timeMode,
+            goals  
+          ]}
         />
       </Screen>
     </View>

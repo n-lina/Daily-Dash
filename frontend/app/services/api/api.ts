@@ -148,6 +148,23 @@ export class Api {
     }
   }
 
+  async putUserTimeMode(
+    newTimeMode: number,
+  ): Promise<Types.SuccessResult> {
+    const userId = await auth().currentUser.uid;
+    const timeBody: Types.PutTimeMode = { timeMode: newTimeMode };
+
+    const response: ApiResponse<any> = await this.apisauce.put("/users/time/" + userId, timeBody);
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return { kind: "ok" };
+  }
+
   /**
    * Gets a single user by ID
    */
