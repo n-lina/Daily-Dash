@@ -35,6 +35,9 @@ export const LtGoalFormModel = types
     addSTgoal() {
       self.STgoalForm.push(StGoalFormModel.create());
     },
+    deleteSTgoal() {
+      self.STgoalForm.pop();
+    },
     // submitData() {
     //   console.log("-------------------");
     //   console.log("self.title " + self.title);

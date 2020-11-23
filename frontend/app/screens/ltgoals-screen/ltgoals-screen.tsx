@@ -165,6 +165,11 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           ></FlatList>
         </SafeAreaView>
         <Button
+          testID="commonGoalsButton"
+          // style={styles.button}
+          text="Browse Common Goals"
+          onPress={() => navigation.navigate("commonGoals")} />
+        <Button
           testID="newGoalButton"
           // style={styles.button}
           text="Add New Goal"

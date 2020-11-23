@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
@@ -12,7 +12,6 @@ const white = "#fff";
 const black = "#000";
 const lightseagreen = "#616F6C"; 
 const almostBlack = "#00231C";
-
 
 const styles = StyleSheet.create({
   black: {
@@ -120,34 +119,23 @@ const FULL: ViewStyle = {
   flex: 1
 };
 
-export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
+export const CommonGoalDetailScreen = observer(function CommonGoalDetailScreen() {
+  const { goalsStore, dailyGoalStore } = useStores();
 
   const navigation = useNavigation();
   const route = useRoute();
   const { id } = route.params as Goal;
-  const myGoal: Goal =  goalsStore.goals.filter(goal => goal.id == id)[0]
-  console.log(myGoal)
+  const myGoal: Goal =  goalsStore.listOfGoals.filter(goal => goal.id == id)[0]
   const {LTgoal, description, STgoals} = myGoal
 
-  function editThisGoal() {
-    LtGoalFormStore.clearForm();
+  function addThisGoal() {
 
-    LtGoalFormStore.setTitle(LTgoal);
-    LtGoalFormStore.setId(id);
-    LtGoalFormStore.setDescription(description);
+    goalsStore.postLTgoal(LTgoal, description, STgoals).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
 
-    for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
-      const arr = day[0];
-      const weekday = day[1] as string;
-      for (const STgoal of arr) {
-        const mins = (STgoal[0] % 60).toString();
-        const hrs = (Math.floor(STgoal[0] / 60)).toString();
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2]);
-      }
-    }
-
-    navigation.navigate("editGoal");
+    navigation.navigate("allGoals");
   }
 
   const allSTGoals = [];
@@ -198,14 +186,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     data: sunday.sort(sortFunction)
   })
 
-  function deleteThisGoal(goalId) {
-    goalsStore.deleteLTgoal(id).then(res => {
-      goalsStore.getAllGoals();
-      dailyGoalStore.getGoalsForDay(getDay(true));
-    });
-    navigation.navigate("allGoals");
-  }
-
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
       return 0;
@@ -213,20 +193,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       return (a[0] < b[0]) ? -1 : 1;
     }
   }
-
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Delete Goal",
-      "This cannot be undone.",
-      [
-        {
-          text: "No",
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => deleteThisGoal(id) }
-      ],
-      { cancelable: false }
-    );
 
   const Item = ({ title }) => {
     let minsStr = "";
@@ -254,7 +220,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>
         < Separator />
-        <Image source={require("../../../assets/hiking.png")} style={styles.image} />
+        <Image source={require("../../../assets/boot.png")} style={styles.image} />
         < Separator />
         <Text style={styles.description}> {description} </Text>
         < Separator />
@@ -269,22 +235,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             )}
           />
         </SafeAreaView>
-        <View style={styles.fixToText}>
-          <Button
-            testID="editGoalButton"
-            style={styles.button}
-            text="EDIT"
-            textStyle={styles.buttonText}
-            onPress={() => editThisGoal()}
-          />
-          <Button
-            testID="deleteGoalButton"
-            style={styles.button}
-            text="DELETE"
-            textStyle={styles.buttonText}
-            onPress={createTwoButtonAlert}
-          />
-        </View>
+        <Button
+          testID="addCommonGoalButton"
+          style={styles.button}
+          text="ADD GOAL"
+          textStyle={styles.buttonText}
+          onPress={() => addThisGoal()}
+        />
       </Screen>
     </View>
   );
