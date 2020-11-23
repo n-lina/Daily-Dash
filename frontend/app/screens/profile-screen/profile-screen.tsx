@@ -21,6 +21,7 @@ const LOGOUT_STYLE: ViewStyle = {
   paddingTop: 50,
 };
 
+<<<<<<< HEAD
 const container: ViewStyle = {
   height: 35,
   width: 88
@@ -32,6 +33,8 @@ const flexStart: ViewStyle = {
 
 const pickerColor = "#fafafa";
 
+=======
+>>>>>>> main
 export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
   const { userStore } = useStores();
