@@ -147,6 +147,12 @@ export function StGoal(props: StGoalProps) {
       const timeMode = props.timeMode;
       const myGoal = props.myGoal;
       let hrs = parseInt(myGoal.hour);
+      if (Number.isNaN(hrs)) {
+        setLoading(false);
+        return;
+      }
+        console.log(hrs);
+
       let meridies = "am";
 
       if (timeMode === 12) {
