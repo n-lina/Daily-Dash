@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
@@ -10,7 +10,6 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
-
 const lightseagreen = "#616F6C"; 
 const almostBlack = "#00231C";
 
@@ -18,13 +17,22 @@ const styles = StyleSheet.create({
   black: {
     color: almostBlack
   },
-  buttonText: {
-    fontSize: 15,
-  },
   description: {
     color: lightseagreen,
-    fontSize: 17,
-    fontStyle: "italic"
+    fontStyle: "italic", 
+    fontSize: 17
+  },
+  button: {
+    marginLeft: 10,
+    marginRight: 10, 
+    backgroundColor: "#008080",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+  buttonText: {
+    fontSize: 15, 
   },
   fixToText: {
     flexDirection: "row",
@@ -34,14 +42,14 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
+    textAlign:"center",
     backgroundColor: "#46BFAC",
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    flex: 1,
+    fontSize: 32, 
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    flex: 1,
-    fontSize: 32,
-    textAlign: "center",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10, 
   },
   image: {
     height: 75,
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    width: 350,
+    width: 350, 
   },
   separator: {
     borderBottomColor: borderColor,
@@ -105,41 +113,29 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
-  textTransform: "capitalize"
 };
 
 const FULL: ViewStyle = {
   flex: 1
 };
 
-export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
+export const CommonGoalDetailScreen = observer(function CommonGoalDetailScreen() {
+  const { goalsStore, dailyGoalStore } = useStores();
 
   const navigation = useNavigation();
   const route = useRoute();
   const { id } = route.params as Goal;
+  const myGoal: Goal =  goalsStore.listOfGoals.filter(goal => goal.id == id)[0]
+  const {LTgoal, description, STgoals} = myGoal
 
-  const myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
-  const { LTgoal, description, STgoals } = myGoal;
+  function addThisGoal() {
 
-  function editThisGoal() {
-    LtGoalFormStore.clearForm();
+    goalsStore.postLTgoal(LTgoal, description, STgoals).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
 
-    LtGoalFormStore.setTitle(LTgoal);
-    LtGoalFormStore.setId(id);
-    LtGoalFormStore.setDescription(description);
-
-    for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
-      const arr = day[0];
-      const weekday = day[1] as string;
-      for (const STgoal of arr) {
-        const mins = (STgoal[0] % 60).toString();
-        const hrs = (Math.floor(STgoal[0] / 60)).toString();
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2]);
-      }
-    }
-
-    navigation.navigate("editGoal");
+    navigation.navigate("allGoals");
   }
 
   const allSTGoals = [];
@@ -161,56 +157,34 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id, "Sunday"]);
   }
 
-  if (monday.length > 0) {
-    allSTGoals.push({
-      title: monday[0][3],
-      data: monday.sort(sortFunction)
-    });
-  }
-  if (tuesday.length > 0) {
-    allSTGoals.push({
-      title: tuesday[0][3],
-      data: tuesday.sort(sortFunction)
-    });
-  }
-  if (wednesday.length > 0) {
-    allSTGoals.push({
-      title: wednesday[0][3],
-      data: wednesday.sort(sortFunction)
-    });
-  }
-  if (thursday.length > 0) {
-    allSTGoals.push({
-      title: thursday[0][3],
-      data: thursday.sort(sortFunction)
-    });
-  }
-  if (friday.length > 0) {
-    allSTGoals.push({
-      title: friday[0][3],
-      data: friday.sort(sortFunction)
-    });
-  }
-  if (saturday.length > 0) {
-    allSTGoals.push({
-      title: saturday[0][3],
-      data: saturday.sort(sortFunction)
-    });
-  }
-  if (sunday.length > 0) {
-    allSTGoals.push({
-      title: sunday[0][3],
-      data: sunday.sort(sortFunction)
-    });
-  }
-
-  function deleteThisGoal(goalId) {
-    goalsStore.deleteLTgoal(id).then(res => {
-      goalsStore.getAllGoals();
-      dailyGoalStore.getGoalsForDay(getDay(true));
-    });
-    navigation.navigate("allGoals");
-  }
+  if (monday.length > 0) allSTGoals.push({
+    title: monday[0][3],
+    data: monday.sort(sortFunction)
+  })
+  if (tuesday.length > 0) allSTGoals.push({
+    title: tuesday[0][3],
+    data: tuesday.sort(sortFunction)
+  })
+  if (wednesday.length > 0) allSTGoals.push({
+    title: wednesday[0][3],
+    data: wednesday.sort(sortFunction)
+  })
+  if (thursday.length > 0) allSTGoals.push({
+    title: thursday[0][3],
+    data: thursday.sort(sortFunction)
+  })
+  if (friday.length > 0) allSTGoals.push({
+    title: friday[0][3],
+    data: friday.sort(sortFunction)
+  })
+  if (saturday.length > 0) allSTGoals.push({
+    title: saturday[0][3],
+    data: saturday.sort(sortFunction)
+  })
+  if (sunday.length > 0) allSTGoals.push({
+    title: sunday[0][3],
+    data: sunday.sort(sortFunction)
+  })
 
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
@@ -219,20 +193,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       return (a[0] < b[0]) ? -1 : 1;
     }
   }
-
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Delete Goal",
-      "This cannot be undone.",
-      [
-        {
-          text: "No",
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => deleteThisGoal(id) }
-      ],
-      { cancelable: false }
-    );
 
   const Item = ({ title }) => {
     let minsStr = "";
@@ -260,7 +220,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>
         < Separator />
-        <Image source={require("../../../assets/hiking.png")} style={styles.image} />
+        <Image source={require("../../../assets/boot.png")} style={styles.image} />
         < Separator />
         <Text style={styles.description}> {description} </Text>
         < Separator />
@@ -275,18 +235,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             )}
           />
         </SafeAreaView>
-        <View style={styles.fixToText}>
-          <Button
-            testID="editGoalButton"
-            text="EDIT"
-            onPress={() => editThisGoal()}
-          />
-          <Button
-            testID="deleteGoalButton"
-            text="DELETE"
-            onPress={createTwoButtonAlert}
-          />
-        </View>
+        <Button
+          testID="addCommonGoalButton"
+          style={styles.button}
+          text="ADD GOAL"
+          textStyle={styles.buttonText}
+          onPress={() => addThisGoal()}
+        />
       </Screen>
     </View>
   );
