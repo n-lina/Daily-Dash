@@ -25,6 +25,41 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
+async function findGoals(id) {
+  var result = await GoalModel.find({ userId: id });
+  var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
+  logger.info(responseObj);
+
+  return responseObj;
+}
+
+async function findShortTermGoalsGoals(id, dayOfWeek) {
+  var result = await GoalModel.find({ userId: id });
+  var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
+  logger.info(responseObj);
+
+  return responseObj;
+}
+
+async function addGoal(userId, title, description, shortTermGoals) {
+  const goalObj = new GoalModel({
+    userId: userId,
+    title: title,
+    description: description,
+    shortTermGoals: shortTermGoals
+  });
+
+  await goalObj.save()
+    .then((doc) => {
+      logger.info(doc);
+    });
+
+
+  var responseObj = { id: userId };
+
+  return responseObj;
+}
+
 router.get("/", auth.checkIfAuthenticated, async (req, res) => {
   const id = req.query.id;
 
@@ -36,9 +71,7 @@ router.get("/", auth.checkIfAuthenticated, async (req, res) => {
     return;
   }
 
-  var result = await GoalModel.find({ userId: id });
-  var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
-  logger.info(responseObj);
+  const responseObj = await findGoals(id)
 
   res.send(responseObj);
 });
@@ -55,9 +88,7 @@ router.get("/shortterm", auth.checkIfAuthenticated, async (req, res) => {
   }
 
   try {
-    var result = await GoalModel.find({ userId: id });
-    var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
-    logger.info(responseObj);
+    const responseObj = await findShortTermGoalsGoals(id, dayOfWeek);
 
     res.send(responseObj);
   } catch (error) {
@@ -81,21 +112,9 @@ router.post("/", auth.checkIfAuthenticated, async (req, res) => {
     return;
   }
 
-  const goalObj = new GoalModel({
-    userId: userId,
-    title: title,
-    description: description,
-    shortTermGoals: shortTermGoals
-  });
+  var responseObj = await addGoal(userId, title, description, shortTermGoals);
 
-  await goalObj.save()
-    .then((doc) => {
-      logger.info(doc);
-    })
-
-  var response = { id: userId };
-
-  res.send(response);
+  res.send(responseObj);
 });
 
 router.get("/suggestedstg", auth.checkIfAuthenticated, async (req, res) => {

@@ -1,6 +1,8 @@
 const request = require('supertest');
+const rewire = require("rewire");
 const admin = require("firebase-admin");
 const server = require('../../index');
+const goals = rewire("../goals");
 const goalsHelper = require("../goalsHelper");
 const GoalModel = require("../../models/goals");
 const cossimImport = require('../cossim.js');
@@ -237,7 +239,57 @@ describe("Goals mock tests", () => {
 
   afterAll(async () => {
     await server.shutdown();
-  })
+  });
+
+  it("should successfully add a new goal using the parameters", () => {
+    const addGoal = goals.__get__("addGoal");
+
+    addGoal("testUser", "testAdd", "testDescription")
+    .then(data => expect(data).toEqual({id: "testUser"}));
+  });
+
+  it("should successfully get user goals using the parameters", () => {
+    const findGoals = goals.__get__("findGoals");
+
+    findGoals("testUser")
+    .then(data => expect(data).toEqual({
+      "longTermGoals": [
+        {
+          "title": "testAdd",
+          "description": "testDescription",
+          "shortTermGoals": [
+            {
+              "title": "STG1",
+              "mon": [
+                699,
+                15
+              ],
+              "tue": [],
+              "wed": [],
+              "thu": [],
+              "fri": [],
+              "sat": [],
+              "sun": []
+            }
+          ]
+        }
+      ]
+    })
+    );
+  });
+
+  it("should successfully get user short term goals using the parameters", () => {
+    const findShortTermGoalsGoals = goals.__get__("findGoals");
+
+    findShortTermGoalsGoals("testUser", "mon")
+    .then(data => expect(data).toEqual({
+      "shortTermGoals": [
+        {
+          "title": "testAdd."
+        }
+      ]
+    }));
+  });
 
   it("should successfully add a new goal", (done) => {
     request(server)

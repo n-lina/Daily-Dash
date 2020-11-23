@@ -26,6 +26,7 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.10",
     "nodemon": "^2.0.6",
+    "rewire": "^5.0.0",
     "supertest": "^6.0.1",
     "travis-cli": "^1.0.9",
     "winston": "^3.3.3"
