@@ -13,8 +13,11 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  buttonNewHabbit: {
+  buttonNewHabit: {
     marginBottom: 110
+  },
+  buttonText: {
+    fontSize: 13, 
   },
   content: {
     alignItems: "center"
@@ -153,9 +156,24 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
     return 1;
   }
 
+  const createTwoButtonAlert = (message: string) =>
+  Alert.alert(
+    "Suggestion: ",
+    message,
+    [
+      {
+        text: "Dismiss",
+        style: "cancel"
+      },
+      { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message)}
+    ],
+    { cancelable: false }
+  );
+
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
-    Alert.alert(goalsStore.STsuggestion);
+    createTwoButtonAlert(goalsStore.STsuggestion)
+    //Alert.alert(goalsStore.STsuggestion);
     return 1;
   }
 
@@ -199,11 +217,18 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           <Text style={TITLE2} text="Regular Habits: " />
           {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={userStore.timeMode}/>))}
           < Separator />
-          <Button
-            testID="newSTGButton"
-            style={ styles.buttonNewHabbit }
-            text="Add New Habit"
-            onPress={() => LtGoalFormStore.addSTgoal()} />
+          <View style={styles.sideByside}>
+            <Button
+              testID="newSTGButton"
+              style={{ ...styles.button }}
+              text="Add Habit"
+              onPress={() => LtGoalFormStore.addSTgoal()} />
+            <Button
+              testID="deleteSTGButton"
+              style={{ ...styles.button }}
+              text="Delete Habit"
+              onPress={() => LtGoalFormStore.deleteSTgoal()} />
+          </View>
         </ScrollView>
         <HideWithKeyboard>
           <View style={styles.fixToText}>

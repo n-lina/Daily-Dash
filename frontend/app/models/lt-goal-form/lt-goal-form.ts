@@ -1,5 +1,7 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { StGoalFormModel } from "../st-goal-form/st-goal-form";
+import { getDay } from "../../utils/getDay";
+
 
 /**
  * Model description here for TypeScript hints.
@@ -23,7 +25,7 @@ export const LtGoalFormModel = types
     setDescription(desc: string) {
       self.description = desc;
     },
-    initSTgoals(title: string, day: string, hr: string, min: string, id: string) {
+    initSTgoals(title: string, day: string = getDay(true), hr: string = "", min: string = "", id: string = "") {
       const myGoal = StGoalFormModel.create();
       if (min.length < 2) min = "0" + min;
       myGoal.setMeridiem("");
@@ -36,6 +38,9 @@ export const LtGoalFormModel = types
     },
     addSTgoal() {
       self.STgoalForm.push(StGoalFormModel.create());
+    },
+    deleteSTgoal() {
+      self.STgoalForm.pop();
     },
     // submitData() {
     //   console.log("-------------------");
