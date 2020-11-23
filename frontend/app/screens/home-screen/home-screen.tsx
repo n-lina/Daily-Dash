@@ -127,7 +127,7 @@ export const HomeScreen = observer(function HomeScreen() {
 
   const getFormattedTime = (time: number) => {
     return getDisplayTime(userStore.timeMode, time);
-  }
+  };
 
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
@@ -273,9 +273,9 @@ export const HomeScreen = observer(function HomeScreen() {
           renderItem={renderGoal}
           keyExtractor={(item) => item.id}
           extraData={[
-            { extraDataForMobX: goals.length > 0 ? goals[0].title : ""}, 
+            { extraDataForMobX: goals.length > 0 ? goals[0].title : "" },
             userStore.timeMode,
-            goals  
+            goals
           ]}
         />
       </Screen>

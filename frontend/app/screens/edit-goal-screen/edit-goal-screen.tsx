@@ -110,9 +110,11 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
 
   // Pull in navigation via hook
 
-  const { LtGoalFormStore, goalsStore, dailyGoalStore } = useStores();
+  const { LtGoalFormStore, goalsStore, dailyGoalStore, userStore } = useStores();
 
-  function convertTimeToMin(hr: number, min: number) {
+  function convertTimeToMin(hr: number, min: number, meridies: string) {
+    if (userStore.timeMode === 12 && meridies === "pm" && hr < 12) hr += 12;
+    if (userStore.timeMode === 12 && meridies === "am" && hr === 12) hr = 0;
     return (hr * 60) + min;
   }
 
@@ -122,7 +124,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
       if (goal.hour == "" || goal.minute == "" || goal.title == "") {
         return [];
       } else {
-        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute))];
+        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute), goal.meridies)];
         myStGoal.push({
           title: goal.title,
           [goal.day]: time,
@@ -195,7 +197,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index}/>))}
+          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={userStore.timeMode}/>))}
           < Separator />
           <Button
             testID="newSTGButton"

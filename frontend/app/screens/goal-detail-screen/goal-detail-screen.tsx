@@ -232,7 +232,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     );
 
   const Item = ({ title }) => {
-    const timeStr = getDisplayTime(userStore.timeMode, title[0])
+    const timeStr = getDisplayTime(userStore.timeMode, title[0]);
     return (
       <View style={styles.item}>
         <Text style={styles.black}>{title[1]}</Text>

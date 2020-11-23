@@ -116,7 +116,7 @@ export class Api {
   ): Promise<Types.PostUserSignInResult> {
     const notId = await messaging().getToken();
 
-    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId, timeMode: 12 };
+    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId };
 
     const idToken = await auth().currentUser.getIdToken();
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);

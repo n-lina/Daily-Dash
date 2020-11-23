@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     height: 35,
     width: 120
   },
+  amPmContainer: {
+    height: 35,
+    marginLeft: 5,
+    width: 68
+  },
   flexStart: {
     justifyContent: "flex-start"
   },
@@ -94,6 +99,7 @@ export interface StGoalProps {
   // TimesStore: Object
   myGoal: StGoalForm
   index?: number
+  timeMode: number
 }
 
 /**
@@ -111,6 +117,12 @@ export function StGoal(props: StGoalProps) {
     if (parseInt(hour) > 23) {
       hour = (23).toString();
     }
+    if (props.timeMode === 12 && parseInt(hour) > 12) {
+      hour = (12).toString();
+    }
+    if (props.timeMode === 12 && parseInt(hour) < 1) {
+      hour = (1).toString();
+    }
     changeHour(hour);
     props.myGoal.setHour(hour);
   }
@@ -126,23 +138,71 @@ export function StGoal(props: StGoalProps) {
 
   const [hour, changeHour] = React.useState(props.myGoal.hour);
   const [min, changeMin] = React.useState(props.myGoal.minute);
+  const [loading, setLoading] = React.useState(true);
+
+  // update times when timeMode changes
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      const timeMode = props.timeMode;
+      const myGoal = props.myGoal;
+      let hrs = parseInt(myGoal.hour);
+      let meridies = "am";
+
+      if (timeMode === 12) {
+        if (hrs >= 12) {
+          meridies = "pm";
+        } else {
+          meridies = "am";
+        }
+
+        if (hrs === 0) {
+          hrs = 12;
+        } else if (hrs > 12) {
+          hrs -= 12;
+        }
+      } else if (myGoal.meridies !== "") {
+        if (myGoal.meridies === "pm") {
+          if (hrs < 12) {
+            hrs += 12;
+          }
+        } else {
+          if (hrs === 12) {
+            hrs = 0;
+          }
+        }
+      }
+
+      const hrString = (hrs).toString();
+      myGoal.setHour(hrString);
+      myGoal.setMeridiem(meridies);
+      changeHour(hrString);
+
+      setLoading(false);
+    }, 1);
+  }, [props.timeMode]);
 
   return (
     <View style={CONTAINER}>
-      <View style={styles.sideByside}>
-        <Text style={TITLE2}>●</Text>
-        <TextInput
-          testID={"stgTitle" + props.index}
-          style={styles.textInput}
-          onChangeText={text => props.myGoal.setTitle(text)}
-          // value={props.myGoal.title}
-          placeholder="call a friend once a week"
-          defaultValue={props.myGoal.title}
-        />
-      </View>
-      {/* < Separator /> */}
-      <View style={styles.sideByside}>
-        {/* <Picker
+      {!loading && (
+        <View>
+          <View style={styles.sideByside}>
+            <Text style={TITLE2}>●</Text>
+            <TextInput
+              testID={"stgTitle" + props.index}
+              style={styles.textInput}
+              onChangeText={text => props.myGoal.setTitle(text)}
+              // value={props.myGoal.title}
+              placeholder="call a friend once a week"
+              defaultValue={props.myGoal.title}
+            />
+          </View>
+          {/* < Separator /> */}
+          <View style={{
+            ...styles.sideByside,
+            width: (props.timeMode === 12) ? 290 : 220
+          }}>
+            {/* <Picker
           testID="dayPicker"
          selectedValue={pickerVal}
          style={{height: 50, width: 150}}
@@ -159,47 +219,62 @@ export function StGoal(props: StGoalProps) {
          <Picker.Item label="Saturday" value="sat" testID="sat"/>
          <Picker.Item label="Sunday" value="sun" testID="sun"/>
         </Picker> */}
-        <DropDownPicker
-          items={[
-            { label: "Monday", value: "mon" },
-            { label: "Tuesday", value: "tue" },
-            { label: "Wednesday", value: "wed" },
-            { label: "Thursday", value: "thu" },
-            { label: "Friday", value: "fri" },
-            { label: "Saturday", value: "sat" },
-            { label: "Sunday", value: "sun" },
-          ]}
-          defaultValue={props.myGoal.day}
-          containerStyle={styles.container}
-          style={{ backgroundColor: pickerColor }}
-          itemStyle={
-            styles.flexStart
-          }
-          dropDownStyle={{ backgroundColor: pickerColor }}
-          onChangeItem={item => props.myGoal.setDay(item.value)}
-        />
-        <TextInput
-          testID={"hourInput" + props.index}
-          style={styles.textInputTime1}
-          onChangeText={text => validateHour(text)}
-          placeholder="hh"
-          defaultValue={props.myGoal.hour}
-          keyboardType = 'numeric'
-          maxLength = {2}
-          value={hour}
-        />
-        <Text style={styles.colon}>:</Text>
-        <TextInput
-          testID={"minInput" + props.index}
-          style={styles.textInputTime2}
-          onChangeText={text => validateMin(text)}
-          placeholder="mm"
-          defaultValue={props.myGoal.minute}
-          keyboardType = 'numeric'
-          maxLength = {2}
-          value={min}
-        />
-      </View>
+            <DropDownPicker
+              items={[
+                { label: "Monday", value: "mon" },
+                { label: "Tuesday", value: "tue" },
+                { label: "Wednesday", value: "wed" },
+                { label: "Thursday", value: "thu" },
+                { label: "Friday", value: "fri" },
+                { label: "Saturday", value: "sat" },
+                { label: "Sunday", value: "sun" },
+              ]}
+              defaultValue={props.myGoal.day}
+              containerStyle={styles.container}
+              style={{ backgroundColor: pickerColor }}
+              itemStyle={
+                styles.flexStart
+              }
+              dropDownStyle={{ backgroundColor: pickerColor }}
+              onChangeItem={item => props.myGoal.setDay(item.value)}
+            />
+            <TextInput
+              testID={"hourInput" + props.index}
+              style={styles.textInputTime1}
+              onChangeText={text => validateHour(text)}
+              placeholder="hh"
+              defaultValue={props.myGoal.hour}
+              keyboardType = 'numeric'
+              maxLength = {2}
+              value={hour}
+            />
+            <Text style={styles.colon}>:</Text>
+            <TextInput
+              testID={"minInput" + props.index}
+              style={styles.textInputTime2}
+              onChangeText={text => validateMin(text)}
+              placeholder="mm"
+              defaultValue={props.myGoal.minute}
+              keyboardType = 'numeric'
+              maxLength = {2}
+              value={min}
+            />
+            {props.timeMode == 12 && (
+              <DropDownPicker
+                items={[
+                  { label: "am", value: "am" },
+                  { label: "pm", value: "pm" }
+                ]}
+                defaultValue={props.myGoal.meridies}
+                containerStyle={styles.amPmContainer}
+                style={{ backgroundColor: pickerColor }}
+                itemStyle={styles.flexStart}
+                dropDownStyle={{ backgroundColor: pickerColor }}
+                onChangeItem={(item) => props.myGoal.setMeridiem(item.value)}
+              />)}
+          </View>
+        </View>
+      )}
     </View>
   );
 }

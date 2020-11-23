@@ -24,11 +24,11 @@ const LOGOUT_STYLE: ViewStyle = {
 const container: ViewStyle = {
   height: 35,
   width: 88
-}
+};
 
-const flexStart: ViewStyle  = {
+const flexStart: ViewStyle = {
   justifyContent: "flex-start"
-}
+};
 
 const pickerColor = "#fafafa";
 
@@ -59,8 +59,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
           />
           <Text h3>Welcome {userStore.name}</Text>
           <Text>{__DEV__ && auth().currentUser.uid}</Text>
-          <View style={{flexDirection: "row", marginTop: 10}}>
-            <Text style={{fontSize: 15, marginTop: 5, marginRight: 15}}>Time mode: </Text>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <Text style={{ fontSize: 15, marginTop: 5, marginRight: 15 }}>Time mode: </Text>
             <DropDownPicker
               items={[
                 { label: "12 hr", value: 12 },
