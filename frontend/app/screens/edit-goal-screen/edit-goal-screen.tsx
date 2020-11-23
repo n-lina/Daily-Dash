@@ -13,8 +13,11 @@ import { getDay } from "../../utils/getDay";
 const borderColor = "#737373";
 
 const styles = StyleSheet.create({
-  buttonNewHabbit: {
+  buttonNewHabit: {
     marginBottom: 110
+  },
+  buttonText: {
+    fontSize: 13, 
   },
   content: {
     alignItems: "center"
@@ -151,9 +154,24 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
     return 1;
   }
 
+  const createTwoButtonAlert = (message: string) =>
+  Alert.alert(
+    "Suggestion: ",
+    message,
+    [
+      {
+        text: "Dismiss",
+        style: "cancel"
+      },
+      { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message)}
+    ],
+    { cancelable: false }
+  );
+
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
-    Alert.alert(goalsStore.STsuggestion);
+    createTwoButtonAlert(goalsStore.STsuggestion)
+    //Alert.alert(goalsStore.STsuggestion);
     return 1;
   }
 
@@ -199,7 +217,8 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           < Separator />
           <Button
             testID="newSTGButton"
-            style={ styles.buttonNewHabbit }
+            style={ styles.buttonNewHabit }
+            textStyle={styles.buttonText}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>

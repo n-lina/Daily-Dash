@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
   content: {
     alignItems: "center"
   },
+  buttonText: {
+    fontSize: 13, 
+  },
   fixToText: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -146,9 +149,24 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     return 1;
   }
 
+  const createTwoButtonAlert = (message: string) =>
+  Alert.alert(
+    "Suggestion: ",
+    message,
+    [
+      {
+        text: "Dismiss",
+        style: "cancel"
+      },
+      { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message)}
+    ],
+    { cancelable: false }
+  );
+
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
-    Alert.alert(goalsStore.STsuggestion);
+    createTwoButtonAlert(goalsStore.STsuggestion)
+    //Alert.alert(goalsStore.STsuggestion);
     return 1;
   }
 
@@ -199,6 +217,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           <Button
             testID="newSTGButton"
             style={styles.buttonNewHabbit}
+            textStyle={styles.buttonText}
             text="Add New Habit"
             onPress={() => LtGoalFormStore.addSTgoal()} />
         </ScrollView>
