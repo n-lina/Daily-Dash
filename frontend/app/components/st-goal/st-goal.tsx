@@ -151,7 +151,7 @@ export function StGoal(props: StGoalProps) {
         setLoading(false);
         return;
       }
-        console.log(hrs);
+      console.log(hrs);
 
       let meridies = "am";
 

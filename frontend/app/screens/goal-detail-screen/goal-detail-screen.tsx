@@ -12,7 +12,7 @@ const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
 
-const lightseagreen = "#616F6C"; 
+const lightseagreen = "#616F6C";
 const almostBlack = "#00231C";
 
 const styles = StyleSheet.create({

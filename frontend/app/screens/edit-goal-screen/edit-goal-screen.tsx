@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginBottom: 110
   },
   buttonText: {
-    fontSize: 13, 
+    fontSize: 13,
   },
   content: {
     alignItems: "center"
@@ -157,23 +157,23 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   }
 
   const createTwoButtonAlert = (message: string) =>
-  Alert.alert(
-    "Suggestion: ",
-    message,
-    [
-      {
-        text: "Dismiss",
-        style: "cancel"
-      },
-      { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message)}
-    ],
-    { cancelable: false }
-  );
+    Alert.alert(
+      "Suggestion: ",
+      message,
+      [
+        {
+          text: "Dismiss",
+          style: "cancel"
+        },
+        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message) }
+      ],
+      { cancelable: false }
+    );
 
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
-    createTwoButtonAlert(goalsStore.STsuggestion)
-    //Alert.alert(goalsStore.STsuggestion);
+    createTwoButtonAlert(goalsStore.STsuggestion);
+    // Alert.alert(goalsStore.STsuggestion);
     return 1;
   }
 

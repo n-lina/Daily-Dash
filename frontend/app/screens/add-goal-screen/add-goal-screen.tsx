@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   buttonNewHabbit: {
     marginBottom: 110
   },
+  buttonText: {
+    fontSize: 13,
+  },
   content: {
     alignItems: "center"
-  },
-  buttonText: {
-    fontSize: 13, 
   },
   fixToText: {
     flexDirection: "row",
@@ -152,23 +152,23 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   }
 
   const createTwoButtonAlert = (message: string) =>
-  Alert.alert(
-    "Suggestion: ",
-    message,
-    [
-      {
-        text: "Dismiss",
-        style: "cancel"
-      },
-      { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message)}
-    ],
-    { cancelable: false }
-  );
+    Alert.alert(
+      "Suggestion: ",
+      message,
+      [
+        {
+          text: "Dismiss",
+          style: "cancel"
+        },
+        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message) }
+      ],
+      { cancelable: false }
+    );
 
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);
-    createTwoButtonAlert(goalsStore.STsuggestion)
-    //Alert.alert(goalsStore.STsuggestion);
+    createTwoButtonAlert(goalsStore.STsuggestion);
+    // Alert.alert(goalsStore.STsuggestion);
     return 1;
   }
 
