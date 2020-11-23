@@ -4,7 +4,7 @@ import { Dimensions, FlatList, Image, StyleSheet, TextStyle, View, ViewStyle } f
 import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
-import { color } from "../../theme";
+import { color, spacing } from "../../theme";
 import { CheckBox, ListItem, Text, Button as StarButton, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
@@ -155,7 +155,7 @@ const ADD_ONE_BUTTON: ViewStyle = {
 };
 
 const NO_GOALS_MESSAGE: ViewStyle = {
-  marginTop: 150,
+  marginTop: 60,
   alignContent: "center",
   alignItems: "center"
 };

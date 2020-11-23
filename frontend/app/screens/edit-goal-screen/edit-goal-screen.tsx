@@ -220,12 +220,10 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           <View style={styles.sideByside}>
             <Button
               testID="newSTGButton"
-              style={{ ...styles.button }}
               text="Add Habit"
               onPress={() => LtGoalFormStore.addSTgoal()} />
             <Button
               testID="deleteSTGButton"
-              style={{ ...styles.button }}
               text="Delete Habit"
               onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
