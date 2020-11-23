@@ -34,9 +34,9 @@ export function Button(props: ButtonProps) {
   };
 
   const buttonTextStyle: TextStyle = {
-    fontSize: 15, 
-    textTransform: 'capitalize'
-  }
+    fontSize: 15,
+    textTransform: "capitalize"
+  };
 
   const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, dailyDashBtnStyle, styleOverride]));
   const textStyle = mergeAll(

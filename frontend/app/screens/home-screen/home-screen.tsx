@@ -8,12 +8,12 @@ import { color, spacing } from "../../theme";
 import { CheckBox, ListItem, Text, Button as StarButton, Icon } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
+import { getDisplayTime } from "../../utils/getDisplayTime";
 
 /** **           STYLES            ***** */
 
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
-
 
 const styles = StyleSheet.create({
   header: {
@@ -22,51 +22,50 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    color: color.palette.white,
     fontSize: 32,
-    textAlign: "center",
-    color: color.palette.white, 
-    marginTop: spacing[3],
     marginBottom: spacing[3],
     marginLeft: spacing[3],
-    marginRight: spacing[3]
+    marginRight: spacing[3],
+    marginTop: spacing[3],
+    textAlign: "center"
   },
   image: {
-    marginTop: 10, 
-    height:93,
-    marginBottom: 5
+    height: 93,
+    marginBottom: 5,
+    marginTop: 10
   },
-  quote_left:{
+  quote_left: {
+    color: lightseagreen,
     fontSize: 16,
-    fontStyle: "italic", 
-    textAlign: "left", 
-    color: lightseagreen, 
+    fontStyle: "italic",
+    marginLeft: spacing[5],
     marginTop: spacing[2],
-    marginLeft: spacing[5], 
+    textAlign: "left",
   },
-  quote_right:{
+  quote_right: {
+    color: lightseagreen,
     fontSize: 16,
-    fontStyle: "italic", 
-    textAlign: "right", 
-    color: lightseagreen, 
+    fontStyle: "italic",
+    marginBottom: spacing[2],
     marginRight: spacing[5],
-    marginBottom: spacing[2]
+    textAlign: "right"
+  },
+  separator: {
+    borderBottomColor: borderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8
   },
   subheading: {
+    color: lightseagreen,
     fontSize: 16,
-    fontStyle: "italic", 
-    textAlign: "center", 
-    color: lightseagreen, 
+    fontStyle: "italic",
+    textAlign: "center",
     // marginLeft: spacing[0],
     // marginRight: spacing[2],
 
-  },
-  separator: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-    borderBottomColor: borderColor
   }
 });
-
 
 const progressWidth = 280;
 const circleSize = 44;
@@ -76,31 +75,31 @@ const FULL: ViewStyle = { flex: 1 };
 
 const CONTENT_WRAP: ViewStyle = {
   alignItems: "center",
-  height: 80, 
+  height: 80,
 };
 
 const LEVEL_WRAP: ViewStyle = {
   width: progressWidth,
   marginTop: 20,
   position: "absolute",
-  left: 10, 
+  left: 10,
 };
 
 const LEVEL_STYLE: ViewStyle = {
   width: circleSize,
   height: circleSize,
   borderRadius: 1000,
-  backgroundColor: "#008080", 
+  backgroundColor: "#008080",
 };
 
 const LEVEL_NUM_STYLE: TextStyle = {
   fontSize: 30,
-  textAlign: "center", 
+  textAlign: "center",
 };
 
 const TROPHY_WRAP: ViewStyle = {
   position: "absolute",
-  right: 5, 
+  right: 5,
 };
 
 const AWARD_SUBTITLE: TextStyle = {
@@ -111,7 +110,7 @@ const AWARD_SUBTITLE: TextStyle = {
 
 const PROGRESS_WRAP: ViewStyle = {
   position: "absolute",
-  top: circleSize / 2 - 4, // minus height of progress bar, 
+  top: circleSize / 2 - 4, // minus height of progress bar,
 };
 
 const LEVEL_NUM_WRAP: ViewStyle = {
@@ -154,7 +153,7 @@ const ADD_ONE_BUTTON: ViewStyle = {
 };
 
 const NO_GOALS_MESSAGE: ViewStyle = {
-  marginTop: 150,
+  marginTop: 60,
   alignContent: "center",
   alignItems: "center"
 };
@@ -170,19 +169,6 @@ const Separator = () => (
  */
 const getCurrentDay = getDay;
 
-/**
- * Convert mintues to a formatted string for time (24 clock)
- * @param time minutes (ex: 1230 -> 20:30)
- */
-function getFormattedTime(time: number): string {
-  const hours = Math.floor(time / 60);
-  const minutes = Math.round(time - hours * 60);
-  let timeStr = hours + ":";
-  if (minutes < 10) timeStr += "0";
-  timeStr += minutes;
-  return timeStr;
-}
-
 export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
   const { dailyGoalStore, userStore, LtGoalFormStore } = useStores();
@@ -197,6 +183,10 @@ export const HomeScreen = observer(function HomeScreen() {
   __DEV__ && console.log("Goals: " + goals);
 
   const navigation = useNavigation();
+
+  const getFormattedTime = (time: number) => {
+    return getDisplayTime(userStore.timeMode, time);
+  };
 
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
@@ -354,7 +344,11 @@ export const HomeScreen = observer(function HomeScreen() {
           onRefresh={getGoals}
           renderItem={renderGoal}
           keyExtractor={(item) => item.id}
-          extraData={{ extraDataForMobX: goals.length > 0 ? goals[0].title : "" }}
+          extraData={[
+            { extraDataForMobX: goals.length > 0 ? goals[0].title : "" },
+            userStore.timeMode,
+            goals
+          ]}
         />
       </Screen>
     </View>

@@ -7,6 +7,7 @@ import { useStores } from "../../models";
 import { color } from "../../theme";
 import auth from "@react-native-firebase/auth";
 import { Avatar, Text } from "react-native-elements";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const FULL: ViewStyle = { flex: 1 };
 
@@ -19,6 +20,17 @@ const CONTENT_WRAP: ViewStyle = {
 const LOGOUT_STYLE: ViewStyle = {
   paddingTop: 50,
 };
+
+const container: ViewStyle = {
+  height: 35,
+  width: 88
+};
+
+const flexStart: ViewStyle = {
+  justifyContent: "flex-start"
+};
+
+const pickerColor = "#fafafa";
 
 export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
@@ -47,6 +59,21 @@ export const ProfileScreen = observer(function ProfileScreen() {
           />
           <Text h3>Welcome {userStore.name}</Text>
           <Text>{__DEV__ && auth().currentUser.uid}</Text>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <Text style={{ fontSize: 15, marginTop: 5, marginRight: 15 }}>Time mode: </Text>
+            <DropDownPicker
+              items={[
+                { label: "12 hr", value: 12 },
+                { label: "24 hr", value: 24 }
+              ]}
+              defaultValue={userStore.timeMode}
+              containerStyle={container}
+              style={{ backgroundColor: pickerColor }}
+              itemStyle={flexStart}
+              dropDownStyle={{ backgroundColor: pickerColor }}
+              onChangeItem={(item) => userStore.updateTimeMode(item.value)}
+            />
+          </View>
           <View style={LOGOUT_STYLE}>
             <Button testID="logoutButton" text="log out" onPress={signOut}></Button>
           </View>

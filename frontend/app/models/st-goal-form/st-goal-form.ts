@@ -11,7 +11,8 @@ export const StGoalFormModel = types
     day: getDay(true),
     hour: "",
     minute: "",
-    id: ""
+    id: "",
+    meridies: "am"
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -29,6 +30,9 @@ export const StGoalFormModel = types
     },
     setID(id: string) {
       self.id = id;
+    },
+    setMeridiem(val: string) {
+      self.meridies = val;
     }
   })); // eslint-disable-line @typescript-eslint/no-unused-vars
 

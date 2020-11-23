@@ -12,6 +12,9 @@ export interface PostUser {
   username: string
   email: string
   notificationId: string
+}
+
+export interface PutTimeMode {
   timeMode: number
 }
 

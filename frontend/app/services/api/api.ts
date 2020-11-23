@@ -116,7 +116,7 @@ export class Api {
   ): Promise<Types.PostUserSignInResult> {
     const notId = await messaging().getToken();
 
-    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId, timeMode: 12 };
+    const postUsr: Types.PostUser = { email: email, username: name, id: id, notificationId: notId };
 
     const idToken = await auth().currentUser.getIdToken();
     this.apisauce.setHeader("Authorization", "Bearer " + idToken);
@@ -146,6 +146,23 @@ export class Api {
     } catch {
       return { kind: "bad-data" };
     }
+  }
+
+  async putUserTimeMode(
+    newTimeMode: number,
+  ): Promise<Types.SuccessResult> {
+    const userId = await auth().currentUser.uid;
+    const timeBody: Types.PutTimeMode = { timeMode: newTimeMode };
+
+    const response: ApiResponse<any> = await this.apisauce.put("/users/time/" + userId, timeBody);
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return { kind: "ok" };
   }
 
   /**
