@@ -27,15 +27,17 @@ const addUser = async (req, res) => {
 
   const query = {"userId": id};
 
+  var response;
+
   await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true}).then((doc) => {
+    response = {email: doc.email, username: doc.username, goalsCompleted: doc.goalsCompleted};
     logger.info(doc);
   })
   .catch((err) => {
+    response = {error: "Database update error"};
     logger.error(err);
   });
-
-  var response = {email: email, username: username};
-
+  
 	res.send(response);
 };
 
