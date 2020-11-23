@@ -174,7 +174,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
         < Separator />
         <ScrollView contentContainerStyle={styles.content} testID="addGoalScroll">
           <View style={styles.sideByside}>
-            <Text style={TITLE2} text="My goal is to .. " />
+            <Text style={TITLE2} text="My goal is to: " />
             <TextInput
               testID="titleInput"
               style={styles.textInput}
@@ -196,11 +196,18 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           <Text style={TITLE2} text="Regular Habits: " />
           {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} />))}
           < Separator />
-          <Button
-            testID="newSTGButton"
-            style={styles.buttonNewHabbit}
-            text="Add New Habit"
-            onPress={() => LtGoalFormStore.addSTgoal()} />
+          <View style={styles.sideByside}>
+            <Button
+              testID="newSTGButton"
+              style={{ ...styles.button }}
+              text="Add Habit"
+              onPress={() => LtGoalFormStore.addSTgoal()} />
+            <Button
+              testID="deleteSTGButton"
+              style={{ ...styles.button }}
+              text="Delete Habit"
+              onPress={() => LtGoalFormStore.deleteSTgoal()} />
+          </View>
         </ScrollView>
         <HideWithKeyboard>
           <View style={styles.fixToText}>
