@@ -133,10 +133,10 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
       const arr = day[0];
       const weekday = day[1] as string;
-      for (const STgoal of arr) {
-        const mins = (STgoal[0] % 60).toString();
-        const hrs = (Math.floor(STgoal[0] / 60)).toString();
-        LtGoalFormStore.initSTgoals(STgoal[1], weekday, hrs, mins, STgoal[2]);
+      for (const time of arr) {
+        const mins = (time[0] % 60).toString();
+        const hrs = (Math.floor(time[0] / 60)).toString();
+        LtGoalFormStore.initSTgoals(time[1], weekday, hrs, mins, time[2]);
       }
     }
 

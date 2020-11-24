@@ -14,10 +14,11 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
+const aqua = "#46BFAC";
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#46BFAC",
+    backgroundColor: aqua,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,

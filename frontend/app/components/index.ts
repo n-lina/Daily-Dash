@@ -10,3 +10,4 @@ export * from "./text/text";
 export * from "./text-field/text-field";
 export * from "./wallpaper/wallpaper";
 export * from "./st-goal/st-goal";
+export * from "./st-time-slot-form/st-time-slot-form"

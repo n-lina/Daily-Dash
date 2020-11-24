@@ -11,10 +11,20 @@ import HideWithKeyboard from "react-native-hide-with-keyboard";
 import { getDay } from "../../utils/getDay";
 
 const borderColor = "#737373";
+const aqua = "#46BFAC";
+
 
 const styles = StyleSheet.create({
   buttonNewHabit: {
-    marginBottom: 110
+    marginBottom: 110,
+    backgroundColor: aqua,
+    marginLeft: spacing[1],
+    marginRight: spacing[1]
+  },
+  button: {
+    backgroundColor: aqua,
+    marginLeft: spacing[1],
+    marginRight: spacing[1]
   },
   buttonText: {
     fontSize: 13,
@@ -122,20 +132,39 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
   }
 
   function convertSTgoals(fromForm: Array<StGoalForm>) {
-    const myStGoal = [];
+
+    const allStGoals = [];
     for (const goal of fromForm) {
-      if (goal.hour == "" || goal.minute == "" || goal.title == "") {
-        return [];
-      } else {
-        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute), goal.meridies)];
-        myStGoal.push({
-          title: goal.title,
-          [goal.day]: time,
-        });
+      if (goal.title == "") return [];
+      const currStGoal = {
+        title: goal.title,
+        mon: [], 
+        tue: [], 
+        wed: [], 
+        thu: [], 
+        fri: [], 
+        sat: [], 
+        sun: []
       }
+
+      for (const timeSlot of goal.timeForm){
+        if (timeSlot.hour == "" || timeSlot.minute == "") {
+          return [];
+        } else {
+          const time = convertTimeToMin(parseInt(timeSlot.hour), parseInt(timeSlot.minute), timeSlot.meridies);
+          currStGoal[`${timeSlot.day}`].push(time)
+        }
+      }
+
+      for (const key in currStGoal){
+        if (currStGoal[key] == []) delete currStGoal[`${key}`]
+      }
+
+      allStGoals.push(currStGoal)
+
     }
-    __DEV__ && console.log(myStGoal);
-    return myStGoal;
+    console.log(allStGoals)
+    return allStGoals;
   }
 
   const navigation = useNavigation();
@@ -219,12 +248,30 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           < Separator />
           <View style={styles.sideByside}>
             <Button
+              testID="newTimeSlotButton"
+              style={{ ...styles.button }}
+              text="Add Time"
+              textStyle = {{ ...styles.buttonText}}
+              onPress={() => LtGoalFormStore.addSTgoal()} />
+            <Button
+              testID="deleteTimeSlotButton"
+              style={{ ...styles.button }}
+              textStyle = {{ ...styles.buttonText}}
+              text="Delete Time"
+              onPress={() => LtGoalFormStore.deleteSTgoal()} />
+          </View>
+          <View style={styles.sideByside}>
+            <Button
               testID="newSTGButton"
               text="Add Habit"
+              style={{ ...styles.buttonNewHabit }}
+              textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.addSTgoal()} />
             <Button
               testID="deleteSTGButton"
               text="Delete Habit"
+              style={{ ...styles.buttonNewHabit }}
+              textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
         </ScrollView>

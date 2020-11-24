@@ -11,10 +11,19 @@ import { getDay } from "../../utils/getDay";
 import { palette } from "../../theme/palette";
 
 const borderColor = "#737373";
+const aqua = "#46BFAC";
 
 const styles = StyleSheet.create({
-  buttonNewHabbit: {
-    marginBottom: 110
+  buttonNewHabit: {
+    marginBottom: 110,
+    backgroundColor: aqua,
+    marginLeft: spacing[1],
+    marginRight: spacing[1]
+  },
+  button: {
+    backgroundColor: aqua,
+    marginLeft: spacing[1],
+    marginRight: spacing[1]
   },
   buttonText: {
     fontSize: 13,
@@ -24,7 +33,7 @@ const styles = StyleSheet.create({
   },
   fixToText: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
   },
   image: {
     height: 50,
@@ -37,7 +46,7 @@ const styles = StyleSheet.create({
   },
   sideByside: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
   },
   textInput: {
     fontSize: 15,
@@ -116,20 +125,39 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   }
 
   function convertSTgoals(fromForm: Array<StGoalForm>) {
-    const myStGoal = [];
+
+    const allStGoals = [];
     for (const goal of fromForm) {
-      if (goal.hour == "" || goal.minute == "" || goal.title == "") {
-        return [];
-      } else {
-        const time = [convertTimeToMin(parseInt(goal.hour), parseInt(goal.minute), goal.meridies)];
-        myStGoal.push({
-          title: goal.title,
-          [goal.day]: time,
-        });
+      if (goal.title == "") return [];
+      const currStGoal = {
+        title: goal.title,
+        mon: [], 
+        tue: [], 
+        wed: [], 
+        thu: [], 
+        fri: [], 
+        sat: [], 
+        sun: []
       }
+
+      for (const timeSlot of goal.timeForm){
+        if (timeSlot.hour == "" || timeSlot.minute == "") {
+          return [];
+        } else {
+          const time = convertTimeToMin(parseInt(timeSlot.hour), parseInt(timeSlot.minute), timeSlot.meridies);
+          currStGoal[`${timeSlot.day}`].push(time)
+        }
+      }
+
+      for (const key in currStGoal){
+        if (currStGoal[key] == []) delete currStGoal[`${key}`]
+      }
+
+      allStGoals.push(currStGoal)
+
     }
-    // console.log(myStGoal)
-    return myStGoal;
+    console.log(allStGoals)
+    return allStGoals;
   }
 
   const navigation = useNavigation();
@@ -149,6 +177,10 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     LtGoalFormStore.clearForm();
     navigation.navigate("allGoals");
     return 1;
+  }
+
+  function addTimeSlot() {
+    LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].addTimeSlot();
   }
 
   const createTwoButtonAlert = (message: string) =>
@@ -175,7 +207,9 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
   const { STgoalForm } = LtGoalFormStore;
 
   useEffect(() => {
-    if (LtGoalFormStore.STgoalForm.length === 0) LtGoalFormStore.addSTgoal();
+    if (LtGoalFormStore.STgoalForm.length === 0) {
+      LtGoalFormStore.addSTgoal();
+    }
   }, []);
 
   const onBackPress = () => navigation.navigate("allGoals");
@@ -218,14 +252,30 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           < Separator />
           <View style={styles.sideByside}>
             <Button
-              testID="newSTGButton"
+              testID="newTimeSlotButton"
               style={{ ...styles.button }}
+              text="Add Time"
+              textStyle = {{ ...styles.buttonText}}
+              onPress={() => LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].addTimeSlot()} />
+            <Button
+              testID="deleteTimeSlotButton"
+              style={{ ...styles.button }}
+              textStyle = {{ ...styles.buttonText}}
+              text="Delete Time"
+              onPress={() => LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].deleteTimeSlot()} />
+          </View>
+          <View style={styles.sideByside}>
+            <Button
+              testID="newSTGButton"
+              style={{ ...styles.buttonNewHabit }}
               text="Add Habit"
+              textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.addSTgoal()} />
             <Button
               testID="deleteSTGButton"
-              style={{ ...styles.button }}
+              style={{ ...styles.buttonNewHabit }}
               text="Delete Habit"
+              textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
         </ScrollView>

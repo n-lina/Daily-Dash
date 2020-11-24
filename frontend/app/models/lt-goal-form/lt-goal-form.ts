@@ -1,6 +1,8 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { StGoalFormModel } from "../st-goal-form/st-goal-form";
 import { getDay } from "../../utils/getDay";
+import { TimeFormModel } from "../time-form/time-form";
+import { boolean } from "mobx-state-tree/dist/internal";
 
 /**
  * Model description here for TypeScript hints.
@@ -11,7 +13,7 @@ export const LtGoalFormModel = types
     title: "",
     description: "",
     id: "",
-    STgoalForm: types.optional(types.array(StGoalFormModel), [])
+    STgoalForm: types.optional(types.array(StGoalFormModel), []),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -27,16 +29,15 @@ export const LtGoalFormModel = types
     initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "") {
       const myGoal = StGoalFormModel.create();
       if (min.length < 2) min = "0" + min;
-      myGoal.setMeridiem("");
-      myGoal.setTitle(title);
-      myGoal.setDay(day);
-      myGoal.setHour(hr);
-      myGoal.setMin(min);
       myGoal.setID(id);
+      myGoal.setTitle(title);
+      myGoal.addThisTimeSlot(day, hr, min);
       self.STgoalForm.push(myGoal);
     },
     addSTgoal() {
-      self.STgoalForm.push(StGoalFormModel.create());
+      const freshStGoal = StGoalFormModel.create();
+      freshStGoal.addTimeSlot();
+      self.STgoalForm.push(freshStGoal);
     },
     deleteSTgoal() {
       self.STgoalForm.pop();
