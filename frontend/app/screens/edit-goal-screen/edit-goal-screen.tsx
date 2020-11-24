@@ -165,7 +165,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           text: "Dismiss",
           style: "cancel"
         },
-        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message) }
+        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "", "am") }
       ],
       { cancelable: false }
     );
@@ -219,10 +219,12 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           < Separator />
           <View style={styles.sideByside}>
             <Button
+              style={{marginBottom: 90}}
               testID="newSTGButton"
               text="Add Habit"
               onPress={() => LtGoalFormStore.addSTgoal()} />
             <Button
+              style={{marginBottom: 90}}
               testID="deleteSTGButton"
               text="Delete Habit"
               onPress={() => LtGoalFormStore.deleteSTgoal()} />

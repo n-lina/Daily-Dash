@@ -24,10 +24,10 @@ export const LtGoalFormModel = types
     setDescription(desc: string) {
       self.description = desc;
     },
-    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "") {
+    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "", meridiem = "") {
       const myGoal = StGoalFormModel.create();
-      if (min.length < 2) min = "0" + min;
-      myGoal.setMeridiem("");
+      if (min.length === 1) min = "0" + min;
+      myGoal.setMeridiem(meridiem);
       myGoal.setTitle(title);
       myGoal.setDay(day);
       myGoal.setHour(hr);
