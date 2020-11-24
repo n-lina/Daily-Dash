@@ -15,7 +15,7 @@ const aqua = "#46BFAC";
 
 const styles = StyleSheet.create({
   buttonNewHabit: {
-    marginBottom: 110,
+    marginBottom: 90,
     backgroundColor: aqua,
     marginLeft: spacing[1],
     marginRight: spacing[1]
@@ -192,7 +192,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           text: "Dismiss",
           style: "cancel"
         },
-        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message) }
+        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "", "am") }
       ],
       { cancelable: false }
     );
