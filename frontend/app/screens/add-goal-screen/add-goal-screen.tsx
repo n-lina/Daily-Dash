@@ -258,7 +258,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
           < StGoalsView stgList={STgoalForm} timeMode={userStore.timeMode} />
           {/* {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={userStore.timeMode}/>))} */}
           < Separator />
-          <View style={styles.sideByside}>
+          {/* <View style={styles.sideByside}>
             <Button
               testID="newTimeSlotButton"
               style={{ ...styles.button }}
@@ -271,7 +271,7 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
               textStyle = {{ ...styles.buttonText}}
               text="Delete Time"
               onPress={() => LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].deleteTimeSlot()} />
-          </View>
+          </View> */}
           <View style={styles.sideByside}>
             <Button
               testID="newSTGButton"
@@ -279,12 +279,6 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
               text="Add Habit"
               textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.addSTgoal()} />
-            <Button
-              testID="deleteSTGButton"
-              style={{ ...styles.buttonNewHabit }}
-              text="Delete Habit"
-              textStyle = {{ ...styles.buttonText}}
-              onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
         </ScrollView>
         <HideWithKeyboard>

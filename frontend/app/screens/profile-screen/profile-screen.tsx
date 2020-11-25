@@ -4,10 +4,14 @@ import { View, ViewStyle } from "react-native";
 import { Button, Screen } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models";
-import { color } from "../../theme";
+import { color, spacing } from "../../theme";
 import auth from "@react-native-firebase/auth";
 import { Avatar, Text } from "react-native-elements";
-import DropDownPicker from "react-native-dropdown-picker";
+// import DropDownPicker from "react-native-dropdown-picker";
+import SwitchSelector from "react-native-switch-selector";
+
+const darkAqua = "#008080";
+const aqua = "#46BFAC";
 
 const FULL: ViewStyle = { flex: 1 };
 
@@ -60,8 +64,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
           <Text h3>Welcome {userStore.name}</Text>
           <Text>{__DEV__ && auth().currentUser.uid}</Text>
           <View style={{ flexDirection: "row", marginTop: 10 }}>
-            <Text style={{ fontSize: 15, marginTop: 5, marginRight: 15 }}>Time mode: </Text>
-            <DropDownPicker
+            {/* <Text style={{ fontSize: 15, marginTop: 5, marginRight: 15 }}>Time mode: </Text> */}
+            {/* <DropDownPicker
               items={[
                 { label: "12 hr", value: 12 },
                 { label: "24 hr", value: 24 }
@@ -72,6 +76,23 @@ export const ProfileScreen = observer(function ProfileScreen() {
               itemStyle={flexStart}
               dropDownStyle={{ backgroundColor: pickerColor }}
               onChangeItem={(item) => userStore.updateTimeMode(item.value)}
+            /> */}
+            <SwitchSelector
+              style={{width: 130}}
+              height={40}
+              initial={0}
+              onPress={value => userStore.updateTimeMode(value as number)}
+              textColor='grey'
+              selectedColor="#fff"
+              buttonColor={aqua}
+              borderColor={aqua}
+              hasPadding={false}
+              fontSize={15}
+              bold={false}
+              options={[
+                { label: "12 HR", value: 12 },
+                { label: "24 HR", value: 24 } 
+              ]}
             />
           </View>
           <View style={LOGOUT_STYLE}>

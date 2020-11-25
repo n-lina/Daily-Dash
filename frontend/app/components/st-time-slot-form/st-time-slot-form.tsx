@@ -4,7 +4,10 @@ import { color, spacing, typography } from "../../theme"
 import { Text } from "../"
 import { TimeForm } from "../../models/time-form/time-form"
 import DropDownPicker from "react-native-dropdown-picker";
+import SwitchSelector from "react-native-switch-selector";
 
+const aqua = "#46BFAC";
+const darkAqua = "#008080";
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     height: 40,
-    marginLeft: spacing[3],
+    marginLeft: spacing[4],
     textAlign: "right"
   },
   textInputTime2: {
@@ -222,18 +225,34 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             value={min}
           />
           {props.timeMode == 12 && (
-            <DropDownPicker
-              items={[
-                { label: "am", value: "am" },
-                { label: "pm", value: "pm" }
+            // <DropDownPicker
+            //   items={[
+            //     { label: "am", value: "am" },
+            //     { label: "pm", value: "pm" }
+            //   ]}
+            //   defaultValue={props.timeSlot.meridies}
+            //   containerStyle={styles.amPmContainer}
+            //   style={{ backgroundColor: pickerColor }}
+            //   itemStyle={styles.flexStart}
+            //   dropDownStyle={{ backgroundColor: pickerColor }}
+            //   onChangeItem={(item) => props.timeSlot.setMeridiem(item.value)}
+            // />
+            <SwitchSelector
+              style={{width: 70, marginLeft:spacing[2], marginTop:spacing[1]*0.5}}
+              height={34}
+              initial={0}
+              onPress={value => props.timeSlot.setMeridiem(value as string)}
+              textColor='grey'
+              selectedColor="#fff"
+              buttonColor={aqua}
+              borderColor={aqua}
+              hasPadding={false}
+              options={[
+                { label: "AM", value: "am" },
+                { label: "PM", value: "pm" } 
               ]}
-              defaultValue={props.timeSlot.meridies}
-              containerStyle={styles.amPmContainer}
-              style={{ backgroundColor: pickerColor }}
-              itemStyle={styles.flexStart}
-              dropDownStyle={{ backgroundColor: pickerColor }}
-              onChangeItem={(item) => props.timeSlot.setMeridiem(item.value)}
-            />)}
+            />
+            )}
         </View>
       )}
     </View>

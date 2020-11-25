@@ -38,8 +38,10 @@ export const LtGoalFormModel = types
       freshStGoal.addTimeSlot();
       self.STgoalForm.push(freshStGoal);
     },
-    deleteSTgoal() {
-      self.STgoalForm.pop();
+    deleteSTgoal(key: number) {
+      if (self.STgoalForm.length > 1){
+        self.STgoalForm.splice(key,1)
+      } 
     },
     // submitData() {
     //   console.log("-------------------");

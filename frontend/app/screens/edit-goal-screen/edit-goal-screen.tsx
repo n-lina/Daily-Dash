@@ -248,31 +248,11 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           < Separator />
           <View style={styles.sideByside}>
             <Button
-              testID="newTimeSlotButton"
-              style={{ ...styles.button }}
-              text="Add Time"
-              textStyle = {{ ...styles.buttonText}}
-              onPress={() => LtGoalFormStore.addSTgoal()} />
-            <Button
-              testID="deleteTimeSlotButton"
-              style={{ ...styles.button }}
-              textStyle = {{ ...styles.buttonText}}
-              text="Delete Time"
-              onPress={() => LtGoalFormStore.deleteSTgoal()} />
-          </View>
-          <View style={styles.sideByside}>
-            <Button
               testID="newSTGButton"
               text="Add Habit"
               style={{ ...styles.buttonNewHabit }}
               textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.addSTgoal()} />
-            <Button
-              style={{...styles.buttonNewHabit}}
-              testID="deleteSTGButton"
-              text="Delete Habit"
-              textStyle = {{ ...styles.buttonText}}
-              onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
         </ScrollView>
         <HideWithKeyboard>

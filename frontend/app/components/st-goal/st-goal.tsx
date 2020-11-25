@@ -1,70 +1,61 @@
 import * as React from "react";
-import { TextStyle, View, ViewStyle, StyleSheet, TextInput } from "react-native";
+import { TextStyle, View, ViewStyle, StyleSheet, TextInput, Dimensions } from "react-native";
+import {Avatar} from "react-native-elements"
 import { color, typography, spacing } from "../../theme";
 import { Text, StTimeSlotForm } from "../";
 import { StGoalForm, useStores } from "../../models";
 import { observer } from "mobx-react-lite";
-import { eqProps } from "ramda";
-
 
 // const borderColor = "#737373";
 const darkAqua = "#008080";
+const aqua = "#46BFAC";
+const windowWidth = Dimensions.get('window').width;
+
 
 const styles = StyleSheet.create({
   container: {
     height: 35,
     width: 120
   },
-  amPmContainer: {
-    height: 35,
-    marginLeft: 5,
-    width: 68
+  button: {
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 100,
+    borderBottomRightRadius: 100, 
+    borderTopLeftRadius: 100, 
+    borderTopRightRadius: 100,
+    // width:50,
+    // height:50,
+    // marginLeft: spacing[1],
+    // marginRight: spacing[1]
+  },
+  buttonText: {
+    fontSize: 25,
+    textAlign: 'center'
   },
   flexStart: {
     justifyContent: "flex-start"
   },
-  picker: {
-    height: 35,
-    width: 65
-  },
+
   // separator: {
   //   borderBottomColor: borderColor,
   //   borderBottomWidth: StyleSheet.hairlineWidth,
   //   marginVertical: 8,
   // },
-  sideByside: {
+  buttonPanel: {
     alignContent: "center",
+    justifyContent: "center",
     flexDirection: "row",
-    width: 220
+    width: windowWidth
     // justifyContent: 'space-between',
+  },
+  times: {
+    alignContent: "center",
+    width: windowWidth
   },
   textInput: {
     fontSize: 15,
     height: 40
   },
-  textInputTime1: {
-    alignContent: "center",
-    flex: 1,
-    fontSize: 15,
-    height: 40,
-    marginLeft: spacing[3],
-    textAlign: "right"
-  },
-  textInputTime2: {
-    alignContent: "center",
-    fontSize: 15,
-    height: 40,
-    textAlign: "left",
-  },
-  colon: {
-    alignContent: "center",
-    color: "#000",
-    flex: 1,
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: spacing[2],
-    textAlign: "center"
-  }
 });
 
 const CONTAINER: ViewStyle = {
@@ -103,7 +94,7 @@ export interface myTimesList {
   timeMode: number 
 }
 const TimesView = observer((props: myTimesList) => (
-  <View>
+  <View style={styles.times}>
     {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={props.timeMode}/>))}
  </View>
 ))
@@ -131,8 +122,8 @@ export function StGoal(props: StGoalProps) {
   return (
     <View style={CONTAINER}>
       {!loading && (
-        <View>
-          <View style={styles.sideByside}>
+        <View style={styles.times}>
+          <View style={styles.buttonPanel}>
             <Text style={TITLE2}>●</Text>
             <TextInput
               testID={"stgTitle" + props.index}
@@ -144,7 +135,26 @@ export function StGoal(props: StGoalProps) {
             />
           </View>
           <TimesView timesList={props.myGoal.timeForm} timeMode={userStore.timeMode}/>
-          {/* {props.myGoal.timeForm.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={userStore.timeMode}/>))} */}
+          <View style={styles.buttonPanel}>
+            <Avatar
+              rounded
+              icon={{ name: "plus", type: "font-awesome", color: darkAqua }}
+              onPress={() => props.myGoal.addTimeSlot()}
+              overlayContainerStyle={styles.button}
+            />
+            <Avatar
+              rounded
+              icon={{ name: "minus", type: "font-awesome", color: darkAqua }}
+              onPress={() => props.myGoal.deleteTimeSlot()}
+              overlayContainerStyle={styles.button}
+            />
+            <Avatar
+              rounded
+              icon={{ name: "close", type: "font-awesome", color: darkAqua }}
+              onPress={() => LtGoalFormStore.deleteSTgoal(props.index)}
+              overlayContainerStyle={styles.button}
+            />
+          </View>
         </View>
       )}
     </View>
