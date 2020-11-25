@@ -2,7 +2,6 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { StGoalFormModel } from "../st-goal-form/st-goal-form";
 import { getDay } from "../../utils/getDay";
 import { TimeFormModel } from "../time-form/time-form";
-import { boolean } from "mobx-state-tree/dist/internal";
 
 /**
  * Model description here for TypeScript hints.

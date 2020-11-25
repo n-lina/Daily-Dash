@@ -109,6 +109,17 @@ const FULL: ViewStyle = {
   flex: 1
 };
 
+export interface myList {
+  stgList: any
+  timeMode: number
+}
+const StGoalsView = observer((props: myList) => (
+  <View>
+    {props.stgList.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={props.timeMode}/>))} 
+ </View>
+))
+
+
 export const AddGoalScreen = observer(function AddGoalScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
@@ -179,10 +190,6 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
     return 1;
   }
 
-  function addTimeSlot() {
-    LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].addTimeSlot();
-  }
-
   const createTwoButtonAlert = (message: string) =>
     Alert.alert(
       "Suggestion: ",
@@ -248,7 +255,8 @@ export const AddGoalScreen = observer(function AddGoalScreen() {
             />
           </View>
           <Text style={TITLE2} text="Regular Habits: " />
-          {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={userStore.timeMode}/>))}
+          < StGoalsView stgList={STgoalForm} timeMode={userStore.timeMode} />
+          {/* {STgoalForm.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={userStore.timeMode}/>))} */}
           < Separator />
           <View style={styles.sideByside}>
             <Button

@@ -22,7 +22,6 @@ export const StGoalFormModel = types
     },
     addTimeSlot() {
       self.timeForm.push(TimeFormModel.create());
-      console.log("banana")
     },
     addThisTimeSlot(day: string = getDay(true), hr = "", min = "") {
       const myTimeSlot = TimeFormModel.create();
@@ -34,7 +33,6 @@ export const StGoalFormModel = types
     },
     deleteTimeSlot() {
       if (self.timeForm.length > 1) self.timeForm.pop();
-      console.log("apple")
     },
   })); // eslint-disable-line @typescript-eslint/no-unused-vars
 

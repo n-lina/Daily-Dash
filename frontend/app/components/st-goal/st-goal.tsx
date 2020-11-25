@@ -4,6 +4,7 @@ import { color, typography, spacing } from "../../theme";
 import { Text, StTimeSlotForm } from "../";
 import { StGoalForm, useStores } from "../../models";
 import { observer } from "mobx-react-lite";
+import { eqProps } from "ramda";
 
 
 // const borderColor = "#737373";
@@ -97,10 +98,20 @@ export interface StGoalProps {
   timeMode: number
 }
 
+export interface myTimesList {
+  timesList: any
+  timeMode: number 
+}
+const TimesView = observer((props: myTimesList) => (
+  <View>
+    {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={props.timeMode}/>))}
+ </View>
+))
+
 /**
  * Describe your component here
  */
-export const StGoal = observer(function StGoal(props: StGoalProps) {
+export function StGoal(props: StGoalProps) {
   // const { style } = props;
 
   // const Separator = () => (
@@ -132,9 +143,10 @@ export const StGoal = observer(function StGoal(props: StGoalProps) {
               defaultValue={props.myGoal.title}
             />
           </View>
-          {props.myGoal.timeForm.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={userStore.timeMode}/>))}
+          <TimesView timesList={props.myGoal.timeForm} timeMode={userStore.timeMode}/>
+          {/* {props.myGoal.timeForm.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={userStore.timeMode}/>))} */}
         </View>
       )}
     </View>
   );
-})
+}
