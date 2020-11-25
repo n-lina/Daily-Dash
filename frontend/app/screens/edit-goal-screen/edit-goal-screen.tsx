@@ -271,7 +271,6 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
               style={{...styles.buttonNewHabit}}
               testID="deleteSTGButton"
               text="Delete Habit"
-              style={{ ...styles.buttonNewHabit }}
               textStyle = {{ ...styles.buttonText}}
               onPress={() => LtGoalFormStore.deleteSTgoal()} />
           </View>
