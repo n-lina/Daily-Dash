@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   image: {
-    height: 50,
-    width: 50,
+    height: 55,
+    width: 55,
   },
   separator: {
     borderBottomColor: borderColor,

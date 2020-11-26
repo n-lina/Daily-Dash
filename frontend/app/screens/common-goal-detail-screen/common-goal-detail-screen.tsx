@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   image: {
-    height: 65,
-    width: 65,
+    marginTop: 12, 
+    height: 50,
+    width: 50,
   },
   item: {
     backgroundColor: white,
