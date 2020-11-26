@@ -108,7 +108,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
 
   function addNewGoal() {
     LtGoalFormStore.clearForm();
-    navigation.navigate("addGoal");
+    navigation.navigate("goalForm", {purpose: "add"});
   }
 
   const renderGoal = ({ item, index }) => {

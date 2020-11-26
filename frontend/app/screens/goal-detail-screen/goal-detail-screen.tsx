@@ -154,7 +154,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       LtGoalFormStore.addComplexSTG(currStg.title, currStg.id, timeSlots)
     }
 
-    navigation.navigate("editGoal");
+    navigation.navigate("goalForm", { purpose: "edit" });
   }
 
   const allSTGoals = [];

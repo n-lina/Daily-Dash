@@ -95,10 +95,11 @@ export interface StGoalProps {
 export interface myTimesList {
   timesList: any
   timeMode: number 
+  stgIndex: number
 }
 const TimesView = observer((props: myTimesList) => (
   <View style={styles.times}>
-    {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} index={index} timeMode={props.timeMode}/>))}
+    {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} stgIndex={props.stgIndex} timeMode={props.timeMode}/>))}
  </View>
 ))
 
@@ -137,7 +138,7 @@ export function StGoal(props: StGoalProps) {
               defaultValue={props.myGoal.title}
             />
           </View>
-          <TimesView timesList={props.myGoal.timeForm} timeMode={userStore.timeMode}/>
+          <TimesView timesList={props.myGoal.timeForm} timeMode={userStore.timeMode} stgIndex={props.index}/>
           <View style={styles.buttonPanel}>
             <Avatar
               rounded

@@ -4,9 +4,8 @@ export * from "./loading-screen/loading-screen";
 export * from "./signin-screen/signin-screen";
 export * from "./ltgoals-screen/ltgoals-screen";
 export * from "./goal-detail-screen/goal-detail-screen";
-export * from "./add-goal-screen/add-goal-screen";
-export * from "./edit-goal-screen/edit-goal-screen";
 export * from "./profile-screen/profile-screen";
 export * from "./awards-screen/awards-screen";
 export * from "./common-goals-screen/common-goals-screen";
 export * from "./common-goal-detail-screen/common-goal-detail-screen";
+export * from "./goal-form-screen/goal-form-screen"

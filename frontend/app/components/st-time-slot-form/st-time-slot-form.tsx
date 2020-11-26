@@ -72,7 +72,7 @@ export interface StTimeSlotFormProps {
    */
   style?: ViewStyle
   timeMode: number
-  index?: number 
+  stgIndex?: number 
   timeSlot: TimeForm
 }
 
@@ -195,7 +195,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             arrowColor={darkAqua}
           />
           <TextInput
-            testID={"hourInput" + props.index}
+            testID={"hourInput" + props.stgIndex}
             style={styles.textInputTime1}
             onChangeText={text => validateHour(text)}
             placeholder="hh"
@@ -206,7 +206,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
           />
           <Text style={styles.colon}>:</Text>
           <TextInput
-            testID={"minInput" + props.index}
+            testID={"minInput" + props.stgIndex}
             style={styles.textInputTime2}
             onChangeText={text => validateMin(text)}
             placeholder="mm"
@@ -219,7 +219,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             <SwitchSelector
               style={{width: 70, marginLeft:spacing[2], marginTop:spacing[1]*0.5}}
               height={34}
-              initial={0}
+              initial={(props.timeSlot.meridies === "pm") ? 1 : 0}
               onPress={value => props.timeSlot.setMeridiem(value as string)}
               textColor='grey'
               selectedColor="#fff"
