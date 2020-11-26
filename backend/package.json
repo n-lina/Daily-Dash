@@ -4,9 +4,11 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles --maxWorkers=1 --coverage",
     "lint": "./node_modules/.bin/eslint src",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "testMockGoal": "jest mockGoals.test.js  --coverage --maxWorkers=1 --detectOpenHandles",
+    "testIntegration": "jest goals.test.js  --coverage --maxWorkers=1 --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,8 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.10",
     "nodemon": "^2.0.6",
+    "rewire": "^5.0.0",
+    "supertest": "^6.0.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {

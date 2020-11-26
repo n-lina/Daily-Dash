@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+const GoalModel = require("../models/goals");
+const UserModel = require("../models/users");
+const logger = require("../logger/logging");
 
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
@@ -98,4 +101,126 @@ const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
   })
 }
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateShortTermGoalCounter }
+const updateGoal = async (req, res) => {
+  const ltgId = req.params.ltgId;
+  const userId = req.body.userId;
+  const title = req.body.title;
+  const description = req.body.description;
+  const shortTermGoals = req.body.shortTermGoals;
+
+  if (ltgId == null || userId == null || title == null || description == null || shortTermGoals == null) {
+    logger.info(`Missing parameters in ${req.body}`);
+    res.status(400);
+    res.end();
+    return;
+  }
+  
+  const query = {"_id": ltgId, "userId": userId};
+
+  try {
+    const currentGoal = await GoalModel.findOne(query);
+
+    updateShortTermGoalCounter(shortTermGoals, currentGoal.shortTermGoals);
+
+    const goalObj = {
+      userId: userId,
+      title: title,
+      description: description,
+      shortTermGoals: shortTermGoals
+    };
+
+    await GoalModel.findOneAndUpdate(query, goalObj, {upsert: true}).then((doc) => {
+      logger.info(doc);
+    })
+    .catch((err) => {
+      logger.error(err);
+    });
+
+    res.send();
+  } catch (error) {
+    res.status(500);
+    console.log(error);
+    res.end();
+    return;
+  }
+};
+
+const completeShortTermGoal = async (req, res) => {
+  const userId = req.body.userId;
+  const shortTermGoalId = req.body.shortTermGoalId;
+  const complete = req.body.complete;
+
+  if (userId == null || shortTermGoalId == null || complete == null) {
+    logger.info("Missing parameters in ${req.params}");
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  const countIncrement = complete ? 1 : -1;
+  var success = false;
+
+  try {
+    const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+    const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
+
+    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
+
+    if (goalUpdateResult != null) {
+      const userUpdateFilter = {"userId": userId};
+      const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
+
+      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
+
+      success = userUpdateResult != null ? true : false
+    }
+
+    if (complete && success) {
+      logger.info("Successfully incremented short term goal");
+    } else if (!complete && success) {
+      logger.info("Successfully decremented short term goal");
+    } else {
+      logger.info("Failed to update short term goal");
+    }
+
+    const responseObj = {"success": success};
+
+    res.send(responseObj);
+  } catch (error) {
+    res.status(500);
+    logger.error(error);
+    res.end();
+    return;
+  }
+};
+
+
+const deleteLTG = async (req, res) => {
+  const ltgId = req.params;
+
+  if (ltgId == null) {
+    logger.info("Missing parameters in ${JSON.stringify(req.query)}.");
+    res.status(400);
+    res.end();
+    return;
+  }
+
+  try {
+    GoalModel.findOneAndDelete(ltgId, function (err, res) { 
+      if (err){ 
+        logger.error(err); 
+      } 
+      else{ 
+        logger.info(res);
+      } 
+    }); 
+    res.send();
+  } catch (error) {
+    res.status(500);
+    logger.error(error);
+    res.end();
+    return;
+  }
+};
+
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG}
