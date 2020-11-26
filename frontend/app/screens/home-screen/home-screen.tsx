@@ -192,7 +192,7 @@ export const HomeScreen = observer(function HomeScreen() {
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
     LtGoalFormStore.clearForm();
-    navigation.navigate("Goals", { screen: "addGoal" });
+    navigation.navigate("Goals", { screen: "goalForm" });
   };
 
   const [refreshing, setRefreshing] = useState(false);

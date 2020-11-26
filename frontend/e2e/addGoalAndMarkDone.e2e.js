@@ -30,7 +30,7 @@ describe("AddGoalAndMarkDone", () => {
 
   it("should go to add goals page", async () => {
     await element(by.id("newGoalButton")).tap()
-    await waitFor(element(by.id("addGoalWrap")))
+    await waitFor(element(by.id("goalFormWrap")))
       .toExist()
       .withTimeout(1000)
   })
@@ -39,7 +39,6 @@ describe("AddGoalAndMarkDone", () => {
     await element(by.id("titleInput")).typeText("Get really strong")
     await element(by.id("descriptionInput")).typeText("Right now I can only bench press 5 lbs :(")
     await element(by.id("descriptionInput")).tapReturnKey()
-    // await element(by.id('addGoalScroll')).scrollTo('bottom');
     await element(by.id("stgTitle0")).typeText("Go to the gym")
     await element(by.id("stgTitle0")).tapReturnKey()
     await new Promise(resolve => setTimeout(resolve, 100))
