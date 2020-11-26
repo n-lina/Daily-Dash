@@ -207,7 +207,14 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
     return 1;
   }
 
-  const getTitle = () => purpose.charAt(0).toUpperCase() + purpose.slice(1);
+  const getTitle = () => {
+    if (purpose === 'add') {
+      return "Add New";
+    } else {
+      return "Edit"
+    }
+  }
+    purpose.charAt(0).toUpperCase() + purpose.slice(1);
 
   const createTwoButtonAlert = (message: string) =>
     Alert.alert(
