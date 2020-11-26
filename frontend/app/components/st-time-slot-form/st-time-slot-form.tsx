@@ -219,7 +219,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             <SwitchSelector
               style={{width: 70, marginLeft:spacing[2], marginTop:spacing[1]*0.5}}
               height={34}
-              initial={0}
+              initial={(props.timeSlot.meridies === "pm") ? 1 : 0}
               onPress={value => props.timeSlot.setMeridiem(value as string)}
               textColor='grey'
               selectedColor="#fff"
