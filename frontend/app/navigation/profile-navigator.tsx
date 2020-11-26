@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AwardsScreen, HomeScreen } from "../screens";
+import { AwardsScreen, ProfileScreen } from "../screens";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 
 /**
@@ -17,16 +17,16 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack";
  */
 
 export type RootParamList = {
-    home: undefined
+    profile: undefined
     awards: undefined
   }
 
 const Stack = createNativeStackNavigator<RootParamList>();
 
-export function HomeNavigator() {
+export function ProfileNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="profile"
       screenOptions={{
         gestureEnabled: true,
         stackPresentation: "modal",
@@ -34,8 +34,8 @@ export function HomeNavigator() {
       }}
     >
       <Stack.Screen
-        name="home"
-        component={HomeScreen}
+        name="profile"
+        component={ProfileScreen}
         options={{
           headerShown: false
         }}
@@ -60,5 +60,5 @@ export function HomeNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["home"];
+const exitRoutes = ["profile"];
 export const canExit = (routeName: string) => exitRoutes.includes(routeName);

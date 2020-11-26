@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { TimeFormModel } from "../time-form/time-form";
 import { getDay } from "../../utils/getDay";
 
 /**
@@ -7,33 +8,32 @@ import { getDay } from "../../utils/getDay";
 export const StGoalFormModel = types
   .model("StGoalForm")
   .props({
-    title: "",
-    day: getDay(true),
-    hour: "",
-    minute: "",
     id: "",
-    meridies: "am"
+    title: "",
+    timeForm: types.optional(types.array(TimeFormModel), []),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setTitle(title: string) {
       self.title = title;
     },
-    setDay(day: string) {
-      self.day = day;
-    },
-    setHour(hour: string) {
-      self.hour = hour;
-    },
-    setMin(minute: string) {
-      self.minute = minute;
-    },
     setID(id: string) {
       self.id = id;
     },
-    setMeridiem(val: string) {
-      self.meridies = val;
-    }
+    addTimeSlot() {
+      self.timeForm.push(TimeFormModel.create());
+    },
+    addThisTimeSlot(day: string = getDay(true), hr = "", min = "") {
+      const myTimeSlot = TimeFormModel.create();
+      myTimeSlot.setDay(day);
+      myTimeSlot.setHour(hr);
+      myTimeSlot.setMin(min);
+      // myTimeSlot.setMeridiem("am");
+      self.timeForm.push(myTimeSlot)
+    },
+    deleteTimeSlot() {
+      if (self.timeForm.length > 1) self.timeForm.pop();
+    },
   })); // eslint-disable-line @typescript-eslint/no-unused-vars
 
 /**

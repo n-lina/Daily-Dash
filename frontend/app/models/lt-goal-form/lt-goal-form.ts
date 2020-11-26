@@ -11,7 +11,7 @@ export const LtGoalFormModel = types
     title: "",
     description: "",
     id: "",
-    STgoalForm: types.optional(types.array(StGoalFormModel), [])
+    STgoalForm: types.optional(types.array(StGoalFormModel), []),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -24,22 +24,34 @@ export const LtGoalFormModel = types
     setDescription(desc: string) {
       self.description = desc;
     },
-    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "", meridiem = "") {
+    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "") {
       const myGoal = StGoalFormModel.create();
       if (min.length === 1) min = "0" + min;
-      myGoal.setMeridiem(meridiem);
-      myGoal.setTitle(title);
-      myGoal.setDay(day);
-      myGoal.setHour(hr);
-      myGoal.setMin(min);
       myGoal.setID(id);
+      myGoal.setTitle(title);
+      myGoal.addThisTimeSlot(day, hr, min);
+      self.STgoalForm.push(myGoal);
+    },
+    addComplexSTG(title: string, id = "", timeSlots: Array<{day: string, hour: string, min: string}>)  {
+      const myGoal = StGoalFormModel.create();
+      myGoal.setID(id);
+      myGoal.setTitle(title);
+      // myGoal.addThisTimeSlot(day, hr, min);
+      for(let i=0; i<timeSlots.length; i++){
+        if (timeSlots[i].min.length === 1) timeSlots[i].min = "0" + timeSlots[i].min;
+        myGoal.addThisTimeSlot(timeSlots[i].day, timeSlots[i].hour, timeSlots[i].min);
+      }
       self.STgoalForm.push(myGoal);
     },
     addSTgoal() {
-      self.STgoalForm.push(StGoalFormModel.create());
+      const freshStGoal = StGoalFormModel.create();
+      freshStGoal.addTimeSlot();
+      self.STgoalForm.push(freshStGoal);
     },
-    deleteSTgoal() {
-      self.STgoalForm.pop();
+    deleteSTgoal(key: number) {
+      if (self.STgoalForm.length > 1){
+        self.STgoalForm.splice(key,1)
+      } 
     },
     // submitData() {
     //   console.log("-------------------");

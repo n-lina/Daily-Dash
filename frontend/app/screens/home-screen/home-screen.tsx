@@ -5,7 +5,7 @@ import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
 import { color, spacing } from "../../theme";
-import { CheckBox, ListItem, Text, Button as StarButton, Icon } from "react-native-elements";
+import { CheckBox, ListItem, Text, Button as StarButton, Icon, Avatar } from "react-native-elements";
 import * as Progress from "react-native-progress";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
@@ -14,17 +14,19 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
+const aqua = "#46BFAC";
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#46BFAC",
+    backgroundColor: aqua,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     color: color.palette.white,
     fontSize: 32,
-    marginBottom: spacing[3],
+    marginBottom: spacing[4],
     marginLeft: spacing[3],
     marginRight: spacing[3],
     marginTop: spacing[3],
@@ -37,15 +39,15 @@ const styles = StyleSheet.create({
   },
   quote_left: {
     color: lightseagreen,
-    fontSize: 16,
+    fontSize: 17,
     fontStyle: "italic",
     marginLeft: spacing[5],
-    marginTop: spacing[2],
+    marginTop: spacing[5],
     textAlign: "left",
   },
   quote_right: {
     color: lightseagreen,
-    fontSize: 16,
+    fontSize: 17,
     fontStyle: "italic",
     marginBottom: spacing[2],
     marginRight: spacing[5],
@@ -61,9 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
     textAlign: "center",
-    // marginLeft: spacing[0],
-    // marginRight: spacing[2],
-
+    marginBottom: 2
   }
 });
 
@@ -75,7 +75,7 @@ const FULL: ViewStyle = { flex: 1 };
 
 const CONTENT_WRAP: ViewStyle = {
   alignItems: "center",
-  height: 80,
+  height: 20,
 };
 
 const LEVEL_WRAP: ViewStyle = {
@@ -153,7 +153,7 @@ const ADD_ONE_BUTTON: ViewStyle = {
 };
 
 const NO_GOALS_MESSAGE: ViewStyle = {
-  marginTop: 60,
+  marginTop: 25,
   alignContent: "center",
   alignItems: "center"
 };
@@ -191,7 +191,7 @@ export const HomeScreen = observer(function HomeScreen() {
   const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
     LtGoalFormStore.clearForm();
-    navigation.navigate("Goals", { screen: "addGoal" });
+    navigation.navigate("Goals", { screen: "goalForm" });
   };
 
   const [refreshing, setRefreshing] = useState(false);
@@ -252,7 +252,7 @@ export const HomeScreen = observer(function HomeScreen() {
         <ListItem
           bottomDivider
           containerStyle={
-            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}
+            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {width: windowWidth-10}
           }
         >
           <View style={CHECK_BOX} testID={"goal" + index}>
@@ -265,7 +265,7 @@ export const HomeScreen = observer(function HomeScreen() {
             ></CheckBox>
           </View>
           <ListItem.Content>
-            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {}}>
+            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {width: windowWidth-90}}>
               {item.title}
             </ListItem.Title>
             <ListItem.Subtitle>{getFormattedTime(item.getTime())}</ListItem.Subtitle>
@@ -280,22 +280,21 @@ export const HomeScreen = observer(function HomeScreen() {
     <View style={FULL} testID="homeSreenWrap">
       <Screen style={FULL} backgroundColor={color.palette.white}>
         <View style={TOP_SECTION}>
-          <View style={CONTENT_WRAP}>
-            <View style={LEVEL_WRAP}>
-              <View style={LEVEL_NUM_WRAP}>
+          {/* <View style={CONTENT_WRAP}> */}
+            {/* <View style={LEVEL_WRAP}> */}
+              {/* <View style={LEVEL_NUM_WRAP}>
                 <Text testID="goalsCompletedDisplay">
                   {levelScore} / {totalLevelScore}
                 </Text>
-              </View>
-              <View style={PROGRESS_WRAP}>
-                {/* <Button onPress={dailyGoalStore.clearGoals} text="dev clear goals"></Button> */}
+              </View> */}
+              {/* <View style={PROGRESS_WRAP}>
                 <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
-              </View>
-              <View style={LEVEL_STYLE}>
+              </View> */}
+              {/* <View style={LEVEL_STYLE}>
                 <Text style={LEVEL_NUM_STYLE} testID="levelNumber">{level}</Text>
-              </View>
-            </View>
-            <View style={TROPHY_WRAP}>
+              </View> */}
+            {/* </View> */}
+            {/* <View style={TROPHY_WRAP}>
               <StarButton
                 testID="awardsStar"
                 type="clear"
@@ -311,8 +310,8 @@ export const HomeScreen = observer(function HomeScreen() {
               <Text style={AWARD_SUBTITLE} testID="awardsString">
                 {awardCount} award{awardCount != 1 ? "s" : ""}
               </Text>
-            </View>
-          </View>
+            </View> */}
+          {/* </View> */}
           <Text style={styles.quote_left}>
             A journey of a thousand miles ...
           </Text>
@@ -325,10 +324,13 @@ export const HomeScreen = observer(function HomeScreen() {
           <Text style={styles.header}>
             {getCurrentDay(false)}
           </Text>
+          <Text style={styles.subheading}>—     November 25, 2020     —</Text>
           <Text style={styles.subheading}>
             {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>
+          <Text style={{...styles.subheading, marginTop: 3}}>🌱</Text>
         </View>
+        <Separator/>
         { goals.length === 0 &&
           <View style={NO_GOALS_MESSAGE}>
             <Text>
@@ -336,7 +338,6 @@ export const HomeScreen = observer(function HomeScreen() {
             </Text>
             <Button style={ADD_ONE_BUTTON} text="Add one" onPress={goToAddGoal}></Button>
           </View>}
-        <Separator/>
         <FlatList
           style={LIST_STYLE}
           data={goals}

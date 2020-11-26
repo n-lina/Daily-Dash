@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView, Dimensions } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
@@ -12,11 +12,11 @@ const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
 const lightseagreen = "#616F6C";
-const almostBlack = "#00231C";
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   black: {
-    color: almostBlack
+    color: black
   },
   button: {
     backgroundColor: "#008080",
@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
   description: {
     color: lightseagreen,
     fontSize: 17,
-    fontStyle: "italic"
+    fontStyle: "italic",
+    width: windowWidth-24,
+    textAlign: 'center'
   },
   fixToText: {
     flexDirection: "row",
@@ -51,10 +53,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 32,
     textAlign: "center",
+    color: 'white'
   },
   image: {
-    height: 75,
-    width: 75,
+    marginTop: 12, 
+    height: 50,
+    width: 50,
   },
   item: {
     backgroundColor: white,
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    width: 350,
+    width: windowWidth-24,
   },
   separator: {
     borderBottomColor: borderColor,
@@ -106,14 +110,16 @@ const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   marginTop: spacing[5],
+  width: windowWidth-24,
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
+  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  textTransform: 'capitalize'
 };
 
 const FULL: ViewStyle = {
@@ -225,7 +231,7 @@ export const CommonGoalDetailScreen = observer(function CommonGoalDetailScreen()
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>
-        < Separator />
+        {/* < Separator /> */}
         <Image source={require("../../../assets/boot.png")} style={styles.image} />
         < Separator />
         <Text style={styles.description}> {description} </Text>
