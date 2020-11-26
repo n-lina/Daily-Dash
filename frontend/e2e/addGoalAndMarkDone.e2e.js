@@ -1,4 +1,4 @@
-describe("AddGoalAndMarkDone", () => {
+describe("AddGoal", () => {
   it("should successfully sign in with test user", async () => {
     try {
       // try here because sometimes dev mode needs to load twice?
