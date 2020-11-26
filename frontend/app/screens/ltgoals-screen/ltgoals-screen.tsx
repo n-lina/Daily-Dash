@@ -10,6 +10,8 @@ import { ListItem, Avatar } from "react-native-elements";
 const borderColor = "#737373";
 const background = "#aba";
 const darkAqua = "#008080";
+const aqua = "#46BFAC";
+
 
 const styles = StyleSheet.create({
   LTgoal: {
@@ -119,7 +121,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome", color: darkAqua}}
+            icon={{ name: "tree", type: "font-awesome", color: aqua}}
             // overlayContainerStyle={styles.green}
             // activeOpacity={0.7}
             // containerStyle={{flex: 2, marginTop: 2}}

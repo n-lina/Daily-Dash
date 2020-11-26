@@ -10,6 +10,8 @@ import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const darkAqua = "#008080";
+const aqua = "#46BFAC";
+
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -93,7 +95,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome", color: darkAqua }}
+            icon={{ name: "tree", type: "font-awesome", color: aqua }}
             // overlayContainerStyle={styles.background}
             // activeOpacity={0.7}
           />

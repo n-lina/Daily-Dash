@@ -78,7 +78,7 @@ const PROGRESS_WRAP: ViewStyle = {
 
 const LEVEL_NUM_WRAP: ViewStyle = {
   position: "absolute",
-  right: 7,
+  left: progressWidth,
   top: circleSize /2 - 10
 };
 
