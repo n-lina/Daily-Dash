@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-
 const logger = require("../logger/logging");
 const cossim = require("./cossim.js");
 const auth = require("../firebase/auth");
 const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
-const UserModel = require("../models/users");
+
 var   cacheLTGsArray = [];
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArray = 3000; // milliseconds
@@ -27,7 +26,44 @@ if (!done) {
 
 setInterval(repopulateCacheLTGArray, intervalRepopulatingTempLTGArray);
 
-const getGoals = async (req, res) => {
+/*
+  Functions for database access
+*/
+async function findGoals(id) {
+  var result = await GoalModel.find({ userId: id });
+  var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
+  logger.info(responseObj);
+
+  return responseObj;
+}
+
+async function findShortTermGoalsGoals(id, dayOfWeek) {
+  var result = await GoalModel.find({ userId: id });
+  var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
+  logger.info(responseObj);
+
+  return responseObj;
+}
+
+async function addGoal(userId, title, description, shortTermGoals) {
+  const goalObj = new GoalModel({
+    userId: userId, title: title, description: description, shortTermGoals: shortTermGoals });
+
+  await goalObj.save()
+    .then((doc) => {
+      logger.info(doc);
+    });
+
+
+  var responseObj = { id: userId };
+
+  return responseObj;
+}
+
+/*
+  Express endpoints
+*/
+router.get("/", auth.checkIfAuthenticated, async (req, res) => {
   const id = req.query.id;
 
   if (id == null) {
@@ -38,22 +74,11 @@ const getGoals = async (req, res) => {
     return;
   }
 
-  try {
-    var result = await GoalModel.find({ userId: id });
-    var responseObj = goalsHelper.getGoalsResponseFromDBResult(result);
-    logger.info(responseObj);
+  var responseObj = await findGoals(id);
+  res.send(responseObj);
+});
 
-    res.send(responseObj);
-  } catch (error) {
-    res.status(500);
-    logger.error(error);
-    res.end();
-
-    return;
-  }
-};
-
-const getShortTermGoals = async (req, res) => {
+router.get("/shortterm", auth.checkIfAuthenticated, async (req, res) => {
   const id = req.query.id;
   const dayOfWeek = req.query.dayOfWeek;
 
@@ -65,10 +90,7 @@ const getShortTermGoals = async (req, res) => {
   }
 
   try {
-    var result = await GoalModel.find({ userId: id });
-    var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
-    logger.info(responseObj);
-
+    var responseObj = await findShortTermGoalsGoals(id, dayOfWeek);
     res.send(responseObj);
   } catch (error) {
     res.status(500);
@@ -76,17 +98,14 @@ const getShortTermGoals = async (req, res) => {
     res.end();
     return;
   }
-};
+});
 
-const postGoal = async (req, res) => {
-  // read in variables from req object
+router.post("/", auth.checkIfAuthenticated, async (req, res) => {
   const userId = req.body.userId;
   const title = req.body.title;
   const description = req.body.description;
   const shortTermGoals = req.body.shortTermGoals;
-  // directly access shortTermGoals fields like shortTermGoals[0].title
 
-  // checks if all JSON entries in model present, except does not check elements of shortTermGoals
   if (userId == null || title == null || description == null || shortTermGoals == null) {
     logger.info(`Missing parameters in ${req.params}`);
     res.status(400);
@@ -94,69 +113,10 @@ const postGoal = async (req, res) => {
     return;
   }
 
-  const goalObj = new GoalModel({
-    userId: userId,
-    title: title,
-    description: description,
-    shortTermGoals: shortTermGoals
-  });
+  const responseObj = await addGoal(userId, title, description, shortTermGoals);
 
-  await goalObj.save()
-    .then((doc) => {
-      logger.info(doc);
-    })
-    .catch((err) => {
-      logger.info(err);
-    });
-
-  var response = { id: userId };
-
-  res.send(response);
-};
-
-const updateGoal = async (req, res) => {
-  const ltgId = req.params.ltgId;
-  const userId = req.body.userId;
-  const title = req.body.title;
-  const description = req.body.description;
-  const shortTermGoals = req.body.shortTermGoals;
-
-  if (ltgId == null || userId == null || title == null || description == null || shortTermGoals == null) {
-    logger.info(`Missing parameters in ${req.body}`);
-    res.status(400);
-    res.end();
-    return;
-  }
-  
-  const query = {"_id": ltgId, "userId": userId};
-
-  try {
-    const currentGoal = await GoalModel.findOne(query);
-
-    goalsHelper.updateShortTermGoalCounter(shortTermGoals, currentGoal.shortTermGoals);
-
-    const goalObj = {
-      userId: userId,
-      title: title,
-      description: description,
-      shortTermGoals: shortTermGoals
-    };
-
-    await GoalModel.findOneAndUpdate(query, goalObj, {upsert: true}).then((doc) => {
-      logger.info(doc);
-    })
-    .catch((err) => {
-      logger.error(err);
-    });
-
-    res.send();
-  } catch (error) {
-    res.status(500);
-    console.log(error);
-    res.end();
-    return;
-  }
-};
+  res.send(responseObj);
+});
 
 const getSuggestedShortTermGoal = async (req, res) => {
   const title = req.query.title;
@@ -217,89 +177,9 @@ const getSuggestedShortTermGoal = async (req, res) => {
   }
 };
 
-const completeShortTermGoal = async (req, res) => {
-  const userId = req.body.userId;
-  const shortTermGoalId = req.body.shortTermGoalId;
-  const complete = req.body.complete;
-
-  if (userId == null || shortTermGoalId == null || complete == null) {
-    logger.info("Missing parameters in ${req.params}");
-    res.status(400);
-    res.end();
-    return;
-  }
-
-  const countIncrement = complete ? 1 : -1;
-  var success = false;
-
-  try {
-    const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
-    const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
-
-    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
-
-    if (goalUpdateResult != null) {
-      const userUpdateFilter = {"userId": userId};
-      const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
-
-      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
-
-      success = userUpdateResult != null ? true : false
-    }
-
-    if (complete && success) {
-      logger.info("Successfully incremented short term goal");
-    } else if (!complete && success) {
-      logger.info("Successfully decremented short term goal");
-    } else {
-      logger.info("Failed to update short term goal");
-    }
-
-    const responseObj = {"success": success};
-
-    res.send(responseObj);
-  } catch (error) {
-    res.status(500);
-    logger.error(error);
-    res.end();
-    return;
-  }
-};
-
-const deleteLTG = async (req, res) => {
-  const ltgId = req.params;
-
-  if (ltgId == null) {
-    logger.info("Missing parameters in ${JSON.stringify(req.query)}.");
-    res.status(400);
-    res.end();
-    return;
-  }
-
-  try {
-    GoalModel.findOneAndDelete(ltgId, function (err, res) { 
-      if (err){ 
-        logger.error(err); 
-      } 
-      else{ 
-        logger.info(res);
-      } 
-    }); 
-    res.send();
-  } catch (error) {
-    res.status(500);
-    logger.error(error);
-    res.end();
-    return;
-  }
-};
-
-router.get("/", auth.checkIfAuthenticated, getGoals);
-router.post("/", auth.checkIfAuthenticated, postGoal);
-router.put("/:ltgId", auth.checkIfAuthenticated, updateGoal);
-router.get("/shortterm", auth.checkIfAuthenticated, getShortTermGoals);
+router.put("/:ltgId", auth.checkIfAuthenticated, goalsHelper.updateGoal);
 router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
-router.put("/shortterm/counter", auth.checkIfAuthenticated, completeShortTermGoal);
-router.delete("/:_id", auth.checkIfAuthenticated, deleteLTG);
+router.put("/shortterm/counter", auth.checkIfAuthenticated, goalsHelper.completeShortTermGoal);
+router.delete("/:_id", auth.checkIfAuthenticated, goalsHelper.deleteLTG);
 
 module.exports = router;
