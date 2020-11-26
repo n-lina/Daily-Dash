@@ -154,7 +154,7 @@ const ADD_ONE_BUTTON: ViewStyle = {
 };
 
 const NO_GOALS_MESSAGE: ViewStyle = {
-  marginTop: 60,
+  marginTop: 25,
   alignContent: "center",
   alignItems: "center"
 };
@@ -330,6 +330,7 @@ export const HomeScreen = observer(function HomeScreen() {
             {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>
         </View>
+        <Separator/>
         { goals.length === 0 &&
           <View style={NO_GOALS_MESSAGE}>
             <Text>
@@ -337,7 +338,6 @@ export const HomeScreen = observer(function HomeScreen() {
             </Text>
             <Button style={ADD_ONE_BUTTON} text="Add one" onPress={goToAddGoal}></Button>
           </View>}
-        <Separator/>
         <FlatList
           style={LIST_STYLE}
           data={goals}

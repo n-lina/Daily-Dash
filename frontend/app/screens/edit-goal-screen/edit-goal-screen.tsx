@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     marginRight: spacing[1]
   },
   buttonText: {
-    fontSize: 13,
+    fontSize: 14,
   },
   content: {
     alignItems: "center"
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   textInput: {
-    fontSize: 15,
+    fontSize: 16,
     height: 40,
     maxWidth: 250
   },
   textInputTitle: {
     alignContent: "center",
     flex: 1,
-    fontSize: 15,
+    fontSize: 16,
     height: 40,
     justifyContent: "flex-end",
     textAlign: "left"
@@ -103,7 +103,7 @@ const TITLE: TextStyle = {
 
 const TITLE2: TextStyle = {
   ...TEXT,
-  fontSize: 15,
+  fontSize: 17,
   lineHeight: 30,
   textAlign: "center",
   marginTop: spacing[1],
@@ -194,7 +194,7 @@ export const EditGoalScreen = observer(function EditGoalScreen() {
           text: "Dismiss",
           style: "cancel"
         },
-        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "", "am") }
+        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "") }
       ],
       { cancelable: false }
     );

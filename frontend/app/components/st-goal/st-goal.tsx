@@ -50,16 +50,19 @@ const styles = StyleSheet.create({
   },
   times: {
     alignContent: "center",
-    width: windowWidth
+    width: windowWidth, 
+    alignItems: "center"
   },
   textInput: {
-    fontSize: 15,
+    fontSize: 16,
     height: 40
   },
 });
 
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
+  alignContent: "center", 
+  alignItems: "center"
 };
 
 const TEXT: TextStyle = {

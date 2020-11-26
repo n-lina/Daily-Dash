@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
@@ -11,13 +11,13 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
+const windowWidth = Dimensions.get('window').width;
 
 const lightseagreen = "#616F6C";
-const almostBlack = "#00231C";
 
 const styles = StyleSheet.create({
   black: {
-    color: almostBlack
+    color: black
   },
   buttonText: {
     fontSize: 15,
@@ -25,7 +25,9 @@ const styles = StyleSheet.create({
   description: {
     color: lightseagreen,
     fontSize: 17,
-    fontStyle: "italic"
+    fontStyle: "italic",
+    textAlign: 'center',
+    width: windowWidth-24,
   },
   fixToText: {
     flexDirection: "row",
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 32,
     textAlign: "center",
+    color: 'white'
   },
   image: {
     height: 75,
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    width: 350,
+    width: windowWidth-24,
   },
   separator: {
     borderBottomColor: borderColor,
@@ -86,7 +89,6 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -98,10 +100,11 @@ const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   marginTop: spacing[5],
+  width: windowWidth-24,
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
+  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
@@ -130,14 +133,25 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     LtGoalFormStore.setId(id);
     LtGoalFormStore.setDescription(description);
 
-    for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
-      const arr = day[0];
-      const weekday = day[1] as string;
-      for (const time of arr) {
-        const mins = (time[0] % 60).toString();
-        const hrs = (Math.floor(time[0] / 60)).toString();
-        LtGoalFormStore.initSTgoals(time[1], weekday, hrs, mins, time[2]);
+    // for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
+    //   const arr = day[0];
+    //   const weekday = day[1] as string;
+    //   for (const time of arr) {
+    //     const mins = (time[0] % 60).toString();
+    //     const hrs = (Math.floor(time[0] / 60)).toString();
+    //     LtGoalFormStore.initSTgoals(time[1], weekday, hrs, mins, time[2]);
+    //   }
+    // }
+    for (const currStg of STgoals){
+      let timeSlots = []
+      for (const day of [[currStg.mon, "mon"], [currStg.tue, "tue"], [currStg.wed, "wed"], [currStg.thu, "thu"], [currStg.fri, "fri"], [currStg.sat, "sat"], [currStg.sun, "sun"]]) {
+        const arr = day[0] as number[];
+        const weekday = day[1] as string;
+        arr.forEach(element => {
+          timeSlots.push({day: weekday, hour: (Math.floor(element/60)).toString(), min:(element%60).toString()})
+        });
       }
+      LtGoalFormStore.addComplexSTG(currStg.title, currStg.id, timeSlots)
     }
 
     navigation.navigate("editGoal");

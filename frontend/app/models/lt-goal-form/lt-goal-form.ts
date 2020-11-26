@@ -1,7 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { StGoalFormModel } from "../st-goal-form/st-goal-form";
 import { getDay } from "../../utils/getDay";
-import { TimeFormModel } from "../time-form/time-form";
 
 /**
  * Model description here for TypeScript hints.
@@ -25,12 +24,23 @@ export const LtGoalFormModel = types
     setDescription(desc: string) {
       self.description = desc;
     },
-    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "", meridiem = "") {
+    initSTgoals(title: string, day: string = getDay(true), hr = "", min = "", id = "") {
       const myGoal = StGoalFormModel.create();
       if (min.length === 1) min = "0" + min;
       myGoal.setID(id);
       myGoal.setTitle(title);
       myGoal.addThisTimeSlot(day, hr, min);
+      self.STgoalForm.push(myGoal);
+    },
+    addComplexSTG(title: string, id = "", timeSlots: Array<{day: string, hour: string, min: string}>)  {
+      const myGoal = StGoalFormModel.create();
+      myGoal.setID(id);
+      myGoal.setTitle(title);
+      // myGoal.addThisTimeSlot(day, hr, min);
+      for(let i=0; i<timeSlots.length; i++){
+        if (timeSlots[i].min.length === 1) timeSlots[i].min = "0" + timeSlots[i].min;
+        myGoal.addThisTimeSlot(timeSlots[i].day, timeSlots[i].hour, timeSlots[i].min);
+      }
       self.STgoalForm.push(myGoal);
     },
     addSTgoal() {

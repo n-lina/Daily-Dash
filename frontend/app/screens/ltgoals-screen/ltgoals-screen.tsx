@@ -9,7 +9,7 @@ import { ListItem, Avatar } from "react-native-elements";
 
 const borderColor = "#737373";
 const background = "#aba";
-const green = "#46BFAC";
+const darkAqua = "#008080";
 
 const styles = StyleSheet.create({
   LTgoal: {
@@ -28,12 +28,9 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
-  green: {
-    backgroundColor: green
-  },
   image: {
-    height: 50,
-    width: 50,
+    height: 57,
+    width: 57,
   },
   separator: {
     borderBottomColor: borderColor,
@@ -72,7 +69,7 @@ const TITLE_WRAPPER: TextStyle = {
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
+  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
@@ -122,10 +119,9 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome" }}
-            onPress={() => console.log("Works!")}
-            overlayContainerStyle={styles.green}
-            activeOpacity={0.7}
+            icon={{ name: "tree", type: "font-awesome", color: darkAqua}}
+            // overlayContainerStyle={styles.green}
+            // activeOpacity={0.7}
             // containerStyle={{flex: 2, marginTop: 2}}
           />
           <ListItem.Content>
@@ -149,7 +145,6 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
         < Separator />
         < Separator />
         <Image source={require("../../../assets/mountain.png")} style={styles.image} />
-        < Separator />
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}

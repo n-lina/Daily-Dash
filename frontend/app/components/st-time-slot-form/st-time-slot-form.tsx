@@ -1,6 +1,6 @@
 import * as React from "react"
-import { TextStyle, View, ViewStyle, StyleSheet, TextInput } from "react-native";
-import { color, spacing, typography } from "../../theme"
+import { View, ViewStyle, StyleSheet, TextInput} from "react-native";
+import { spacing } from "../../theme"
 import { Text } from "../"
 import { TimeForm } from "../../models/time-form/time-form"
 import DropDownPicker from "react-native-dropdown-picker";
@@ -12,7 +12,7 @@ const darkAqua = "#008080";
 const styles = StyleSheet.create({
   container: {
     height: 35,
-    width: 120
+    width: 135
   },
   amPmContainer: {
     height: 35,
@@ -26,16 +26,10 @@ const styles = StyleSheet.create({
     height: 35,
     width: 65
   },
-  // separator: {
-  //   borderBottomColor: borderColor,
-  //   borderBottomWidth: StyleSheet.hairlineWidth,
-  //   marginVertical: 8,
-  // },
   sideByside: {
     alignContent: "center",
     flexDirection: "row",
     width: 220
-    // justifyContent: 'space-between',
   },
   textInput: {
     fontSize: 15,
@@ -44,14 +38,14 @@ const styles = StyleSheet.create({
   textInputTime1: {
     alignContent: "center",
     flex: 1,
-    fontSize: 15,
+    fontSize: 16,
     height: 40,
-    marginLeft: spacing[4],
-    textAlign: "right"
+    marginLeft: spacing[3],
+    textAlign: "right", 
   },
   textInputTime2: {
     alignContent: "center",
-    fontSize: 15,
+    fontSize: 16,
     height: 40,
     textAlign: "left",
   },
@@ -59,9 +53,9 @@ const styles = StyleSheet.create({
     alignContent: "center",
     color: "#000",
     flex: 1,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
-    marginTop: spacing[2],
+    marginTop: spacing[1],
     textAlign: "center"
   }
 });
@@ -70,14 +64,7 @@ const CONTAINER: ViewStyle = {
   justifyContent: "center",
 }
 
-const pickerColor = "#fafafa";
-
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
-}
+const pickerColor = "#fff";
 
 export interface StTimeSlotFormProps {
   /**
@@ -182,7 +169,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
       {!loading && (
         <View style={{
           ...styles.sideByside,
-          width: (props.timeMode === 12) ? 290 : 220
+          width: (props.timeMode === 12) ? 305 : 230
         }}>
           <DropDownPicker
             items={[
@@ -202,6 +189,10 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             }
             dropDownStyle={{ backgroundColor: pickerColor }}
             onChangeItem={item => props.timeSlot.setDay(item.value)}
+            placeholderStyle={{fontSize: 16}} 
+            labelStyle={{fontSize: 16}}   
+            arrowSize={16} 
+            arrowColor={darkAqua}
           />
           <TextInput
             testID={"hourInput" + props.index}
@@ -225,18 +216,6 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             value={min}
           />
           {props.timeMode == 12 && (
-            // <DropDownPicker
-            //   items={[
-            //     { label: "am", value: "am" },
-            //     { label: "pm", value: "pm" }
-            //   ]}
-            //   defaultValue={props.timeSlot.meridies}
-            //   containerStyle={styles.amPmContainer}
-            //   style={{ backgroundColor: pickerColor }}
-            //   itemStyle={styles.flexStart}
-            //   dropDownStyle={{ backgroundColor: pickerColor }}
-            //   onChangeItem={(item) => props.timeSlot.setMeridiem(item.value)}
-            // />
             <SwitchSelector
               style={{width: 70, marginLeft:spacing[2], marginTop:spacing[1]*0.5}}
               height={34}

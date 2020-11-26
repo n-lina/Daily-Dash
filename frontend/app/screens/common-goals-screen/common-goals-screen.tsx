@@ -5,9 +5,11 @@ import { Header, Screen, Text } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
-import { Goal, useStores } from "../../models";
+import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const darkAqua = "#008080";
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -27,7 +29,6 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -42,7 +43,6 @@ const TITLE_WRAPPER: TextStyle = {
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
@@ -93,14 +93,15 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome" }}
-            overlayContainerStyle={styles.background}
-            activeOpacity={0.7}
+            icon={{ name: "tree", type: "font-awesome", color: darkAqua }}
+            // overlayContainerStyle={styles.background}
+            // activeOpacity={0.7}
           />
           <ListItem.Content>
-            <ListItem.Title>{title}</ListItem.Title>
+            <ListItem.Title style={{textTransform:'capitalize'}}>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
+          <ListItem.Chevron />
         </ListItem>
       </View>
     );
@@ -119,7 +120,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
         < Separator />
         < Separator />
         <Image source={require("../../../assets/park.png")} style={styles.image} />
-        < Separator />
+        {/* < Separator /> */}
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
