@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: windowWidth,
-    height: windowWidth*1.2,
+    height: windowWidth,
     alignContent: "center", 
     alignItems: "center",
   }, 
@@ -110,16 +110,12 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
   const nextScreen = () => navigation.navigate("signInScreen");
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="welcomeMessage">
       <Screen style={CONTAINER} preset="scroll" backgroundColor={background}>
         <Image source={require("../../../assets/dp.png")} style={styles.image} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="Welcome to Daily Dash !" />
         </Text>
-        {/* <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
-        <View style={CONTENT_WRAP} testID="welcomeMessage">
-          <Text style={CONTENT}>This is just a template for what should go here.</Text>
-        </View> */}
         <View style={FOOTER_CONTENT}>
           <Button
             testID="nextScreenButton"

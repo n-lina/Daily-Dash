@@ -154,54 +154,55 @@ export const CommonGoalDetailScreen = observer(function CommonGoalDetailScreen()
   const sunday = [];
 
   for (const goal of STgoals) {
-    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title, goal.id, "Monday"]);
-    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title, goal.id, "Tuesday"]);
-    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title, goal.id, "Wednesday"]);
-    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title,, goal.id, "Thursday"]);
-    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title, goal.id], "Friday");
-    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title, goal.id, "Saturday"]);
-    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id, "Sunday"]);
+    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id])
+    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id])
+    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id])
+    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id])
+    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id])
+    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id])
+    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id])
   }
 
   if (monday.length > 0) {
     allSTGoals.push({
-      title: monday[0][3],
+      title: "Monday",
       data: monday.sort(sortFunction)
     });
   }
   if (tuesday.length > 0) {
     allSTGoals.push({
-      title: tuesday[0][3],
+      title: "Tuesday",
       data: tuesday.sort(sortFunction)
     });
   }
   if (wednesday.length > 0) {
     allSTGoals.push({
-      title: wednesday[0][3],
+      title: "Wednesday",
       data: wednesday.sort(sortFunction)
     });
   }
   if (thursday.length > 0) {
     allSTGoals.push({
-      title: thursday[0][3],
+      title: "Thursday",
       data: thursday.sort(sortFunction)
     });
   }
   if (friday.length > 0) {
     allSTGoals.push({
-      title: friday[0][3],
+      title: "Friday",
       data: friday.sort(sortFunction)
     });
+    console.log(allSTGoals)
   }
   if (saturday.length > 0) {
     allSTGoals.push({
-      title: saturday[0][3],
+      title: "Saturday",
       data: saturday.sort(sortFunction)
     });
   }
   if (sunday.length > 0) {
     allSTGoals.push({
-      title: sunday[0][3],
+      title: "Sunday",
       data: sunday.sort(sortFunction)
     });
   }

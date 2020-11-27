@@ -67,10 +67,10 @@ const CONT_TEXT: TextStyle = {
 
 const INVISIBLE: ViewStyle = {
   position: "absolute",
-  top: 100,
+  top: 0,
   height: 0,
   width: 0,
-  left: 100,
+  left:10,
   backgroundColor: "white"
 };
 
