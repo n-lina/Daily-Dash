@@ -1,8 +1,6 @@
-import json
 import requests
 import logging
 import argparse
-import time
 
 dev_token = "test"
 user_id = 'RPeq88j3J7YPusoSsRcHg5rXepn1'
@@ -15,7 +13,8 @@ tests = 0
 # Write new tests below this section
 
 def get_header(token: str) -> dict:
-    """Get the HTTP header for a given token
+    """
+    Get the HTTP header for a given token
     Parameters:
     token (str): auth token (JWT)
     Returns:
@@ -24,8 +23,9 @@ def get_header(token: str) -> dict:
     return {'Content-Type': 'application/json',
            'Authorization': 'Bearer {0}'.format(token)}
 
-def send_get(endpoint: str, token: str, params={}):
-    """Test an endpoint that uses a get REST request
+def send_get(endpoint: str, token: str, params=None):
+    """
+    Test an endpoint that uses a get REST request
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers
@@ -38,7 +38,8 @@ def send_get(endpoint: str, token: str, params={}):
     return response
 
 def send_post(endpoint: str, token: str, data):
-    """Test an endpoint that uses a post REST request
+    """
+    Test an endpoint that uses a post REST request
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers
@@ -113,7 +114,7 @@ def test_get_time(uri):
   global failed
   total_time = 0
 
-  for i in range(100):
+  for _ in range(100):
     response = send_get('/{0}/{1}'.format(uri, user_id), dev_token)
     total_time += response.elapsed.total_seconds()
 

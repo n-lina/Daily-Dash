@@ -18,7 +18,7 @@ describe("Goals integration tests", () => {
     jest.setTimeout(30000);
   })
 
-  it("should successfully add long term goals", async(done) => {
+  it("should successfully add user and long term goals", async(done) => {
     await request(server)
     .post("/users")
     .set({ Authorization: "Bearer test"})
@@ -27,8 +27,9 @@ describe("Goals integration tests", () => {
       "email": "sdff2",
       "username": "dff",
       "notificationId": "",
-    });
-
+    })
+    .expect(200);
+    
     await request(server)
       .post("/goals")
       .set({ Authorization: "Bearer test"})
@@ -61,17 +62,13 @@ describe("Goals integration tests", () => {
           }
         ]
       })
-      .expect(200)
-
-    const dbResult = await GoalModel.findOne({title: "testGoal2"})
-
-    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
+      .expect(200);
 
     done();
   })
 
   it("should fail to add long term goals due to missing params", async(done) => {
-    const res = await request(server)
+    await request(server)
       .post("/goals")
       .set({ Authorization: "Bearer test"})
       .send({
@@ -90,15 +87,11 @@ describe("Goals integration tests", () => {
       })
       .expect(400)
 
-    const dbResult = await GoalModel.findOne({title: "testGoal2"})
-
-    expect(dbResult.userId).toEqual("eq06XtykrqSHJtqWblOYkhWat6s2");
-
     done();
   })
 
   it("should successfully fetch suggested goals", async(done) => {
-    const res = await request(server)
+    await request(server)
       .get("/goals/suggestedstg?title=guitar")
       .set({ Authorization: "Bearer test"})
       .send()
@@ -134,7 +127,7 @@ describe("Goals integration tests", () => {
   })
 
   it("should fail to fetch goals due to missing params", async(done) => {
-    const res = await request(server)
+    await request(server)
       .get("/goals/?idd=sd")
       .set({ Authorization: "Bearer test"})
       .send()
@@ -168,7 +161,7 @@ describe("Goals integration tests", () => {
   })
 
   it("should fail to fetch short term goals due to missing params", async(done) => {
-    const res = await request(server)
+    await request(server)
       .get("/goals/shortterm?idd=ss")
       .set({ Authorization: "Bearer test"})
       .send()
@@ -178,7 +171,7 @@ describe("Goals integration tests", () => {
   })
 
   it("should fail to fetch short term goals due to missing params id", async(done) => {
-    const res = await request(server)
+    await request(server)
       .get("/goals/shortterm")
       .set({ Authorization: "Bearer test"})
       .send()
