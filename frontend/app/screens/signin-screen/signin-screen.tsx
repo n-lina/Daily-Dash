@@ -63,6 +63,8 @@ const CONT_TEXT: TextStyle = {
   width: 300,
   marginTop: 20,
   marginBottom: 50,
+  color: lightseagreen,
+  textAlign: "center"
 };
 
 const INVISIBLE: ViewStyle = {
@@ -131,9 +133,9 @@ export const SigninScreen = observer(function SigninScreen() {
                 .finally(() => setSigningIn(false))
             }
           />
-          {/* <Text style={CONT_TEXT}>
+          <Text style={CONT_TEXT}>
             By continuining, you are agreeing to our non-existent privacy policy.
-          </Text> */}
+          </Text>
         </View>
       </Screen>
     </View>
