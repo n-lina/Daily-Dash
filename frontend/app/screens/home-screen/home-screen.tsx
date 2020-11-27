@@ -16,6 +16,8 @@ const borderColor = "#737373";
 const lightseagreen = "#616F6C";
 const aqua = "#46BFAC";
 const windowWidth = Dimensions.get('window').width;
+const d = new Date();
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const styles = StyleSheet.create({
   header: {
@@ -280,38 +282,6 @@ export const HomeScreen = observer(function HomeScreen() {
     <View style={FULL} testID="homeSreenWrap">
       <Screen style={FULL} backgroundColor={color.palette.white}>
         <View style={TOP_SECTION}>
-          {/* <View style={CONTENT_WRAP}> */}
-            {/* <View style={LEVEL_WRAP}> */}
-              {/* <View style={LEVEL_NUM_WRAP}>
-                <Text testID="goalsCompletedDisplay">
-                  {levelScore} / {totalLevelScore}
-                </Text>
-              </View> */}
-              {/* <View style={PROGRESS_WRAP}>
-                <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
-              </View> */}
-              {/* <View style={LEVEL_STYLE}>
-                <Text style={LEVEL_NUM_STYLE} testID="levelNumber">{level}</Text>
-              </View> */}
-            {/* </View> */}
-            {/* <View style={TROPHY_WRAP}>
-              <StarButton
-                testID="awardsStar"
-                type="clear"
-                onPress={goToAwards}
-                icon={
-                  <Icon
-                    name="star"
-                    size={60}
-                    color="gold"
-                  />
-                }
-              />
-              <Text style={AWARD_SUBTITLE} testID="awardsString">
-                {awardCount} award{awardCount != 1 ? "s" : ""}
-              </Text>
-            </View> */}
-          {/* </View> */}
           <Text style={styles.quote_left}>
             A journey of a thousand miles ...
           </Text>
@@ -324,7 +294,7 @@ export const HomeScreen = observer(function HomeScreen() {
           <Text style={styles.header}>
             {getCurrentDay(false)}
           </Text>
-          <Text style={styles.subheading}>—     November 25, 2020     —</Text>
+          <Text style={styles.subheading}>—     {months[d.getMonth()]}  {d.getDate()},  {d.getFullYear()}     —</Text>
           <Text style={styles.subheading}>
             {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>

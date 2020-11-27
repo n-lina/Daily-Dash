@@ -14,15 +14,15 @@ const noAward: Award = {
 };
 
 const awards: Award[] = [{
-  title: "Baby Steps ...",
+  title: "Baby Steps",
   description: "Completed 2 sub-goals.",
   threshold: 2
 }, {
-  title: "Getting the Hang of It !",
+  title: "Getting the Hang of It",
   description: "Completed 10 sub-goals.",
   threshold: 10
 }, {
-  title: "Nice One !",
+  title: "Rookie Goal Achiever",
   description: "Completed 25 sub-goals.",
   threshold: 25
 }, {
@@ -70,7 +70,6 @@ export const UserStoreModel = types
       return self.goalsCompleted.toString().length;
     },
     getAwards: (includeNoAward = true): Award[] => {
-      console.log("Getting Awards");
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
       if (validAwards.length === 0 && includeNoAward) return [noAward];
       return validAwards;

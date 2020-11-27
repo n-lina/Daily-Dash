@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { View, ViewStyle, TextStyle } from "react-native";
+import { View, ViewStyle, TextStyle, Dimensions, Image } from "react-native";
 import { observer } from "mobx-react-lite";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin, GoogleSigninButton } from "@react-native-community/google-signin";
 import { useStores } from "../../models";
+
+const darkAqua = "#008080";
+const aqua = "#46BFAC";
+// const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const lightseagreen = "#616F6C";
+const background = "#fff";
 
 const FULL: ViewStyle = { flex: 1 };
 const CONTAINER: ViewStyle = {
@@ -14,7 +21,6 @@ const CONTAINER: ViewStyle = {
   paddingHorizontal: spacing[4],
 };
 const TEXT: TextStyle = {
-  color: color.palette.black,
   fontFamily: typography.primary,
 };
 const BOLD: TextStyle = { fontWeight: "bold" };
@@ -27,12 +33,14 @@ const HEADER: TextStyle = {
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
-  marginTop: spacing[5],
+  alignItems: "center",
+  marginTop:  windowHeight/4,
+  // top: windowHeight/4
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
-  fontSize: 28,
+  // ...BOLD,
+  fontSize: 30,
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
@@ -40,13 +48,14 @@ const TITLE: TextStyle = {
 
 const CONTENT_WRAP: ViewStyle = {
   flex: 1,
-  justifyContent: "flex-end",
+  // justifyContent: "center",
+  marginTop: spacing[5],
   alignItems: "center"
 };
 
 const SIGNIN_BUTTON: ViewStyle = {
-  width: 300,
-  height: 48,
+  width: 200,
+  height: 48, 
 };
 
 const CONT_TEXT: TextStyle = {
@@ -62,7 +71,7 @@ const INVISIBLE: ViewStyle = {
   height: 0,
   width: 0,
   left: 100,
-  backgroundColor: "rgb(241, 241, 241)"
+  backgroundColor: "white"
 };
 
 export const SigninScreen = observer(function SigninScreen() {
@@ -98,10 +107,10 @@ export const SigninScreen = observer(function SigninScreen() {
 
   return (
     <View style={FULL}>
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+      <Screen style={CONTAINER} preset="scroll" backgroundColor='white'>
         <Header style={HEADER} />
         <Text style={TITLE_WRAPPER}>
-          <Text style={TITLE} text="Please select a sign in method" />
+          <Text style={TITLE} text="Please Sign In" />
         </Text>
         <View style={CONTENT_WRAP} testID="signInWrap">
           <Button
@@ -109,10 +118,11 @@ export const SigninScreen = observer(function SigninScreen() {
             testID="testSignIn"
             onPress={testSignIn}
           />
+          <Image source={require("../../../assets/boot.png")} style={{height: 50, width: 50, marginBottom: spacing[5]}} />
           <GoogleSigninButton
             style={SIGNIN_BUTTON}
             size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
+            color={GoogleSigninButton.Color.Light}
             disabled={signingIn}
             onPress={() =>
               onGoogleButtonPress()
@@ -121,9 +131,9 @@ export const SigninScreen = observer(function SigninScreen() {
                 .finally(() => setSigningIn(false))
             }
           />
-          <Text style={CONT_TEXT}>
+          {/* <Text style={CONT_TEXT}>
             By continuining, you are agreeing to our non-existent privacy policy.
-          </Text>
+          </Text> */}
         </View>
       </Screen>
     </View>

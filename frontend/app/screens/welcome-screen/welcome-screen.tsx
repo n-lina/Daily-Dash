@@ -1,15 +1,48 @@
 import React from "react";
-import { View, ViewStyle, TextStyle, SafeAreaView } from "react-native";
+import { View, ViewStyle, TextStyle, SafeAreaView, Image, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react-lite";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 
-const FULL: ViewStyle = { flex: 1 };
+const darkAqua = "#008080";
+const aqua = "#46BFAC";
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const lightseagreen = "#616F6C";
+const background = "#fff";
+
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 28,
+    textAlign: 'center',
+    color: lightseagreen
+  }, 
+  subheading: {
+    fontSize: 17,
+    textAlign: 'center',
+    color: lightseagreen, 
+    marginTop: spacing[3], 
+    fontStyle: 'italic'
+  },
+  image: {
+    width: windowWidth,
+    height: windowWidth*1.2,
+    alignContent: "center", 
+    alignItems: "center",
+  }, 
+  button: {
+    width: 135,
+    backgroundColor: aqua
+  }
+})
+
+const FULL: ViewStyle = { flex: 1, width: windowWidth };
 const CONTAINER: ViewStyle = {
   flex: 1,
-  backgroundColor: color.transparent,
-  paddingHorizontal: spacing[4],
+  backgroundColor: background,
+  // paddingHorizontal: spacing[4],
+  width: windowWidth
 };
 const TEXT: TextStyle = {
   color: color.palette.black,
@@ -17,23 +50,28 @@ const TEXT: TextStyle = {
 };
 const BOLD: TextStyle = { fontWeight: "bold" };
 const HEADER: TextStyle = {
-  paddingTop: spacing[3],
-  paddingBottom: spacing[4] + spacing[1],
-  paddingHorizontal: 0,
+  // paddingTop: spacing[3],
+  // paddingBottom: spacing[4] + spacing[1],
+  // paddingHorizontal: 0,
 };
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
-  marginTop: spacing[5],
+  // marginTop: spacing[5],
+  backgroundColor: background, 
+  marginTop: spacing[7], 
+  marginBottom: spacing[3]
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
-  fontSize: 28,
+  // ...BOLD,
+  fontSize: 31,
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  color: lightseagreen
+
 };
 
 const CONTENT: TextStyle = {
@@ -46,22 +84,25 @@ const CONTENT: TextStyle = {
 const CONTINUE: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
-  backgroundColor: "#008080",
+  // backgroundColor: "#008080",
 };
 const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
-  ...BOLD,
-  fontSize: 13,
+  fontSize: 20,
   letterSpacing: 2,
+  color: 'white'
 };
 const CONTENT_WRAP: ViewStyle = {
-  flex: 1,
-  justifyContent: "center"
+  // flex: 1,
+  // justifyContent: "center"
 };
 const FOOTER: ViewStyle = {};
 const FOOTER_CONTENT: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  marginBottom: spacing[6],
+  marginTop: spacing[6],
+  // paddingHorizontal: spacing[4],
+  backgroundColor: background, 
+  alignItems: "center"
 };
 
 export const WelcomeScreen = observer(function WelcomeScreen() {
@@ -70,32 +111,25 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
 
   return (
     <View style={FULL}>
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+      <Screen style={CONTAINER} preset="scroll" backgroundColor={background}>
+        <Image source={require("../../../assets/dp.png")} style={styles.image} />
         <Text style={TITLE_WRAPPER}>
-          <Text style={TITLE} text="Welcome to Daily Dash" />
+          <Text style={TITLE} text="Welcome to Daily Dash !" />
         </Text>
-        <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
-        {/* <Image source={bowserLogo} style={BOWSER} /> */}
+        {/* <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
         <View style={CONTENT_WRAP} testID="welcomeMessage">
           <Text style={CONTENT}>This is just a template for what should go here.</Text>
-          <Text style={CONTENT}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pharetra aliquet
-            risus, venenatis sollicitudin neque scelerisque vel. Phasellus tortor erat, molestie
-            eget accumsan sit amet, efficitur gravida ante.
-          </Text>
-        </View>
-      </Screen>
-      <SafeAreaView style={FOOTER}>
+        </View> */}
         <View style={FOOTER_CONTENT}>
           <Button
             testID="nextScreenButton"
+            style={styles.button}
             textStyle={CONTINUE_TEXT}
             tx="welcomeScreen.continue"
             onPress={nextScreen}
           />
-        </View>
-      </SafeAreaView>
+      </View>
+      </Screen>
     </View>
   );
 });
