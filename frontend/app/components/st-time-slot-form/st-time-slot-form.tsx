@@ -115,13 +115,11 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
   // update times when timeMode changes
   React.useEffect(() => {
     setLoading(true);
-    let mounted = true;
     setTimeout(() => {
-      if (mounted) {
         const timeMode = props.timeMode;
         const myTimeSlot = props.timeSlot;
         let hrs = parseInt(myTimeSlot.hour);
-        if (Number.isNaN(hrs)) {
+        if (Number.isNaN(hrs) || myTimeSlot.meridies.length > 0) {
           setLoading(false);
           return;
         }
@@ -159,9 +157,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
         changeHour(hrString);
 
         setLoading(false);
-      }
     }, 1);
-    return () => mounted = false;
   }, [props.timeMode]);
 
   return (

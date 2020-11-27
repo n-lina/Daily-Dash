@@ -82,7 +82,7 @@ export const UserStoreModel = types
         self.name = user.name;
         self.email = user.email;
         self.signedIn = true;
-        self.goalsCompleted = user.goalsCompleted;
+        self.goalsCompleted = Math.max(0, user.goalsCompleted);
         self.timeMode = user.timeMode;
       } else {
         self.signedIn = false;
@@ -97,7 +97,8 @@ export const UserStoreModel = types
       self.goalsCompleted++;
     },
     decrementGoalCount: () => {
-      self.goalsCompleted--;
+      if (self.goalsCompleted > 0)
+        self.goalsCompleted--;
     },
     is24HourClock: () => {
       return self.timeMode == 24;
