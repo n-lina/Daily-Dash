@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: windowWidth,
-    height: windowWidth*1.2,
+    height: windowWidth,
     alignContent: "center", 
     alignItems: "center",
   }, 
