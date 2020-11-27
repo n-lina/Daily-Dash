@@ -117,7 +117,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
   const levelProgress = levelScore / totalLevelScore;
   // TODO: User userstore here
   const myAwards = userStore.getAwards(false);
-  const myTitle = myAwards[myAwards.length-1].title;
+  const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length-1].title : "Getting started...";
   const awardCount = userStore.getAwards(false).length;
   const navigation = useNavigation();
   const goToAwards = () => navigation.navigate("awards");
