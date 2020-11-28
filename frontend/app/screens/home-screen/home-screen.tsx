@@ -344,7 +344,7 @@ export const HomeScreen = observer(function HomeScreen() {
           refreshing={refreshing}
           onRefresh={getGoals}
           renderItem={renderGoal}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => item.id + index}
           extraData={[
             { extraDataForMobX: goals.length > 0 ? goals[0].title : "" },
             userStore.timeMode,

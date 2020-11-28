@@ -18,6 +18,8 @@ export class Api {
    */
   config: ApiConfig
 
+  private idCountSplitter = "$,$";
+
   /**
    * Creates the api.
    *
@@ -196,9 +198,10 @@ export class Api {
     }
   }
 
-  async toggleCompletedGoal(stgId: string, completed: boolean): Promise<Types.SuccessResult> {
+  async toggleCompletedGoal(id: string, completed: boolean): Promise<Types.SuccessResult> {
     const userId = auth().currentUser.uid;
     const url = "/goals/shortterm/counter";
+    const stgId = id.split(this.idCountSplitter)[0];
     const response: ApiResponse<any> = await this.apisauce.put(url, { userId: userId, shortTermGoalId: stgId, complete: completed });
 
     if (!response.ok) {
@@ -218,9 +221,20 @@ export class Api {
       if (problem) return problem;
     }
 
+    const idToCount = new Map();
+
     const convertGoal = (raw) => {
+      const stgId = raw.stgId;
+      let count = idToCount.get(stgId);
+      if (count) {
+        idToCount.set(stgId, count++);
+      } else {
+        count = 1;
+        idToCount.set(stgId, count);
+      }
+      console.log(count);
       return {
-        id: raw.stgId,
+        id: raw.stgId + this.idCountSplitter + count,
         title: raw.title,
         time: raw.time
       };
