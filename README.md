@@ -1,35 +1,35 @@
 # DailyDash
 
-## To change your life, change your daily habits. 
+### To change your life, change your daily habits. 
 
 - objective, audience, ideation process, inspiration etc. 
 
-## App Overview 
+### App Overview 
 
 #### Frontend Pages
 
-### Backend Endpoints
+#### Backend Endpoints
 
-## Technologies Used
+### Technologies Used
 
-### Backend 
+#### Backend 
 
-### Frontend 
+#### Frontend 
 
-## Use Cases & Functional Requirements 
+### Use Cases & Functional Requirements 
 
-## Main Components 
+### Main Components 
 
-### Backend 
+#### Backend 
 
-### Frontend 
+#### Frontend 
 
-## Non - Functional Requirements 
+### Non - Functional Requirements 
 
 **1. asdf**
 
-## Testing 
+### Testing 
 
-### Backend 
+#### Backend 
 
-### Frontend 
+#### Frontend 
