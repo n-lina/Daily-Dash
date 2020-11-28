@@ -44,6 +44,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  letterSpacing: 2
 };
 
 const CONTENT_WRAP: ViewStyle = {
@@ -134,7 +135,7 @@ export const SigninScreen = observer(function SigninScreen() {
             }
           />
           <Text style={CONT_TEXT}>
-            By continuining, you are agreeing to our non-existent privacy policy.
+            By continuing, you are agreeing to our non-existent privacy policy.
           </Text>
         </View>
       </Screen>

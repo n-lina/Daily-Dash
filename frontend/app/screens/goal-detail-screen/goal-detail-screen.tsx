@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 32,
     textAlign: "center",
-    color: 'white'
+    color: 'white', 
   },
   image: {
     height: 75,

@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     alignContent: "center", 
     alignItems: "center",
   }, 
+  image2: {
+    marginTop: spacing[6],
+    width: 250,
+    height: 75
+  },
   button: {
     width: 135,
     backgroundColor: aqua
@@ -48,12 +53,6 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
-const HEADER: TextStyle = {
-  // paddingTop: spacing[3],
-  // paddingBottom: spacing[4] + spacing[1],
-  // paddingHorizontal: 0,
-};
 
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
@@ -61,7 +60,7 @@ const TITLE_WRAPPER: TextStyle = {
   // marginTop: spacing[5],
   backgroundColor: background, 
   marginTop: spacing[7], 
-  marginBottom: spacing[3]
+  // marginBottom: spacing[3]
 };
 const TITLE: TextStyle = {
   ...TEXT,
@@ -73,33 +72,15 @@ const TITLE: TextStyle = {
   color: lightseagreen
 
 };
-
-const CONTENT: TextStyle = {
-  ...TEXT,
-  color: "#2f4f4f",
-  fontSize: 15,
-  lineHeight: 22,
-  marginBottom: spacing[3],
-};
-const CONTINUE: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-  // backgroundColor: "#008080",
-};
 const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
   fontSize: 20,
   letterSpacing: 2,
   color: 'white'
 };
-const CONTENT_WRAP: ViewStyle = {
-  // flex: 1,
-  // justifyContent: "center"
-};
-const FOOTER: ViewStyle = {};
 const FOOTER_CONTENT: ViewStyle = {
   marginBottom: spacing[6],
-  marginTop: spacing[6],
+  marginTop: spacing[5],
   // paddingHorizontal: spacing[4],
   backgroundColor: background, 
   alignItems: "center"
@@ -124,6 +105,7 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
             tx="welcomeScreen.continue"
             onPress={nextScreen}
           />
+          <Image source={require("../../../assets/running.png")} style={styles.image2} />
       </View>
       </Screen>
     </View>

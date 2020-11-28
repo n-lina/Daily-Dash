@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 28,
     textAlign: 'center',
-    color: lightseagreen
+    color: lightseagreen, 
+    letterSpacing: 2, 
   }, 
   subheading: {
     fontSize: 17,
@@ -98,7 +99,6 @@ const LEVEL_NUM_WRAP: ViewStyle = {
 const LEVEL_WRAP: ViewStyle = {
   width: windowWidth-130,
   marginTop: 20,
-  marginBottom:15,
   justifyContent: 'center',
   // position: "absolute",
   // left: 5,
@@ -156,7 +156,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
               type="clear"
               onPress={goToAwards}
               icon={
-                { name: "airballoon", type: "material-community", color: '#FF8787', size: 60 }
+                { name: "trophy-award", type: "material-community", color: '#54BFFF', size: 70 }
               }
             />
             <Text style={AWARD_SUBTITLE} testID="awardsString">
@@ -171,7 +171,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
             <SwitchSelector
               style={{width: 130}}
               height={40}
-              initial={0}
+              initial={userStore.timeMode == 12? 0: 1}
               onPress={value => userStore.updateTimeMode(value as number)}
               textColor='grey'
               selectedColor="#fff"

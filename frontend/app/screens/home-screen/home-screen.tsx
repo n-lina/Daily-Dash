@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     marginLeft: spacing[3],
     marginRight: spacing[3],
     marginTop: spacing[3],
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: 2
   },
   image: {
     height: 93,
@@ -69,56 +70,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const progressWidth = 280;
-const circleSize = 44;
 const topSectionHeight = 180;
 
 const FULL: ViewStyle = { flex: 1 };
-
-const CONTENT_WRAP: ViewStyle = {
-  alignItems: "center",
-  height: 20,
-};
-
-const LEVEL_WRAP: ViewStyle = {
-  width: progressWidth,
-  marginTop: 20,
-  position: "absolute",
-  left: 10,
-};
-
-const LEVEL_STYLE: ViewStyle = {
-  width: circleSize,
-  height: circleSize,
-  borderRadius: 1000,
-  backgroundColor: "#008080",
-};
-
-const LEVEL_NUM_STYLE: TextStyle = {
-  fontSize: 30,
-  textAlign: "center",
-};
-
-const TROPHY_WRAP: ViewStyle = {
-  position: "absolute",
-  right: 5,
-};
-
-const AWARD_SUBTITLE: TextStyle = {
-  textAlign: "center",
-  marginTop: -10,
-  paddingTop: 0
-};
-
-const PROGRESS_WRAP: ViewStyle = {
-  position: "absolute",
-  top: circleSize / 2 - 4, // minus height of progress bar,
-};
-
-const LEVEL_NUM_WRAP: ViewStyle = {
-  position: "absolute",
-  right: 4,
-};
 
 const CHECK_BOX: ViewStyle = {
   position: "absolute",
@@ -143,11 +97,6 @@ const LIST_STYLE: ViewStyle = {
 };
 
 const TOP_SECTION: ViewStyle = {
-};
-
-const REMAINING_GOALS: ViewStyle = {
-  marginTop: 10,
-  marginLeft: 4
 };
 
 const ADD_ONE_BUTTON: ViewStyle = {
@@ -175,12 +124,7 @@ export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
   const { dailyGoalStore, userStore, LtGoalFormStore } = useStores();
   const { goals } = dailyGoalStore;
-  const level = userStore.getLevel();
-  const levelScore = userStore.goalsCompleted;
-  const totalLevelScore = userStore.getGoalsForNextLevel();
-  const levelProgress = levelScore / totalLevelScore;
   // TODO: User userstore here
-  const awardCount = userStore.getAwards(false).length;
 
   __DEV__ && console.log("Goals: " + goals);
 
@@ -190,7 +134,6 @@ export const HomeScreen = observer(function HomeScreen() {
     return getDisplayTime(userStore.timeMode, time);
   };
 
-  const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
     LtGoalFormStore.clearForm();
     navigation.navigate("Goals", { screen: "goalForm" });
