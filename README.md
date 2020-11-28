@@ -1,7 +1,7 @@
 # DailyDash
 ---
 ### To change your life, change your daily habits. 
-![] (trophy.png)
+![exmple] (https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true)
 
 - objective, audience, ideation process, inspiration etc. 
 
