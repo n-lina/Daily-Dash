@@ -16,7 +16,7 @@
 
 ## Non - Functional Requirements 
 
-**1. asdf **
+**1. asdf**
 
 ### ./ignite directory
 
