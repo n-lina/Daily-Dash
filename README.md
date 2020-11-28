@@ -1,15 +1,37 @@
 # DailyDash
 ---
-### To change your life, change your daily habits. 
-![exmple] (https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true)
+## To change your life, change your daily habits. 
 
-- objective, audience, ideation process, inspiration etc. 
+We, Lina Nguyen, Jeremy Wiens, Harry Yao, and Pawel Mirski, truly believe that small efforts everyday can accumulate to yield life-changing results. Armed with this core belief, we created Daily Dash to empower **users across all walks of life** to achieve their goals, whether its to become skilled at public speaking or to adopt a healthier diet. 
 
-### App Overview 
+Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
-#### Frontend Pages
+Personally, I had a lot of fun searching for the perfect shade of aqua green (#46BFAC!) to complete Daily Dash's intuitive and inviting user-interface.   
 
-#### Backend Endpoints
+With Daily Dash, New Year's Resolutions will never be left unfulfilled again!
+
+## App Overview 
+
+### Screens
+After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
+<br>
+<pre>Profile Screen               Home Screen               All Goals Screen</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/profileScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/homeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/allGoals.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the goals screen shown above, users can add a new goal, browse the catalog of common goals, and press on a goal to view its subgoals. The catalog of common goals lists common goals from which users can draw inspiration. Users can easily add a common goal to their personal repertoire by selecting a common goal and pressing "Add Goal". <br>
+<br>
+<pre>Add Goal Screen           Catalog of Common Goals    Common Goal Detail Screen</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/addGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/commonGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/commonDetail.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the goals screen, users can also press on a goal to see its details. From the goal detail screen, users can edit or delete the selected goal. Both the edit and add goal pages also have a "Get Suggestion" button, which, when pressed, offers users a sub-goal suggestion, generated using a **complex cosine-similarity algorithm** in the backend. <br>
+<pre>Goal Detail Screen             Delete Goal              Edit Goal Screen           Get Suggestion</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/goalDetail.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/deleteGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/editGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/getSuggestion.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the profile screen shown in the first row, users can access their awards and log out. Logging out will redirect users to the welcome screen and sign in screen where users can sign in using **Google authentication.**  <br>
+<pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>\
+
+#### Endpoints
 
 ### Technologies Used
 
