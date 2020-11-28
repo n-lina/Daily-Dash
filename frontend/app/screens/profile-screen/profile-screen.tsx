@@ -171,7 +171,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
             <SwitchSelector
               style={{width: 130}}
               height={40}
-              initial={userStore.timeMode == 12? 0: 1}
+              initial={(userStore.timeMode === 12) ? 0 : 1}
               onPress={value => userStore.updateTimeMode(value as number)}
               textColor='grey'
               selectedColor="#fff"
