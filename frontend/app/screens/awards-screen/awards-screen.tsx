@@ -146,8 +146,6 @@ export const AwardsScreen = observer(function AwardsScreen() {
                 userStore.getAwards().length > 0 ? userStore.getAwards()[0][0] : "",
             }}
             keyExtractor={(_, index) => "" + index}
-            onRefresh={() => userStore.getAwards()}
-            refreshing={refreshing}
           ></FlatList>
         </SafeAreaView>
       </Screen>
