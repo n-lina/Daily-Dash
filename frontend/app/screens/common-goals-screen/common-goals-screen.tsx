@@ -49,6 +49,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  letterSpacing: 2
 };
 
 const borderColor = "#737373";
@@ -95,7 +96,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome", color: aqua }}
+            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size:20 }}
             // overlayContainerStyle={styles.background}
             // activeOpacity={0.7}
           />

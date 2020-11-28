@@ -85,6 +85,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  letterSpacing: 2
 };
 
 const TITLE2: TextStyle = {

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 32,
     textAlign: "center",
-    color: 'white'
+    color: 'white', 
   },
   image: {
     height: 75,
@@ -133,15 +133,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     LtGoalFormStore.setId(id);
     LtGoalFormStore.setDescription(description);
 
-    // for (const day of [[monday, "mon"], [tuesday, "tue"], [wednesday, "wed"], [thursday, "thu"], [friday, "fri"], [saturday, "sat"], [sunday, "sun"]]) {
-    //   const arr = day[0];
-    //   const weekday = day[1] as string;
-    //   for (const time of arr) {
-    //     const mins = (time[0] % 60).toString();
-    //     const hrs = (Math.floor(time[0] / 60)).toString();
-    //     LtGoalFormStore.initSTgoals(time[1], weekday, hrs, mins, time[2]);
-    //   }
-    // }
     for (const currStg of STgoals){
       let timeSlots = []
       for (const day of [[currStg.mon, "mon"], [currStg.tue, "tue"], [currStg.wed, "wed"], [currStg.thu, "thu"], [currStg.fri, "fri"], [currStg.sat, "sat"], [currStg.sun, "sun"]]) {
@@ -167,60 +158,61 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const sunday = [];
 
   for (const goal of STgoals) {
-    if (goal.mon.length > 0) monday.push([goal.mon[0], goal.title, goal.id, "Monday"]);
-    if (goal.tue.length > 0) tuesday.push([goal.tue[0], goal.title, goal.id, "Tuesday"]);
-    if (goal.wed.length > 0) wednesday.push([goal.wed[0], goal.title, goal.id, "Wednesday"]);
-    if (goal.thu.length > 0) thursday.push([goal.thu[0], goal.title,, goal.id, "Thursday"]);
-    if (goal.fri.length > 0) friday.push([goal.fri[0], goal.title, goal.id], "Friday");
-    if (goal.sat.length > 0) saturday.push([goal.sat[0], goal.title, goal.id, "Saturday"]);
-    if (goal.sun.length > 0) sunday.push([goal.sun[0], goal.title, goal.id, "Sunday"]);
+    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id])
+    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id])
+    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id])
+    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id])
+    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id])
+    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id])
+    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id])
   }
 
   if (monday.length > 0) {
     allSTGoals.push({
-      title: monday[0][3],
+      title: "Monday",
       data: monday.sort(sortFunction)
     });
   }
   if (tuesday.length > 0) {
     allSTGoals.push({
-      title: tuesday[0][3],
+      title: "Tuesday",
       data: tuesday.sort(sortFunction)
     });
   }
   if (wednesday.length > 0) {
     allSTGoals.push({
-      title: wednesday[0][3],
+      title: "Wednesday",
       data: wednesday.sort(sortFunction)
     });
   }
   if (thursday.length > 0) {
     allSTGoals.push({
-      title: thursday[0][3],
+      title: "Thursday",
       data: thursday.sort(sortFunction)
     });
   }
   if (friday.length > 0) {
     allSTGoals.push({
-      title: friday[0][3],
+      title: "Friday",
       data: friday.sort(sortFunction)
     });
+    console.log(allSTGoals)
   }
   if (saturday.length > 0) {
     allSTGoals.push({
-      title: saturday[0][3],
+      title: "Saturday",
       data: saturday.sort(sortFunction)
     });
   }
   if (sunday.length > 0) {
     allSTGoals.push({
-      title: sunday[0][3],
+      title: "Sunday",
       data: sunday.sort(sortFunction)
     });
   }
 
-  function deleteThisGoal(goalId) {
-    goalsStore.deleteLTgoal(id).then(res => {
+  function deleteThisGoal() {
+    goalsStore.deleteLTgoal(id).then(() => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
     });
@@ -244,7 +236,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
           text: "No",
           style: "cancel"
         },
-        { text: "Yes", onPress: () => deleteThisGoal(id) }
+        { text: "Yes", onPress: () => deleteThisGoal() }
       ],
       { cancelable: false }
     );

@@ -42,11 +42,12 @@ const TITLE_WRAPPER: TextStyle = {
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  ...BOLD,
+  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
+  letterSpacing: 2
 };
 
 const borderColor = "#737373";
@@ -107,10 +108,10 @@ export const AwardsScreen = observer(function AwardsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "tree", type: "font-awesome" }}
-            onPress={() => console.log("Works!")}
-            overlayContainerStyle={styles.background}
-            activeOpacity={0.7}
+            icon={{ name: "star", type: "font-awesome", color: 'gold', size: 23 }}
+            // onPress={() => console.log("Works!")}
+            // overlayContainerStyle={styles.background}
+            // activeOpacity={0.7}
             // containerStyle={{flex: 2, marginTop: 2}}
           />
           <ListItem.Content>
@@ -146,8 +147,6 @@ export const AwardsScreen = observer(function AwardsScreen() {
                 userStore.getAwards().length > 0 ? userStore.getAwards()[0][0] : "",
             }}
             keyExtractor={(_, index) => "" + index}
-            onRefresh={() => userStore.getAwards()}
-            refreshing={refreshing}
           ></FlatList>
         </SafeAreaView>
       </Screen>

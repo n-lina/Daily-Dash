@@ -16,6 +16,8 @@ const borderColor = "#737373";
 const lightseagreen = "#616F6C";
 const aqua = "#46BFAC";
 const windowWidth = Dimensions.get('window').width;
+const d = new Date();
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const styles = StyleSheet.create({
   header: {
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
     marginLeft: spacing[3],
     marginRight: spacing[3],
     marginTop: spacing[3],
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: 2
   },
   image: {
     height: 93,
@@ -67,56 +70,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const progressWidth = 280;
-const circleSize = 44;
 const topSectionHeight = 180;
 
 const FULL: ViewStyle = { flex: 1 };
-
-const CONTENT_WRAP: ViewStyle = {
-  alignItems: "center",
-  height: 20,
-};
-
-const LEVEL_WRAP: ViewStyle = {
-  width: progressWidth,
-  marginTop: 20,
-  position: "absolute",
-  left: 10,
-};
-
-const LEVEL_STYLE: ViewStyle = {
-  width: circleSize,
-  height: circleSize,
-  borderRadius: 1000,
-  backgroundColor: "#008080",
-};
-
-const LEVEL_NUM_STYLE: TextStyle = {
-  fontSize: 30,
-  textAlign: "center",
-};
-
-const TROPHY_WRAP: ViewStyle = {
-  position: "absolute",
-  right: 5,
-};
-
-const AWARD_SUBTITLE: TextStyle = {
-  textAlign: "center",
-  marginTop: -10,
-  paddingTop: 0
-};
-
-const PROGRESS_WRAP: ViewStyle = {
-  position: "absolute",
-  top: circleSize / 2 - 4, // minus height of progress bar,
-};
-
-const LEVEL_NUM_WRAP: ViewStyle = {
-  position: "absolute",
-  right: 4,
-};
 
 const CHECK_BOX: ViewStyle = {
   position: "absolute",
@@ -141,11 +97,6 @@ const LIST_STYLE: ViewStyle = {
 };
 
 const TOP_SECTION: ViewStyle = {
-};
-
-const REMAINING_GOALS: ViewStyle = {
-  marginTop: 10,
-  marginLeft: 4
 };
 
 const ADD_ONE_BUTTON: ViewStyle = {
@@ -173,12 +124,7 @@ export const HomeScreen = observer(function HomeScreen() {
   // Pull in one of our MST stores
   const { dailyGoalStore, userStore, LtGoalFormStore } = useStores();
   const { goals } = dailyGoalStore;
-  const level = userStore.getLevel();
-  const levelScore = userStore.goalsCompleted;
-  const totalLevelScore = userStore.getGoalsForNextLevel();
-  const levelProgress = levelScore / totalLevelScore;
   // TODO: User userstore here
-  const awardCount = userStore.getAwards(false).length;
 
   __DEV__ && console.log("Goals: " + goals);
 
@@ -188,7 +134,6 @@ export const HomeScreen = observer(function HomeScreen() {
     return getDisplayTime(userStore.timeMode, time);
   };
 
-  const goToAwards = () => navigation.navigate("awards");
   const goToAddGoal = () => {
     LtGoalFormStore.clearForm();
     navigation.navigate("Goals", { screen: "goalForm" });
@@ -280,38 +225,6 @@ export const HomeScreen = observer(function HomeScreen() {
     <View style={FULL} testID="homeSreenWrap">
       <Screen style={FULL} backgroundColor={color.palette.white}>
         <View style={TOP_SECTION}>
-          {/* <View style={CONTENT_WRAP}> */}
-            {/* <View style={LEVEL_WRAP}> */}
-              {/* <View style={LEVEL_NUM_WRAP}>
-                <Text testID="goalsCompletedDisplay">
-                  {levelScore} / {totalLevelScore}
-                </Text>
-              </View> */}
-              {/* <View style={PROGRESS_WRAP}>
-                <Progress.Bar progress={levelProgress} width={progressWidth} color="#008080" />
-              </View> */}
-              {/* <View style={LEVEL_STYLE}>
-                <Text style={LEVEL_NUM_STYLE} testID="levelNumber">{level}</Text>
-              </View> */}
-            {/* </View> */}
-            {/* <View style={TROPHY_WRAP}>
-              <StarButton
-                testID="awardsStar"
-                type="clear"
-                onPress={goToAwards}
-                icon={
-                  <Icon
-                    name="star"
-                    size={60}
-                    color="gold"
-                  />
-                }
-              />
-              <Text style={AWARD_SUBTITLE} testID="awardsString">
-                {awardCount} award{awardCount != 1 ? "s" : ""}
-              </Text>
-            </View> */}
-          {/* </View> */}
           <Text style={styles.quote_left}>
             A journey of a thousand miles ...
           </Text>
@@ -324,7 +237,7 @@ export const HomeScreen = observer(function HomeScreen() {
           <Text style={styles.header}>
             {getCurrentDay(false)}
           </Text>
-          <Text style={styles.subheading}>—     November 25, 2020     —</Text>
+          <Text style={styles.subheading}>—     {months[d.getMonth()]}  {d.getDate()},  {d.getFullYear()}     —</Text>
           <Text style={styles.subheading}>
             {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>
@@ -344,7 +257,7 @@ export const HomeScreen = observer(function HomeScreen() {
           refreshing={refreshing}
           onRefresh={getGoals}
           renderItem={renderGoal}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => item.id + index}
           extraData={[
             { extraDataForMobX: goals.length > 0 ? goals[0].title : "" },
             userStore.timeMode,

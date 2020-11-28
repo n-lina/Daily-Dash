@@ -86,7 +86,7 @@ describe("editGoal", () => {
         .toExist()
         .withTimeout(1000)
         await element(by.id("suggestionButton")).tap()
-        await element(by.text("OK")).tap()
+        await element(by.text("DISMISS")).tap()
         await waitFor(element(by.id("submitGoalButton")))
           .toExist()
           .withTimeout(1000)

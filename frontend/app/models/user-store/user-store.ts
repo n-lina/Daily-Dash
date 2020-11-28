@@ -14,15 +14,15 @@ const noAward: Award = {
 };
 
 const awards: Award[] = [{
-  title: "Baby Steps ...",
+  title: "Baby Steps",
   description: "Completed 2 sub-goals.",
   threshold: 2
 }, {
-  title: "Getting the Hang of It !",
+  title: "Getting the Hang of It",
   description: "Completed 10 sub-goals.",
   threshold: 10
 }, {
-  title: "Nice One !",
+  title: "Rookie Goal Achiever",
   description: "Completed 25 sub-goals.",
   threshold: 25
 }, {
@@ -70,7 +70,6 @@ export const UserStoreModel = types
       return self.goalsCompleted.toString().length;
     },
     getAwards: (includeNoAward = true): Award[] => {
-      console.log("Getting Awards");
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
       if (validAwards.length === 0 && includeNoAward) return [noAward];
       return validAwards;
@@ -83,7 +82,7 @@ export const UserStoreModel = types
         self.name = user.name;
         self.email = user.email;
         self.signedIn = true;
-        self.goalsCompleted = user.goalsCompleted;
+        self.goalsCompleted = Math.max(0, user.goalsCompleted);
         self.timeMode = user.timeMode;
       } else {
         self.signedIn = false;
@@ -98,7 +97,8 @@ export const UserStoreModel = types
       self.goalsCompleted++;
     },
     decrementGoalCount: () => {
-      self.goalsCompleted--;
+      if (self.goalsCompleted > 0)
+        self.goalsCompleted--;
     },
     is24HourClock: () => {
       return self.timeMode == 24;

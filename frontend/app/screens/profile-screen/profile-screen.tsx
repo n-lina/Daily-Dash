@@ -15,6 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
 const windowWidth = Dimensions.get('window').width;
+const lightseagreen = "#616F6C";
+
 
 const FULL: ViewStyle = { flex: 1 };
 
@@ -27,8 +29,16 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 28,
     textAlign: 'center',
-    color: 'black'
+    color: lightseagreen, 
+    letterSpacing: 2, 
   }, 
+  subheading: {
+    fontSize: 17,
+    textAlign: 'center',
+    color: lightseagreen, 
+    marginTop: spacing[3], 
+    fontStyle: 'italic'
+  },
   image: {
     flex: 1,
     resizeMode: "cover",
@@ -45,7 +55,7 @@ const CONTENT_WRAP: ViewStyle = {
 
 const progressWidth = windowWidth-180;
 const circleSize = 35;
-const topSectionHeight = 180;
+
 
 const LEVEL_STYLE: ViewStyle = {
   width: circleSize,
@@ -67,8 +77,12 @@ const TROPHY_WRAP: ViewStyle = {
 
 const AWARD_SUBTITLE: TextStyle = {
   textAlign: "center",
-  marginTop: -10,
-  paddingTop: 0
+  marginTop: spacing[1],
+  paddingTop: 0,
+  marginBottom: spacing[1], 
+  fontSize: 16, 
+  color: lightseagreen, 
+  
 };
 
 const PROGRESS_WRAP: ViewStyle = {
@@ -84,14 +98,14 @@ const LEVEL_NUM_WRAP: ViewStyle = {
 
 const LEVEL_WRAP: ViewStyle = {
   width: windowWidth-130,
-  marginTop: 10,
+  marginTop: 20,
   justifyContent: 'center',
   // position: "absolute",
   // left: 5,
 };
 
 const LOGOUT_STYLE: ViewStyle = {
-  paddingTop: 50,
+  paddingTop: 30,
 };
 
 export const ProfileScreen = observer(function ProfileScreen() {
@@ -102,6 +116,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
   const totalLevelScore = userStore.getGoalsForNextLevel();
   const levelProgress = levelScore / totalLevelScore;
   // TODO: User userstore here
+  const myAwards = userStore.getAwards(false);
+  const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length-1].title : "Getting Started ...";
   const awardCount = userStore.getAwards(false).length;
   const navigation = useNavigation();
   const goToAwards = () => navigation.navigate("awards");
@@ -122,6 +138,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
         <ImageBackground source={require("../../../assets/sky.jpeg")} style={styles.image}>
         <View style={CONTENT_WRAP}>
           <Text style={styles.heading}>{userStore.name}</Text>
+          <Text style={styles.subheading}>—     {myTitle}     —</Text>
           <View style={LEVEL_WRAP}>
             <View style={LEVEL_NUM_WRAP}>
               <Text style={styles.levelbar} testID="goalsCompletedDisplay"> {levelScore} / {totalLevelScore} </Text>
@@ -139,15 +156,14 @@ export const ProfileScreen = observer(function ProfileScreen() {
               type="clear"
               onPress={goToAwards}
               icon={
-                <Icon
-                  name="star"
-                  size={60}
-                  color="gold"
-                />
+                { name: "trophy-award", type: "material-community", color: '#54BFFF', size: 70 }
               }
             />
             <Text style={AWARD_SUBTITLE} testID="awardsString">
-              {awardCount} award{awardCount != 1 ? "s" : ""}
+              {awardCount} Award{awardCount != 1 ? "s" : ""}
+            </Text>
+            <Text style={AWARD_SUBTITLE} testID="goalsString">
+              {levelScore} Goal{levelScore != 1 ? "s" : ""} Completed
             </Text>
           </View>
           {/* <Text>{__DEV__ && auth().currentUser.uid}</Text> */}
@@ -155,7 +171,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
             <SwitchSelector
               style={{width: 130}}
               height={40}
-              initial={0}
+              initial={(userStore.timeMode === 12) ? 0 : 1}
               onPress={value => userStore.updateTimeMode(value as number)}
               textColor='grey'
               selectedColor="#fff"
