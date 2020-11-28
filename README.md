@@ -12,7 +12,6 @@ With Daily Dash, New Year's Resolutions will never be left unfulfilled again!
 
 ## App Overview 
 
-### Screens
 After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
 <br>
 <pre>Profile Screen               Home Screen               All Goals Screen</pre>
@@ -31,15 +30,17 @@ From the profile screen shown in the first row, users can access their awards an
 <pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>\
 
-#### Endpoints
-
 ### Technologies Used
 
 #### Backend 
+- MongoDB
+- NodeJS 
 
 #### Frontend 
-
-### Use Cases & Functional Requirements 
+- React Native 
+- Ignite CLI 
+- TypeScript 
+- Android
 
 ### Main Components 
 
@@ -56,3 +57,9 @@ From the profile screen shown in the first row, users can access their awards an
 #### Backend 
 
 #### Frontend 
+- Detox 
+end to end tests
+
+#### Full Stack 
+- Codacy
+
