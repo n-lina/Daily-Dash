@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     height: 75
   },
   button: {
-    width: 135,
     backgroundColor: aqua
   }
 })

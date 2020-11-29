@@ -121,15 +121,19 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
         const timeMode = props.timeMode;
         const myTimeSlot = props.timeSlot;
         let hrs = parseInt(myTimeSlot.hour);
-        if (Number.isNaN(hrs) || myTimeSlot.meridies.length > 0) {
+        if (Number.isNaN(hrs)) {
           setLoading(false);
           return;
         }
-        console.log(hrs);
 
         let meridies = "am";
 
         if (timeMode === 12) {
+          if (myTimeSlot.meridies.length > 0) {
+            setLoading(false);
+            return;
+          }
+
           if (hrs >= 12) {
             meridies = "pm";
           } else {
@@ -142,6 +146,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             hrs -= 12;
           }
         } else if (myTimeSlot.meridies !== "") {
+          meridies = "";
           if (myTimeSlot.meridies === "pm") {
             if (hrs < 12) {
               hrs += 12;
@@ -154,6 +159,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
         }
 
         const hrString = (hrs).toString();
+        console.log(hrString);
         myTimeSlot.setHour(hrString);
         myTimeSlot.setMeridiem(meridies);
         changeHour(hrString);

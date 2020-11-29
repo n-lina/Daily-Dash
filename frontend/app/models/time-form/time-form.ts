@@ -10,7 +10,7 @@ export const TimeFormModel = types
     day: getDay(true),
     hour: "",
     minute: "",
-    meridies: "am"
+    meridies: ""
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({

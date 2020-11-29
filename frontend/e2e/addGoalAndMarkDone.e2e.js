@@ -66,25 +66,23 @@ describe("AddGoal", () => {
       .withTimeout(1000)
   })
 
-  it("should go to home screen", async () => {
-    await element(by.id("homeTabButton")).tap()
-    await expect(element(by.id("homeSreenWrap"))).toBeVisible()
-  })
-
   it("should mark goals as complete and be reflected in level and score", async () => {
+    await element(by.id("profileTabButton")).tap()
     await expect(element(by.id("levelNumber"))).toHaveText("0")
-    await expect(element(by.id("goalsCompletedDisplay"))).toHaveText("0 / 1")
+    await element(by.id("homeTabButton")).tap()
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
+    await element(by.id("profileTabButton")).tap()
     await expect(element(by.id("levelNumber"))).toHaveText("1")
-    await expect(element(by.id("goalsCompletedDisplay"))).toHaveText("2 / 10")
+    await element(by.id("homeTabButton")).tap()
   })
 
   it("should unmark goals as not complete and be reflected in level and score", async () => {
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
+    await element(by.id("profileTabButton")).tap()
     await expect(element(by.id("levelNumber"))).toHaveText("0")
-    await expect(element(by.id("goalsCompletedDisplay"))).toHaveText("0 / 1")
+    // await expect(element(by.id("goalsCompletedDisplay"))).toHaveText("0 / 1")
   })
 
   it("should delete goal as clean up", async () => {
