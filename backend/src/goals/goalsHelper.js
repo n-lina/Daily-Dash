@@ -161,18 +161,20 @@ const completeShortTermGoal = async (req, res) => {
   var success = false;
 
   try {
-    const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
-    const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
+    if (await validateUserCompletedGoals(countIncrement, userId)) {
+      const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
+      const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
+      const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
 
-    const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
+      if (goalUpdateResult != null) {
+        const userUpdateFilter = {"userId": userId};
+        const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
+        const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
 
-    if (goalUpdateResult != null) {
-      const userUpdateFilter = {"userId": userId};
-      const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
-
-      const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
-
-      success = userUpdateResult != null ? true : false
+        success = userUpdateResult != null ? true : false
+      }
+    } else {
+      success = false;
     }
 
     if (complete && success) {
@@ -194,6 +196,17 @@ const completeShortTermGoal = async (req, res) => {
   }
 };
 
+// Validates that completed goals count would decrement below zero
+const validateUserCompletedGoals = async (countIncrement, userId) => {
+  if (countIncrement > 0) {
+    return true;
+  }
+
+  const userFilter = {"userId": userId};
+  const userResult = await UserModel.findOne(userFilter);
+
+  return userResult.goalsCompleted > 0 ? true : false;
+}
 
 const deleteLTG = async (req, res) => {
   const ltgId = req.params;

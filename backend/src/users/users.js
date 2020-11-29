@@ -29,7 +29,7 @@ const addUser = async (req, res) => {
 
   var response;
 
-  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true}).then((doc) => {
+  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true, new: true}).then((doc) => {
     response = {email: doc.email, username: doc.username, goalsCompleted: doc.goalsCompleted, timeMode: doc.timeMode};
     logger.info(doc);
   })
