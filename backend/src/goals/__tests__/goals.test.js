@@ -1,5 +1,4 @@
 const request = require('supertest');
-const admin = require("firebase-admin");
 const server = require('../../index');
 const cossimImport = require('../cossim.js');
 const goalsSugHelperImport = require('../goalsSugHelper');
@@ -187,6 +186,81 @@ describe("Goals integration tests", () => {
       .expect(500)
       .end(done);
   })
+
+  test("should fail to get suggested STG title", async(done) => {
+    const expectedGetCosSimResult = 0.67;
+    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
+    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
+    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn((arrayParamSTG) => arrayParamSTG.push("STG test title"));
+    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
+
+    request(server)
+      .get("/goals/suggestedstg?title=bingo")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(401)
+
+    done();
+  })
+
+    // TO DO: 1. TAKE OUT MOCKS FROM ABOVE TEST 2. DO TESTS BELOW WITHOUT THE MOCKS (U TOOK EM OUT)
+
+  // test("Should successfully get suggested STG title", async(done) => {
+  //   const res = await request(server)
+  //     .get("/goals/suggestedstg?title=bingo")
+  //     .set({ Authorization: "Bearer test"})
+  //     .send()
+  //     .expect(200)
+          
+  //   expect(res.body.answer).toEqual("STG test title");
+
+  //   done();
+  // })
+
+  // test("Should get 400 for wrong title input", async(done) => {
+  //   await request(server)
+  //     .get("/goals/suggestedstg?title=^&")
+  //     .set({ Authorization: "Bearer test"})
+  //     .send()
+  //     .expect(400)
+      
+  //   done();
+  // })
+
+  // test("Should get success and no-suggestion string since no LTG titles", async(done) => {
+  //   const res = await request(server)
+  //     .get("/goals/suggestedstg?title=bingo")
+  //     .set({ Authorization: "Bearer test"})
+  //     .send()
+  //     .expect(200)
+          
+  //   expect(res.body.answer).toEqual("No suggested short term goal.");
+
+  //   done();
+  // })
+
+  // test("Should get success and no-suggestion string since no STG titles", async(done) => {
+  //   const res = await request(server)
+  //     .get("/goals/suggestedstg?title=bingo")
+  //     .set({ Authorization: "Bearer test"})
+  //     .send()
+  //     .expect(200)
+          
+  //   expect(res.body.answer).toEqual("No suggested short term goal.");
+
+  //   done();
+  // })
+
+  // test("Should fail to get string because error occurred", async(done) => {
+  //   await request(server)
+  //     .get("/goals/suggestedstg?title=bingo")
+  //     .set({ Authorization: "Bearer test"})
+  //     .send()
+  //     .expect(500)
+
+  //   done();
+  // })
+
 })
 
 describe("Unauthorized Goals Tests", () => {
@@ -238,118 +312,5 @@ describe("Unauthorized Goals Tests", () => {
       .end(done);
   })
 
-  test("should fail to get suggested STG title", async(done) => {
-    const expectedGetCosSimResult = 0.67;
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn((arrayParamSTG) => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(401)
-
-    done();
-  })
 })
 
-describe("Complex logic endpoint", () => {
-
-  beforeEach(async () => {
-    admin.auth().verifyIdToken = jest.fn(() => new Promise((resolve) => {
-      resolve({
-        email: "tests"
-      });
-    }));
-  });
-
-  afterAll(async () => {
-    await server.shutdown();
-  })
-
-  const expectedGetCosSimResult = 0.67;
-
-  test("Should successfully get suggested STG title", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    const res = await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-          
-    expect(res.body.answer).toEqual("STG test title");
-
-    done();
-  })
-
-  test("Should get 400 for wrong title input", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => false);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    await request(server)
-      .get("/goals/suggestedstg?title=^&")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(400)
-      
-    done();
-  })
-
-  test("Should get success and no-suggestion string since no LTG titles", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(() => {});
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    const res = await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-          
-    expect(res.body.answer).toEqual("No suggested short term goal.");
-
-    done();
-  })
-
-  test("Should get success and no-suggestion string since no STG titles", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(() => {});
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    const res = await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-          
-    expect(res.body.answer).toEqual("No suggested short term goal.");
-
-    done();
-  })
-
-  test("Should fail to get string because error occurred", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => {throw new Error("Parameters not string")});
-    
-    await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(500)
-
-    done();
-  })
-
-})
