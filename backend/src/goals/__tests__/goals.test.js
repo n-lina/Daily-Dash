@@ -319,10 +319,11 @@ describe("Complex logic endpoint", () => {
   })
 
   test("Should get success and no-suggestion string since no STG titles", async(done) => {
+    const expectedGetCosSimResult = .67;
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(() => {});
-    cossimImport.getCosSim = jest.fn(() => .67);
+    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
 
     const res = await request(server)
       .get("/goals/suggestedstg?title=bingo")

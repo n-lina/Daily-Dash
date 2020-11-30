@@ -9,19 +9,7 @@ const GoalModel = require("../models/goals");
 
 var   cacheLTGsArray = [];
 global.GlobalcacheLTGsArray = cacheLTGsArray;
-// const maxLTGsInArray = 50;
-// const intervalRepopulatingTempLTGArray = 3000; // milliseconds
 
-// call repopulateCacheLTGArray once upon database startup to ensure it is populated before it is used elsewhere
-// var done = false;
-// if (!done) {
-//     done = true;
-//     goalsHelper.repopulateCacheLTGArray(maxLTGsInArray, cacheLTGsArray);
-// }
-
-// setInterval(function() { 
-//   goalsHelper.repopulateCacheLTGArray(maxLTGsInArray, cacheLTGsArray) 
-// }, intervalRepopulatingTempLTGArray);
 
 /*
   Functions for database access
