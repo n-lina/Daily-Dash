@@ -108,7 +108,7 @@ export const AwardsScreen = observer(function AwardsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "star", type: "font-awesome", color: 'gold', size: 23 }}
+            icon={{ name: "star", type: "font-awesome", color: "gold", size: 23 }}
             // onPress={() => console.log("Works!")}
             // overlayContainerStyle={styles.background}
             // activeOpacity={0.7}

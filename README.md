@@ -1,6 +1,6 @@
 # DailyDash
 
-## To change your life, change your daily habits. 
+## To change your life, change your daily habits 
 
 We, Lina Nguyen, Jeremy Wiens, Harry Yao, and Pawel Mirski, truly believe that small efforts everyday can accumulate to yield life-changing results. Armed with this core belief, we created Daily Dash to empower **users across all walks of life** to achieve their goals, whether its to become skilled at public speaking or to adopt a healthier diet. 
 
@@ -33,14 +33,14 @@ From the profile screen shown in the first row, users can access their awards an
 ### Technologies Used
 
 #### Backend 
-- MongoDB
-- NodeJS 
+-  MongoDB
+-  NodeJS 
 
 #### Frontend 
-- React Native 
-- Ignite CLI 
-- TypeScript 
-- Android
+-  React Native 
+-  Ignite CLI 
+-  TypeScript 
+-  Android
 
 ### Main Components 
 
@@ -54,12 +54,12 @@ From the profile screen shown in the first row, users can access their awards an
 
 ### Testing 
 
-#### Backend 
+#### Testing on Backend 
 
-#### Frontend 
-- Detox 
+#### Testing on Frontend 
+-  Detox 
 end to end tests
 
 #### Full Stack 
-- Codacy
+-  Codacy
 

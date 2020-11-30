@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TextStyle, View, ViewStyle, StyleSheet, TextInput, Dimensions } from "react-native";
-import {Avatar} from "react-native-elements"
+import { Avatar } from "react-native-elements";
 import { color, typography, spacing } from "../../theme";
 import { Text, StTimeSlotForm } from "../";
 import { StGoalForm, useStores } from "../../models";
@@ -9,8 +9,7 @@ import { observer } from "mobx-react-lite";
 // const borderColor = "#737373";
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
-const windowWidth = Dimensions.get('window').width;
-
+const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -18,10 +17,10 @@ const styles = StyleSheet.create({
     width: 120
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomLeftRadius: 100,
-    borderBottomRightRadius: 100, 
-    borderTopLeftRadius: 100, 
+    borderBottomRightRadius: 100,
+    borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
     // width:50,
     // height:50,
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 25,
-    textAlign: 'center'
+    textAlign: "center"
   },
   flexStart: {
     justifyContent: "flex-start"
@@ -43,15 +42,15 @@ const styles = StyleSheet.create({
   // },
   buttonPanel: {
     alignContent: "center",
-    justifyContent: "center",
     flexDirection: "row",
+    justifyContent: "center",
     width: windowWidth
     // justifyContent: 'space-between',
   },
   times: {
     alignContent: "center",
-    width: windowWidth, 
-    alignItems: "center"
+    alignItems: "center",
+    width: windowWidth
   },
   textInput: {
     fontSize: 16,
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
 
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
-  alignContent: "center", 
+  alignContent: "center",
   alignItems: "center"
 };
 
@@ -94,14 +93,14 @@ export interface StGoalProps {
 
 export interface myTimesList {
   timesList: any
-  timeMode: number 
+  timeMode: number
   stgIndex: number
 }
 const TimesView = observer((props: myTimesList) => (
   <View style={styles.times}>
     {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} stgIndex={props.stgIndex} timeMode={props.timeMode}/>))}
- </View>
-))
+  </View>
+));
 
 /**
  * Describe your component here
@@ -121,7 +120,7 @@ export function StGoal(props: StGoalProps) {
     setTimeout(() => {
       setLoading(false);
     }, 1);
-  }, [LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length-1].timeForm.length]);
+  }, [LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length - 1].timeForm.length]);
 
   return (
     <View style={CONTAINER}>

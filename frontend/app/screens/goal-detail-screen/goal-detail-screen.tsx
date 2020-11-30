@@ -12,7 +12,7 @@ const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
 const lightseagreen = "#616F6C";
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   black: {
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     color: lightseagreen,
     fontSize: 17,
     fontStyle: "italic",
-    width: windowWidth-24,
-    textAlign: 'center'
+    textAlign: "center",
+    width: windowWidth - 24
   },
   fixToText: {
     flexDirection: "row",
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    color: "white",
     flex: 1,
     fontSize: 32,
-    textAlign: "center",
-    color: 'white'
+    textAlign: "center"
   },
   image: {
-    marginTop: 12, 
     height: 50,
+    marginTop: 12,
     width: 50,
   },
   item: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    width: windowWidth-24,
+    width: windowWidth - 24,
   },
   separator: {
     borderBottomColor: borderColor,
@@ -110,7 +110,7 @@ const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   marginTop: spacing[5],
-  width: windowWidth-24,
+  width: windowWidth - 24,
 };
 const TITLE: TextStyle = {
   ...TEXT,
@@ -119,7 +119,7 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
-  textTransform: 'capitalize'
+  textTransform: "capitalize"
 };
 
 const FULL: ViewStyle = {
@@ -127,22 +127,22 @@ const FULL: ViewStyle = {
 };
 
 interface DetailFormProps {
-  purpose: 'user' | 'common'
+  purpose: "user" | "common"
 }
 
-const GetImage = ((props: DetailFormProps) => {
-  if (props.purpose === 'user') {
-    return <Image 
-              source={require("../../../assets/hiking.png")} 
-              style={styles.image} 
-            />
+const GetImage = (props: DetailFormProps) => {
+  if (props.purpose === "user") {
+    return <Image
+      source={require("../../../assets/hiking.png")}
+      style={styles.image}
+    />;
   } else {
-    return <Image 
-              source={require("../../../assets/boot.png")} 
-              style={styles.image} 
-            />
+    return <Image
+      source={require("../../../assets/boot.png")}
+      style={styles.image}
+    />;
   }
-});
+};
 
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { goalsStore, dailyGoalStore, userStore, LtGoalFormStore } = useStores();
@@ -151,9 +151,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { id } = route.params as Goal;
   const { purpose } = (route.params as DetailFormProps);
   let myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
-  if (purpose == "common"){
+  if (purpose == "common") {
     myGoal = goalsStore.listOfGoals.filter(goal => goal.id == id)[0];
-  } 
+  }
   const { LTgoal, description, STgoals } = myGoal;
 
   function addThisGoal() {
@@ -172,7 +172,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     });
     navigation.navigate("allGoals");
   }
-  
+
   const createTwoButtonAlert = () =>
     Alert.alert(
       "Delete Goal",
@@ -194,16 +194,16 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     LtGoalFormStore.setId(id);
     LtGoalFormStore.setDescription(description);
 
-    for (const currStg of STgoals){
-      let timeSlots = []
+    for (const currStg of STgoals) {
+      const timeSlots = [];
       for (const day of [[currStg.mon, "mon"], [currStg.tue, "tue"], [currStg.wed, "wed"], [currStg.thu, "thu"], [currStg.fri, "fri"], [currStg.sat, "sat"], [currStg.sun, "sun"]]) {
         const arr = day[0] as number[];
         const weekday = day[1] as string;
         arr.forEach(element => {
-          timeSlots.push({day: weekday, hour: (Math.floor(element/60)).toString(), min:(element%60).toString()})
+          timeSlots.push({ day: weekday, hour: (Math.floor(element / 60)).toString(), min: (element % 60).toString() });
         });
       }
-      LtGoalFormStore.addComplexSTG(currStg.title, currStg.id, timeSlots)
+      LtGoalFormStore.addComplexSTG(currStg.title, currStg.id, timeSlots);
     }
 
     navigation.navigate("goalForm", { purpose: "edit" });
@@ -219,13 +219,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const sunday = [];
 
   for (const goal of STgoals) {
-    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id])
-    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id])
-    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id])
-    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id])
-    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id])
-    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id])
-    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id])
+    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id]);
+    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id]);
   }
 
   if (monday.length > 0) {
@@ -257,7 +257,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       title: "Friday",
       data: friday.sort(sortFunction)
     });
-    console.log(allSTGoals)
+    console.log(allSTGoals);
   }
   if (saturday.length > 0) {
     allSTGoals.push({
@@ -281,10 +281,10 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   }
 
   const Item = ({ title }) => {
-    const timeStr = getDisplayTime(userStore.timeMode, title[0])
+    const timeStr = getDisplayTime(userStore.timeMode, title[0]);
     return (
       <View style={styles.item}>
-        <Text style={{...styles.black, maxWidth: 190}}>{title[1]}</Text>
+        <Text style={{ ...styles.black, maxWidth: 190 }}>{title[1]}</Text>
         <Text style={styles.right}>{timeStr}</Text>
       </View>
     );
@@ -313,7 +313,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             )}
           />
         </SafeAreaView>
-        { purpose == "common" && 
+        { purpose == "common" &&
           <Button
             testID="addCommonGoalButton"
             style={styles.button}
@@ -321,19 +321,19 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             textStyle={styles.buttonText}
             onPress={() => addThisGoal()}
           />}
-        { purpose == "user" && 
+        { purpose == "user" &&
           <View style={styles.fixToText}>
-          <Button
-            testID="editGoalButton"
-            text="EDIT"
-            onPress={() => editThisGoal()}
-          />
-          <Button
-            testID="deleteGoalButton"
-            text="DELETE"
-            onPress={createTwoButtonAlert}
-          />
-        </View>}
+            <Button
+              testID="editGoalButton"
+              text="EDIT"
+              onPress={() => editThisGoal()}
+            />
+            <Button
+              testID="deleteGoalButton"
+              text="DELETE"
+              onPress={createTwoButtonAlert}
+            />
+          </View>}
       </Screen>
     </View>
   );

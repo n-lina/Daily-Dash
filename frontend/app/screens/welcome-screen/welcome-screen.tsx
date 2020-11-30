@@ -7,39 +7,39 @@ import { color, spacing, typography } from "../../theme";
 
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const lightseagreen = "#616F6C";
 const background = "#fff";
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 28,
-    textAlign: 'center',
-    color: lightseagreen
-  }, 
-  subheading: {
-    fontSize: 17,
-    textAlign: 'center',
-    color: lightseagreen, 
-    marginTop: spacing[3], 
-    fontStyle: 'italic'
-  },
-  image: {
-    width: windowWidth,
-    height: windowWidth,
-    alignContent: "center", 
-    alignItems: "center",
-  }, 
-  image2: {
-    marginTop: spacing[6],
-    width: 250,
-    height: 75
-  },
   button: {
     backgroundColor: aqua
+  },
+  heading: {
+    color: lightseagreen,
+    fontSize: 28,
+    textAlign: "center"
+  },
+  image: {
+    alignContent: "center",
+    alignItems: "center",
+    height: windowWidth,
+    width: windowWidth,
+  },
+  image2: {
+    height: 75,
+    marginTop: spacing[6],
+    width: 250
+  },
+  subheading: {
+    color: lightseagreen,
+    fontSize: 17,
+    fontStyle: "italic",
+    marginTop: spacing[3],
+    textAlign: "center"
   }
-})
+});
 
 const FULL: ViewStyle = { flex: 1, width: windowWidth };
 const CONTAINER: ViewStyle = {
@@ -57,8 +57,8 @@ const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   // marginTop: spacing[5],
-  backgroundColor: background, 
-  marginTop: spacing[7], 
+  backgroundColor: background,
+  marginTop: spacing[7],
   // marginBottom: spacing[3]
 };
 const TITLE: TextStyle = {
@@ -75,13 +75,13 @@ const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
   fontSize: 20,
   letterSpacing: 2,
-  color: 'white'
+  color: "white"
 };
 const FOOTER_CONTENT: ViewStyle = {
   marginBottom: spacing[6],
   marginTop: spacing[5],
   // paddingHorizontal: spacing[4],
-  backgroundColor: background, 
+  backgroundColor: background,
   alignItems: "center"
 };
 
@@ -105,7 +105,7 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
             onPress={nextScreen}
           />
           <Image source={require("../../../assets/running.png")} style={styles.image2} />
-      </View>
+        </View>
       </Screen>
     </View>
   );

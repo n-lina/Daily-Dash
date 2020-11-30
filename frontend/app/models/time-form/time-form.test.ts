@@ -1,7 +1,7 @@
-import { TimeFormModel, TimeForm } from "./time-form"
+import { TimeFormModel, TimeForm } from "./time-form";
 
 test("can be created", () => {
-  const instance: TimeForm = TimeFormModel.create({})
+  const instance: TimeForm = TimeFormModel.create({});
 
-  expect(instance).toBeTruthy()
-})
+  expect(instance).toBeTruthy();
+});

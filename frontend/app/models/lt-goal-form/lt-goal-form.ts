@@ -32,12 +32,12 @@ export const LtGoalFormModel = types
       myGoal.addThisTimeSlot(day, hr, min);
       self.STgoalForm.push(myGoal);
     },
-    addComplexSTG(title: string, id = "", timeSlots: Array<{day: string, hour: string, min: string}>)  {
+    addComplexSTG(title: string, id = "", timeSlots: Array<{day: string, hour: string, min: string}>) {
       const myGoal = StGoalFormModel.create();
       myGoal.setID(id);
       myGoal.setTitle(title);
       // myGoal.addThisTimeSlot(day, hr, min);
-      for(let i=0; i<timeSlots.length; i++){
+      for (let i = 0; i < timeSlots.length; i++) {
         if (timeSlots[i].min.length === 1) timeSlots[i].min = "0" + timeSlots[i].min;
         myGoal.addThisTimeSlot(timeSlots[i].day, timeSlots[i].hour, timeSlots[i].min);
       }
@@ -49,9 +49,9 @@ export const LtGoalFormModel = types
       self.STgoalForm.push(freshStGoal);
     },
     deleteSTgoal(key: number) {
-      if (self.STgoalForm.length > 1){
-        self.STgoalForm.splice(key,1)
-      } 
+      if (self.STgoalForm.length > 1) {
+        self.STgoalForm.splice(key, 1);
+      }
     },
     // submitData() {
     //   console.log("-------------------");

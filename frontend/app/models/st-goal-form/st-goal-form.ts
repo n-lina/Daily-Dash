@@ -29,7 +29,7 @@ export const StGoalFormModel = types
       myTimeSlot.setHour(hr);
       myTimeSlot.setMin(min);
       // myTimeSlot.setMeridiem("am");
-      self.timeForm.push(myTimeSlot)
+      self.timeForm.push(myTimeSlot);
     },
     deleteTimeSlot() {
       if (self.timeForm.length > 1) self.timeForm.pop();
