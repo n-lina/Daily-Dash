@@ -236,4 +236,22 @@ const deleteLTG = async (req, res) => {
   }
 };
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG}
+const maxLTGsInArray = 50;
+const intervalRepopulatingTempLTGArray = 3000; // milliseconds
+
+// call repopulateCacheLTGArray once upon database startup to ensure it is populated before it is used elsewhere
+var done = false;
+if (!done) {
+    done = true;
+    repopulateCacheLTGArray();
+}
+
+setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArray);
+
+async function repopulateCacheLTGArray() {
+  let countLTGs = await GoalModel.countDocuments({});
+  let numLTGsToSample = countLTGs<=maxLTGsInArray ? countLTGs : maxLTGsInArray;
+  global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
+}
+
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray}
