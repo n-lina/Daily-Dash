@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, Alert, SafeAreaView, Dimensions } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView, Dimensions, Alert } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
@@ -11,13 +11,21 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 const borderColor = "#737373";
 const white = "#fff";
 const black = "#000";
-const windowWidth = Dimensions.get('window').width;
-
 const lightseagreen = "#616F6C";
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   black: {
     color: black
+  },
+  button: {
+    backgroundColor: "#008080",
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    marginLeft: 10,
+    marginRight: 10,
   },
   buttonText: {
     fontSize: 15,
@@ -26,8 +34,8 @@ const styles = StyleSheet.create({
     color: lightseagreen,
     fontSize: 17,
     fontStyle: "italic",
-    textAlign: 'center',
     width: windowWidth-24,
+    textAlign: 'center'
   },
   fixToText: {
     flexDirection: "row",
@@ -45,11 +53,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 32,
     textAlign: "center",
-    color: 'white', 
+    color: 'white'
   },
   image: {
-    height: 75,
-    width: 75,
+    marginTop: 12, 
+    height: 50,
+    width: 50,
   },
   item: {
     backgroundColor: white,
@@ -89,6 +98,7 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
+const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -109,22 +119,73 @@ const TITLE: TextStyle = {
   lineHeight: 38,
   textAlign: "center",
   marginBottom: spacing[5],
-  textTransform: "capitalize"
+  textTransform: 'capitalize'
 };
 
 const FULL: ViewStyle = {
   flex: 1
 };
 
-export const GoalDetailScreen = observer(function GoalDetailScreen() {
-  const { LtGoalFormStore, goalsStore, dailyGoalStore, userStore } = useStores();
+interface DetailFormProps {
+  purpose: 'user' | 'common'
+}
 
+const GetImage = ((props: DetailFormProps) => {
+  if (props.purpose === 'user') {
+    return <Image 
+              source={require("../../../assets/hiking.png")} 
+              style={styles.image} 
+            />
+  } else {
+    return <Image 
+              source={require("../../../assets/boot.png")} 
+              style={styles.image} 
+            />
+  }
+});
+
+export const GoalDetailScreen = observer(function GoalDetailScreen() {
+  const { goalsStore, dailyGoalStore, userStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
   const route = useRoute();
   const { id } = route.params as Goal;
-
-  const myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
+  const { purpose } = (route.params as DetailFormProps);
+  let myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
+  if (purpose == "common"){
+    myGoal = goalsStore.listOfGoals.filter(goal => goal.id == id)[0];
+  } 
   const { LTgoal, description, STgoals } = myGoal;
+
+  function addThisGoal() {
+    goalsStore.postLTgoal(LTgoal, description, STgoals).then(res => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
+
+    navigation.navigate("allGoals");
+  }
+
+  function deleteThisGoal() {
+    goalsStore.deleteLTgoal(id).then(() => {
+      goalsStore.getAllGoals();
+      dailyGoalStore.getGoalsForDay(getDay(true));
+    });
+    navigation.navigate("allGoals");
+  }
+  
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Delete Goal",
+      "This cannot be undone.",
+      [
+        {
+          text: "No",
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => deleteThisGoal() }
+      ],
+      { cancelable: false }
+    );
 
   function editThisGoal() {
     LtGoalFormStore.clearForm();
@@ -211,14 +272,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     });
   }
 
-  function deleteThisGoal() {
-    goalsStore.deleteLTgoal(id).then(() => {
-      goalsStore.getAllGoals();
-      dailyGoalStore.getGoalsForDay(getDay(true));
-    });
-    navigation.navigate("allGoals");
-  }
-
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
       return 0;
@@ -227,22 +280,8 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     }
   }
 
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Delete Goal",
-      "This cannot be undone.",
-      [
-        {
-          text: "No",
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => deleteThisGoal() }
-      ],
-      { cancelable: false }
-    );
-
   const Item = ({ title }) => {
-    const timeStr = getDisplayTime(userStore.timeMode, title[0]);
+    const timeStr = getDisplayTime(userStore.timeMode, title[0])
     return (
       <View style={styles.item}>
         <Text style={{...styles.black, maxWidth: 190}}>{title[1]}</Text>
@@ -258,8 +297,8 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>
-        < Separator />
-        <Image source={require("../../../assets/hiking.png")} style={styles.image} />
+        {/* < Separator /> */}
+        <GetImage purpose={purpose}/>
         < Separator />
         <Text style={styles.description}> {description} </Text>
         < Separator />
@@ -274,7 +313,16 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             )}
           />
         </SafeAreaView>
-        <View style={styles.fixToText}>
+        { purpose == "common" && 
+          <Button
+            testID="addCommonGoalButton"
+            style={styles.button}
+            text="ADD GOAL"
+            textStyle={styles.buttonText}
+            onPress={() => addThisGoal()}
+          />}
+        { purpose == "user" && 
+          <View style={styles.fixToText}>
           <Button
             testID="editGoalButton"
             text="EDIT"
@@ -285,7 +333,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             text="DELETE"
             onPress={createTwoButtonAlert}
           />
-        </View>
+        </View>}
       </Screen>
     </View>
   );

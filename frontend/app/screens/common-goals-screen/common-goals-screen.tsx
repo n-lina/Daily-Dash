@@ -83,7 +83,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   // Pull in one of our MST stores
   const { goalsStore } = useStores();
   const navigation = useNavigation();
-  const getSpecificGoal = (goal) => navigation.navigate("commonGoalDetail", { id: goal.id });
+  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "common" });
 
   const renderGoal = ({ item }) => {
     const title: string = item.LTgoal;

@@ -6,7 +6,7 @@
 import React from "react";
 
 // import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { GoalDetailScreen, LtgoalsScreen, CommonGoalsScreen, CommonGoalDetailScreen, GoalFormScreen } from "../screens";
+import { GoalDetailScreen, LtgoalsScreen, CommonGoalsScreen, GoalFormScreen } from "../screens";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 
 /**
@@ -23,10 +23,9 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack";
  */
 
 export type RootParamList = {
-    goalDetail: undefined
-    allGoals: undefined
+    goalDetail: { purpose: 'user' | 'common' }
+    allGoals: { purpose: 'user' | 'common' }
     commonGoals: undefined
-    commonGoalDetail: undefined
     goalForm: { purpose: 'add' | 'edit' };
   }
 
@@ -47,7 +46,7 @@ export function GoalsNavigator() {
         name="allGoals"
         component={LtgoalsScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -63,13 +62,6 @@ export function GoalsNavigator() {
       <Stack.Screen
         name="commonGoals"
         component={CommonGoalsScreen}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        name="commonGoalDetail"
-        component={CommonGoalDetailScreen}
         options={{
           headerShown: false
         }}
