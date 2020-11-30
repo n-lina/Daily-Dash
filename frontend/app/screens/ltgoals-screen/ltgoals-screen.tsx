@@ -92,7 +92,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
   // Pull in navigation via hook
   const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
-  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id });
+  const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "user" });
 
   const [refreshing, setRefreshing] = useState(false);
 
