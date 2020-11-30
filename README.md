@@ -33,14 +33,14 @@ From the profile screen shown in the first row, users can access their awards an
 ### Technologies Used
 
 #### Backend 
-  - MongoDB
-  - NodeJS 
+-   MongoDB
+-   NodeJS 
 
 #### Frontend 
-  - React Native 
-  - Ignite CLI 
-  - TypeScript 
-  - Android
+-   React Native 
+-   Ignite CLI 
+-   TypeScript 
+-   Android
 
 ### Main Components 
 
@@ -57,9 +57,9 @@ From the profile screen shown in the first row, users can access their awards an
 #### Testing on Backend 
 
 #### Testing on Frontend 
-  - Detox 
+-   Detox 
 end to end tests
 
 #### Full Stack 
-  - Codacy
+-   Codacy
 
