@@ -268,12 +268,13 @@ describe("Complex logic endpoint", () => {
     await server.shutdown();
   })
 
+  const expectedGetCosSimResult = .67;
 
   test("Should successfully get suggested STG title", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => .67);
+    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
 
     const res = await request(server)
       .get("/goals/suggestedstg?title=bingo")
@@ -290,7 +291,7 @@ describe("Complex logic endpoint", () => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => false);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => .67);
+    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
 
     await request(server)
       .get("/goals/suggestedstg?title=^&")
@@ -305,7 +306,7 @@ describe("Complex logic endpoint", () => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(() => {});
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => .67);
+    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
 
     const res = await request(server)
       .get("/goals/suggestedstg?title=bingo")
@@ -319,7 +320,6 @@ describe("Complex logic endpoint", () => {
   })
 
   test("Should get success and no-suggestion string since no STG titles", async(done) => {
-    const expectedGetCosSimResult = .67;
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(() => {});
