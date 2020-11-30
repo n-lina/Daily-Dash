@@ -239,7 +239,7 @@ describe("Unauthorized Goals Tests", () => {
   })
 
   test("should fail to get suggested STG title", async(done) => {
-    const expectedGetCosSimResult = .67;
+    const expectedGetCosSimResult = 0.67;
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn((arrayParamSTG) => arrayParamSTG.push("STG test title"));
