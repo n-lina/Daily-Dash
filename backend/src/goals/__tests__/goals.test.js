@@ -269,7 +269,7 @@ describe("Complex logic endpoint", () => {
     await server.shutdown();
   })
 
-  const expectedGetCosSimResult = .67;
+  const expectedGetCosSimResult = 0.67;
 
   test("Should successfully get suggested STG title", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
