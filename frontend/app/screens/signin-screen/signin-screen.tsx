@@ -99,7 +99,7 @@ export const SigninScreen = observer(function SigninScreen() {
   }
 
   const testSignIn = () => {
-    auth().signInWithEmailAndPassword("testuser2@testy.com", "123456").then(res => {
+    auth().signInWithEmailAndPassword("testuser3@testy.com", "123456").then(res => {
       res.user.getIdToken(true).then(() => {
         userStore.postUser("Bob sagget test user", res.user.email, res.user.uid);
       });

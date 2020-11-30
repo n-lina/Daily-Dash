@@ -24,7 +24,9 @@ describe("Awards", () => {
   })
 
   it("should have no awards", async () => {
-    await expect(element(by.id("awardsString"))).toHaveText("0 awards")
+    await element(by.id("profileTabButton")).tap()
+    await expect(element(by.id("profileScreenWrap"))).toBeVisible()
+    await expect(element(by.id("awardsString"))).toHaveText("0 Awards")
   })
 
   it("should see default award on screen", async () => {
