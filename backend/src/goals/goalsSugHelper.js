@@ -8,19 +8,19 @@ const GoalModel = require('../models/goals');
  * @modifies  nothing
  */
 function checkHasWords(stringParam) {
-  let str = stringParam;  // unsure if pass by refernce in JS, so jsut in case...
+  let str = stringParam;
   let returnVal = false;
-  if (!str || 0 === str.length) {  // check if string is empty, null or undefined
-    returnVal = false;  // if string is null, returns false
+  if (!str || 0 === str.length) {
+    returnVal = false;
   }
-  else {  // check if empty
+  else {
     str = str
-      .replace(/[^\w\s]|_/g, "") // deletes all but digits, letters, and whitespace
-      .replace(/\s+/g, " ")      // make uniform white space usage
-      .toLowerCase()             // make uniform case for comparison
-    returnVal = !(str == ""); // if string not empty, returnVal is true
+      .replace(/[^\w\s]|_/g, "")
+      .replace(/\s+/g, " ")
+      .toLowerCase()
+    returnVal = !(str == "");
   }
-  return returnVal; // if string not null or empty, returns true
+  return returnVal;
 }
 
 /*
@@ -31,7 +31,7 @@ function checkHasWords(stringParam) {
  * @modifies nothing
  */
 function checkMinimumOneNonemptySTGTitle(arrayParam) {
-  let stgArray = arrayParam;  // create local copy to not modify original array
+  let stgArray = arrayParam;
   let boolTrueIfOneEmpty = false;
   for (var i = 0; i < stgArray.length; i++) {
     if (checkHasWords(stgArray[i].title)) {
@@ -45,16 +45,15 @@ function checkMinimumOneNonemptySTGTitle(arrayParam) {
 * Fills parameter array with all valid LTG titles
 * i.e. those with a valid title and at least 1 STG with valid title
 * @param    arrayParam is the array to be filled
-* @param    cacheLTGsArray_ is an array containing a cache of LTG goals
 * @return   nothing
 * @modifies arrayParam
 */
-function fillArrayWithValidLTGtitles(arrayParam, cacheLTGsArray_) {
-    if (cacheLTGsArray_ !== null) {  // ensure there is >0 LTG
-      cacheLTGsArray_.forEach(function (item) { 
+function fillArrayWithValidLTGtitles(arrayParam) {
+    if (global.GlobalcacheLTGsArray  !== null) { 
+      global.GlobalcacheLTGsArray .forEach(function (item) { 
         if (checkHasWords(item.title) === true && item.shortTermGoals !== null &&
           checkMinimumOneNonemptySTGTitle(item.shortTermGoals)) {
-          arrayParam.push(item.title); // ensure only add LTGs with a valid title and at least 1 STG with valid title
+          arrayParam.push(item.title);
         }
       });
     }
@@ -71,7 +70,7 @@ function fillArrayWithValidLTGtitles(arrayParam, cacheLTGsArray_) {
 async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle) {
   await GoalModel.findOne({ title: highestCossimLTGTitle },
     function (err, docs) {
-      if (docs !== null) {  // ensure there is >0 LTG
+      if (docs !== null) {
         docs.shortTermGoals.forEach(function (item) {
           if (checkHasWords(item.title)) {
             arrayParamSTG.push(item.title);
