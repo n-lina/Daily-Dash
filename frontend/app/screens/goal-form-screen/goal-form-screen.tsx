@@ -1,4 +1,4 @@
-import React, { Props, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -214,19 +214,30 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   };
   purpose.charAt(0).toUpperCase() + purpose.slice(1);
 
-  const createTwoButtonAlert = (message: string) =>
-    Alert.alert(
-      "Suggestion: ",
-      message,
-      [
-        {
-          text: "Dismiss",
-          style: "cancel"
-        },
-        { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "") }
-      ],
-      { cancelable: false }
-    );
+  const NO_SUGGESTION = "No suggested short term goal";
+
+  const shortTermGoalAlreadyPresent = (message: string) => {
+    return LtGoalFormStore.STgoalForm.filter(g => g.title === message).length > 0
+  }
+
+  const createTwoButtonAlert = (message: string) => {
+    if (!message || message.includes(NO_SUGGESTION) || shortTermGoalAlreadyPresent(message)) {
+      Alert.alert("Sorry, no available suggestion", null, [{text: "Dismiss", style: "cancel"}],);
+    } else {
+      Alert.alert(
+        "Suggestion: ",
+        message,
+        [
+          {
+            text: "Dismiss",
+            style: "cancel"
+          },
+          { text: "Add", onPress: () => LtGoalFormStore.initSTgoals(message, getDay(true), "", "", "") }
+        ],
+        { cancelable: false }
+      );
+    }
+  };
 
   async function getSuggestion() {
     await goalsStore.getSTsuggestion(LtGoalFormStore.title);

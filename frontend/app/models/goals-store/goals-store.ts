@@ -110,7 +110,7 @@ const commonGoals: Goal[] = [{
 {
   id: "9",
   LTgoal: "Meet new people",
-  STgoals: cast([{ id: "Attend a local event", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Attend a local event", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Look into clubs to join", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Start a conversation with a new person", mon: [100], tue: [30], wed: [4] },
   ]),
@@ -119,7 +119,7 @@ const commonGoals: Goal[] = [{
 {
   id: "10",
   LTgoal: "Read more books",
-  STgoals: cast([{ id: "Go to the library or bookstore", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Go to the library or bookstore", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Find new books to read", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Read for 30 minutes", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Reflect on my readings", mon: [100], tue: [30], wed: [4] },
@@ -129,7 +129,7 @@ const commonGoals: Goal[] = [{
 {
   id: "11",
   LTgoal: "Give back to my community",
-  STgoals: cast([{ id: "Donate to charity", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Donate to charity", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Look into volunteering opportunities", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Volunteer!", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Help out a friend or neighbor", mon: [100], tue: [30], wed: [4] },
@@ -141,7 +141,7 @@ const commonGoals: Goal[] = [{
 {
   id: "12",
   LTgoal: "Be stronger by building muscle",
-  STgoals: cast([{ id: "Sleep more", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Sleep more", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Drink a protein shake", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Prepare meals for my week", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Break day", mon: [100], tue: [30], wed: [4] },
@@ -152,7 +152,7 @@ const commonGoals: Goal[] = [{
 {
   id: "13",
   LTgoal: "Practice mindfulness",
-  STgoals: cast([{ id: "Meditate", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Meditate", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Take deep breaths", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Notice 3 things about the present moment", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Journal about my day", mon: [100], tue: [30], wed: [4] },
@@ -164,7 +164,7 @@ const commonGoals: Goal[] = [{
 {
   id: "14",
   LTgoal: "Take good care of myself",
-  STgoals: cast([{ id: "Check in with myself", title: "", mon: [100], tue: [30], wed: [4] },
+  STgoals: cast([{ id: "", title: "Check in with myself", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Take deep breaths", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Journal", mon: [100], tue: [30], wed: [4] },
     { id: "", title: "Take a 30 minute walk", mon: [100], tue: [30], wed: [4] },
@@ -254,9 +254,11 @@ export const GoalsStoreModel = types
           self.setSuggestion(res.suggestion);
           __DEV__ && console.log("Got ST goal suggestion");
         } else {
+          self.setSuggestion(null);
           __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
+        self.setSuggestion(null);
         __DEV__ && console.error(err);
       });
     },
