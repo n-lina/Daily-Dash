@@ -101,7 +101,7 @@ export const UserStoreModel = types
       if (Math.log2(self.goalsCompleted) % 1 == 0){
         Alert.alert(
           "🎉 Level Up !! 🎉",
-          `You are now on Level ${self.getLevel()} ! Keep up the great work.`,
+          `You are now on Level ${self.getLevel()}! 🔥 Keep up the great work.`,
           // [
           //   {
           //     text: "No",
@@ -117,7 +117,7 @@ export const UserStoreModel = types
         const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length-1].title : "Getting Started ..."
         Alert.alert(
           "🎉 Congratulations !! 🎉",
-          `You just earned the "${myTitle}" award! Keep it up!.`,
+          `You just earned the "${myTitle}" award! ⭐ Keep it up! ⭐`,
           // [
           //   {
           //     text: "No",

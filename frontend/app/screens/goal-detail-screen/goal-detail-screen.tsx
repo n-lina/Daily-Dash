@@ -7,6 +7,7 @@ import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
+import { palette } from "../../theme/palette";
 
 const borderColor = "#737373";
 const white = "#fff";
@@ -106,6 +107,10 @@ const HEADER: TextStyle = {
   paddingHorizontal: 0,
 };
 
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
+};
+
 const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
@@ -144,6 +149,7 @@ const GetImage = (props: DetailFormProps) => {
   }
 };
 
+
 export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { goalsStore, dailyGoalStore, userStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
@@ -152,9 +158,15 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { purpose } = (route.params as DetailFormProps);
   let myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
   if (purpose == "common") {
-    myGoal = goalsStore.listOfGoals.filter(goal => goal.id == id)[0];
+    myGoal = goalsStore.getCommonGoals().filter(goal => goal.id == id)[0];
   }
   const { LTgoal, description, STgoals } = myGoal;
+
+  let onBackPress = () => navigation.navigate("allGoals");
+
+  if (purpose == "common") {
+    onBackPress = () => navigation.navigate("commonGoals");
+  }
 
   function addThisGoal() {
     goalsStore.postLTgoal(LTgoal, description, STgoals).then(res => {
@@ -219,13 +231,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const sunday = [];
 
   for (const goal of STgoals) {
-    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id]);
+    if (goal.mon) for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id]);
+    if (goal.tue) for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id]);
+    if (goal.wed) for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id]);
+    if (goal.thu) for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id]);
+    if (goal.fri) for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id]);
+    if (goal.sat) for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id]);
+    if (goal.sun) for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id]);
   }
 
   if (monday.length > 0) {
@@ -293,7 +305,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>

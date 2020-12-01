@@ -8,6 +8,7 @@ import { color, spacing, typography } from "../../theme";
 import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { palette } from "../../theme/palette";
 
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
@@ -24,6 +25,10 @@ const Separator = () => (
 
 const FULL: ViewStyle = {
   flex: 1
+};
+
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
 };
 
 const TEXT: TextStyle = {
@@ -84,6 +89,8 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   const navigation = useNavigation();
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "common" });
 
+  const onBackPress = () => navigation.navigate("allGoals");
+
   const renderGoal = ({ item }) => {
     const title: string = item.LTgoal;
     const description: string = item.description;
@@ -115,7 +122,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Common Goals   ]" />
         </Text>
@@ -126,7 +133,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
-            data={goalsStore.listOfGoals}
+            data={goalsStore.getCommonGoals()}
             renderItem={renderGoal}
             keyExtractor={(item) => "" + item.id}
             // onRefresh={() => userStore.getAwards()}

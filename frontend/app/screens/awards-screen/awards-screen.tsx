@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Dimensions, FlatList, Image, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { Header, Screen, Text } from "../../components";
-import { useNavigation } from "@react-navigation/native";
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
 import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { palette } from "../../theme/palette";
+import { useNavigation} from "@react-navigation/native";
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -77,26 +78,17 @@ const styles = StyleSheet.create({
   }
 });
 
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
+};
+
 export const AwardsScreen = observer(function AwardsScreen() {
   // Pull in one of our MST stores
   const { userStore } = useStores();
+  const navigation = useNavigation();
 
-  // let myAwards = []
+  const onBackPress = () => navigation.navigate("profile");
 
-  // async function fetchAwards(awardArr: any[]) {
-  //   setRefreshing(true);
-  //   awardArr = await userStore.getAwards()
-  //   console.log(awardArr)
-  //   setRefreshing(false);
-  // };
-
-  // useEffect(() => {
-  //   if (myAwards.length <= 1) { fetchAwards(myAwards); }
-  // }, []);
-  // OR
-  // const rootStore = useStores()
-  const [refreshing, setRefreshing] = useState(false);
-  // Pull in navigation via hook
 
   const renderAward = ({ item }) => {
     const title: string = item.title;
@@ -105,14 +97,10 @@ export const AwardsScreen = observer(function AwardsScreen() {
     return (
       <View>
         <ListItem>
-          {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
             icon={{ name: "star", type: "font-awesome", color: "gold", size: 23 }}
-            // onPress={() => console.log("Works!")}
-            // overlayContainerStyle={styles.background}
-            // activeOpacity={0.7}
-            // containerStyle={{flex: 2, marginTop: 2}}
+
           />
           <ListItem.Content>
             <ListItem.Title>{title}</ListItem.Title>
@@ -129,7 +117,7 @@ export const AwardsScreen = observer(function AwardsScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   My Awards   ]" />
         </Text>
