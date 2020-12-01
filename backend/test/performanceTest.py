@@ -22,7 +22,6 @@ def get_header(token: str) -> dict:
     Returns:
     dict: the headers for the HTTP request
     """
-    
     return {'Content-Type': 'application/json',
            'Authorization': 'Bearer {0}'.format(token)}
 
