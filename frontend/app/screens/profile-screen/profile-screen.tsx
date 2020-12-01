@@ -106,7 +106,7 @@ const LOGOUT_STYLE: ViewStyle = {
 
 export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
-  const { userStore } = useStores();
+  const { userStore, dailyGoalStore, goalsStore } = useStores();
   const level = userStore.getLevel();
   const levelScore = userStore.goalsCompleted;
   const totalLevelScore = userStore.getGoalsForNextLevel();
@@ -121,7 +121,10 @@ export const ProfileScreen = observer(function ProfileScreen() {
   async function signOut() {
     __DEV__ && console.log("signing out");
     try {
-      userStore.signUserOut();
+      userStore.signUserOut().then(res => {
+        dailyGoalStore.clearGoals();
+        goalsStore.clear();
+      })
     } catch (e) {
       __DEV__ && console.log(e);
     }

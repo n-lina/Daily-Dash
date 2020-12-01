@@ -35,7 +35,7 @@ export const DailyGoalStoreModel = types
       self.day = day;
     },
     clearGoals() {
-      self.goals.replace([]);
+      self.goals.clear();
     },
   }))
   .actions((self) => ({
