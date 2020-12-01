@@ -8,7 +8,7 @@ Featuring a fun, games-like points and awards system, push notifications, and a 
 
 Dynamically-rendered forms, the ability to complete any task in less than 5 taps, and the perfect shade of aqua green (#46BFAC!), meticulously selected, all lend to a user-interface that's intuitive, inviting, and above all, inclusive.
 
-With the game-like motivators appealing to younger audiences, the uncomplicated user-interface inviting older users, the flexible forms and push notifications attracting highly self-motivated users, and the option to use 12-hour time or 24-hour time, anyone and everyone will enjoy Daily Dash.  
+With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles. Even more, users can also choose betwen 12-hour time and 24-hour time!    
 
 Never again will New Year's Resolutions be left unfulfilled!
 
