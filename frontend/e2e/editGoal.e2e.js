@@ -1,4 +1,4 @@
-describe("editGoal", () => {
+describe("EditGoal", () => {
     it("should successfully sign in with test user", async () => {
       try {
         // try here because sometimes dev mode needs to load twice?
@@ -26,6 +26,7 @@ describe("editGoal", () => {
     it("should navigate to goals page", async () => {
       await element(by.id("goalsTabButton")).tap()
       await expect(element(by.id("ltgWrap"))).toBeVisible()
+      await expect(element(by.id("ltGoal0"))).toNotExist()
     })
   
     it("should go to add goals page", async () => {
@@ -109,5 +110,6 @@ describe("editGoal", () => {
       await waitFor(element(by.id("ltgWrap")))
         .toExist()
         .withTimeout(1000)
+      await expect(element(by.id("ltGoal0"))).toNotExist()
     })
   })

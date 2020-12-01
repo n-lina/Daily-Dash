@@ -16,11 +16,12 @@ describe("AddGoal", () => {
     }
   })
 
-  it("should show home screen after signing in", async () => {
+  it("should show home screen with no goals present", async () => {
     await waitFor(element(by.id("homeSreenWrap")))
       .toExist()
       .withTimeout(10000)
     await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+    await expect(element(by.id("noGoalsMessage"))).toBeVisible()
   })
 
   it("should navigate to goals page", async () => {
@@ -66,11 +67,16 @@ describe("AddGoal", () => {
       .withTimeout(1000)
   })
 
-  it("should mark goals as complete and be reflected in level and score", async () => {
+  it("should have level zero initially", async () => {
     await element(by.id("profileTabButton")).tap()
     await expect(element(by.id("levelNumber"))).toHaveText("0")
+  })
+
+  it("should mark goals as complete and be reflected in level and score", async () => {
     await element(by.id("homeTabButton")).tap()
-    await expect(element(by.id("goal0"))).toBeVisible()
+    await waitFor(element(by.id("goal0")))
+    .toExist()
+    .withTimeout(1000)
     await element(by.id("goal0")).tap()
     // await waitFor(element(by.text("OK")))
     // .toExist()
@@ -88,7 +94,9 @@ describe("AddGoal", () => {
   })
 
   it("should unmark goals as not complete and be reflected in level and score", async () => {
-    await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+    await waitFor(element(by.id("goal0")))
+    .toExist()
+    .withTimeout(1000)
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
     await element(by.id("profileTabButton")).tap()

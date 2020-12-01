@@ -56,6 +56,10 @@ const TITLE: TextStyle = {
   letterSpacing: 2
 };
 
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
+};
+
 const borderColor = "#737373";
 const background = "#aba";
 
@@ -117,12 +121,12 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   };
 
   // const navigation = useNavigation();
-  // const goBack = () => navigation.goBack();
+  const onBackPress = () => navigation.goBack();
 
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Common Goals   ]" />
         </Text>

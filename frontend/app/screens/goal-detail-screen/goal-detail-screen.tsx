@@ -101,6 +101,10 @@ const TEXT: TextStyle = {
 };
 const BOLD: TextStyle = { fontWeight: "bold" };
 
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
+};
+
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
@@ -282,6 +286,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       title: "Sunday",
       data: sunday.sort(sortFunction)
     });
+    
   }
 
   function sortFunction(a, b) {
@@ -291,6 +296,8 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       return (a[0] < b[0]) ? -1 : 1;
     }
   }
+
+  const onBackPress = () => navigation.goBack();
 
   const Item = ({ title }) => {
     const timeStr = getDisplayTime(userStore.timeMode, title[0]);
@@ -305,7 +312,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>

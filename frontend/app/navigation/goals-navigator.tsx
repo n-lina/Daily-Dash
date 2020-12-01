@@ -72,6 +72,9 @@ export function GoalsNavigator() {
         options={{
           headerShown: false
         }}
+        initialParams={{
+          purpose: "user"
+        }}
       />
     </Stack.Navigator>
   );

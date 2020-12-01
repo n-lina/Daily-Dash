@@ -8,7 +8,6 @@ import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { palette } from "../../theme/palette";
-import { useNavigation} from "@react-navigation/native";
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -49,6 +48,10 @@ const TITLE: TextStyle = {
   textAlign: "center",
   marginBottom: spacing[5],
   letterSpacing: 2
+};
+
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
 };
 
 const borderColor = "#737373";
@@ -111,13 +114,13 @@ export const AwardsScreen = observer(function AwardsScreen() {
     );
   };
 
-  // const navigation = useNavigation();
-  // const goBack = () => navigation.goBack();
+  const navigation = useNavigation();
+  const onBackPress = () => navigation.goBack();
 
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   My Awards   ]" />
         </Text>

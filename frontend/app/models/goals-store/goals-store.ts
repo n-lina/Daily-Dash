@@ -110,6 +110,7 @@ const goalsDatabase: Goal[] = [{
 {
   id: "9",
   LTgoal: "Meet new people",
+
   STgoals: cast([{ id: "" , title: "Attend a local event", sat: [1140] },
     { id: "", title: "Look into clubs to join", mon: [780] },
     { id: "", title: "Start a conversation with a new person", fri: [840] },
@@ -199,6 +200,9 @@ export const GoalsStoreModel = types
         __DEV__ && console.log("Setting suggestion list " + suggestion);
         self.STsuggestion = suggestion;
       } else { __DEV__ && console.log("Unsetting suggestion"); self.STsuggestion = ""; }
+    }, 
+    clear: () => {
+      self.goals.clear();
     }
   })).actions(self => ({
     getAllGoals: () => {
@@ -256,9 +260,11 @@ export const GoalsStoreModel = types
           self.setSuggestion(res.suggestion);
           __DEV__ && console.log("Got ST goal suggestion");
         } else {
+          self.setSuggestion(null);
           __DEV__ && console.log(res.kind);
         }
       }).catch(err => {
+        self.setSuggestion(null);
         __DEV__ && console.error(err);
       });
     },
