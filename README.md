@@ -6,9 +6,11 @@ We, Lina Nguyen, Jeremy Wiens, Harry Yao, and Pawel Mirski, truly believe that s
 
 Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
-Personally, I had a lot of fun searching for the perfect shade of aqua green (#46BFAC!) to complete Daily Dash's intuitive and inviting user-interface.   
+Dynamically-rendered forms, the ability to complete navigate complete any task in less than 5 taps, and the perfect shade of aqua green (#46BFAC!), meticulously selected, all lend to a user-interface that's intuitive, inviting, and above all, inclusive.
 
-With Daily Dash, New Year's Resolutions will never be left unfulfilled again!
+With the game-like motivators appealing to younger audiences, the uncomplicated user-interface inviting older users, the flexible forms and push notifications attracting highly self-motivated users, and the option to use 12-hour time or 24-hour time, anyone and everyone will enjoy Daily Dash.  
+
+Never again will New Year's Resolutions be left unfulfilled!
 
 ## App Overview 
 
