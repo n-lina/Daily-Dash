@@ -74,7 +74,7 @@ describe("AddGoal", () => {
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
     await element(by.id("profileTabButton")).tap()
-    await expect(element(by.id("levelNumber"))).toHaveText("1")
+    await expect(element(by.id("levelNumber"))).toHaveText("2")
     await element(by.id("homeTabButton")).tap()
   })
 
