@@ -2,6 +2,12 @@ var mongoose = require('mongoose');
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
 const logger = require("../logger/logging");
+const HCGoalsModule = require("./goalsHardcoded");
+
+const maxLTGsInArray = 50;
+const intervalRepopulatingTempLTGArrayMilliseconds = 3000;
+
+
 
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
@@ -236,8 +242,8 @@ const deleteLTG = async (req, res) => {
   }
 };
 
-const maxLTGsInArray = 50;
-const intervalRepopulatingTempLTGArray = 3000; // milliseconds
+
+HCGoalsModule.addHCGoals();
 
 // call repopulateCacheLTGArray once upon database startup to ensure it is populated before it is used elsewhere
 var done = false;
@@ -246,7 +252,7 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
-setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArray);
+setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
