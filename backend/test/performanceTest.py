@@ -197,3 +197,4 @@ if failed > 0:
     logging.error("Tests failed: {0} ❌".format(failed))
 else:
     logging.info("All tests passed! All are secure. ✅")
+    raise Exception("{0} tests failed".format(failed))

@@ -144,6 +144,6 @@ logging.info("Testing complete.\n\n")
 logging.info("Total tests run: {}".format(tests))
 if failed > 0:
     logging.error("Tests failed: {0} ❌".format(failed))
-    raise Exception("{0} tests failed".format(failed))
 else:
     logging.info("All tests passed! All endpoints are secure. ✅")
+    raise Exception("{0} tests failed".format(failed))
