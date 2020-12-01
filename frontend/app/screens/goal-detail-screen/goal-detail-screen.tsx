@@ -7,6 +7,7 @@ import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
+import { palette } from "../../theme/palette";
 
 const borderColor = "#737373";
 const white = "#fff";
@@ -99,6 +100,10 @@ const TEXT: TextStyle = {
   fontFamily: typography.primary,
 };
 const BOLD: TextStyle = { fontWeight: "bold" };
+
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
+};
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -280,6 +285,8 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     }
   }
 
+  const onBackPress = () => navigation.goBack();
+
   const Item = ({ title }) => {
     const timeStr = getDisplayTime(userStore.timeMode, title[0]);
     return (
@@ -293,7 +300,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE}>{LTgoal}</Text>
         </Text>
