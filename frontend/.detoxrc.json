@@ -6,7 +6,7 @@
       "type": "android.emulator",
       "binaryPath": "./android/app/build/outputs/apk/debug/app-debug.apk",
       "device": {
-        "avdName": "Pixel_3_API_R"
+        "avdName": "Pixel_2_API_29"
       },
       "build":
             "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd .."
