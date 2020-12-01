@@ -5,8 +5,7 @@ import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
 import { color, spacing } from "../../theme";
-import { CheckBox, ListItem, Text, Button as StarButton, Icon, Avatar } from "react-native-elements";
-import * as Progress from "react-native-progress";
+import { CheckBox, ListItem, Text, Avatar} from "react-native-elements";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
 
@@ -15,7 +14,8 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
 const aqua = "#46BFAC";
-const windowWidth = Dimensions.get("window").width;
+const darkAqua = "#008080"
+const windowWidth = Dimensions.get('window').width;
 const d = new Date();
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -76,7 +76,7 @@ const FULL: ViewStyle = { flex: 1 };
 
 const CHECK_BOX: ViewStyle = {
   position: "absolute",
-  right: 5,
+  right: 2,
 };
 
 const COMPLETED_STYLE: ViewStyle = {
@@ -204,11 +204,16 @@ export const HomeScreen = observer(function HomeScreen() {
             <CheckBox
               checked={item.cancelled || item.completed}
               checkedIcon={item.cancelled ? "close" : "check"}
-              checkedColor={item.cancelled ? "red" : "#008080"}
+              checkedColor={item.cancelled ? "#FF5665" : darkAqua}
               iconRight
               onPress={() => toggleToggle(item as DailyGoal)}
             ></CheckBox>
           </View>
+          <Avatar
+            rounded
+            icon={{ name: "circle", type: "font-awesome", color: aqua, size: 8}}
+            containerStyle={{position: "absolute", left: 10}}
+          />
           <ListItem.Content>
             <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : { width: windowWidth - 90 }}>
               {item.title}
