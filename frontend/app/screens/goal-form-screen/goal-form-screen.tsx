@@ -217,12 +217,12 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   const NO_SUGGESTION = "No suggested short term goal";
 
   const shortTermGoalAlreadyPresent = (message: string) => {
-    return LtGoalFormStore.STgoalForm.filter(g => g.title === message).length > 0
-  }
+    return LtGoalFormStore.STgoalForm.filter(g => g.title === message).length > 0;
+  };
 
   const createTwoButtonAlert = (message: string) => {
     if (!message || message.includes(NO_SUGGESTION) || shortTermGoalAlreadyPresent(message)) {
-      Alert.alert("Sorry, no available suggestion", null, [{text: "Dismiss", style: "cancel"}],);
+      Alert.alert("Sorry, no available suggestion", null, [{ text: "Dismiss", style: "cancel" }],);
     } else {
       Alert.alert(
         "Suggestion: ",

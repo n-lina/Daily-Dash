@@ -5,7 +5,7 @@ import { Screen, Button } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { DailyGoal, useStores } from "../../models";
 import { color, spacing } from "../../theme";
-import { CheckBox, ListItem, Text, Avatar} from "react-native-elements";
+import { CheckBox, ListItem, Text, Avatar } from "react-native-elements";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
 
@@ -14,8 +14,8 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
 const aqua = "#46BFAC";
-const darkAqua = "#008080"
-const windowWidth = Dimensions.get('window').width;
+const darkAqua = "#008080";
+const windowWidth = Dimensions.get("window").width;
 const d = new Date();
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -197,7 +197,7 @@ export const HomeScreen = observer(function HomeScreen() {
         <ListItem
           bottomDivider
           containerStyle={
-            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : { width: windowWidth - 10 }
+            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : { }
           }
         >
           <View style={CHECK_BOX} testID={"goal" + index}>
@@ -211,8 +211,8 @@ export const HomeScreen = observer(function HomeScreen() {
           </View>
           <Avatar
             rounded
-            icon={{ name: "circle", type: "font-awesome", color: aqua, size: 8}}
-            containerStyle={{position: "absolute", left: 10}}
+            icon={{ name: "circle", type: "font-awesome", color: aqua, size: 8 }}
+            containerStyle={{ position: "absolute", left: 10 }}
           />
           <ListItem.Content>
             <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : { width: windowWidth - 90 }}>

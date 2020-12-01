@@ -1,11 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { ImageBackground, Dimensions, StyleSheet, TextStyle, View, ViewStyle, Alert } from "react-native";
+import { ImageBackground, Dimensions, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { Button, Screen } from "../../components";
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models";
 import { spacing } from "../../theme";
-import { Text, Button as StarButton} from "react-native-elements";
+import { Text, Button as StarButton } from "react-native-elements";
 import SwitchSelector from "react-native-switch-selector";
 import * as Progress from "react-native-progress";
 import { useNavigation } from "@react-navigation/native";

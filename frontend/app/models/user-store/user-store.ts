@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
-import { Alert } from "react-native";
+import { Alert, ToastAndroid } from "react-native";
 import { withEnvironment } from "../extensions/with-environment";
 
 interface Award {
@@ -14,11 +14,19 @@ const noAward: Award = {
   threshold: 0
 };
 
-const awardThresholds: number[] = [3, 10, 25, 50, 100, 250, 500, 750, 1000]
+const awardThresholds: number[] = [3, 10, 25, 50, 100, 250, 500, 750, 1000];
+
+const toastAndroid = (message: string) => {
+  ToastAndroid.showWithGravity(
+    message,
+    ToastAndroid.LONG,
+    ToastAndroid.TOP,
+  );
+};
 
 const awards: Award[] = [{
   title: "Baby Steps",
-  description: `Completed 2 sub-goals.`,
+  description: "Completed 2 sub-goals.",
   threshold: awardThresholds[0]
 }, {
   title: "Getting the Hang of It",
@@ -70,7 +78,7 @@ export const UserStoreModel = types
   .views(self => ({
     getLevel: (): number => {
       if (self.goalsCompleted === 0) return 0;
-      return Math.floor(Math.log2(self.goalsCompleted))+1;
+      return Math.floor(Math.log2(self.goalsCompleted)) + 1;
     },
     getAwards: (includeNoAward = true): Award[] => {
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
@@ -98,35 +106,19 @@ export const UserStoreModel = types
     incrementGoalCount: () => {
       console.log("Incrementing goals");
       self.goalsCompleted++;
-      if (Math.log2(self.goalsCompleted) % 1 == 0){
-        Alert.alert(
-          "🎉 Level Up !! 🎉",
+      if (Math.log2(self.goalsCompleted) % 1 == 0) {
+        toastAndroid(
+          "🎉 Level Up !! 🎉" +
           `You are now on Level ${self.getLevel()} ! Keep up the great work.`,
-          // [
-          //   {
-          //     text: "No",
-          //     style: "cancel"
-          //   },
-          //   { text: "Yes", onPress: () => deleteThisGoal() }
-          // ],
-          // { cancelable: false }
-        )
+        );
       }
-      if (awardThresholds.includes(self.goalsCompleted)){
+      if (awardThresholds.includes(self.goalsCompleted)) {
         const myAwards = self.getAwards(false);
-        const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length-1].title : "Getting Started ..."
-        Alert.alert(
-          "🎉 Congratulations !! 🎉",
-          `You just earned the "${myTitle}" award! Keep it up!.`,
-          // [
-          //   {
-          //     text: "No",
-          //     style: "cancel"
-          //   },
-          //   { text: "Yes", onPress: () => deleteThisGoal() }
-          // ],
-          // { cancelable: false }
-        )
+        const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length - 1].title : "Getting Started ...";
+        toastAndroid(
+          "🎉 Congratulations !! 🎉" +
+          `You just earned the "${myTitle}" award! Keep it up!.`
+        );
       }
     },
     decrementGoalCount: () => {
