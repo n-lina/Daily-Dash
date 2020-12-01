@@ -1,14 +1,16 @@
 # DailyDash
 
-## To change your life, change your daily habits. 
+## To change your life, change your daily habits 
 
 We, Lina Nguyen, Jeremy Wiens, Harry Yao, and Pawel Mirski, truly believe that small efforts everyday can accumulate to yield life-changing results. Armed with this core belief, we created Daily Dash to empower **users across all walks of life** to achieve their goals, whether its to become skilled at public speaking or to adopt a healthier diet. 
 
 Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
-Personally, I had a lot of fun searching for the perfect shade of aqua green (#46BFAC!) to complete Daily Dash's intuitive and inviting user-interface.   
+Dynamically-rendered forms, the ability to complete any task in less than 5 taps, and the perfect shade of aqua green (#46BFAC!), meticulously selected, all lend to a user-interface that's intuitive, inviting, and above all, inclusive.
 
-With Daily Dash, New Year's Resolutions will never be left unfulfilled again!
+With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles. Even more, users can also choose betwen 12-hour time and 24-hour time!    
+
+Never again will New Year's Resolutions be left unfulfilled!
 
 ## App Overview 
 
@@ -33,20 +35,16 @@ From the profile screen shown in the first row, users can access their awards an
 ### Technologies Used
 
 #### Backend 
-- MongoDB
-- NodeJS 
+-   MongoDB
+-   NodeJS 
 
 #### Frontend 
-- React Native 
-- Ignite CLI 
-- TypeScript 
-- Android
+-   React Native 
+-   Ignite CLI 
+-   TypeScript 
+-   Android
 
 ### Main Components 
-
-#### Backend 
-
-#### Frontend 
 
 ### Non - Functional Requirements 
 
@@ -54,12 +52,11 @@ From the profile screen shown in the first row, users can access their awards an
 
 ### Testing 
 
-#### Backend 
+#### Testing on Backend 
 
-#### Frontend 
-- Detox 
+#### Testing on Frontend 
+-   Detox 
 end to end tests
 
 #### Full Stack 
-- Codacy
-
+-   Codacy

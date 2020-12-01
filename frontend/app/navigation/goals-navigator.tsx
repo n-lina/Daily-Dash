@@ -23,10 +23,10 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack";
  */
 
 export type RootParamList = {
-    goalDetail: { purpose: 'user' | 'common' }
-    allGoals: { purpose: 'user' | 'common' }
+    goalDetail: { purpose: "user" | "common" }
+    allGoals: { purpose: "user" | "common" }
     commonGoals: undefined
-    goalForm: { purpose: 'add' | 'edit' };
+    goalForm: { purpose: "add" | "edit" };
   }
 
 const Stack = createNativeStackNavigator<RootParamList>();
@@ -56,7 +56,7 @@ export function GoalsNavigator() {
           headerShown: false
         }}
         initialParams={{
-          purpose: 'add'
+          purpose: "add"
         }}
       />
       <Stack.Screen
@@ -71,6 +71,9 @@ export function GoalsNavigator() {
         component={GoalDetailScreen}
         options={{
           headerShown: false
+        }}
+        initialParams={{
+          purpose: "user"
         }}
       />
     </Stack.Navigator>

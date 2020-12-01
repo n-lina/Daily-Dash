@@ -12,7 +12,6 @@ const background = "#aba";
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
 
-
 const styles = StyleSheet.create({
   LTgoal: {
     marginLeft: 10,
@@ -109,7 +108,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
 
   function addNewGoal() {
     LtGoalFormStore.clearForm();
-    navigation.navigate("goalForm", {purpose: "add"});
+    navigation.navigate("goalForm", { purpose: "add" });
   }
 
   const renderGoal = ({ item, index }) => {
@@ -122,7 +121,7 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20}}
+            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20 }}
             // overlayContainerStyle={styles.green}
             // activeOpacity={0.7}
             // containerStyle={{flex: 2, marginTop: 2}}

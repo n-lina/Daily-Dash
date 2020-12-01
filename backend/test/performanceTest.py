@@ -15,8 +15,10 @@ tests = 0
 def get_header(token: str) -> dict:
     """
     Get the HTTP header for a given token
+
     Parameters:
     token (str): auth token (JWT)
+
     Returns:
     dict: the headers for the HTTP request
     """
@@ -26,6 +28,7 @@ def get_header(token: str) -> dict:
 def send_get(endpoint: str, token: str, params=None):
     """
     Test an endpoint that uses a get REST request
+
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers
@@ -40,6 +43,7 @@ def send_get(endpoint: str, token: str, params=None):
 def send_post(endpoint: str, token: str, data):
     """
     Test an endpoint that uses a post REST request
+
     Parameters:
     endpoint (str): endpoint to test
     token (str): auth token (JWT) for headers

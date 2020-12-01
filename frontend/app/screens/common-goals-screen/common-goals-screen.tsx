@@ -8,10 +8,10 @@ import { color, spacing, typography } from "../../theme";
 import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { palette } from "../../theme/palette";
 
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
-
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -50,6 +50,10 @@ const TITLE: TextStyle = {
   textAlign: "center",
   marginBottom: spacing[5],
   letterSpacing: 2
+};
+
+const BACK_BUTTON: ViewStyle = {
+  backgroundColor: palette.white,
 };
 
 const borderColor = "#737373";
@@ -96,12 +100,12 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size:20 }}
+            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20 }}
             // overlayContainerStyle={styles.background}
             // activeOpacity={0.7}
           />
           <ListItem.Content>
-            <ListItem.Title style={{textTransform:'capitalize'}}>{title}</ListItem.Title>
+            <ListItem.Title style={{ textTransform: "capitalize" }}>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -111,12 +115,12 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   };
 
   // const navigation = useNavigation();
-  // const goBack = () => navigation.goBack();
+  const onBackPress = () => navigation.goBack();
 
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Common Goals   ]" />
         </Text>
