@@ -18,6 +18,7 @@ def get_header(token: str) -> dict:
 
     Parameters:
     token (str): auth token (JWT)
+
     Returns:
     dict: the headers for the HTTP request
     """

@@ -44,10 +44,6 @@ From the profile screen shown in the first row, users can access their awards an
 
 ### Main Components 
 
-#### Backend 
-
-#### Frontend 
-
 ### Non - Functional Requirements 
 
 **1. asdf**
@@ -62,4 +58,3 @@ end to end tests
 
 #### Full Stack 
 -   Codacy
-
