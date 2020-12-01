@@ -246,7 +246,7 @@ export const HomeScreen = observer(function HomeScreen() {
         <Separator/>
         { goals.length === 0 &&
           <View style={NO_GOALS_MESSAGE}>
-            <Text>
+            <Text testID="noGoalsMessage">
               You don't have any goals 😮
             </Text>
             <Button style={ADD_ONE_BUTTON} text="Add one" onPress={goToAddGoal}></Button>
