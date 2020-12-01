@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView, Dimensions, Alert } from "react-native";
+import { StyleSheet, TextStyle, Image, ViewStyle, View, SectionList, SafeAreaView, Dimensions, Alert, Platform } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 import { Goal, useStores } from "../../models";

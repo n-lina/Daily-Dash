@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { Alert } from "react-native";
 import { withEnvironment } from "../extensions/with-environment";
 
 interface Award {
@@ -13,42 +14,44 @@ const noAward: Award = {
   threshold: 0
 };
 
+const awardThresholds: number[] = [3, 10, 25, 50, 100, 250, 500, 750, 1000]
+
 const awards: Award[] = [{
   title: "Baby Steps",
-  description: "Completed 2 sub-goals.",
-  threshold: 2
+  description: `Completed 2 sub-goals.`,
+  threshold: awardThresholds[0]
 }, {
   title: "Getting the Hang of It",
-  description: "Completed 10 sub-goals.",
-  threshold: 10
+  description: `Completed ${awardThresholds[1]} sub-goals.`,
+  threshold: awardThresholds[1]
 }, {
   title: "Rookie Goal Achiever",
-  description: "Completed 25 sub-goals.",
-  threshold: 25
+  description: `Completed ${awardThresholds[2]} sub-goals.`,
+  threshold: awardThresholds[2]
 }, {
   title: "Novice Goal Achiever",
-  description: "Completed 50 sub-goals.",
-  threshold: 50
+  description: `Completed ${awardThresholds[3]} sub-goals.`,
+  threshold: awardThresholds[3]
 }, {
   title: "Beginner Goal Achiever",
-  description: "Completed 100 sub-goals.",
-  threshold: 100
+  description: `Completed ${awardThresholds[4]} sub-goals.`,
+  threshold: awardThresholds[4]
 }, {
   title: "Intermediate Goal Achiever",
-  description: "Completed 250 sub-goals.",
-  threshold: 250
+  description: `Completed ${awardThresholds[5]} sub-goals.`,
+  threshold: awardThresholds[5]
 }, {
   title: "Senior Goal Achiever",
-  description: "Completed 500 sub-goals.",
-  threshold: 500
+  description: `Completed ${awardThresholds[6]} sub-goals.`,
+  threshold: awardThresholds[6]
 }, {
   title: "Expert Goal Achiever",
-  description: "Completed 750 sub-goals.",
-  threshold: 750
+  description: `Completed ${awardThresholds[7]} sub-goals.`,
+  threshold: awardThresholds[7]
 }, {
   title: "Master Goal Achiever",
-  description: "Completed 1000 sub-goals.",
-  threshold: 1000
+  description: `Completed ${awardThresholds[8]} sub-goals.`,
+  threshold: awardThresholds[8]
 },];
 
 /**
@@ -67,13 +70,13 @@ export const UserStoreModel = types
   .views(self => ({
     getLevel: (): number => {
       if (self.goalsCompleted === 0) return 0;
-      return self.goalsCompleted.toString().length;
+      return Math.floor(Math.log2(self.goalsCompleted))+1;
     },
     getAwards: (includeNoAward = true): Award[] => {
       const validAwards = awards.filter(award => award.threshold <= self.goalsCompleted);
       if (validAwards.length === 0 && includeNoAward) return [noAward];
       return validAwards;
-    }
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     setUser: (user) => {
@@ -95,6 +98,36 @@ export const UserStoreModel = types
     incrementGoalCount: () => {
       console.log("Incrementing goals");
       self.goalsCompleted++;
+      if (Math.log2(self.goalsCompleted) % 1 == 0){
+        Alert.alert(
+          "🎉 Level Up !! 🎉",
+          `You are now on Level ${self.getLevel()} ! Keep up the great work.`,
+          // [
+          //   {
+          //     text: "No",
+          //     style: "cancel"
+          //   },
+          //   { text: "Yes", onPress: () => deleteThisGoal() }
+          // ],
+          // { cancelable: false }
+        )
+      }
+      if (awardThresholds.includes(self.goalsCompleted)){
+        const myAwards = self.getAwards(false);
+        const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length-1].title : "Getting Started ..."
+        Alert.alert(
+          "🎉 Congratulations !! 🎉",
+          `You just earned the "${myTitle}" award! Keep it up!.`,
+          // [
+          //   {
+          //     text: "No",
+          //     style: "cancel"
+          //   },
+          //   { text: "Yes", onPress: () => deleteThisGoal() }
+          // ],
+          // { cancelable: false }
+        )
+      }
     },
     decrementGoalCount: () => {
       if (self.goalsCompleted > 0)
@@ -106,7 +139,8 @@ export const UserStoreModel = types
   }))
   .views(self => ({
     getGoalsForNextLevel: () => {
-      return Math.pow(10, self.getLevel());
+      const ret = Math.pow(2, self.getLevel());
+      return ret;
     }
   }))
   .actions(self => ({
