@@ -148,6 +148,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
     for (const goal of fromForm) {
       if (goal.title == "") return [];
       const currStGoal = {
+        id: goal.id,
         title: goal.title,
         mon: [],
         tue: [],

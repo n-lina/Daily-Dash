@@ -249,7 +249,7 @@ export const HomeScreen = observer(function HomeScreen() {
           <Text style={{ ...styles.subheading, marginTop: 3 }}>🌱</Text>
         </View>
         <Separator/>
-        { goals.length === 0 &&
+        { goals.length === 0 && dailyGoalStore.visible && 
           <View style={NO_GOALS_MESSAGE}>
             <Text testID="noGoalsMessage">
               You don't have any goals 😮
