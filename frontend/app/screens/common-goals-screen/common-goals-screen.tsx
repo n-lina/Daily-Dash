@@ -120,7 +120,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   return (
     <View style={FULL}>
       <Screen style={ROOT} backgroundColor={color.transparent}>
-        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}  />
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text="[   Common Goals   ]" />
         </Text>
