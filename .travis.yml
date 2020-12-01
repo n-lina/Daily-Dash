@@ -4,6 +4,7 @@ matrix:
       python: 3.7
       before_script:
         - cd ${TRAVIS_BUILD_DIR}/backend/test
+        - python -m pip install requests
       script:
         - python authorizationTest.py
 
