@@ -97,8 +97,7 @@ export const UserStoreModel = types
       self.goalsCompleted++;
     },
     decrementGoalCount: () => {
-      if (self.goalsCompleted > 0)
-        self.goalsCompleted--;
+      if (self.goalsCompleted > 0) { self.goalsCompleted--; }
     },
     is24HourClock: () => {
       return self.timeMode == 24;

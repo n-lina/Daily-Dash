@@ -1,8 +1,8 @@
-import * as React from "react"
-import { View, ViewStyle, StyleSheet, TextInput} from "react-native";
-import { spacing } from "../../theme"
-import { Text } from "../"
-import { TimeForm } from "../../models/time-form/time-form"
+import * as React from "react";
+import { View, ViewStyle, StyleSheet, TextInput } from "react-native";
+import { spacing } from "../../theme";
+import { Text } from "../";
+import { TimeForm } from "../../models/time-form/time-form";
 import DropDownPicker from "react-native-dropdown-picker";
 import SwitchSelector from "react-native-switch-selector";
 
@@ -10,14 +10,23 @@ const aqua = "#46BFAC";
 const darkAqua = "#008080";
 
 const styles = StyleSheet.create({
-  container: {
-    height: 35,
-    width: 135
-  },
   amPmContainer: {
     height: 35,
     marginLeft: 5,
     width: 68
+  },
+  colon: {
+    alignContent: "center",
+    color: "#000",
+    flex: 1,
+    fontSize: 17,
+    fontWeight: "bold",
+    marginTop: spacing[1],
+    textAlign: "center"
+  },
+  container: {
+    height: 35,
+    width: 135
   },
   flexStart: {
     justifyContent: "flex-start"
@@ -41,28 +50,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 40,
     marginLeft: spacing[3],
-    textAlign: "right", 
+    textAlign: "right",
   },
   textInputTime2: {
     alignContent: "center",
     fontSize: 16,
     height: 40,
     textAlign: "left",
-  },
-  colon: {
-    alignContent: "center",
-    color: "#000",
-    flex: 1,
-    fontSize: 17,
-    fontWeight: "bold",
-    marginTop: spacing[1],
-    textAlign: "center"
   }
 });
 
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
-}
+};
 
 const pickerColor = "#fff";
 
@@ -72,7 +72,7 @@ export interface StTimeSlotFormProps {
    */
   style?: ViewStyle
   timeMode: number
-  stgIndex?: number 
+  stgIndex?: number
   timeSlot: TimeForm
 }
 
@@ -80,8 +80,7 @@ export interface StTimeSlotFormProps {
  * Describe your component here
  */
 export function StTimeSlotForm(props: StTimeSlotFormProps) {
-
-  const { style } = props
+  const { style } = props;
 
   function validateHour(hour: string) {
     hour = hour.replace(/[^0-9]/g, "");
@@ -115,7 +114,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
   // update times when timeMode changes
   React.useEffect(() => {
     setLoading(true);
-    let mounted = true
+    let mounted = true;
     setTimeout(() => {
       if (mounted) {
         const timeMode = props.timeMode;
@@ -195,9 +194,9 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             }
             dropDownStyle={{ backgroundColor: pickerColor }}
             onChangeItem={item => props.timeSlot.setDay(item.value)}
-            placeholderStyle={{fontSize: 16}} 
-            labelStyle={{fontSize: 16}}   
-            arrowSize={16} 
+            placeholderStyle={{ fontSize: 16 }}
+            labelStyle={{ fontSize: 16 }}
+            arrowSize={16}
             arrowColor={darkAqua}
           />
           <TextInput
@@ -223,7 +222,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
           />
           {props.timeMode == 12 && (
             <SwitchSelector
-              style={{width: 70, marginLeft:spacing[2], marginTop:spacing[1]*0.5}}
+              style={{ width: 70, marginLeft: spacing[2], marginTop: spacing[1] * 0.5 }}
               height={34}
               initial={(props.timeSlot.meridies === "pm") ? 1 : 0}
               onPress={value => props.timeSlot.setMeridiem(value as string)}
@@ -234,12 +233,12 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
               hasPadding={false}
               options={[
                 { label: "AM", value: "am" },
-                { label: "PM", value: "pm" } 
+                { label: "PM", value: "pm" }
               ]}
             />
-            )}
+          )}
         </View>
       )}
     </View>
-  )
+  );
 }

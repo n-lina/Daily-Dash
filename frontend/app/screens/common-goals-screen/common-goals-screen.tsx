@@ -12,7 +12,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
 
-
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
   flex: 1,
@@ -96,12 +95,12 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
           {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size:20 }}
+            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20 }}
             // overlayContainerStyle={styles.background}
             // activeOpacity={0.7}
           />
           <ListItem.Content>
-            <ListItem.Title style={{textTransform:'capitalize'}}>{title}</ListItem.Title>
+            <ListItem.Title style={{ textTransform: "capitalize" }}>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />

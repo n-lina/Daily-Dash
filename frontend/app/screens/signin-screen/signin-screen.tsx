@@ -10,7 +10,7 @@ import { useStores } from "../../models";
 const darkAqua = "#008080";
 const aqua = "#46BFAC";
 // const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get("window").height;
 const lightseagreen = "#616F6C";
 const background = "#fff";
 
@@ -34,7 +34,7 @@ const TITLE_WRAPPER: TextStyle = {
   ...TEXT,
   textAlign: "center",
   alignItems: "center",
-  marginTop:  windowHeight/4,
+  marginTop: windowHeight / 4,
   // top: windowHeight/4
 };
 const TITLE: TextStyle = {
@@ -56,7 +56,7 @@ const CONTENT_WRAP: ViewStyle = {
 
 const SIGNIN_BUTTON: ViewStyle = {
   width: 200,
-  height: 48, 
+  height: 48,
 };
 
 const CONT_TEXT: TextStyle = {
@@ -73,7 +73,7 @@ const INVISIBLE: ViewStyle = {
   top: 0,
   height: 0,
   width: 0,
-  left:10,
+  left: 10,
   backgroundColor: "white"
 };
 
@@ -121,7 +121,7 @@ export const SigninScreen = observer(function SigninScreen() {
             testID="testSignIn"
             onPress={testSignIn}
           />
-          <Image source={require("../../../assets/boot.png")} style={{height: 50, width: 50, marginBottom: spacing[5]}} />
+          <Image source={require("../../../assets/boot.png")} style={{ height: 50, width: 50, marginBottom: spacing[5] }} />
           <GoogleSigninButton
             style={SIGNIN_BUTTON}
             size={GoogleSigninButton.Size.Wide}

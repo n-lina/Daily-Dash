@@ -1,8 +1,8 @@
 # DailyDash
 
-## To change your life, change your daily habits. 
+## To change your life, change your daily habits 
 
-- objective, audience, ideation process, inspiration etc. 
+-   objective, audience, ideation process, inspiration etc. 
 
 ## Technologies Used
 

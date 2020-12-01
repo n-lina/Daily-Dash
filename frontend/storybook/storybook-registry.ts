@@ -1,4 +1,4 @@
-require("../app/components/st-time-slot-form/st-time-slot-form.story")
+require("../app/components/st-time-slot-form/st-time-slot-form.story");
 require("../app/components/st-goal/st-goal.story");
 require("../app/components/text/text.story");
 require("../app/components/button/button.story");

@@ -14,14 +14,14 @@ const borderColor = "#737373";
 const aqua = "#46BFAC";
 
 const styles = StyleSheet.create({
-  buttonNewHabit: {
-    marginBottom: 90,
+  button: {
     backgroundColor: aqua,
     marginLeft: spacing[1],
     marginRight: spacing[1]
   },
-  button: {
+  buttonNewHabit: {
     backgroundColor: aqua,
+    marginBottom: 90,
     marginLeft: spacing[1],
     marginRight: spacing[1]
   },
@@ -102,19 +102,19 @@ const FULL: ViewStyle = {
   flex: 1
 };
 
-const GetImage = ((props: GoalFormProps) => {
-  if (props.purpose === 'edit') {
-    return <Image 
-              source={require("../../../assets/map.png")} 
-              style={styles.image} 
-            />
+const GetImage = (props: GoalFormProps) => {
+  if (props.purpose === "edit") {
+    return <Image
+      source={require("../../../assets/map.png")}
+      style={styles.image}
+    />;
   } else {
-    return <Image 
-              source={require("../../../assets/compass.png")} 
-              style={styles.image} 
-            />
+    return <Image
+      source={require("../../../assets/compass.png")}
+      style={styles.image}
+    />;
   }
-});
+};
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -126,16 +126,15 @@ export interface myList {
 }
 const StGoalsView = observer((props: myList) => (
   <View>
-    {props.stgList.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={props.timeMode}/>))} 
- </View>
-))
+    {props.stgList.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={props.timeMode}/>))}
+  </View>
+));
 
 interface GoalFormProps {
-  purpose: 'add' | 'edit'
+  purpose: "add" | "edit"
 }
 
 export const GoalFormScreen = observer(function GoalFormScreen() {
-
   const { LtGoalFormStore, goalsStore, dailyGoalStore, userStore } = useStores();
 
   function convertTimeToMin(hr: number, min: number, meridies: string) {
@@ -145,38 +144,36 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   }
 
   function convertSTgoals(fromForm: Array<StGoalForm>) {
-
     const allStGoals = [];
     for (const goal of fromForm) {
       if (goal.title == "") return [];
       const currStGoal = {
         title: goal.title,
-        mon: [], 
-        tue: [], 
-        wed: [], 
-        thu: [], 
-        fri: [], 
-        sat: [], 
+        mon: [],
+        tue: [],
+        wed: [],
+        thu: [],
+        fri: [],
+        sat: [],
         sun: []
-      }
+      };
 
-      for (const timeSlot of goal.timeForm){
+      for (const timeSlot of goal.timeForm) {
         if (timeSlot.hour == "" || timeSlot.minute == "") {
           return [];
         } else {
           const time = convertTimeToMin(parseInt(timeSlot.hour), parseInt(timeSlot.minute), timeSlot.meridies);
-          currStGoal[`${timeSlot.day}`].push(time)
+          currStGoal[`${timeSlot.day}`].push(time);
         }
       }
 
-      for (const key in currStGoal){
-        if (currStGoal[key] == []) delete currStGoal[`${key}`]
+      for (const key in currStGoal) {
+        if (currStGoal[key] == []) delete currStGoal[`${key}`];
       }
 
-      allStGoals.push(currStGoal)
-
+      allStGoals.push(currStGoal);
     }
-    console.log(allStGoals)
+    console.log(allStGoals);
     return allStGoals;
   }
 
@@ -192,7 +189,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
     if (description == "") description = " ";
 
     let submitPromise: Promise<void>;
-    if (purpose === 'add') {
+    if (purpose === "add") {
       submitPromise = goalsStore.postLTgoal(LTgoal, description, myStGoal);
     } else {
       submitPromise = goalsStore.putLTgoal(LTgoal, goalID, description, myStGoal);
@@ -209,13 +206,13 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   }
 
   const getTitle = () => {
-    if (purpose === 'add') {
+    if (purpose === "add") {
       return "Add New";
     } else {
-      return "Edit"
+      return "Edit";
     }
-  }
-    purpose.charAt(0).toUpperCase() + purpose.slice(1);
+  };
+  purpose.charAt(0).toUpperCase() + purpose.slice(1);
 
   const createTwoButtonAlert = (message: string) =>
     Alert.alert(
@@ -250,7 +247,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   return (
     <View style={FULL} testID="goalFormWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
-      <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
+        <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress}/>
         <Text style={TITLE_WRAPPER}>
           <Text style={TITLE} text={"[   " + getTitle() + " Goal   ]"} />
         </Text>
@@ -291,7 +288,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
               testID="newSTGButton"
               text="Add Habit"
               style={{ ...styles.buttonNewHabit }}
-              textStyle = {{ ...styles.buttonText}}
+              textStyle = {{ ...styles.buttonText }}
               onPress={() => LtGoalFormStore.addSTgoal()} />
           </View>
         </ScrollView>

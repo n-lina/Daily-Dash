@@ -15,7 +15,7 @@ import { getDisplayTime } from "../../utils/getDisplayTime";
 const borderColor = "#737373";
 const lightseagreen = "#616F6C";
 const aqua = "#46BFAC";
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get("window").width;
 const d = new Date();
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     color: color.palette.white,
     fontSize: 32,
+    letterSpacing: 2,
     marginBottom: spacing[4],
     marginLeft: spacing[3],
     marginRight: spacing[3],
     marginTop: spacing[3],
-    textAlign: "center",
-    letterSpacing: 2
+    textAlign: "center"
   },
   image: {
     height: 93,
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     color: lightseagreen,
     fontSize: 16,
     fontStyle: "italic",
-    textAlign: "center",
-    marginBottom: 2
+    marginBottom: 2,
+    textAlign: "center"
   }
 });
 
@@ -197,7 +197,7 @@ export const HomeScreen = observer(function HomeScreen() {
         <ListItem
           bottomDivider
           containerStyle={
-            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {width: windowWidth-10}
+            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : { width: windowWidth - 10 }
           }
         >
           <View style={CHECK_BOX} testID={"goal" + index}>
@@ -210,7 +210,7 @@ export const HomeScreen = observer(function HomeScreen() {
             ></CheckBox>
           </View>
           <ListItem.Content>
-            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : {width: windowWidth-90}}>
+            <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : { width: windowWidth - 90 }}>
               {item.title}
             </ListItem.Title>
             <ListItem.Subtitle>{getFormattedTime(item.getTime())}</ListItem.Subtitle>
@@ -241,7 +241,7 @@ export const HomeScreen = observer(function HomeScreen() {
           <Text style={styles.subheading}>
             {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
           </Text>
-          <Text style={{...styles.subheading, marginTop: 3}}>🌱</Text>
+          <Text style={{ ...styles.subheading, marginTop: 3 }}>🌱</Text>
         </View>
         <Separator/>
         { goals.length === 0 &&
