@@ -62,7 +62,6 @@ export class Api {
   }
 
   convertGoal = (raw) => {
-    // console.log(JSON.stringify(raw));
     const STgoalsList: Types.STGoal[] = raw.shortTermGoals.map(this.convertSTGoal);
     return {
       LTgoal: raw.title,
@@ -73,7 +72,6 @@ export class Api {
   }
 
   convertAward = (raw) => {
-    // console.log(JSON.stringify(raw));
     const oneAward = [raw.title, raw.description];
     return oneAward;
   }
@@ -279,7 +277,6 @@ export class Api {
 
     try {
       const answer = response.data.answer;
-      console.log("This is the answer:" + answer);
       return { kind: "ok", suggestion: answer };
     } catch {
       return { kind: "bad-data" };
@@ -299,7 +296,6 @@ export class Api {
 
     try {
       // const rawGoal = response.data
-      console.log(JSON.stringify(response.data));
       // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
       return { kind: "ok" };
     } catch {
@@ -320,7 +316,6 @@ export class Api {
 
     try {
       // const rawGoal = response.data
-      console.log(JSON.stringify(response.data));
       // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
       return { kind: "ok" };
     } catch {
@@ -341,7 +336,6 @@ export class Api {
 
     try {
       // const rawGoal = response.data
-      console.log(JSON.stringify(response.data));
       // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
       return { kind: "ok" };
     } catch {

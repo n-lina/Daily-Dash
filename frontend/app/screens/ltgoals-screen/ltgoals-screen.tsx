@@ -9,17 +9,9 @@ import { ListItem, Avatar } from "react-native-elements";
 import { palette } from "../../theme/palette";
 
 const borderColor = palette.grey;
-const background = palette.lightGreen;
 const aqua = palette.aqua;
 
 const styles = StyleSheet.create({
-  LTgoal: {
-    marginLeft: 10,
-    marginTop: 1
-  },
-  background: {
-    backgroundColor: background
-  },
   flatlist: {
     height: 400,
     marginTop: 40,

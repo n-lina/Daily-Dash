@@ -15,6 +15,29 @@ const ROOT: ViewStyle = {
   alignItems: "center"
 };
 
+const styles = StyleSheet.create({
+  capitalize: {
+    textTransform: "capitalize"
+  },
+  flatlist: {
+    height: 400,
+    marginTop: 40,
+    overflow: "scroll",
+    width: Dimensions.get("window").width - 20
+  },
+  flex: {
+    flex: 1
+  },
+  image: {
+    height: 55,
+    width: 55,
+  },
+  separator: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 8,
+  }
+});
+
 const Separator = () => (
   <View style={styles.separator} />
 );
@@ -52,43 +75,15 @@ const BACK_BUTTON: ViewStyle = {
   backgroundColor: palette.white,
 };
 
-const borderColor = "#737373";
-const background = "#aba";
-
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: background
-  },
-  flatlist: {
-    height: 400,
-    marginTop: 40,
-    overflow: "scroll",
-    width: Dimensions.get("window").width - 20
-  },
-  flex: {
-    flex: 1
-  },
-  image: {
-    height: 55,
-    width: 55,
-  },
-  separator: {
-    borderBottomColor: borderColor,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8,
-  }
-});
-
 export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   // Pull in one of our MST stores
   const { goalsStore } = useStores();
   const navigation = useNavigation();
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "common" });
 
-  const renderGoal = ({ item }) => {
+  const renderGoal = ({ item, index }) => {
     const title: string = item.LTgoal;
     const description: string = item.description;
-    const id: string = item.id;
 
     return (
       <View>
@@ -98,10 +93,10 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
             icon={{ name: "seedling", type: "font-awesome-5", color: color.primaryLighter, size: 20 }}
           />
           <ListItem.Content>
-            <ListItem.Title style={{ textTransform: "capitalize" }}>{title}</ListItem.Title>
+            <ListItem.Title style={styles.capitalize}>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
-          <ListItem.Chevron />
+          <ListItem.Chevron testID={"commonGoal" + index}/>
         </ListItem>
       </View>
     );
@@ -111,7 +106,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   const onBackPress = () => navigation.goBack();
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="commonScreenWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>

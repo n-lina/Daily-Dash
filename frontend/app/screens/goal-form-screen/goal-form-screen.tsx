@@ -169,7 +169,6 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
 
       allStGoals.push(currStGoal);
     }
-    console.log(allStGoals);
     return allStGoals;
   }
 
@@ -208,8 +207,6 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
       return "Edit";
     }
   };
-  purpose.charAt(0).toUpperCase() + purpose.slice(1);
-
   const NO_SUGGESTION = "No suggested short term goal";
 
   const shortTermGoalAlreadyPresent = (message: string) => {
