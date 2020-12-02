@@ -89,7 +89,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   const navigation = useNavigation();
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "common" });
 
-  const renderGoal = ({ item }) => {
+  const renderGoal = ({ item, index }) => {
     const title: string = item.LTgoal;
     const description: string = item.description;
     const id: string = item.id;
@@ -108,7 +108,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
             <ListItem.Title style={{ textTransform: "capitalize" }}>{title}</ListItem.Title>
             <ListItem.Subtitle>{description}</ListItem.Subtitle>
           </ListItem.Content>
-          <ListItem.Chevron />
+          <ListItem.Chevron testID={"commonGoal" + index}/>
         </ListItem>
       </View>
     );
@@ -118,7 +118,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
   const onBackPress = () => navigation.goBack();
 
   return (
-    <View style={FULL}>
+    <View style={FULL} testID="commonScreenWrap">
       <Screen style={ROOT} backgroundColor={color.transparent}>
         <Header style={HEADER} buttonStyle={BACK_BUTTON} leftIcon="back" onLeftPress={onBackPress} />
         <Text style={TITLE_WRAPPER}>

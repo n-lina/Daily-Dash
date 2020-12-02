@@ -227,7 +227,7 @@ export const HomeScreen = observer(function HomeScreen() {
   };
 
   return (
-    <View style={FULL} testID="homeSreenWrap">
+    <View style={FULL} testID="homeScreenWrap">
       <Screen style={FULL} backgroundColor={color.palette.white}>
         <View style={TOP_SECTION}>
           <Text style={styles.quote_left}>

@@ -17,10 +17,10 @@ describe("AddGoal", () => {
   })
 
   it("should show home screen with no goals present", async () => {
-    await waitFor(element(by.id("homeSreenWrap")))
+    await waitFor(element(by.id("homeScreenWrap")))
       .toExist()
       .withTimeout(10000)
-    await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+    await expect(element(by.id("homeScreenWrap"))).toBeVisible()
     await expect(element(by.id("noGoalsMessage"))).toBeVisible()
   })
 
