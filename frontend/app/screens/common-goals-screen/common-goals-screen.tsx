@@ -123,7 +123,7 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
-            data={goalsStore.listOfGoals}
+            data={goalsStore.getCommonGoals()}
             renderItem={renderGoal}
             keyExtractor={(item) => "" + item.id}
           ></FlatList>

@@ -154,7 +154,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { purpose } = (route.params as DetailFormProps);
   let myGoal: Goal = goalsStore.goals.filter(goal => goal.id === id)[0];
   if (purpose === "common") {
-    myGoal = goalsStore.listOfGoals.filter(goal => goal.id === id)[0];
+    myGoal = goalsStore.getCommonGoals().filter(goal => goal.id === id)[0];
   }
   const { LTgoal, description, STgoals } = myGoal;
 
@@ -221,13 +221,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const sunday = [];
 
   for (const goal of STgoals) {
-    for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id]);
-    for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id]);
+    if (goal.mon) for (let i = 0; i < goal.mon.length; i++) monday.push([goal.mon[i], goal.title, goal.id]);
+    if (goal.tue) for (let i = 0; i < goal.tue.length; i++) tuesday.push([goal.tue[i], goal.title, goal.id]);
+    if (goal.wed) for (let i = 0; i < goal.wed.length; i++) wednesday.push([goal.wed[i], goal.title, goal.id]);
+    if (goal.thu) for (let i = 0; i < goal.thu.length; i++) thursday.push([goal.thu[i], goal.title, goal.id]);
+    if (goal.fri) for (let i = 0; i < goal.fri.length; i++) friday.push([goal.fri[i], goal.title, goal.id]);
+    if (goal.sat) for (let i = 0; i < goal.sat.length; i++) saturday.push([goal.sat[i], goal.title, goal.id]);
+    if (goal.sun) for (let i = 0; i < goal.sun.length; i++) sunday.push([goal.sun[i], goal.title, goal.id]);
   }
 
   if (monday.length > 0) {
