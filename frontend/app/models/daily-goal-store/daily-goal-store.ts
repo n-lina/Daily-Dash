@@ -10,6 +10,7 @@ export const DailyGoalStoreModel = types
   .props({
     goals: types.optional(types.array(DailyGoalModel), []),
     day: "",
+    visible: false
   })
   .extend(withEnvironment)
   .views((self) => ({
@@ -31,11 +32,12 @@ export const DailyGoalStoreModel = types
       return oldGoal;
     },
     setGoals(goals, day: string) {
+      self.visible = true;
       self.goals.replace(goals);
       self.day = day;
     },
     clearGoals() {
-      self.goals.replace([]);
+      self.visible = false;
     },
   }))
   .actions((self) => ({
