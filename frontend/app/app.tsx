@@ -14,6 +14,7 @@ import "./utils/ignore-warnings";
 import React, { useState, useEffect, useRef } from "react";
 import { NavigationContainerRef } from "@react-navigation/native";
 import { SafeAreaProvider, initialWindowSafeAreaInsets } from "react-native-safe-area-context";
+import messaging from "@react-native-firebase/messaging";
 import * as storage from "./utils/storage";
 import {
   useBackButtonHandler,
@@ -30,6 +31,7 @@ import { GoogleSignin } from "@react-native-community/google-signin";
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
 import { enableScreens } from "react-native-screens";
+import { toastAndroid } from "./android/androidToast";
 
 GoogleSignin.configure({
   webClientId: "139558566075-ocmb5fj142sd6v6ukr27kb8ngf89r6jb.apps.googleusercontent.com",
@@ -51,6 +53,16 @@ function App() {
     storage,
     NAVIGATION_PERSISTENCE_KEY,
   );
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (remoteMessage.notification?.body) {
+        toastAndroid("Reminder: " + remoteMessage.notification.body)
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
