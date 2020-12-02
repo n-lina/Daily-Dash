@@ -141,44 +141,9 @@ if args.debug:
 else:
     logging.getLogger().setLevel(logging.INFO)
 
-######################### Generate functions #########################
-
-def generate_goals():
-  for i in range(1000):
-    send_post('/goals', dev_token, data={'userId': i,
-      "title": i,
-      "description": "irrelevant words",
-      "shortTermGoals": [
-        {
-          "title": "Do a coding challenge practice problem each weekday.",
-          "mon": [
-            5,
-            15
-          ],
-          "wed": [
-            30,
-            20
-          ]
-        }
-      ]
-    }
-  )
-
-def generate_users():
-  for i in range(1000):
-    send_post('/users', dev_token, data={
-      "id": i,
-      "email": i,
-      "username": i,
-      "notificationId": "eysn1FN-RhGZ4ptNSqBZyR:APA91bGi5OqkOdoxRosRXmqU5WMEKObJbIdC5QgZQqKX9-BnspCi6LCAsrevL9bFU8pEQp0NXc8YwHVDCHAvTy2YP2C__PZgJX7E5zD7J3guQ9258CsmoMJAT93mQCRttfVIfIpgm56v"
-    }
-  )
-
 ######################### Run tests #########################
 
 # Goals and users already generated on test server
-# generate_goals()
-# generate_users()
 
 test_post_users_time()
 test_post_goals_time()
