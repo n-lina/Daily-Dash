@@ -227,12 +227,11 @@ export class Api {
       const stgId = raw.stgId;
       let count = idToCount.get(stgId);
       if (count) {
-        idToCount.set(stgId, count++);
+        idToCount.set(stgId, ++count);
       } else {
         count = 1;
         idToCount.set(stgId, count);
       }
-      console.log(count);
       return {
         id: raw.stgId + this.idCountSplitter + count,
         title: raw.title,
