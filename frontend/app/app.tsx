@@ -57,7 +57,8 @@ function App() {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       if (remoteMessage.notification?.body) {
-        toastAndroid("Reminder: " + remoteMessage.notification.body)
+        toastAndroid("Reminder: " + remoteMessage.notification.body
+        );
       }
     });
 
