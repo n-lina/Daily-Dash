@@ -115,7 +115,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
         let hrs = parseInt(myTimeSlot.hour);
         if (Number.isNaN(hrs)) {
           setLoading(false);
-          if (timeMode === 12) myTimeSlot.setMeridiem("am")
+          if (timeMode === 12) myTimeSlot.setMeridiem("am");
           return;
         }
 

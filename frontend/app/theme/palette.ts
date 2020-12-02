@@ -9,7 +9,7 @@ export const palette = {
   angry: "#dd3333",
   darkAqua: "#008585",
   aqua: "#46BFAC",
-  lightSeaGreen: "#616F6C", 
-  paleRed: "#FF5665", 
+  lightSeaGreen: "#616F6C",
+  paleRed: "#FF5665",
   skyBlue: "#54BFFF"
 };
