@@ -20,7 +20,6 @@ app.use("/users", users);
 
 var server = app.listen(port, () => {
   logger.info("Server listening on port ${port}!");
-  }
-);
+});
 
 module.exports = server;

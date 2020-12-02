@@ -7,9 +7,8 @@ const goalsHelper = require("./goalsHelper");
 const goalsSugHelper = require("./goalsSugHelper.js");
 const GoalModel = require("../models/goals");
 
-var   cacheLTGsArray = [];
+var cacheLTGsArray = [];
 global.GlobalcacheLTGsArray = cacheLTGsArray;
-
 
 /*
   Functions for database access
@@ -24,7 +23,10 @@ async function findGoals(id) {
 
 async function findShortTermGoalsGoals(id, dayOfWeek) {
   var result = await GoalModel.find({ userId: id });
-  var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(result, dayOfWeek);
+  var responseObj = goalsHelper.getShortTermGoalsResponseFromDbResult(
+    result,
+    dayOfWeek
+  );
   logger.info(responseObj);
 
   return responseObj;
@@ -32,13 +34,15 @@ async function findShortTermGoalsGoals(id, dayOfWeek) {
 
 async function addGoal(userId, title, description, shortTermGoals) {
   const goalObj = new GoalModel({
-    userId: userId, title: title, description: description, shortTermGoals: shortTermGoals });
+    userId: userId,
+    title: title,
+    description: description,
+    shortTermGoals: shortTermGoals
+  });
 
-  await goalObj.save()
-    .then((doc) => {
-      logger.info(doc);
-    });
-
+  await goalObj.save().then((doc) => {
+    logger.info(doc);
+  });
 
   var responseObj = { id: userId };
 
@@ -91,7 +95,12 @@ router.post("/", auth.checkIfAuthenticated, async (req, res) => {
   const description = req.body.description;
   const shortTermGoals = req.body.shortTermGoals;
 
-  if (userId == null || title == null || description == null || shortTermGoals == null) {
+  if (
+    userId == null ||
+    title == null ||
+    description == null ||
+    shortTermGoals == null
+  ) {
     logger.info(`Missing parameters in ${req.params}`);
     res.status(400);
     res.end();
@@ -106,8 +115,13 @@ router.post("/", auth.checkIfAuthenticated, async (req, res) => {
 const getSuggestedShortTermGoal = async (req, res) => {
   const title = req.query.title;
 
-  if (!(typeof title == "string" || title instanceof String) || !goalsSugHelper.checkHasWords(title)) {
-    logger.info(`Parameter in query url is either missing or not string with at least 1 character.`);
+  if (
+    !(typeof title == "string" || title instanceof String) ||
+    !goalsSugHelper.checkHasWords(title)
+  ) {
+    logger.info(
+      "Parameter in query url is either missing or not string with at least 1 character."
+    );
     res.status(400);
     res.end();
     return;
@@ -115,32 +129,38 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   const noSugSTGString = "No suggested short term goal.";
 
-  try{
-  var LTG_title_array = [];
-  goalsSugHelper.fillArrayWithValidLTGtitles(LTG_title_array);
+  try {
+    var LTG_title_array = [];
+    goalsSugHelper.fillArrayWithValidLTGtitles(LTG_title_array);
 
-  var arr_of_LTG_cossim_scores = [LTG_title_array.length];
-  for (let i = 0; i < LTG_title_array.length; i++) {
-    arr_of_LTG_cossim_scores[i] = cossim.getCosSim(title, LTG_title_array[i]);
-  }
-  
-  let index_highest_cossim_LTG = arr_of_LTG_cossim_scores.indexOf(Math.max(...arr_of_LTG_cossim_scores));
-  let highest_cossim_LTG_title = LTG_title_array[index_highest_cossim_LTG];
+    var arr_of_LTG_cossim_scores = [LTG_title_array.length];
+    for (let i = 0; i < LTG_title_array.length; i++) {
+      arr_of_LTG_cossim_scores[i] = cossim.getCosSim(title, LTG_title_array[i]);
+    }
 
-  var STG_title_array = [];
-  await goalsSugHelper.fillArrayWithValidSTGtitles(STG_title_array, highest_cossim_LTG_title);
+    let index_highest_cossim_LTG = arr_of_LTG_cossim_scores.indexOf(
+      Math.max(...arr_of_LTG_cossim_scores)
+    );
+    let highest_cossim_LTG_title = LTG_title_array[index_highest_cossim_LTG];
 
-  var arr_of_STG_cossim_scores = [STG_title_array.length];
-  for (let i = 0; i < STG_title_array.length; i++) {
-    arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
-  }
+    var STG_title_array = [];
+    await goalsSugHelper.fillArrayWithValidSTGtitles(
+      STG_title_array,
+      highest_cossim_LTG_title
+    );
 
-  let index_highest_cossim_STG = arr_of_STG_cossim_scores.indexOf(Math.max(...arr_of_STG_cossim_scores));
-  var mostSimilarSTG = STG_title_array[index_highest_cossim_STG];
+    var arr_of_STG_cossim_scores = [STG_title_array.length];
+    for (let i = 0; i < STG_title_array.length; i++) {
+      arr_of_STG_cossim_scores[i] = cossim.getCosSim(title, STG_title_array[i]);
+    }
 
-  var response = mostSimilarSTG == null ? noSugSTGString : mostSimilarSTG;
-  res.send({ "answer": response });
+    let index_highest_cossim_STG = arr_of_STG_cossim_scores.indexOf(
+      Math.max(...arr_of_STG_cossim_scores)
+    );
+    var mostSimilarSTG = STG_title_array[index_highest_cossim_STG];
 
+    var response = mostSimilarSTG == null ? noSugSTGString : mostSimilarSTG;
+    res.send({ answer: response });
   } catch (error) {
     res.status(500);
     logger.error(error);
@@ -150,8 +170,16 @@ const getSuggestedShortTermGoal = async (req, res) => {
 };
 
 router.put("/:ltgId", auth.checkIfAuthenticated, goalsHelper.updateGoal);
-router.get("/suggestedstg", auth.checkIfAuthenticated, getSuggestedShortTermGoal);
-router.put("/shortterm/counter", auth.checkIfAuthenticated, goalsHelper.completeShortTermGoal);
+router.get(
+  "/suggestedstg",
+  auth.checkIfAuthenticated,
+  getSuggestedShortTermGoal
+);
+router.put(
+  "/shortterm/counter",
+  auth.checkIfAuthenticated,
+  goalsHelper.completeShortTermGoal
+);
 router.delete("/:_id", auth.checkIfAuthenticated, goalsHelper.deleteLTG);
 
 module.exports = router;
