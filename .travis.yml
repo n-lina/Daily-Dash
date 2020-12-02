@@ -13,7 +13,7 @@ before_script:
 script:
   - npm run lint
   - npm test
-after_script:
+  - npm start
   - cd ${TRAVIS_BUILD_DIR}/backend/test
   - pip3 install requests
   - python3 authorizationTest.py
