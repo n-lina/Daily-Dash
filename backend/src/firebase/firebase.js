@@ -7,9 +7,8 @@ class Firebase {
       credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://dailydash-6d979.firebaseio.com"
     });
-
   }
-  
+
   // This registration token comes from the client FCM SDKs.
 }
 

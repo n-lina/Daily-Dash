@@ -1,13 +1,13 @@
-const request = require('supertest');
+const request = require("supertest");
 const rewire = require("rewire");
 const admin = require("firebase-admin");
-const server = require('../../index');
+const server = require("../../index");
 const goals = rewire("../goals");
 const goalsHelper = require("../goalsHelper");
 const auth = require("../../firebase/auth");
 const logger = require("../../logger/logging");
-const cossimImport = require('../cossim.js');
-const goalsSugHelperImport = require('../goalsSugHelper');
+const cossimImport = require("../cossim.js");
+const goalsSugHelperImport = require("../goalsSugHelper");
 
 describe("Goals mock tests", () => {
   beforeEach(async () => {
@@ -22,10 +22,10 @@ describe("Goals mock tests", () => {
       });
     }));
 
-    goalsHelper.updateGoal = jest.fn(() => {})
-    goalsHelper.getShortTermGoalsResponseFromDbResult = jest.fn(() => {})
-    goalsHelper.completeShortTermGoal = jest.fn(() => {})
-    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {})
+    goalsHelper.updateGoal = jest.fn(() => {});
+    goalsHelper.getShortTermGoalsResponseFromDbResult = jest.fn(() => {});
+    goalsHelper.completeShortTermGoal = jest.fn(() => {});
+    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {});
     auth.checkIfAuthenticated = jest.fn(() => new Promise((resolve) => {
       resolve({
         email: "tests"
@@ -121,7 +121,7 @@ describe("Goals mock tests", () => {
       })
       .expect(200)
       .end(done);
-  })
+  });
 
   it("should fail to add a new goal when request parameters are missing", (done) => {
     request(server)
@@ -142,7 +142,7 @@ describe("Goals mock tests", () => {
       })
       .expect(400)
       .end(done);
-  })
+  });
 
   it("should successfully get user goals", (done) => {
     goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {
@@ -163,7 +163,7 @@ describe("Goals mock tests", () => {
           ]
         }
       ]
-    }});
+    };});
 
     request(server)
       .get("/goals/?id=eq06XtykrqSHJtqWblOYkhWat6s2")
@@ -171,7 +171,7 @@ describe("Goals mock tests", () => {
       .send()
       .expect(200)
       .end(done);
-  })
+  });
 
   it("should fail to get user goals because of missing parameters", (done) => {
     request(server)
@@ -180,7 +180,7 @@ describe("Goals mock tests", () => {
       .send()
       .expect(400)
       .end(done);
-  })
+  });
 
   it("should successfully get short term goals", (done) => {
     goalsHelper.getShortTermGoals = jest.fn(() => {
@@ -192,7 +192,7 @@ describe("Goals mock tests", () => {
             "time": 5
           },
         ]
-      }
+      };
     });
 
     request(server)
@@ -201,13 +201,13 @@ describe("Goals mock tests", () => {
       .send()
       .expect(200)
       .end(done);
-  })
+  });
 
   it("should fail to get short term goals because of missing parameters", (done) => {
     goalsHelper.getShortTermGoals = jest.fn(() => {
       return {
         "shortTermGoals": []
-      }
+      };
     });
 
     request(server)
@@ -216,13 +216,13 @@ describe("Goals mock tests", () => {
       .send()
       .expect(400)
       .end(done);
-  })
+  });
 
   it("should fail to get short term goals because incorrect day of week", (done) => {
     goalsHelper.getShortTermGoals = jest.fn(() => {
       return {
         "shortTermGoals": []
-      }
+      };
     });
 
     request(server)
@@ -231,8 +231,8 @@ describe("Goals mock tests", () => {
       .send()
       .expect(200)
       .end(done);
-  })
-})
+  });
+});
 
 describe("Complex logic endpoint", () => {
 
@@ -246,7 +246,7 @@ describe("Complex logic endpoint", () => {
 
   afterAll(async () => {
     await server.shutdown();
-  })
+  });
 
   const expectedGetCosSimResult = 0.67;
 
@@ -260,12 +260,12 @@ describe("Complex logic endpoint", () => {
       .get("/goals/suggestedstg?title=bingo")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(200)
+      .expect(200);
           
     expect(res.body.answer).toEqual("STG test title");
 
     done();
-  })
+  });
 
   test("Should get 400 for wrong title input", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => false);
@@ -277,10 +277,10 @@ describe("Complex logic endpoint", () => {
       .get("/goals/suggestedstg?title=^&")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(400)
+      .expect(400);
       
     done();
-  })
+  });
 
   test("Should get success and no-suggestion string since no LTG titles", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
@@ -295,7 +295,7 @@ describe("Complex logic endpoint", () => {
       .expect(200);
 
     done();
-  })
+  });
 
   test("Should get success and no-suggestion string since no STG titles", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
@@ -307,25 +307,25 @@ describe("Complex logic endpoint", () => {
       .get("/goals/suggestedstg?title=bingo")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(200)
+      .expect(200);
           
     expect(res.body.answer).toEqual("No suggested short term goal.");
 
     done();
-  })
+  });
 
   test("Should fail to get string because error occurred", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
     goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => {throw new Error("Parameters not string")});
+    cossimImport.getCosSim = jest.fn(() => {throw new Error("Parameters not string");});
     
     await request(server)
       .get("/goals/suggestedstg?title=bingo")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(500)
+      .expect(500);
 
     done();
-  })
-})
+  });
+});

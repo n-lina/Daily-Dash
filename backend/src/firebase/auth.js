@@ -24,21 +24,19 @@ const checkIfAuthenticated = (req, res, next) => {
     }
 
     try {
-      const userInfo = await admin
-        .auth()
-        .verifyIdToken(authToken)
+      const userInfo = await admin.auth().verifyIdToken(authToken);
 
-        req.authId = userInfo.uid;
+      req.authId = userInfo.uid;
 
-        return next();
+      return next();
     } catch (err) {
-        logger.info(err);
+      logger.info(err);
 
-        return res
+      return res
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
-  })
+  });
 };
 
 module.exports = { checkIfAuthenticated };
