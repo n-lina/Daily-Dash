@@ -294,13 +294,7 @@ export class Api {
       if (problem) return problem;
     }
 
-    try {
-      // const rawGoal = response.data
-      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok" };
-    } catch {
-      return { kind: "bad-data" };
-    }
+    return { kind: "ok" };
   }
 
   async putLTgoal(LTgoal: string, description: string, STgoals: Array<Types.STGoal>, goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
@@ -314,13 +308,7 @@ export class Api {
       if (problem) return problem;
     }
 
-    try {
-      // const rawGoal = response.data
-      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok" };
-    } catch {
-      return { kind: "bad-data" };
-    }
+    return { kind: "ok" };
   }
 
   async deleteLTgoal(goalId: string, userId: string = this.getUserID()): Promise<Types.PostGoalResult> {
@@ -334,12 +322,6 @@ export class Api {
       if (problem) return problem;
     }
 
-    try {
-      // const rawGoal = response.data
-      // const resultGoal: Types.Goal = this.convertGoal(rawGoal)
-      return { kind: "ok" };
-    } catch {
-      return { kind: "bad-data" };
-    }
+    return { kind: "ok" };
   }
 }
