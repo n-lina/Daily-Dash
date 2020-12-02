@@ -1,19 +1,25 @@
+matrix:
+  include:
+    - language: python
+      python: 3.7
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}/backend/test
+        - python -m pip install requests
+      script:
+        - python authorizationTest.py
+        - python performanceTest.py
 
-language: node_js
-node_js:
-  - 12
-services: mongodb
-before_install:
-  - cd ${TRAVIS_BUILD_DIR}/backend/src/config
-  - ls
-  - openssl aes-256-cbc -K $encrypted_124419063776_key -iv $encrypted_124419063776_iv -in fbServiceAccountKey.json.enc -out fbServiceAccountKey.json -d
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}/backend
-  - npm install
-script:
-  - npm run lint
-  - npm test
-  - npm start
-  - cd ${TRAVIS_BUILD_DIR}/backend/test
-  - pip3 install requests
-  - python3 authorizationTest.py
+    - language: node_js
+      node_js:
+        - 12
+      services: mongodb
+      before_install:
+        - cd ${TRAVIS_BUILD_DIR}/backend/src/config
+        - ls
+        - openssl aes-256-cbc -K $encrypted_124419063776_key -iv $encrypted_124419063776_iv -in fbServiceAccountKey.json.enc -out fbServiceAccountKey.json -d
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}/backend
+        - npm install
+      script:
+        - npm run lint
+        - npm test

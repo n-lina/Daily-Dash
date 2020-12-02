@@ -4,7 +4,7 @@ import argparse
 
 dev_token = "test"
 user_id = 'RPeq88j3J7YPusoSsRcHg5rXepn1'
-base_url = "http://localhost:3000"
+base_url = "http://18.221.217.95:3000"
 
 failed = 0
 tests = 0
