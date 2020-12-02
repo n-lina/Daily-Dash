@@ -176,9 +176,9 @@ def generate_users():
 
 ######################### Run tests #########################
 
-
-generate_goals()
-generate_users()
+# Goals and users already generated on test server
+# generate_goals()
+# generate_users()
 
 test_post_users_time()
 test_post_goals_time()
