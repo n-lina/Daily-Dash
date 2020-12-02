@@ -4,7 +4,7 @@ import argparse
 
 dev_token = "test"
 user_id = 'RPeq88j3J7YPusoSsRcHg5rXepn1'
-base_url = "http://localhost:3000"
+base_url = "http://18.221.217.95:3000"
 
 failed = 0
 tests = 0
@@ -141,47 +141,9 @@ if args.debug:
 else:
     logging.getLogger().setLevel(logging.INFO)
 
-######################### Generate functions #########################
-
-def generate_goals():
-  for i in range(100000):
-    send_post('/goals', dev_token, data={'userId': i,
-      "title": i,
-      "description": "irrelevant words",
-      "shortTermGoals": [
-        {
-          "title": "Do a coding challenge practice problem each weekday.",
-          "mon": [
-            5,
-            15
-          ],
-          "wed": [
-            30,
-            20
-          ]
-        }
-      ]
-    }
-  )
-
-def generate_users():
-  for i in range(100000):
-    send_post('/users', dev_token, data={
-      "id": i,
-      "email": i,
-      "username": i,
-      "notificationId": "eysn1FN-RhGZ4ptNSqBZyR:APA91bGi5OqkOdoxRosRXmqU5WMEKObJbIdC5QgZQqKX9-BnspCi6LCAsrevL9bFU8pEQp0NXc8YwHVDCHAvTy2YP2C__PZgJX7E5zD7J3guQ9258CsmoMJAT93mQCRttfVIfIpgm56v"
-    }
-  )
-
 ######################### Run tests #########################
 
-generate_data = input("Generate Database Data (y/n): ")
-
-if generate_data == "y":
-  print("Generating data...")
-  generate_goals()
-  generate_users()
+# Goals and users already generated on test server
 
 test_post_users_time()
 test_post_goals_time()
@@ -197,4 +159,4 @@ if failed > 0:
     logging.error("Tests failed: {0} ❌".format(failed))
     raise Exception("{0} tests failed".format(failed))
 else:
-    logging.info("All tests passed! All are secure. ✅")
+    logging.info("All tests passed!✅")
