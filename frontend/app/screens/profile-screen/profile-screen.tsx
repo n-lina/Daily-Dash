@@ -152,7 +152,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
                 type="clear"
                 onPress={goToAwards}
                 icon={
-                  { name: "trophy-award", type: "material-community", color: "#54BFFF", size: 70 }
+                  { name: "trophy-award", type: "material-community", color: palette.skyBlue, size: 70 }
                 }
               />
               <Text style={AWARD_SUBTITLE} testID="awardsString">

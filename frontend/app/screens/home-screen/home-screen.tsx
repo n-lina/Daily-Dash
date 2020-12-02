@@ -182,7 +182,7 @@ export const HomeScreen = observer(function HomeScreen() {
             <CheckBox
               checked={item.cancelled || item.completed}
               checkedIcon={item.cancelled ? "close" : "check"}
-              checkedColor={item.cancelled ? "#FF5665" : color.primary}
+              checkedColor={item.cancelled ? palette.paleRed : color.primary}
               iconRight
               onPress={() => toggleToggle(item as DailyGoal)}
             ></CheckBox>

@@ -4,6 +4,7 @@ import { Text } from "../text/text";
 import { viewPresets, textPresets } from "./button.presets";
 import { ButtonProps } from "./button.props";
 import { mergeAll, flatten } from "ramda";
+import { palette } from "../../theme/palette";
 
 /**
  * For your text displaying needs.
@@ -25,7 +26,7 @@ export function Button(props: ButtonProps) {
   const dailyDashBtnStyle = {
     marginLeft: 10,
     marginRight: 10,
-    backgroundColor: "#008080",
+    backgroundColor: palette.darkAqua,
     borderTopLeftRadius: 9,
     borderTopRightRadius: 9,
     borderBottomLeftRadius: 9,
