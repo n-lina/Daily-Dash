@@ -17,10 +17,10 @@ describe("TimeMode", () => {
     })
 
     it("should have no goals and set time mode to 12 hr", async () => {
-        await waitFor(element(by.id("homeSreenWrap")))
+        await waitFor(element(by.id("homeScreenWrap")))
             .toExist()
             .withTimeout(10000)
-        await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+        await expect(element(by.id("homeScreenWrap"))).toBeVisible()
         await expect(element(by.id("noGoalsMessage"))).toBeVisible()
         await element(by.id("profileTabButton")).tap()
         await waitFor(element(by.text("12 HR")))
@@ -96,10 +96,10 @@ describe("TimeMode", () => {
 
     it("should display daily goals with valid 24 hr time", async () => {
         await element(by.id("homeTabButton")).tap()
-        await waitFor(element(by.id("homeSreenWrap")))
+        await waitFor(element(by.id("homeScreenWrap")))
             .toExist()
             .withTimeout(10000)
-        await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+        await expect(element(by.id("homeScreenWrap"))).toBeVisible()
         await expect(element(by.text("12:14"))).toBeVisible()
         await expect(element(by.text("0:15"))).toBeVisible()
     })
@@ -111,10 +111,10 @@ describe("TimeMode", () => {
             .withTimeout(1000)
         await element(by.text("12 HR")).tap()
         await element(by.id("homeTabButton")).tap()
-        await waitFor(element(by.id("homeSreenWrap")))
+        await waitFor(element(by.id("homeScreenWrap")))
             .toExist()
             .withTimeout(10000)
-        await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+        await expect(element(by.id("homeScreenWrap"))).toBeVisible()
         await expect(element(by.text("12:14 pm"))).toBeVisible()
         await expect(element(by.text("12:15 am"))).toBeVisible()
     })
