@@ -78,15 +78,8 @@ router.get("/shortterm", auth.checkIfAuthenticated, async (req, res) => {
     return;
   }
 
-  try {
-    var responseObj = await findShortTermGoalsGoals(id, dayOfWeek);
-    res.send(responseObj);
-  } catch (error) {
-    res.status(500);
-    logger.error(error);
-    res.end();
-    return;
-  }
+  var responseObj = await findShortTermGoalsGoals(id, dayOfWeek);
+  res.send(responseObj);
 });
 
 router.post("/", auth.checkIfAuthenticated, async (req, res) => {

@@ -207,7 +207,7 @@ describe("Goals mock tests", () => {
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=modn")
       .set({ Authorization: "Bearer ExampleAuth" })
       .send()
-      .expect(500)
+      .expect(200)
       .end(done);
   });
 });
