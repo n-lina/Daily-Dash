@@ -9,8 +9,8 @@ require("./firebase/firebase");
 
 const port = 3000;
 
-app.use(cors())
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 
 const goals = require("./goals/goals");
 const users = require("./users/users");
