@@ -5,7 +5,7 @@ const logger = require("../logger/logging");
 const HCGoalsModule = require("./goalsHardcoded");
 
 const maxLTGsInArray = 50;
-const intervalRepopulatingTempLTGArrayMilliseconds = 3000;
+// const intervalRepopulatingTempLTGArrayMilliseconds = 3000;
 
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
@@ -157,7 +157,6 @@ const updateGoal = async (req, res) => {
     res.send();
   } catch (error) {
     res.status(500);
-    console.log(error);
     res.end();
     return;
   }
@@ -273,9 +272,7 @@ if (!done) {
   repopulateCacheLTGArray();
 }
 
-setInterval(function () {
-  repopulateCacheLTGArray();
-}, intervalRepopulatingTempLTGArrayMilliseconds);
+// setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
@@ -290,5 +287,6 @@ module.exports = {
   updateGoal,
   completeShortTermGoal,
   deleteLTG,
-  repopulateCacheLTGArray
+  repopulateCacheLTGArray,
+  updateShortTermGoalCounter
 };
