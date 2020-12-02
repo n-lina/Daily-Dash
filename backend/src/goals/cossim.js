@@ -91,9 +91,10 @@ function getCosSim(str1,str2) {
     let vec1 = Object.values(x2);
     let vec2 = Object.values(y2);
  
+
     let cosine_sim = calccossim(vec1, vec2);
     return cosine_sim;
 }
 
 
-module.exports = { getCosSim };
+module.exports = { getCosSim, makeWordTally, makeAllValuesZero, calccossim };
