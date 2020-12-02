@@ -8,7 +8,9 @@
     "lint": "./node_modules/.bin/eslint src",
     "start": "node src/index.js",
     "testMockGoal": "jest mockGoals.test.js  --coverage --maxWorkers=1 --detectOpenHandles",
-    "testIntegration": "jest goalsIntegration.test.js  --coverage --maxWorkers=1 --detectOpenHandles"
+    "testMockCossim": "jest mockCossim.test.js  --coverage --maxWorkers=1 --detectOpenHandles",
+    "testIntegration": "jest goalsIntegration.test.js  --coverage --maxWorkers=1 --detectOpenHandles",
+    "testUser": "jest users.test.js  --coverage --maxWorkers=1 --detectOpenHandles"
   },
   "repository": {
     "type": "git",

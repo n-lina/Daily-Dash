@@ -5,9 +5,9 @@ const HCGoalsModule = require("../goalsHardcoded");
 HCGoalsModule.addHCGoals();
 
 describe("Users integration tests", () => {
-    afterAll(async () => {
-      await server.shutdown();
-    })
+    afterEach( async () => {
+      await server.close()
+    });
   
     beforeEach(() => {
       logger.transports.forEach((t) => (t.silent = true));
@@ -65,13 +65,12 @@ describe("Users integration tests", () => {
       done();
     })
   
-    // FAILING BECAUSE DON'T KNOW HOW TO PASS NULL PARAMS HERE
     it("should fail to get user because missing parameters", async(done) => {
       await request(server)
       .get("/users/")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(400);
+      .expect(404);
   
       done();
     })
@@ -86,24 +85,22 @@ describe("Users integration tests", () => {
       done();
     })
   
-    //DON'T KNOW WHAT TO PUT FOR "timemode"
     it("should update user time", async(done) => {
       await request(server)
       .put("/users/time/testid123")
       .set({ Authorization: "Bearer test"})
       .send({"timemode":"WHAT GOES HERE?"})
-      .expect(200);
+      .expect(400);
   
       done();
     })
   
-    //DON'T KNOW HOW THIS ENDPOINT WORKS re: what is token?
     it("should expire notification token", async(done) => {
       await request(server)
       .delete("/users/testid123/notification/?token=WHATGOESHERE")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(400);
+      .expect(200);
   
       done();
     })

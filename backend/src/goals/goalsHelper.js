@@ -250,7 +250,7 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
-setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
+// setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
