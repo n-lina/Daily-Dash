@@ -196,7 +196,7 @@ describe("Goals integration tests", () => {
   })
  
   test("should successfully get suggested STG title", async(done) => {
-    const res = await request(server)
+    await request(server)
       .get("/goals/suggestedstg?title=guitar%20finger")
       .set({ Authorization: "Bearer test"})
       .send()
