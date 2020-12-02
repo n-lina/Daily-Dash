@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { Dimensions, FlatList, Image, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { Header, Screen, Text } from "../../components";
 import { useNavigation } from "@react-navigation/native";
-// import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme";
 import { useStores } from "../../models";
 import { Avatar, ListItem } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { palette } from "../../theme/palette";
-
-const darkAqua = "#008080";
-const aqua = "#46BFAC";
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -97,12 +93,9 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
     return (
       <View>
         <ListItem onPress={() => getSpecificGoal(item)}>
-          {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
-            icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20 }}
-            // overlayContainerStyle={styles.background}
-            // activeOpacity={0.7}
+            icon={{ name: "seedling", type: "font-awesome-5", color: color.primaryLighter, size: 20 }}
           />
           <ListItem.Content>
             <ListItem.Title style={{ textTransform: "capitalize" }}>{title}</ListItem.Title>
@@ -127,15 +120,12 @@ export const CommonGoalsScreen = observer(function CommonGoalsScreen() {
         < Separator />
         < Separator />
         <Image source={require("../../../assets/park.png")} style={styles.image} />
-        {/* < Separator /> */}
         <SafeAreaView style={styles.flex}>
           <FlatList
             style={styles.flatlist}
-            data={goalsStore.listOfGoals}
+            data={goalsStore.getCommonGoals()}
             renderItem={renderGoal}
             keyExtractor={(item) => "" + item.id}
-            // onRefresh={() => userStore.getAwards()}
-            // refreshing={refreshing}
           ></FlatList>
         </SafeAreaView>
       </Screen>

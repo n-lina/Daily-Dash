@@ -14,11 +14,6 @@ const borderColor = "#737373";
 const aqua = "#46BFAC";
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: aqua,
-    marginLeft: spacing[1],
-    marginRight: spacing[1]
-  },
   buttonNewHabit: {
     backgroundColor: aqua,
     marginBottom: 90,
@@ -120,11 +115,11 @@ const Separator = () => (
   <View style={styles.separator} />
 );
 
-export interface myList {
+export interface MyList {
   stgList: any
   timeMode: number
 }
-const StGoalsView = observer((props: myList) => (
+const StGoalsView = observer((props: MyList) => (
   <View>
     {props.stgList.map((goal, index) => (< StGoal myGoal={goal} key={index} index={index} timeMode={props.timeMode}/>))}
   </View>
@@ -146,7 +141,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
   function convertSTgoals(fromForm: Array<StGoalForm>) {
     const allStGoals = [];
     for (const goal of fromForm) {
-      if (goal.title == "") return [];
+      if (goal.title === "") return [];
       const currStGoal = {
         id: goal.id,
         title: goal.title,
@@ -160,7 +155,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
       };
 
       for (const timeSlot of goal.timeForm) {
-        if (timeSlot.hour == "" || timeSlot.minute == "") {
+        if (timeSlot.hour === "" || timeSlot.minute === "") {
           return [];
         } else {
           const time = convertTimeToMin(parseInt(timeSlot.hour), parseInt(timeSlot.minute), timeSlot.meridies);
@@ -169,7 +164,7 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
       }
 
       for (const key in currStGoal) {
-        if (currStGoal[key] == []) delete currStGoal[`${key}`];
+        if (currStGoal[key] === []) delete currStGoal[`${key}`];
       }
 
       allStGoals.push(currStGoal);
@@ -183,11 +178,11 @@ export const GoalFormScreen = observer(function GoalFormScreen() {
 
   function submitForm(LTgoal: string, description: string, fromForm: Array<StGoalForm>, goalID: string) {
     const myStGoal = convertSTgoals(fromForm);
-    if (myStGoal.length == 0 || LTgoal == "") {
+    if (myStGoal.length === 0 || LTgoal === "") {
       Alert.alert("Please fill in all required fields before submitting.");
       return false;
     }
-    if (description == "") description = " ";
+    if (description === "") description = " ";
 
     let submitPromise: Promise<void>;
     if (purpose === "add") {

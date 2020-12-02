@@ -1,13 +1,11 @@
 import * as React from "react";
 import { View, ViewStyle, StyleSheet, TextInput } from "react-native";
-import { spacing } from "../../theme";
+import { color, spacing } from "../../theme";
 import { Text } from "../";
 import { TimeForm } from "../../models/time-form/time-form";
 import DropDownPicker from "react-native-dropdown-picker";
 import SwitchSelector from "react-native-switch-selector";
-
-const aqua = "#46BFAC";
-const darkAqua = "#008080";
+import { palette } from "../../theme/palette";
 
 const styles = StyleSheet.create({
   amPmContainer: {
@@ -17,7 +15,7 @@ const styles = StyleSheet.create({
   },
   colon: {
     alignContent: "center",
-    color: "#000",
+    color: palette.black,
     flex: 1,
     fontSize: 17,
     fontWeight: "bold",
@@ -64,7 +62,7 @@ const CONTAINER: ViewStyle = {
   justifyContent: "center",
 };
 
-const pickerColor = "#fff";
+const pickerColor = palette.white;
 
 export interface StTimeSlotFormProps {
   /**
@@ -158,11 +156,9 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
         }
 
         const hrString = (hrs).toString();
-        console.log(hrString);
         myTimeSlot.setHour(hrString);
         myTimeSlot.setMeridiem(meridies);
         changeHour(hrString);
-
         setLoading(false);
       }
     }, 1);
@@ -197,7 +193,7 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             placeholderStyle={{ fontSize: 16 }}
             labelStyle={{ fontSize: 16 }}
             arrowSize={16}
-            arrowColor={darkAqua}
+            arrowColor={color.primary}
           />
           <TextInput
             testID={"hourInput" + props.stgIndex}
@@ -226,10 +222,10 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
               height={34}
               initial={(props.timeSlot.meridies === "pm") ? 1 : 0}
               onPress={value => props.timeSlot.setMeridiem(value as string)}
-              textColor='grey'
-              selectedColor="#fff"
-              buttonColor={aqua}
-              borderColor={aqua}
+              textColor={palette.lightGrey}
+              selectedColor={palette.white}
+              buttonColor={color.primaryLighter}
+              borderColor={color.primaryLighter}
               hasPadding={false}
               options={[
                 { label: "AM", value: "am" },

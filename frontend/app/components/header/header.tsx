@@ -20,6 +20,7 @@ const TITLE: TextStyle = { textAlign: "center" };
 const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" };
 const LEFT: ViewStyle = { width: 32 };
 const RIGHT: ViewStyle = { width: 32 };
+const BUTTON_TEXT: TextStyle = { fontSize: 15 };
 
 /**
  * Header that appears on many screens. Will hold navigation buttons and screen title.
@@ -41,7 +42,7 @@ export function Header(props: HeaderProps) {
   return (
     <View style={{ ...ROOT, ...style }}>
       {leftIcon ? (
-        <Button textStyle={{ fontSize: 15 }} style={buttonStyle} preset="link" onPress={onLeftPress}>
+        <Button textStyle={BUTTON_TEXT} style={buttonStyle} preset="link" onPress={onLeftPress}>
           <Icon icon={leftIcon} />
         </Button>
       ) : (

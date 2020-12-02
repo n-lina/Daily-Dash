@@ -6,13 +6,10 @@ import { color, spacing, typography } from "../../theme";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin, GoogleSigninButton } from "@react-native-community/google-signin";
 import { useStores } from "../../models";
+import { palette } from "../../theme/palette";
 
-const darkAqua = "#008080";
-const aqua = "#46BFAC";
-// const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get("window").height;
-const lightseagreen = "#616F6C";
-const background = "#fff";
+const lightseagreen = palette.lightSeaGreen;
 
 const FULL: ViewStyle = { flex: 1 };
 const CONTAINER: ViewStyle = {
@@ -23,7 +20,6 @@ const CONTAINER: ViewStyle = {
 const TEXT: TextStyle = {
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
@@ -35,11 +31,9 @@ const TITLE_WRAPPER: TextStyle = {
   textAlign: "center",
   alignItems: "center",
   marginTop: windowHeight / 4,
-  // top: windowHeight/4
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  // ...BOLD,
   fontSize: 30,
   lineHeight: 38,
   textAlign: "center",
@@ -49,7 +43,6 @@ const TITLE: TextStyle = {
 
 const CONTENT_WRAP: ViewStyle = {
   flex: 1,
-  // justifyContent: "center",
   marginTop: spacing[5],
   alignItems: "center"
 };
@@ -75,6 +68,12 @@ const INVISIBLE: ViewStyle = {
   width: 0,
   left: 10,
   backgroundColor: "white"
+};
+
+const IMG_STYLE = {
+  height: 50,
+  width: 50,
+  marginBottom: spacing[5]
 };
 
 export const SigninScreen = observer(function SigninScreen() {
@@ -121,7 +120,7 @@ export const SigninScreen = observer(function SigninScreen() {
             testID="testSignIn"
             onPress={testSignIn}
           />
-          <Image source={require("../../../assets/boot.png")} style={{ height: 50, width: 50, marginBottom: spacing[5] }} />
+          <Image source={require("../../../assets/boot.png")} style={IMG_STYLE} />
           <GoogleSigninButton
             style={SIGNIN_BUTTON}
             size={GoogleSigninButton.Size.Wide}
