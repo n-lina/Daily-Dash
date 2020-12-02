@@ -397,26 +397,18 @@ let arrayHCLTGS = [
 ];
 
 async function addHardcodedGoal(LTG_) {
-  try {
-    var result = await GoalModel.find({ userId: LTG_.userId });
-  } catch (error) {
-    logger.error(error);
-  }
-
+  var result = await GoalModel.find({ userId: LTG_.userId });
+  
   if (result.length === 0) {
-    try {
-      const goalObj = new GoalModel({
-        userId: LTG_.userId,
-        title: LTG_.title,
-        description: LTG_.description,
-        shortTermGoals: LTG_.shortTermGoals
-      });
-      await goalObj.save().then((doc) => {
-        logger.info(doc);
-      });
-    } catch (error) {
-      logger.error(error);
-    }
+    const goalObj = new GoalModel({
+      userId: LTG_.userId,
+      title: LTG_.title,
+      description: LTG_.description,
+      shortTermGoals: LTG_.shortTermGoals
+    });
+    await goalObj.save().then((doc) => {
+      logger.info(doc);
+    });
   }
 }
 
