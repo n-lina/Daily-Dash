@@ -1,8 +1,8 @@
 const request = require('supertest');
 const server = require('../../index');
-const cossimImport = require('../cossim.js');
-const goalsSugHelperImport = require('../goalsSugHelper');
 const logger = require("../../logger/logging");
+const HCGoalsModule = require("../goalsHardcoded");
+HCGoalsModule.addHCGoals();
 
 describe("Goals integration tests", () => {
   afterAll(async () => {
@@ -105,7 +105,7 @@ describe("Goals integration tests", () => {
       .send()
       .expect(200)
 
-    console.log(res.body)
+//    console.log(res.body)
 
     expect(res.body.longTermGoals.length > 0);
 
@@ -187,81 +187,144 @@ describe("Goals integration tests", () => {
       .end(done);
   })
 
-  test("should fail to get suggested STG title", async(done) => {
-    const expectedGetCosSimResult = 0.67;
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn((arrayParamSTG) => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
+  it("should successfully add an LTG", async(done) => { 
+    await request(server)
+      .post("/goals")
+      .set({ Authorization: "Bearer test"})
+      .send({"userId":"testUser100","title":"Become great.",
+      "description":"irrelevant words",
+      "shortTermGoals":[
+        {"title":"Do a cool thing.","mon":[5,15],"wed":[30,20]},
+        {"title":"Every week, hi 5 someone.","sat":[5,15],"sun":[30,20]}]})
+      .expect(200);
 
-    request(server)
-      .get("/goals/suggestedstg?title=bingo")
+    done();
+  })
+ 
+  test("should successfully get suggested STG title", async(done) => {
+    const res = await request(server)
+      .get("/goals/suggestedstg?title=guitar%20finger")
       .set({ Authorization: "Bearer test"})
       .send()
-      .expect(401)
+      .expect(200)
+          
+    expect(res.body.answer).toEqual("Do finger training with the finger pump machine thingy.");
 
     done();
   })
 
-    // TO DO: 1. TAKE OUT MOCKS FROM ABOVE TEST 2. DO TESTS BELOW WITHOUT THE MOCKS (U TOOK EM OUT)
-
-  // test("Should successfully get suggested STG title", async(done) => {
-  //   const res = await request(server)
-  //     .get("/goals/suggestedstg?title=bingo")
-  //     .set({ Authorization: "Bearer test"})
-  //     .send()
-  //     .expect(200)
+  test("should get error for failing to include valid suggestedstg query parameter", async(done) => {
+    await request(server)
+      .get("/goals/suggestedstg")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(400)
           
-  //   expect(res.body.answer).toEqual("STG test title");
+    done();
+  })
 
-  //   done();
-  // })
-
-  // test("Should get 400 for wrong title input", async(done) => {
-  //   await request(server)
-  //     .get("/goals/suggestedstg?title=^&")
-  //     .set({ Authorization: "Bearer test"})
-  //     .send()
-  //     .expect(400)
-      
-  //   done();
-  // })
-
-  // test("Should get success and no-suggestion string since no LTG titles", async(done) => {
-  //   const res = await request(server)
-  //     .get("/goals/suggestedstg?title=bingo")
-  //     .set({ Authorization: "Bearer test"})
-  //     .send()
-  //     .expect(200)
+  test("should delete a goal", async(done) => {
+    await request(server)
+      .delete("/goals/5fc6ae0fa16da33aecc5e0fd")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
           
-  //   expect(res.body.answer).toEqual("No suggested short term goal.");
+    done();
+  })
 
-  //   done();
-  // })
-
-  // test("Should get success and no-suggestion string since no STG titles", async(done) => {
-  //   const res = await request(server)
-  //     .get("/goals/suggestedstg?title=bingo")
-  //     .set({ Authorization: "Bearer test"})
-  //     .send()
-  //     .expect(200)
+  test("should fail to delete a goal that doesn't exist, but still get 200", async(done) => {
+    await request(server)
+      .delete("/goals/fakeid123")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(200)
           
-  //   expect(res.body.answer).toEqual("No suggested short term goal.");
+    done();
+  })
 
-  //   done();
-  // })
+  test("should send no param value and receive 404", async(done) => {
+    await request(server)
+      .delete("/goals")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(404)
+          
+    done();
+  })
+  
 
-  // test("Should fail to get string because error occurred", async(done) => {
-  //   await request(server)
-  //     .get("/goals/suggestedstg?title=bingo")
-  //     .set({ Authorization: "Bearer test"})
-  //     .send()
-  //     .expect(500)
+  test("should update goal and receive 200", async(done) => {
+    await request(server)
+      .put("/goals/5fc7e4809eccc4554c9d61d7")
+      .set({ Authorization: "Bearer test"})
+      .send({"userId":"testUser4","title":"Adopt a  lifestyle",
+        "description":"I want to and feel better.",
+        "shortTermGoals":[{"title": "Cook  at home", "mon": [100], "tue": [30], "wed": [4] },
+        {"title": " 15 minutes", "mon": [100], "tue": [30], "wed": [4] },
+        {"title": "Go to sleep early", "mon": [100], "tue": [30], "wed": [4] },
+        {"title": "Wake up early", "mon": [100], "tue": [430], "wed": [4] },
+        {"title": "Drink more water", "mon": [100], "tue": [30], "wed": [4] },
+        {"title": "Eat more fruit and vegetables", "mon": [100], "tue": [30], "wed": [4] },
+        {"title": "Buy whole grain and high protein products", "mon": [100], "tue": [30], "wed": [4] }]
+  })
+      .expect(200)
+          
+    done();
+  })
 
-  //   done();
-  // })
+  test("should send non-existant id parameter and fail to update goal and receive 400", async(done) => {
+    await request(server)
+      .put("/goals/fakeid123")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(400)
+          
+    done();
+  })
+
+  test("should fail to update goal and receive 400", async(done) => {
+    await request(server)
+      .put("/goals/fakeid123")
+      .set({ Authorization: "Bearer test"})
+      .send()
+      .expect(400)
+          
+    done();
+  })
+
+  test("should update an STG with +1 for true and receive 200", async(done) => {
+    await request(server)
+      .put("/goals/shortterm/counter")
+      .set({ Authorization: "Bearer test"})
+      .send({"userId":"testUser5","shortTermGoalId":"5fc6a54bceb02e32dc523d35","complete":"1"})
+      .expect(200)
+          
+    done();
+  })
+
+  test("should update an STG with invalid complete value, trigger errors, and receive 500", async(done) => {
+    await request(server)
+      .put("/goals/shortterm/counter")
+      .set({ Authorization: "Bearer test"})
+      .send({"userId":"testUser6","shortTermGoalId":"5fc6a54bceb02e32dc523d3b","complete":false})
+      .expect(500)
+          
+    done();
+  })
+
+  test("should fail to update/completing an STG and receive 400", async(done) => {
+    await request(server)
+      .put("/goals/shortterm/counter")
+      .set({ Authorization: "Bearer test"})
+      .send({"userId":"testUser5","shortTermGoalId":"5fc6a54bceb02e32dc523d35"}) //parameter must be missing
+      .expect(400)
+          
+    done();
+  })
 
 })
+
 
 describe("Unauthorized Goals Tests", () => {
   beforeEach(() => {
@@ -313,4 +376,3 @@ describe("Unauthorized Goals Tests", () => {
   })
 
 })
-

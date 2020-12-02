@@ -119,12 +119,6 @@ const getSuggestedShortTermGoal = async (req, res) => {
   var LTG_title_array = [];
   goalsSugHelper.fillArrayWithValidLTGtitles(LTG_title_array);
 
-  if (LTG_title_array.length === 0) {
-    logger.info("No long term goal with a valid short term goal in database.");
-    res.send({ "answer": noSugSTGString });
-    return;
-  }
-
   var arr_of_LTG_cossim_scores = [LTG_title_array.length];
   for (let i = 0; i < LTG_title_array.length; i++) {
     arr_of_LTG_cossim_scores[i] = cossim.getCosSim(title, LTG_title_array[i]);
@@ -135,12 +129,6 @@ const getSuggestedShortTermGoal = async (req, res) => {
 
   var STG_title_array = [];
   await goalsSugHelper.fillArrayWithValidSTGtitles(STG_title_array, highest_cossim_LTG_title);
-
-  if (STG_title_array.length === 0) {  // redundant check in case no valid STGs (and, by extension, STGs)
-    logger.info("No valid short term goals in database.");
-    res.send({ "answer": noSugSTGString });
-    return;
-  }
 
   var arr_of_STG_cossim_scores = [STG_title_array.length];
   for (let i = 0; i < STG_title_array.length; i++) {
