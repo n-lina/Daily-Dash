@@ -2,6 +2,7 @@ const request = require('supertest');
 const server = require('../../index');
 const logger = require("../../logger/logging");
 const HCGoalsModule = require("../goalsHardcoded");
+const goalsHelper = require('../goalsHelper');
 HCGoalsModule.addHCGoals();
 
 describe("Goals integration tests", () => {
@@ -14,6 +15,10 @@ describe("Goals integration tests", () => {
     jest.useFakeTimers();
     jest.runAllTimers();
     jest.setTimeout(30000);
+  })
+
+  beforeAll(() => {
+    HCGoalsModule.addHCGoals();
   })
 
   it("should successfully add user and long term goals", async(done) => {
@@ -104,8 +109,6 @@ describe("Goals integration tests", () => {
       .set({ Authorization: "Bearer test"})
       .send()
       .expect(200)
-
-//    console.log(res.body)
 
     expect(res.body.longTermGoals.length > 0);
 
@@ -373,6 +376,49 @@ describe("Unauthorized Goals Tests", () => {
       .send()
       .expect(401)
       .end(done);
+  })
+
+  it("should fail to get short term goals because of missing parameters", () => {
+    const exampleArray = [
+      {
+        timesCompleted: 0,
+        mon: [ 5, 15 ],
+        tue: [],
+        wed: [ 30, 20 ],
+        thu: [],
+        fri: [],
+        sat: [],
+        sun: [],
+        _id: "5fc8031ef44a903575ad2349",
+        title: 'Do a coding challenge practice problem each weekday.'
+      },
+      {
+        timesCompleted: 0,
+        mon: [],
+        tue: [],
+        wed: [],
+        thu: [],
+        fri: [],
+        sat: [ 5, 15 ],
+        sun: [ 30, 20 ],
+        _id: "5fc8031ef44a903575ad234a",
+        title: 'Every week, make a project that helps out mom and dad.'
+      },
+      {
+        timesCompleted: 0,
+        mon: [ 5, 15 ],
+        tue: [],
+        wed: [ 30, 20 ],
+        thu: [],
+        fri: [],
+        sat: [],
+        sun: [],
+        _id: "5fc8031ef44a903575ad234b",
+        title: 'Every Sunday, visit a makerspace and see what people are up to, coding-wise, for inspiration.'
+      }
+    ]
+
+    goalsHelper.updateShortTermGoalCounter(exampleArray, exampleArray);
   })
 
 })

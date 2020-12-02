@@ -7,8 +7,6 @@ const HCGoalsModule = require("./goalsHardcoded");
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArrayMilliseconds = 3000;
 
-
-
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
     longTermGoals: []
@@ -260,4 +258,4 @@ async function repopulateCacheLTGArray() {
   global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
 }
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray}
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray, updateShortTermGoalCounter}
