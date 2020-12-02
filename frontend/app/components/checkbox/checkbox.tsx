@@ -19,7 +19,7 @@ const OUTLINE: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
   borderWidth: 1,
-  borderColor: color.primaryDarker,
+  borderColor: color.primaryLighter,
   borderRadius: 1,
 };
 

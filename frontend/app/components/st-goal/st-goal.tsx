@@ -5,56 +5,32 @@ import { color, typography, spacing } from "../../theme";
 import { Text, StTimeSlotForm } from "../";
 import { StGoalForm, useStores } from "../../models";
 import { observer } from "mobx-react-lite";
+import { palette } from "../../theme/palette";
 
-// const borderColor = "#737373";
-const darkAqua = "#008080";
-const aqua = "#46BFAC";
 const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  container: {
-    height: 35,
-    width: 120
-  },
   button: {
-    backgroundColor: "white",
+    backgroundColor: palette.white,
     borderBottomLeftRadius: 100,
     borderBottomRightRadius: 100,
     borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
-    // width:50,
-    // height:50,
-    // marginLeft: spacing[1],
-    // marginRight: spacing[1]
   },
-  buttonText: {
-    fontSize: 25,
-    textAlign: "center"
-  },
-  flexStart: {
-    justifyContent: "flex-start"
-  },
-
-  // separator: {
-  //   borderBottomColor: borderColor,
-  //   borderBottomWidth: StyleSheet.hairlineWidth,
-  //   marginVertical: 8,
-  // },
   buttonPanel: {
     alignContent: "center",
     flexDirection: "row",
     justifyContent: "center",
     width: windowWidth
-    // justifyContent: 'space-between',
+  },
+  textInput: {
+    fontSize: 16,
+    height: 40
   },
   times: {
     alignContent: "center",
     alignItems: "center",
     width: windowWidth
-  },
-  textInput: {
-    fontSize: 16,
-    height: 40
   },
 });
 
@@ -78,7 +54,7 @@ const TITLE2: TextStyle = {
   marginTop: spacing[1],
   marginLeft: spacing[3],
   marginRight: spacing[3],
-  color: darkAqua
+  color: color.primary
 };
 
 export interface StGoalProps {
@@ -91,36 +67,36 @@ export interface StGoalProps {
   timeMode: number
 }
 
-export interface myTimesList {
+export interface MyTimesList {
   timesList: any
   timeMode: number
   stgIndex: number
 }
-const TimesView = observer((props: myTimesList) => (
+const TimesView = observer((props: MyTimesList) => (
   <View style={styles.times}>
-    {props.timesList.map((timeSlot, index) => (< StTimeSlotForm timeSlot={timeSlot} key={index} stgIndex={props.stgIndex} timeMode={props.timeMode}/>))}
+    {
+      props.timesList.map((timeSlot, index) =>
+        (< StTimeSlotForm timeSlot={timeSlot} key={index} stgIndex={props.stgIndex} timeMode={props.timeMode}/>)
+      )
+    }
   </View>
 ));
 
 /**
- * Describe your component here
+ * Short term goal component used in add and edit long term goal forms
  */
 export function StGoal(props: StGoalProps) {
-  // const { style } = props;
-
-  // const Separator = () => (
-  //   <View style={styles.separator} />
-  // );
-
   const [loading, setLoading] = React.useState(true);
   const { userStore, LtGoalFormStore } = useStores();
+
+  const lengthOfStGoalForm = LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length - 1].timeForm.length;
 
   React.useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1);
-  }, [LtGoalFormStore.STgoalForm[LtGoalFormStore.STgoalForm.length - 1].timeForm.length]);
+  }, [lengthOfStGoalForm]);
 
   return (
     <View style={CONTAINER}>
@@ -132,7 +108,6 @@ export function StGoal(props: StGoalProps) {
               testID={"stgTitle" + props.index}
               style={styles.textInput}
               onChangeText={text => props.myGoal.setTitle(text)}
-              // value={props.myGoal.title}
               placeholder="call a friend once a week"
               defaultValue={props.myGoal.title}
             />
@@ -141,19 +116,19 @@ export function StGoal(props: StGoalProps) {
           <View style={styles.buttonPanel}>
             <Avatar
               rounded
-              icon={{ name: "plus", type: "font-awesome", color: darkAqua }}
+              icon={{ name: "plus", type: "font-awesome", color: color.primary }}
               onPress={() => props.myGoal.addTimeSlot()}
               overlayContainerStyle={styles.button}
             />
             <Avatar
               rounded
-              icon={{ name: "minus", type: "font-awesome", color: darkAqua }}
+              icon={{ name: "minus", type: "font-awesome", color: color.primary }}
               onPress={() => props.myGoal.deleteTimeSlot()}
               overlayContainerStyle={styles.button}
             />
             <Avatar
               rounded
-              icon={{ name: "close", type: "font-awesome", color: darkAqua }}
+              icon={{ name: "close", type: "font-awesome", color: color.primary }}
               onPress={() => LtGoalFormStore.deleteSTgoal(props.index)}
               overlayContainerStyle={styles.button}
             />

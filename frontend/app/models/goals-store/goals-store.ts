@@ -200,7 +200,7 @@ export const GoalsStoreModel = types
         __DEV__ && console.log("Setting suggestion list " + suggestion);
         self.STsuggestion = suggestion;
       } else { __DEV__ && console.log("Unsetting suggestion"); self.STsuggestion = ""; }
-    }, 
+    },
     clear: () => {
       self.goals.clear();
     }

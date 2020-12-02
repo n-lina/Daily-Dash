@@ -9,10 +9,10 @@ import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
 import { palette } from "../../theme/palette";
 
-const borderColor = "#737373";
-const white = "#fff";
-const black = "#000";
-const lightseagreen = "#616F6C";
+const borderColor = palette.grey;
+const white = palette.white;
+const black = palette.black;
+const lightseagreen = palette.lightSeaGreen;
 const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: black
   },
   button: {
-    backgroundColor: "#008080",
+    backgroundColor: color.primary,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    backgroundColor: "#46BFAC",
+    backgroundColor: color.primaryLighter,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    color: "white",
+    color: palette.white,
     flex: 1,
     fontSize: 32,
     textAlign: "center"
@@ -88,7 +88,6 @@ const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
   flex: 1,
   alignItems: "center",
-  // justifyContent: "center",
 };
 
 const Separator = () => (
@@ -99,7 +98,6 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
 
 const BACK_BUTTON: ViewStyle = {
   backgroundColor: palette.white,
@@ -119,7 +117,6 @@ const TITLE_WRAPPER: TextStyle = {
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
@@ -155,9 +152,9 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const route = useRoute();
   const { id } = route.params as Goal;
   const { purpose } = (route.params as DetailFormProps);
-  let myGoal: Goal = goalsStore.goals.filter(goal => goal.id == id)[0];
-  if (purpose == "common") {
-    myGoal = goalsStore.listOfGoals.filter(goal => goal.id == id)[0];
+  let myGoal: Goal = goalsStore.goals.filter(goal => goal.id === id)[0];
+  if (purpose === "common") {
+    myGoal = goalsStore.listOfGoals.filter(goal => goal.id === id)[0];
   }
   const { LTgoal, description, STgoals } = myGoal;
 
@@ -320,7 +317,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             )}
           />
         </SafeAreaView>
-        { purpose == "common" &&
+        { purpose === "common" &&
           <Button
             testID="addCommonGoalButton"
             style={styles.button}
@@ -328,7 +325,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
             textStyle={styles.buttonText}
             onPress={() => addThisGoal()}
           />}
-        { purpose == "user" &&
+        { purpose === "user" &&
           <View style={styles.fixToText}>
             <Button
               testID="editGoalButton"

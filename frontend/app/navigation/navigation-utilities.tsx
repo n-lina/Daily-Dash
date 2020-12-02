@@ -55,7 +55,7 @@ export function useBackButtonHandler(
     const onBackPress = () => {
       const navigation = ref.current;
 
-      if (navigation == null) {
+      if (navigation === null) {
         return false;
       }
 
@@ -63,7 +63,7 @@ export function useBackButtonHandler(
       const routeName = getActiveRouteName(navigation.getRootState());
 
       // are we allowed to exit?
-      if (routeName == "home") {
+      if (routeName === "home") {
         // let the system know we've not handled this event
         return false;
       }
