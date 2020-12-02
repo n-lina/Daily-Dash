@@ -75,8 +75,8 @@ describe("AddGoal", () => {
   it("should mark goals as complete and be reflected in level and score", async () => {
     await element(by.id("homeTabButton")).tap()
     await waitFor(element(by.id("goal0")))
-    .toExist()
-    .withTimeout(1000)
+      .toExist()
+      .withTimeout(1000)
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
     await element(by.id("profileTabButton")).tap()
@@ -86,8 +86,8 @@ describe("AddGoal", () => {
 
   it("should unmark goals as not complete and be reflected in level and score", async () => {
     await waitFor(element(by.id("goal0")))
-    .toExist()
-    .withTimeout(1000)
+      .toExist()
+      .withTimeout(1000)
     await element(by.id("goal0")).tap()
     await element(by.id("goal1")).tap()
     await element(by.id("profileTabButton")).tap()
