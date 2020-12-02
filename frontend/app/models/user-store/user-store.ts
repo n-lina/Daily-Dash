@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
-import { Alert, ToastAndroid } from "react-native";
+import {ToastAndroid } from "react-native";
 import { withEnvironment } from "../extensions/with-environment";
 
 interface Award {
@@ -26,7 +26,7 @@ const toastAndroid = (message: string) => {
 
 const awards: Award[] = [{
   title: "Baby Steps",
-  description: "Completed 2 sub-goals.",
+  description: `Completed ${awardThresholds[0]} sub-goals.`,
   threshold: awardThresholds[0]
 }, {
   title: "Getting the Hang of It",
@@ -108,16 +108,16 @@ export const UserStoreModel = types
       self.goalsCompleted++;
       if (Math.log2(self.goalsCompleted) % 1 == 0) {
         toastAndroid(
-          "🎉 Level Up !! 🎉" +
-          `You are now on Level ${self.getLevel()} ! Keep up the great work.`,
+          `${"\n"}🎉 LEVEL UP !! 🎉 ${"\n"}${"\n"}${"\n"}` + 
+          ` You are now on Level ${self.getLevel()}! 🔥 ${"\n"} Keep up the great work.${"\n"}`,
         );
       }
       if (awardThresholds.includes(self.goalsCompleted)) {
         const myAwards = self.getAwards(false);
         const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length - 1].title : "Getting Started ...";
         toastAndroid(
-          "🎉 Congratulations !! 🎉" +
-          `You just earned the "${myTitle}" award! Keep it up!.`
+           `${"\n"}🎉 CONGRATULATIONS !! 🎉 ${"\n"}${"\n"}${"\n"}` + 
+          ` You just earned the "${myTitle}" award! ${"\n"}⭐ Keep it up! ⭐${"\n"}` 
         );
       }
     },
