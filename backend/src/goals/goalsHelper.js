@@ -281,9 +281,7 @@ async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
   let numLTGsToSample =
     countLTGs <= maxLTGsInArray ? countLTGs : maxLTGsInArray;
-  global.GlobalcacheLTGsArray = await GoalModel.aggregate([
-    { $sample: { size: numLTGsToSample } }
-  ]);
+  global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
 }
 
 module.exports = {
