@@ -83,9 +83,6 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
 const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
   const currentShortTermGoalsMap = new Map();
 
-  console.log("ABC")
-  console.log(shortTermGoals)
-
   currentShortTermGoals.forEach(function(shortTermGoal) {
     const currentShortTermGoalId = shortTermGoal._id.toString();
     currentShortTermGoalsMap.set(currentShortTermGoalId, shortTermGoal.timesCompleted);
