@@ -20,7 +20,7 @@ const toastAndroid = (message: string) => {
   ToastAndroid.showWithGravity(
     message,
     ToastAndroid.LONG,
-    ToastAndroid.CENTER,
+    ToastAndroid.TOP,
   );
 };
 
