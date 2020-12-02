@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
 const logger = require("../logger/logging");
@@ -21,7 +21,7 @@ const getGoalsResponseFromDBResult = (result) => {
       id: goal._id,
       title: goal.title,
       description: goal.description,
-      shortTermGoals: [],
+      shortTermGoals: []
     };
 
     goal.shortTermGoals.forEach(function (shortTermGoal) {
@@ -35,7 +35,7 @@ const getGoalsResponseFromDBResult = (result) => {
         thu: shortTermGoal.thu,
         fri: shortTermGoal.fri,
         sat: shortTermGoal.sat,
-        sun: shortTermGoal.sun,
+        sun: shortTermGoal.sun
       };
 
       goalResponse.shortTermGoals.push(shortTermGoalObj);
@@ -79,31 +79,38 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
   return responseObj;
 };
 
-
 const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
   const currentShortTermGoalsMap = new Map();
 
-  currentShortTermGoals.forEach(function(shortTermGoal) {
+  currentShortTermGoals.forEach(function (shortTermGoal) {
     const currentShortTermGoalId = shortTermGoal._id.toString();
-    currentShortTermGoalsMap.set(currentShortTermGoalId, shortTermGoal.timesCompleted);
-  })
+    currentShortTermGoalsMap.set(
+      currentShortTermGoalId,
+      shortTermGoal.timesCompleted
+    );
+  });
 
-  shortTermGoals.map(function(shortTermGoal) {
+  shortTermGoals.map(function (shortTermGoal) {
     const shortTermGoalId = shortTermGoal.id;
 
-    if (shortTermGoalId !== "" && mongoose.Types.ObjectId.isValid(shortTermGoalId)) {
+    if (
+      shortTermGoalId !== "" &&
+      mongoose.Types.ObjectId.isValid(shortTermGoalId)
+    ) {
       shortTermGoal._id = mongoose.Types.ObjectId(shortTermGoalId);
     }
 
     if (currentShortTermGoalsMap.has(shortTermGoalId)) {
-      shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(shortTermGoalId);
+      shortTermGoal.timesCompleted = currentShortTermGoalsMap.get(
+        shortTermGoalId
+      );
     } else {
       shortTermGoal.timesCompleted = 0;
     }
 
     return shortTermGoal;
-  })
-}
+  });
+};
 
 const updateGoal = async (req, res) => {
   const ltgId = req.params.ltgId;
@@ -112,14 +119,20 @@ const updateGoal = async (req, res) => {
   const description = req.body.description;
   const shortTermGoals = req.body.shortTermGoals;
 
-  if (ltgId == null || userId == null || title == null || description == null || shortTermGoals == null) {
+  if (
+    ltgId == null ||
+    userId == null ||
+    title == null ||
+    description == null ||
+    shortTermGoals == null
+  ) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
     return;
   }
-  
-  const query = {"_id": ltgId, "userId": userId};
+
+  const query = { _id: ltgId, userId: userId };
 
   try {
     const currentGoal = await GoalModel.findOne(query);
@@ -133,12 +146,13 @@ const updateGoal = async (req, res) => {
       shortTermGoals: shortTermGoals
     };
 
-    await GoalModel.findOneAndUpdate(query, goalObj, {upsert: true}).then((doc) => {
-      logger.info(doc);
-    })
-    .catch((err) => {
-      logger.error(err);
-    });
+    await GoalModel.findOneAndUpdate(query, goalObj, { upsert: true })
+      .then((doc) => {
+        logger.info(doc);
+      })
+      .catch((err) => {
+        logger.error(err);
+      });
 
     res.send();
   } catch (error) {
@@ -166,16 +180,27 @@ const completeShortTermGoal = async (req, res) => {
 
   try {
     if (await validateUserCompletedGoals(countIncrement, userId)) {
-      const goalUpdateFilter = {"userId": userId, "shortTermGoals._id": shortTermGoalId};
-      const goalUpdateQuery = {$inc: {"shortTermGoals.$.timesCompleted" : countIncrement}};
-      const goalUpdateResult = await GoalModel.findOneAndUpdate(goalUpdateFilter, goalUpdateQuery);
+      const goalUpdateFilter = {
+        userId: userId,
+        "shortTermGoals._id": shortTermGoalId
+      };
+      const goalUpdateQuery = {
+        $inc: { "shortTermGoals.$.timesCompleted": countIncrement }
+      };
+      const goalUpdateResult = await GoalModel.findOneAndUpdate(
+        goalUpdateFilter,
+        goalUpdateQuery
+      );
 
       if (goalUpdateResult != null) {
-        const userUpdateFilter = {"userId": userId};
-        const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
-        const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
+        const userUpdateFilter = { userId: userId };
+        const userUpdateQuery = { $inc: { goalsCompleted: countIncrement } };
+        const userUpdateResult = await UserModel.findOneAndUpdate(
+          userUpdateFilter,
+          userUpdateQuery
+        );
 
-        success = userUpdateResult != null ? true : false
+        success = userUpdateResult != null ? true : false;
       }
     } else {
       success = false;
@@ -189,7 +214,7 @@ const completeShortTermGoal = async (req, res) => {
       logger.info("Failed to update short term goal");
     }
 
-    const responseObj = {"success": success};
+    const responseObj = { success: success };
 
     res.send(responseObj);
   } catch (error) {
@@ -206,11 +231,11 @@ const validateUserCompletedGoals = async (countIncrement, userId) => {
     return true;
   }
 
-  const userFilter = {"userId": userId};
+  const userFilter = { userId: userId };
   const userResult = await UserModel.findOne(userFilter);
 
   return userResult.goalsCompleted > 0 ? true : false;
-}
+};
 
 const deleteLTG = async (req, res) => {
   const ltgId = req.params;
@@ -223,14 +248,13 @@ const deleteLTG = async (req, res) => {
   }
 
   try {
-    GoalModel.findOneAndDelete(ltgId, function (err, res) { 
-      if (err){ 
-        logger.error(err); 
-      } 
-      else{ 
+    GoalModel.findOneAndDelete(ltgId, function (err, res) {
+      if (err) {
+        logger.error(err);
+      } else {
         logger.info(res);
-      } 
-    }); 
+      }
+    });
     res.send();
   } catch (error) {
     res.status(500);
@@ -240,22 +264,33 @@ const deleteLTG = async (req, res) => {
   }
 };
 
-
 HCGoalsModule.addHCGoals();
 
 // call repopulateCacheLTGArray once upon database startup to ensure it is populated before it is used elsewhere
 var done = false;
 if (!done) {
-    done = true;
-    repopulateCacheLTGArray();
+  done = true;
+  repopulateCacheLTGArray();
 }
 
-setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
+setInterval(function () {
+  repopulateCacheLTGArray();
+}, intervalRepopulatingTempLTGArrayMilliseconds);
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
-  let numLTGsToSample = countLTGs<=maxLTGsInArray ? countLTGs : maxLTGsInArray;
-  global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
+  let numLTGsToSample =
+    countLTGs <= maxLTGsInArray ? countLTGs : maxLTGsInArray;
+  global.GlobalcacheLTGsArray = await GoalModel.aggregate([
+    { $sample: { size: numLTGsToSample } }
+  ]);
 }
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray, updateShortTermGoalCounter}
+module.exports = {
+  getGoalsResponseFromDBResult,
+  getShortTermGoalsResponseFromDbResult,
+  updateGoal,
+  completeShortTermGoal,
+  deleteLTG,
+  repopulateCacheLTGArray
+};

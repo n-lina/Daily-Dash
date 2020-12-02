@@ -11,7 +11,12 @@ const addUser = async (req, res) => {
   const username = req.body.username;
   const notificationId = req.body.notificationId;
 
-  if (id == null || email == null || username == null || notificationId == null) {
+  if (
+    id == null ||
+    email == null ||
+    username == null ||
+    notificationId == null
+  ) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
     res.end();
@@ -22,22 +27,32 @@ const addUser = async (req, res) => {
     userId: id,
     email,
     username,
-    notificationId,
+    notificationId
   };
 
-  const query = {"userId": id};
+  const query = { userId: id };
 
   var response;
 
-  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true, new: true}).then((doc) => {
-    response = {email: doc.email, username: doc.username, goalsCompleted: doc.goalsCompleted, timeMode: doc.timeMode};
-    logger.info(doc);
+  await UserModel.findOneAndUpdate(query, userObj, {
+    upsert: true,
+    setDefaultsOnInsert: true,
+    new: true
   })
-  .catch((err) => {
-    response = {email: email, username: username, goalsCompleted: 0};
-    logger.error(err);
-  });
-  
+    .then((doc) => {
+      response = {
+        email: doc.email,
+        username: doc.username,
+        goalsCompleted: doc.goalsCompleted,
+        timeMode: doc.timeMode
+      };
+      logger.info(doc);
+    })
+    .catch((err) => {
+      response = { email: email, username: username, goalsCompleted: 0 };
+      logger.error(err);
+    });
+
   res.send(response);
 };
 
@@ -56,21 +71,25 @@ const updateUserTime = async (req, res) => {
     timeMode
   };
 
-  const query = {"userId": id};
+  const query = { userId: id };
 
-  await UserModel.findOneAndUpdate(query, userObj, {upsert: true, setDefaultsOnInsert: true}).then((doc) => {
-    logger.info(doc);
+  await UserModel.findOneAndUpdate(query, userObj, {
+    upsert: true,
+    setDefaultsOnInsert: true
   })
-  .catch((err) => {
-    logger.error(err);
-  });
+    .then((doc) => {
+      logger.info(doc);
+    })
+    .catch((err) => {
+      logger.error(err);
+    });
 
-	res.send();
+  res.send();
 };
 
 const getUser = async (req, res) => {
   const id = req.params.id;
-  
+
   if (id == null) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
@@ -79,7 +98,7 @@ const getUser = async (req, res) => {
   }
 
   try {
-    var result = await UserModel.findOne({userId: id});
+    var result = await UserModel.findOne({ userId: id });
 
     logger.info(result);
 
@@ -90,7 +109,7 @@ const getUser = async (req, res) => {
     }
 
     var response = {
-      email: result.email, 
+      email: result.email,
       username: result.username,
       goalsCompleted: result.goalsCompleted,
       timeMode: result.timeMode
@@ -108,7 +127,7 @@ const getUser = async (req, res) => {
 const expireNotificationToken = async (req, res) => {
   const id = req.params.id;
   const token = req.query.token;
-  
+
   if (id == null || token == null) {
     logger.info(`Missing parameters in ${req.body}`);
     res.status(400);
@@ -117,26 +136,31 @@ const expireNotificationToken = async (req, res) => {
   }
 
   const userObj = {
-    notificationId: "",
+    notificationId: ""
   };
 
-  const query = {"userId": id, "notificationId": token};
+  const query = { userId: id, notificationId: token };
 
-  UserModel.findOneAndUpdate(query, userObj, {upsert: false}).then((doc) => {
-    logger.info(doc);
-  })
-  .catch((err) => {
-    logger.error(err);
-  });
+  UserModel.findOneAndUpdate(query, userObj, { upsert: false })
+    .then((doc) => {
+      logger.info(doc);
+    })
+    .catch((err) => {
+      logger.error(err);
+    });
 
-  var response = {userId: id};
+  var response = { userId: id };
 
-	res.send(response);
+  res.send(response);
 };
 
 router.post("/", auth.checkIfAuthenticated, addUser);
 router.get("/:id", auth.checkIfAuthenticated, getUser);
 router.put("/time/:id", auth.checkIfAuthenticated, updateUserTime);
-router.delete("/:id/notification", auth.checkIfAuthenticated, expireNotificationToken);
+router.delete(
+  "/:id/notification",
+  auth.checkIfAuthenticated,
+  expireNotificationToken
+);
 
 module.exports = router;
