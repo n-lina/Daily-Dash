@@ -97,11 +97,11 @@ export const UserStoreModel = types
       }
     },
     incrementGoalCount: () => {
-      console.log("Incrementing goals");
+      __DEV__ && console.log("Incrementing goals");
       self.goalsCompleted++;
       if (Math.log2(self.goalsCompleted) % 1 === 0) {
         toastAndroid(
-          `${"\n"}🎉 LEVEL UP !! 🎉 ${"\n"}${"\n"}${"\n"}` + 
+          `${"\n"}🎉 LEVEL UP !! 🎉 ${"\n"}${"\n"}${"\n"}` +
           ` You are now on Level ${self.getLevel()}! 🔥 ${"\n"} Keep up the great work.${"\n"}`,
         );
       }
@@ -109,8 +109,8 @@ export const UserStoreModel = types
         const myAwards = self.getAwards(false);
         const myTitle = (myAwards.length > 0) ? myAwards[myAwards.length - 1].title : "Getting Started ...";
         toastAndroid(
-           `${"\n"}🎉 CONGRATULATIONS !! 🎉 ${"\n"}${"\n"}${"\n"}` + 
-          ` You just earned the "${myTitle}" award! ${"\n"}⭐ Keep it up! ⭐${"\n"}` 
+           `${"\n"}🎉 CONGRATULATIONS !! 🎉 ${"\n"}${"\n"}${"\n"}` +
+          ` You just earned the "${myTitle}" award! ${"\n"}⭐ Keep it up! ⭐${"\n"}`
         );
       }
     },

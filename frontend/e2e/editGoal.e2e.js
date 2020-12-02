@@ -17,10 +17,10 @@ describe("EditGoal", () => {
     })
   
     it("should show home screen after signing in", async () => {
-      await waitFor(element(by.id("homeSreenWrap")))
+      await waitFor(element(by.id("homeScreenWrap")))
         .toExist()
         .withTimeout(10000)
-      await expect(element(by.id("homeSreenWrap"))).toBeVisible()
+      await expect(element(by.id("homeScreenWrap"))).toBeVisible()
     })
   
     it("should navigate to goals page", async () => {

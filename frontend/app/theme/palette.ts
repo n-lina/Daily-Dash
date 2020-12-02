@@ -3,13 +3,13 @@ export const palette = {
   white: "#ffffff",
   offWhite: "#e6e6e6",
   orange: "#FBA928",
-  orangeDarker: "#EB9918",
   grey: "#737373",
   lightGrey: "#939AA4",
   lighterGrey: "#CDD4DA",
   angry: "#dd3333",
-  darkAqua: "#008080",
+  darkAqua: "#008585",
   aqua: "#46BFAC",
-  lightGreen: "#aba",
-  lightSeaGreen: "#616F6C"
+  lightSeaGreen: "#616F6C", 
+  paleRed: "#FF5665", 
+  skyBlue: "#54BFFF"
 };

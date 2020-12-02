@@ -16,9 +16,6 @@ const lightseagreen = palette.lightSeaGreen;
 const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  black: {
-    color: black
-  },
   button: {
     backgroundColor: color.primary,
     borderBottomLeftRadius: 8,
@@ -81,6 +78,10 @@ const styles = StyleSheet.create({
     borderBottomColor: borderColor,
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginVertical: 8,
+  },
+  title: {
+    color: black,
+    maxWidth: 190
   }
 });
 
@@ -159,7 +160,7 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
   const { LTgoal, description, STgoals } = myGoal;
 
   function addThisGoal() {
-    goalsStore.postLTgoal(LTgoal, description, STgoals).then(res => {
+    goalsStore.postLTgoal(LTgoal, description, STgoals).then(() => {
       goalsStore.getAllGoals();
       dailyGoalStore.getGoalsForDay(getDay(true));
     });
@@ -188,6 +189,14 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       ],
       { cancelable: false }
     );
+
+  function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+      return 0;
+    } else {
+      return (a[0] < b[0]) ? -1 : 1;
+    }
+  }
 
   function editThisGoal() {
     LtGoalFormStore.clearForm();
@@ -259,7 +268,6 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
       title: "Friday",
       data: friday.sort(sortFunction)
     });
-    console.log(allSTGoals);
   }
   if (saturday.length > 0) {
     allSTGoals.push({
@@ -274,21 +282,13 @@ export const GoalDetailScreen = observer(function GoalDetailScreen() {
     });
   }
 
-  function sortFunction(a, b) {
-    if (a[0] === b[0]) {
-      return 0;
-    } else {
-      return (a[0] < b[0]) ? -1 : 1;
-    }
-  }
-
   const onBackPress = () => navigation.goBack();
 
   const Item = ({ title }) => {
     const timeStr = getDisplayTime(userStore.timeMode, title[0]);
     return (
       <View style={styles.item}>
-        <Text style={{ ...styles.black, maxWidth: 190 }}>{title[1]}</Text>
+        <Text style={styles.title}>{title[1]}</Text>
         <Text style={styles.right}>{timeStr}</Text>
       </View>
     );

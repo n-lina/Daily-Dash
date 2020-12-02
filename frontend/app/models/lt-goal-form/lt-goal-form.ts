@@ -53,13 +53,7 @@ export const LtGoalFormModel = types
         self.STgoalForm.splice(key, 1);
       }
     },
-    // submitData() {
-    //   console.log("-------------------");
-    //   console.log("self.title " + self.title);
-    //   console.log("self.description " + self.description);
-    //   self.STgoalForm.forEach(g => console.log("ST.title " + g.title + " " + g.day + " " + g.hour + " " + g.minute));
-    //   console.log("-------------------");
-    // },
+
     clearForm() {
       self.title = "";
       self.description = "";

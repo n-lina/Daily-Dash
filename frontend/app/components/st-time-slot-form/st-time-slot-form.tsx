@@ -8,10 +8,10 @@ import SwitchSelector from "react-native-switch-selector";
 import { palette } from "../../theme/palette";
 
 const styles = StyleSheet.create({
-  amPmContainer: {
-    height: 35,
-    marginLeft: 5,
-    width: 68
+  amPmSwitch: {
+    marginLeft: spacing[2],
+    marginTop: spacing[1] * 0.5,
+    width: 70
   },
   colon: {
     alignContent: "center",
@@ -29,18 +29,13 @@ const styles = StyleSheet.create({
   flexStart: {
     justifyContent: "flex-start"
   },
-  picker: {
-    height: 35,
-    width: 65
+  placeholder: {
+    fontSize: 16
   },
   sideByside: {
     alignContent: "center",
     flexDirection: "row",
     width: 220
-  },
-  textInput: {
-    fontSize: 15,
-    height: 40
   },
   textInputTime1: {
     alignContent: "center",
@@ -75,10 +70,13 @@ export interface StTimeSlotFormProps {
 }
 
 /**
- * Describe your component here
+ * Time slot component of the short-term goal component on add/edit goal pages
  */
 export function StTimeSlotForm(props: StTimeSlotFormProps) {
   const { style } = props;
+
+  const [hour, changeHour] = React.useState(props.timeSlot.hour);
+  const [min, changeMin] = React.useState(props.timeSlot.minute);
 
   function validateHour(hour: string) {
     hour = hour.replace(/[^0-9]/g, "");
@@ -103,9 +101,6 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
     changeMin(minute);
     props.timeSlot.setMin(minute);
   }
-
-  const [hour, changeHour] = React.useState(props.timeSlot.hour);
-  const [min, changeMin] = React.useState(props.timeSlot.minute);
 
   const [loading, setLoading] = React.useState(true);
 
@@ -190,8 +185,8 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             }
             dropDownStyle={{ backgroundColor: pickerColor }}
             onChangeItem={item => props.timeSlot.setDay(item.value)}
-            placeholderStyle={{ fontSize: 16 }}
-            labelStyle={{ fontSize: 16 }}
+            placeholderStyle={styles.placeholder}
+            labelStyle={styles.placeholder}
             arrowSize={16}
             arrowColor={color.primary}
           />
@@ -216,9 +211,9 @@ export function StTimeSlotForm(props: StTimeSlotFormProps) {
             maxLength = {2}
             value={min}
           />
-          {props.timeMode == 12 && (
+          {props.timeMode === 12 && (
             <SwitchSelector
-              style={{ width: 70, marginLeft: spacing[2], marginTop: spacing[1] * 0.5 }}
+              style={styles.amPmSwitch}
               height={34}
               initial={(props.timeSlot.meridies === "pm") ? 1 : 0}
               onPress={value => props.timeSlot.setMeridiem(value as string)}
