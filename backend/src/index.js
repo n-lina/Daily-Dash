@@ -7,7 +7,7 @@ const logger = require("./logger/logging");
 require("./db/database");
 require("./firebase/firebase");
 
-const port = 3000;
+const port = 3000
 
 app.use(cors());
 app.use(bodyParser.json());

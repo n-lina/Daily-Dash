@@ -21,5 +21,4 @@ matrix:
         - cd ${TRAVIS_BUILD_DIR}/backend
         - npm install
       script:
-        - npm run lint
         - npm test
