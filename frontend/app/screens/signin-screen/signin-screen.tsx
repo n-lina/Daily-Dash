@@ -70,7 +70,7 @@ const INVISIBLE: ViewStyle = {
   backgroundColor: "white"
 };
 
-const IMG_STYLE: ViewStyle = {
+const IMG_STYLE = {
   height: 50,
   width: 50,
   marginBottom: spacing[5]

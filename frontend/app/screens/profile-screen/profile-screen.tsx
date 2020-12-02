@@ -140,7 +140,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
                 <Text style={styles.levelbar} testID="goalsCompletedDisplay"> {levelScore} / {totalLevelScore} </Text>
               </View>
               <View style={PROGRESS_WRAP}>
-                <Progress.Bar progress={levelProgress} width={progressWidth} height={10} color={aqua} />
+                <Progress.Bar progress={levelProgress} width={progressWidth} height={10} color={color.primaryLighter} />
               </View>
               <View style={LEVEL_STYLE}>
                 <Text style={LEVEL_NUM_STYLE} testID="levelNumber">{level}</Text>
