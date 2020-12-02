@@ -271,40 +271,6 @@ describe("Complex logic endpoint", () => {
     done();
   })
 
-  test("Should get success and no-suggestion string since no LTG titles", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(() => {});
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(arrayParamSTG => arrayParamSTG.push("STG test title"));
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    const res = await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-          
-    expect(res.body.answer).toEqual("No suggested short term goal.");
-
-    done();
-  })
-
-  test("Should get success and no-suggestion string since no STG titles", async(done) => {
-    goalsSugHelperImport.checkHasWords = jest.fn(() => true);
-    goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn((arrayParam) => arrayParam.push("LTG test title"));
-    goalsSugHelperImport.fillArrayWithValidSTGtitles = jest.fn(() => {});
-    cossimImport.getCosSim = jest.fn(() => expectedGetCosSimResult);
-
-    const res = await request(server)
-      .get("/goals/suggestedstg?title=bingo")
-      .set({ Authorization: "Bearer test"})
-      .send()
-      .expect(200)
-          
-    expect(res.body.answer).toEqual("No suggested short term goal.");
-
-    done();
-  })
-
   test("Should fail to get string because error occurred", async(done) => {
     goalsSugHelperImport.checkHasWords = jest.fn(() => true);
     goalsSugHelperImport.fillArrayWithValidLTGtitles = jest.fn(arrayParam => arrayParam.push("LTG test title"));
