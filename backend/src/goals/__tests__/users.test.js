@@ -1,5 +1,5 @@
-const request = require('supertest');
-const server = require('../../index');
+const request = require("supertest");
+const server = require("../../index");
 const logger = require("../../logger/logging");
 const HCGoalsModule = require("../goalsHardcoded");
 HCGoalsModule.addHCGoals();
@@ -7,14 +7,14 @@ HCGoalsModule.addHCGoals();
 describe("Users integration tests", () => {
     afterAll(async () => {
       await server.shutdown();
-    })
+    });
   
     beforeEach(() => {
       logger.transports.forEach((t) => (t.silent = true));
       jest.useFakeTimers();
       jest.runAllTimers();
       jest.setTimeout(30000);
-    })
+    });
   
     it("should successfully add user", async(done) => {
       await request(server)
@@ -29,7 +29,7 @@ describe("Users integration tests", () => {
       .expect(200);
   
       done();
-    })
+    });
   
     it("should fail to add user since missing param", async(done) => {
       await request(server)
@@ -43,7 +43,7 @@ describe("Users integration tests", () => {
       .expect(400);
   
       done();
-    })
+    });
   
     it("should get user ", async(done) => {
       await request(server)
@@ -53,7 +53,7 @@ describe("Users integration tests", () => {
       .expect(200);
   
       done();
-    })
+    });
   
     it("should fail to get user because does not exist", async(done) => {
       await request(server)
@@ -63,7 +63,7 @@ describe("Users integration tests", () => {
       .expect(400);
   
       done();
-    })
+    });
   
     // FAILING BECAUSE DON'T KNOW HOW TO PASS NULL PARAMS HERE
     it("should fail to get user because missing parameters", async(done) => {
@@ -74,7 +74,7 @@ describe("Users integration tests", () => {
       .expect(400);
   
       done();
-    })
+    });
   
     it("should fail to update user time since missing param", async(done) => {
       await request(server)
@@ -84,7 +84,7 @@ describe("Users integration tests", () => {
       .expect(400);
   
       done();
-    })
+    });
   
     //DON'T KNOW WHAT TO PUT FOR "timemode"
     it("should update user time", async(done) => {
@@ -95,7 +95,7 @@ describe("Users integration tests", () => {
       .expect(200);
   
       done();
-    })
+    });
   
     //DON'T KNOW HOW THIS ENDPOINT WORKS re: what is token?
     it("should expire notification token", async(done) => {
@@ -106,6 +106,6 @@ describe("Users integration tests", () => {
       .expect(400);
   
       done();
-    })
+    });
   
-  })
+  });

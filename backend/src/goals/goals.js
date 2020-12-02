@@ -107,7 +107,7 @@ const getSuggestedShortTermGoal = async (req, res) => {
   const title = req.query.title;
 
   if (!(typeof title == "string" || title instanceof String) || !goalsSugHelper.checkHasWords(title)) {
-    logger.info(`Parameter in query url is either missing or not string with at least 1 character.`);
+    logger.info("Parameter in query url is either missing or not string with at least 1 character.");
     res.status(400);
     res.end();
     return;

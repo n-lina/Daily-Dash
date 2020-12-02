@@ -1,4 +1,4 @@
-const GoalModel = require('../models/goals');
+const GoalModel = require("../models/goals");
 
 /*
  * Accepts a string to confirm whether there are characters other than punctuation and white space
@@ -17,7 +17,7 @@ function checkHasWords(stringParam) {
     str = str
       .replace(/[^\w\s]|_/g, "")
       .replace(/\s+/g, " ")
-      .toLowerCase()
+      .toLowerCase();
     returnVal = !(str == "");
   }
   return returnVal;
@@ -80,4 +80,4 @@ async function fillArrayWithValidSTGtitles(arrayParamSTG, highestCossimLTGTitle)
     });
 }
 
-module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles, checkHasWords }
+module.exports = { fillArrayWithValidLTGtitles, fillArrayWithValidSTGtitles, checkHasWords };

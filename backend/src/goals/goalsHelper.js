@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 const GoalModel = require("../models/goals");
 const UserModel = require("../models/users");
 const logger = require("../logger/logging");
@@ -88,7 +88,7 @@ const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
   currentShortTermGoals.forEach(function(shortTermGoal) {
     const currentShortTermGoalId = shortTermGoal._id.toString();
     currentShortTermGoalsMap.set(currentShortTermGoalId, shortTermGoal.timesCompleted);
-  })
+  });
 
   shortTermGoals.map(function(shortTermGoal) {
     const shortTermGoalId = shortTermGoal.id;
@@ -104,8 +104,8 @@ const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
     }
 
     return shortTermGoal;
-  })
-}
+  });
+};
 
 const updateGoal = async (req, res) => {
   const ltgId = req.params.ltgId;
@@ -177,7 +177,7 @@ const completeShortTermGoal = async (req, res) => {
         const userUpdateQuery = {$inc: {"goalsCompleted" : countIncrement}};
         const userUpdateResult = await UserModel.findOneAndUpdate(userUpdateFilter, userUpdateQuery);
 
-        success = userUpdateResult != null ? true : false
+        success = userUpdateResult != null ? true : false;
       }
     } else {
       success = false;
@@ -212,7 +212,7 @@ const validateUserCompletedGoals = async (countIncrement, userId) => {
   const userResult = await UserModel.findOne(userFilter);
 
   return userResult.goalsCompleted > 0 ? true : false;
-}
+};
 
 const deleteLTG = async (req, res) => {
   const ltgId = req.params;
@@ -252,7 +252,7 @@ if (!done) {
     repopulateCacheLTGArray();
 }
 
-setInterval(function () {repopulateCacheLTGArray()}, intervalRepopulatingTempLTGArrayMilliseconds);
+setInterval(function () {repopulateCacheLTGArray();}, intervalRepopulatingTempLTGArrayMilliseconds);
 
 async function repopulateCacheLTGArray() {
   let countLTGs = await GoalModel.countDocuments({});
@@ -260,4 +260,4 @@ async function repopulateCacheLTGArray() {
   global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
 }
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray}
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray};

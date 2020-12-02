@@ -26,7 +26,7 @@ const checkIfAuthenticated = (req, res, next) => {
     try {
       const userInfo = await admin
         .auth()
-        .verifyIdToken(authToken)
+        .verifyIdToken(authToken);
 
         req.authId = userInfo.uid;
 
@@ -38,7 +38,7 @@ const checkIfAuthenticated = (req, res, next) => {
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
-  })
+  });
 };
 
 module.exports = { checkIfAuthenticated };
