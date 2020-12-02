@@ -7,8 +7,6 @@ const HCGoalsModule = require("./goalsHardcoded");
 const maxLTGsInArray = 50;
 const intervalRepopulatingTempLTGArrayMilliseconds = 3000;
 
-
-
 const getGoalsResponseFromDBResult = (result) => {
   const responseObj = {
     longTermGoals: []
@@ -84,6 +82,9 @@ const getShortTermGoalsResponseFromDbResult = (result, dayOfWeek) => {
 
 const updateShortTermGoalCounter = (shortTermGoals, currentShortTermGoals) => {
   const currentShortTermGoalsMap = new Map();
+
+  console.log("ABC")
+  console.log(shortTermGoals)
 
   currentShortTermGoals.forEach(function(shortTermGoal) {
     const currentShortTermGoalId = shortTermGoal._id.toString();
@@ -260,4 +261,4 @@ async function repopulateCacheLTGArray() {
   global.GlobalcacheLTGsArray = await GoalModel.aggregate([ { $sample: { size: numLTGsToSample }}]);
 }
 
-module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray}
+module.exports = { getGoalsResponseFromDBResult, getShortTermGoalsResponseFromDbResult, updateGoal, completeShortTermGoal, deleteLTG, repopulateCacheLTGArray, updateShortTermGoalCounter}

@@ -4,6 +4,7 @@ const admin = require("firebase-admin");
 const server = require('../../index');
 const goals = rewire("../goals");
 const goalsHelper = require("../goalsHelper");
+const auth = require("../../firebase/auth");
 const logger = require("../../logger/logging");
 const cossimImport = require('../cossim.js');
 const goalsSugHelperImport = require('../goalsSugHelper');
@@ -16,6 +17,16 @@ describe("Goals mock tests", () => {
     jest.setTimeout(30000);
 
     admin.auth().verifyIdToken = jest.fn(() => new Promise((resolve) => {
+      resolve({
+        email: "tests"
+      });
+    }));
+
+    goalsHelper.updateGoal = jest.fn(() => {})
+    goalsHelper.getShortTermGoalsResponseFromDbResult = jest.fn(() => {})
+    goalsHelper.completeShortTermGoal = jest.fn(() => {})
+    goalsHelper.getGoalsResponseFromDBResult = jest.fn(() => {})
+    auth.checkIfAuthenticated = jest.fn(() => new Promise((resolve) => {
       resolve({
         email: "tests"
       });
@@ -218,7 +229,7 @@ describe("Goals mock tests", () => {
       .get("/goals/shortterm?id=eq06XtykrqSHJtqWblOYkhWat6s2&dayOfWeek=modn")
       .set({ Authorization: "Bearer ExampleAuth"})
       .send()
-      .expect(500)
+      .expect(200)
       .end(done);
   })
 })
@@ -319,5 +330,4 @@ describe("Complex logic endpoint", () => {
 
     done();
   })
-
 })
