@@ -15,5 +15,5 @@ script:
   - npm test
 after_script:
   - cd ${TRAVIS_BUILD_DIR}/backend/test
-  - python -m pip install requests
+  - pip3 install requests
   - python3 authorizationTest.py

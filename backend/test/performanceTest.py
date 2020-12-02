@@ -144,7 +144,7 @@ else:
 ######################### Generate functions #########################
 
 def generate_goals():
-  for i in range(100000):
+  for i in range(1000):
     send_post('/goals', dev_token, data={'userId': i,
       "title": i,
       "description": "irrelevant words",
@@ -165,7 +165,7 @@ def generate_goals():
   )
 
 def generate_users():
-  for i in range(100000):
+  for i in range(1000):
     send_post('/users', dev_token, data={
       "id": i,
       "email": i,
@@ -176,12 +176,9 @@ def generate_users():
 
 ######################### Run tests #########################
 
-generate_data = input("Generate Database Data (y/n): ")
 
-if generate_data == "y":
-  print("Generating data...")
-  generate_goals()
-  generate_users()
+generate_goals()
+generate_users()
 
 test_post_users_time()
 test_post_goals_time()
@@ -197,4 +194,4 @@ if failed > 0:
     logging.error("Tests failed: {0} ❌".format(failed))
     raise Exception("{0} tests failed".format(failed))
 else:
-    logging.info("All tests passed! All are secure. ✅")
+    logging.info("All tests passed!✅")
