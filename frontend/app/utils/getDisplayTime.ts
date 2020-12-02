@@ -10,7 +10,7 @@ export const getDisplayTime = (timeMode: number, time: number) => {
   if (timeMode === 12) {
     if (hours >= 12) usePM = true;
     if (hours > 12) hours -= 12;
-    if (hours == 0) hours = 12;
+    if (hours === 0) hours = 12;
   }
   let timeStr = hours + ":";
   if (minutes < 10) timeStr += "0";

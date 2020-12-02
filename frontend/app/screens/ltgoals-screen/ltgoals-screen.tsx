@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, TextStyle, Image, ViewStyle, View, FlatList, Dimensions, SafeAreaView } from "react-native";
 import { Button, Header, Screen, Text } from "../../components";
 import { Goal, useStores } from "../../models";
 import { color, spacing, typography } from "../../theme";
 import { ListItem, Avatar } from "react-native-elements";
+import { palette } from "../../theme/palette";
 
-const borderColor = "#737373";
-const background = "#aba";
-const darkAqua = "#008080";
-const aqua = "#46BFAC";
+const borderColor = palette.grey;
+const background = palette.lightGreen;
+const aqua = palette.aqua;
 
 const styles = StyleSheet.create({
   LTgoal: {
@@ -43,8 +43,7 @@ const styles = StyleSheet.create({
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
   flex: 1,
-  alignItems: "center",
-  // justifyContent: "center",
+  alignItems: "center"
 };
 
 const Separator = () => (
@@ -55,7 +54,6 @@ const TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
 };
-const BOLD: TextStyle = { fontWeight: "bold" };
 
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
@@ -70,7 +68,6 @@ const TITLE_WRAPPER: TextStyle = {
 };
 const TITLE: TextStyle = {
   ...TEXT,
-  // ...BOLD,
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
@@ -83,12 +80,6 @@ const FULL: ViewStyle = {
 };
 
 export const LtgoalsScreen = observer(function LtgoalsScreen() {
-  // Pull in one of our MST stores
-
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
   const { goalsStore, LtGoalFormStore } = useStores();
   const navigation = useNavigation();
   const getSpecificGoal = (goal) => navigation.navigate("goalDetail", { id: goal.id, purpose: "user" });
@@ -116,15 +107,10 @@ export const LtgoalsScreen = observer(function LtgoalsScreen() {
 
     return (
       <View>
-        {/* <Text style={styles.LTgoal}> {goal.LTgoal}</Text> */}
         <ListItem onPress={() => getSpecificGoal(item)}>
-          {/* <Avatar source={require('../../../assets/hiking.png')} /> */}
           <Avatar
             rounded
             icon={{ name: "seedling", type: "font-awesome-5", color: aqua, size: 20 }}
-            // overlayContainerStyle={styles.green}
-            // activeOpacity={0.7}
-            // containerStyle={{flex: 2, marginTop: 2}}
           />
           <ListItem.Content>
             <ListItem.Title>{goal.LTgoal}</ListItem.Title>

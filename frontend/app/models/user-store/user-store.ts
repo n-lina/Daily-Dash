@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
-import {ToastAndroid } from "react-native";
+import { toastAndroid } from "../../android/androidToast";
 import { withEnvironment } from "../extensions/with-environment";
 
 interface Award {
@@ -15,14 +15,6 @@ const noAward: Award = {
 };
 
 const awardThresholds: number[] = [3, 10, 25, 50, 100, 250, 500, 750, 1000];
-
-const toastAndroid = (message: string) => {
-  ToastAndroid.showWithGravity(
-    message,
-    ToastAndroid.LONG,
-    ToastAndroid.TOP,
-  );
-};
 
 const awards: Award[] = [{
   title: "Baby Steps",
@@ -60,7 +52,8 @@ const awards: Award[] = [{
   title: "Master Goal Achiever",
   description: `Completed ${awardThresholds[8]} sub-goals.`,
   threshold: awardThresholds[8]
-},];
+},
+];
 
 /**
  * Model description here for TypeScript hints.
@@ -106,7 +99,7 @@ export const UserStoreModel = types
     incrementGoalCount: () => {
       console.log("Incrementing goals");
       self.goalsCompleted++;
-      if (Math.log2(self.goalsCompleted) % 1 == 0) {
+      if (Math.log2(self.goalsCompleted) % 1 === 0) {
         toastAndroid(
           `${"\n"}🎉 LEVEL UP !! 🎉 ${"\n"}${"\n"}${"\n"}` + 
           ` You are now on Level ${self.getLevel()}! 🔥 ${"\n"} Keep up the great work.${"\n"}`,
@@ -125,7 +118,7 @@ export const UserStoreModel = types
       if (self.goalsCompleted > 0) { self.goalsCompleted--; }
     },
     is24HourClock: () => {
-      return self.timeMode == 24;
+      return self.timeMode === 24;
     }
   }))
   .views(self => ({

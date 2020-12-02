@@ -1,20 +1,17 @@
 import React from "react";
-import { View, ViewStyle, TextStyle, SafeAreaView, Image, StyleSheet, Dimensions } from "react-native";
+import { View, ViewStyle, TextStyle, Image, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react-lite";
-import { Button, Header, Screen, Text } from "../../components";
+import { Button, Screen, Text } from "../../components";
 import { color, spacing, typography } from "../../theme";
 
-const darkAqua = "#008080";
-const aqua = "#46BFAC";
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const lightseagreen = "#616F6C";
 const background = "#fff";
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: aqua
+    backgroundColor: color.primaryLighter
   },
   heading: {
     color: lightseagreen,

@@ -8,20 +8,19 @@ import { color, spacing } from "../../theme";
 import { CheckBox, ListItem, Text, Avatar } from "react-native-elements";
 import { getDay } from "../../utils/getDay";
 import { getDisplayTime } from "../../utils/getDisplayTime";
+import { palette } from "../../theme/palette";
 
 /** **           STYLES            ***** */
 
-const borderColor = "#737373";
-const lightseagreen = "#616F6C";
-const aqua = "#46BFAC";
-const darkAqua = "#008080";
+const borderColor = palette.grey;
+const lightseagreen = palette.lightSeaGreen;
 const windowWidth = Dimensions.get("window").width;
 const d = new Date();
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: aqua,
+    backgroundColor: color.primaryLighter,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 10
   },
-  quote_left: {
+  quoteLeft: {
     color: lightseagreen,
     fontSize: 17,
     fontStyle: "italic",
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: spacing[5],
     textAlign: "left",
   },
-  quote_right: {
+  quoteRight: {
     color: lightseagreen,
     fontSize: 17,
     fontStyle: "italic",
@@ -79,14 +78,6 @@ const CHECK_BOX: ViewStyle = {
   right: 2,
 };
 
-const COMPLETED_STYLE: ViewStyle = {
-  // backgroundColor: "rgb(100,255,255)",
-};
-
-const CANCELLED_STYLE: ViewStyle = {
-  // backgroundColor: "rgb(255, 204, 203)",
-};
-
 const DONE_STYLE: TextStyle = {
   textDecorationLine: "line-through",
 };
@@ -94,9 +85,6 @@ const DONE_STYLE: TextStyle = {
 const LIST_STYLE: ViewStyle = {
   overflow: "scroll",
   height: Dimensions.get("window").height - topSectionHeight,
-};
-
-const TOP_SECTION: ViewStyle = {
 };
 
 const ADD_ONE_BUTTON: ViewStyle = {
@@ -108,6 +96,10 @@ const NO_GOALS_MESSAGE: ViewStyle = {
   alignContent: "center",
   alignItems: "center"
 };
+
+const SMALL_TOP_MARGIN: ViewStyle = { marginTop: 3 };
+
+const DOT_CONTAINTER_STYLE: ViewStyle = { position: "absolute", left: 10 };
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -183,36 +175,22 @@ export const HomeScreen = observer(function HomeScreen() {
   const renderGoal = ({ item, index }) => {
     return (
       <View>
-        {/* <Swipeable
-          style={item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : {}}
-          key={item.id + item.time}
-          renderLeftActions={item.cancelled ? swipeReset : swipeLeftCancelled}
-          renderRightActions={item.completed ? swipeReset : swipeRightCompleted}
-          onSwipeableLeftOpen={() => toggleCancelled(index, item as DailyGoal)}
-          onSwipeableRightOpen={() => toggleCompleted(index, item as DailyGoal)}
-          ref={(instance: any) => {
-            if (instance) refs[index] = instance;
-          }}
-        > */}
         <ListItem
           bottomDivider
-          containerStyle={
-            item.cancelled ? CANCELLED_STYLE : item.completed ? COMPLETED_STYLE : { }
-          }
         >
           <View style={CHECK_BOX} testID={"goal" + index}>
             <CheckBox
               checked={item.cancelled || item.completed}
               checkedIcon={item.cancelled ? "close" : "check"}
-              checkedColor={item.cancelled ? "#FF5665" : darkAqua}
+              checkedColor={item.cancelled ? "#FF5665" : color.primary}
               iconRight
               onPress={() => toggleToggle(item as DailyGoal)}
             ></CheckBox>
           </View>
           <Avatar
             rounded
-            icon={{ name: "circle", type: "font-awesome", color: aqua, size: 8 }}
-            containerStyle={{ position: "absolute", left: 10 }}
+            icon={{ name: "circle", type: "font-awesome", color: color.primaryLighter, size: 8 }}
+            containerStyle={DOT_CONTAINTER_STYLE}
           />
           <ListItem.Content>
             <ListItem.Title style={item.cancelled || item.completed ? DONE_STYLE : { width: windowWidth - 90 }}>
@@ -229,14 +207,14 @@ export const HomeScreen = observer(function HomeScreen() {
   return (
     <View style={FULL} testID="homeScreenWrap">
       <Screen style={FULL} backgroundColor={color.palette.white}>
-        <View style={TOP_SECTION}>
-          <Text style={styles.quote_left}>
+        <View>
+          <Text style={styles.quoteLeft}>
             A journey of a thousand miles ...
           </Text>
           <Image style={styles.image}
             source={require("../../../assets/meadow.jpg")}
           />
-          <Text style={styles.quote_right}>
+          <Text style={styles.quoteRight}>
             ... begins with a single step.
           </Text>
           <Text style={styles.header}>
@@ -244,12 +222,12 @@ export const HomeScreen = observer(function HomeScreen() {
           </Text>
           <Text style={styles.subheading}>—     {months[d.getMonth()]}  {d.getDate()},  {d.getFullYear()}     —</Text>
           <Text style={styles.subheading}>
-            {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() != 1 ? "s" : ""}
+            {dailyGoalStore.getRemainingCount()} goal{dailyGoalStore.getRemainingCount() !== 1 ? "s" : ""}
           </Text>
-          <Text style={{ ...styles.subheading, marginTop: 3 }}>🌱</Text>
+          <Text style={{ ...styles.subheading, ...SMALL_TOP_MARGIN }}>🌱</Text>
         </View>
         <Separator/>
-        { goals.length === 0 && dailyGoalStore.visible && 
+        { goals.length === 0 && dailyGoalStore.visible &&
           <View style={NO_GOALS_MESSAGE}>
             <Text testID="noGoalsMessage">
               You don't have any goals 😮
