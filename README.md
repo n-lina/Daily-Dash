@@ -2,7 +2,7 @@
 
 ## To change your life, change your daily habits 
 
-We, Lina Nguyen, Jeremy Wiens, Harry Yao, and Pawel Mirski, truly believe that small efforts everyday can accumulate to yield life-changing results. Armed with this core belief, we created Daily Dash to empower **users across all walks of life** to achieve their goals, whether its to become skilled at public speaking or to adopt a healthier diet. 
+We believe that small efforts everyday can accumulate to yield life-changing results. Armed with this core belief, our team created Daily Dash to empower **users across all walks of life** to achieve their goals, whether its to become skilled at public speaking or to adopt a healthier diet. 
 
 Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
