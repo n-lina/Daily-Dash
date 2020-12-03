@@ -37,26 +37,42 @@ From the profile screen shown in the first row, users can access their awards an
 #### Backend 
 -   MongoDB
 -   NodeJS 
+-   Docker 
+-   Google Firebase
+-   AWS EC2 Instance
 
 #### Frontend 
 -   React Native 
 -   Ignite CLI 
 -   TypeScript 
 -   Android
+-   Mobx State Tree
 
 ### Main Components 
 
-### Non - Functional Requirements 
+### Functional Requirements 
 
-**1. asdf**
+Users can …
+-   Add and edit goals and their associated sub-goals.
+-   View and select from a database of common goals and their associated sub-goals.
+-   Sign-in to save their progress using **Google Authentication.**
+-   Receive **real-time push notifications** reminding them to do their daily tasks.
+-   Accumulate awards, and level-up upon the completion of sub-goals
+-   Receive suggestions for how to achieve their goals via **non-trivial backend logic.**
+
+### Non - Functional Requirements 
+Non-Functional Requirements:
+-   Database queries and updates should take less than 2 seconds.
+-   Backend endpoints should be secure if they contain user information.
 
 ### Testing 
 
 #### Testing on Backend 
+-   Jest  
 
 #### Testing on Frontend 
--   Detox 
-end to end tests
+-   Detox UI Testing 
 
 #### Full Stack 
 -   Codacy
+-   Travis CI 
