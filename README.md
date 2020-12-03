@@ -8,13 +8,13 @@ Featuring a fun, games-like points and awards system, push notifications, and a 
 
 Dynamically-rendered forms, the ability to complete any task in less than 5 taps, and the perfect shade of aqua green (#46BFAC!), meticulously selected, all lend to a user-interface that's intuitive, inviting, and above all, inclusive.
 
-With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles. Even more, users can also choose betwen 12-hour time and 24-hour time!    
+With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles. Even more, users can choose either 12-hour time or 24-hour time mode!    
 
 Never again will New Year's Resolutions be left unfulfilled!
 
 ## App Overview 
 
-After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
+After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **real-time push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
 <br>
 <pre>Profile Screen               Home Screen               All Goals Screen</pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/profileScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/homeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/allGoals.PNG?raw=true" width="200" height="400"/>\
@@ -28,7 +28,7 @@ From the goals screen, users can also press on a goal to see its details. From t
 <pre>Goal Detail Screen             Delete Goal              Edit Goal Screen           Get Suggestion</pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/goalDetail.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/deleteGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/editGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/getSuggestion.PNG?raw=true" width="200" height="400"/>\
 <br>
-From the profile screen shown in the first row, users can access their awards and log out. Logging out will redirect users to the welcome screen and sign in screen where users can sign in using **Google authentication.**  <br>
+From the profile screen shown in the first row, users can access their awards and log out. Logging out will redirect users to the welcome screen and sign in screen where users can sign in using **Google Authentication.**  <br>
 <pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>\
 
