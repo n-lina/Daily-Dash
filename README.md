@@ -65,10 +65,10 @@ Non-Functional Requirements:
 
 ### Testing 
 
-#### Testing on Backend 
+#### Backend 
 -   Jest  
 
-#### Testing on Frontend 
+#### Frontend 
 -   Detox UI Testing 
 
 #### Full Stack 
