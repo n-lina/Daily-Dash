@@ -30,7 +30,7 @@ From the goals screen, users can also press on a goal to see its details. From t
 <br>
 From the profile screen shown in the first row, users can access their awards and log out. Logging out will redirect users to the welcome screen and sign in screen where users can sign in using **Google Authentication.**  <br>
 <pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
-<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>\
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>
 
 ### Technologies Used
 
