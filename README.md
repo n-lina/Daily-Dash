@@ -32,7 +32,7 @@ From the profile screen shown in the first row, users can access their awards an
 <pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awardPage.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>
 
-### Technologies Used
+## Technologies Used
 
 #### Backend 
 -   MongoDB
@@ -48,7 +48,7 @@ From the profile screen shown in the first row, users can access their awards an
 -   Android
 -   Mobx State Tree
 
-### Functional Requirements 
+## Functional Requirements 
 
 Users can …
 -   Add and edit goals and their associated sub-goals.
@@ -58,12 +58,12 @@ Users can …
 -   Accumulate awards, and level-up upon the completion of sub-goals
 -   Receive suggestions for how to achieve their goals via **non-trivial backend logic.**
 
-### Non - Functional Requirements 
+## Non - Functional Requirements 
 Non-Functional Requirements:
 -   Database queries and updates should take less than 2 seconds.
 -   Backend endpoints should be secure if they contain user information.
 
-### Testing 
+## Testing 
 
 #### Backend 
 -   Jest  
