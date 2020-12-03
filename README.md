@@ -48,8 +48,6 @@ From the profile screen shown in the first row, users can access their awards an
 -   Android
 -   Mobx State Tree
 
-### Main Components 
-
 ### Functional Requirements 
 
 Users can …
