@@ -34,14 +34,14 @@ From the profile screen shown in the first row, users can access their awards an
 
 ## Technologies Used
 
-#### Backend 
+### Backend 
 -   MongoDB
 -   NodeJS 
 -   Docker 
 -   Google Firebase
 -   AWS EC2 Instance
 
-#### Frontend 
+### Frontend 
 -   React Native 
 -   Ignite CLI 
 -   TypeScript 
@@ -65,12 +65,12 @@ Non-Functional Requirements:
 
 ## Testing 
 
-#### Backend 
+### Backend Tests
 -   Jest  
 
-#### Frontend 
+### Frontend Tests
 -   Detox UI Testing 
 
-#### Full Stack 
+### Full Stack 
 -   Codacy
 -   Travis CI 
