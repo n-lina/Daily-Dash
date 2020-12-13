@@ -77,14 +77,6 @@ Non-Functional Requirements:
 ### Full Stack 
 -   Codacy
 -   Travis CI 
-
-<br> <br>
-- - - 
-
-## Behold ... 
-
-<pre>   A happy Daily Dash user (and developer) ...           </pre> 
-<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/image0.png?raw=true" width="400"/> 
-<pre>               ... Lina Nguyen ! </pre>       
+  
  
  
