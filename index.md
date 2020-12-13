@@ -1,37 +1,90 @@
-## Welcome to GitHub Pages
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="500" height="500"/>
 
-You can use the [editor on GitHub](https://github.com/n-lina/Daily-Dash/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## To change your life, change your daily habits 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+A firm believer in the power of daily habits to change a life, I developed Daily Dash — a mobile application that empowers **users across all walks of life** to achieve their goals, from becoming more skilled at public speaking to adopting a healthier diet. 
 
-### Markdown
+Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Dynamically-rendered forms, the ability to complete any task in less than 5 taps, and a very carefully chosen shade of aqua green (#46BFAC!) all lend to a user-interface that's intuitive, inviting, and most importantly, **inclusive.**
 
-```markdown
-Syntax highlighted code block
+With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles - regardless of whether users operate in 12hr time or 24hr time.   
 
-# Header 1
-## Header 2
-### Header 3
+Never again will New Year's Resolutions be left unfulfilled!
 
-- Bulleted
-- List
+## App Overview 
 
-1. Numbered
-2. List
+After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **real-time push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
+<br>
+<pre>Profile Screen               Home Screen               All Goals Screen</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/profileScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/homeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/allGoals.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the goals screen shown above, users can add a new goal, browse the catalog of common goals, and press on a goal to view its subgoals. The catalog of common goals lists common goals from which users can draw inspiration. Users can easily add a common goal to their personal repertoire by selecting a common goal and pressing "Add Goal". <br>
+<br>
+<pre>Add Goal Screen           Catalog of Common Goals    Common Goal Detail Screen</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/addGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/commonGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/commonDetail.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the goals screen, users can also press on a goal to see its details. From the goal detail screen, users can edit or delete the selected goal. Both the edit and add goal pages also have a "Get Suggestion" button, which, when pressed, offers users a sub-goal suggestion, generated using a **complex cosine-similarity algorithm** in the backend. <br>
+<pre>Goal Detail Screen             Delete Goal              Edit Goal Screen           Get Suggestion</pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/goalDetail.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/deleteGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/editGoal.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/getSuggestion.PNG?raw=true" width="200" height="400"/>\
+<br>
+From the profile screen shown in the first row, users can access their awards and log out. Logging out will redirect users to the welcome screen and sign in screen where users can sign in using **Google Authentication.**  <br>
+<pre>Awards Screen                 Welcome Screen              Sign In Screen          </pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/awards.jpeg?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/welcomeScreen.PNG?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/signInScreen.PNG?raw=true" width="200" height="400"/>
+<br> 
+<pre>Some Encouraging Messages ...   </pre>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/levelup.jpeg?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/earnAward.jpeg?raw=true" width="200" height="400"/>
 
-**Bold** and _Italic_ and `Code` text
+## Technologies Used
 
-[Link](url) and ![Image](src)
-```
+### Backend 
+-   MongoDB
+-   NodeJS 
+-   Docker 
+-   Google Firebase
+-   AWS EC2 Instance
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Frontend 
+-   React Native 
+-   Ignite CLI 
+-   TypeScript 
+-   Android
+-   Mobx State Tree
 
-### Jekyll Themes
+## Functional Requirements 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/n-lina/Daily-Dash/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Users can …
+-   Add and edit goals and their associated sub-goals.
+-   View and select from a database of common goals and their associated sub-goals.
+-   Sign-in to save their progress using **Google Authentication.**
+-   Receive **real-time push notifications** reminding them to do their daily tasks.
+-   Accumulate awards, and level-up upon the completion of sub-goals
+-   Receive suggestions for how to achieve their goals via **non-trivial backend logic.**
 
-### Support or Contact
+## Non - Functional Requirements 
+Non-Functional Requirements:
+-   Database queries and updates should take less than 2 seconds.
+-   Backend endpoints should be secure if they contain user information.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Testing 
+
+### Backend Tests
+-   Jest  
+
+### Frontend Tests
+-   Detox UI Testing 
+
+### Full Stack 
+-   Codacy
+-   Travis CI 
+
+<br> <br>
+- - - 
+
+## Behold ... 
+
+<pre>   A happy Daily Dash user (and developer) ...           </pre> 
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/image0.png?raw=true" width="400"/> 
+<pre>               ... Lina Nguyen ! </pre>            
+ 
+ 
