@@ -4,20 +4,6 @@
 
 -   objective, audience, ideation process, inspiration etc. 
 
-## Technologies Used
-
-### Backend 
-
-### Frontend 
-
-## Main Components 
-
-## Use Cases & Functional Requirements 
-
-## Non - Functional Requirements 
-
-**1. asdf**
-
 ### ./ignite directory
 
 The `ignite` directory stores all things Ignite, including CLI and boilerplate items. Here you will find generators, plugins and examples to help you get started with React Native.
