@@ -82,7 +82,6 @@ Non-Functional Requirements:
 -   Codacy
 -   Travis CI 
 
-<br> <br>
 - - - 
 
 ## Behold ... 
