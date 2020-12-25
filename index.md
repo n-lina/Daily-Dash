@@ -36,6 +36,8 @@ From the profile screen shown in the first row, users can access their awards an
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/levelup.jpeg?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/earnAward.jpeg?raw=true" width="200" height="400"/>
 <br>
 
+<pre> Demo </pre>
+{% include youtubePlayer.html id="iuNTMkbetOY" %}
 {% include youtubePlayer.html id="8UGDtaAyM-g" %}
 
 
