@@ -1,5 +1,3 @@
-<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="0" height="0"/>
-
 ## To change your life, change your daily habits 
 
 A firm believer in the power of daily habits to change a life, I developed Daily Dash — a mobile application that empowers **users across all walks of life** to achieve their goals, from becoming more skilled at public speaking to adopting a healthier diet. 
@@ -11,7 +9,7 @@ Dynamically-rendered forms, the ability to complete any task in less than 5 taps
 With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles - regardless of whether users operate in 12hr time or 24hr time.   
 
 Never again will New Year's Resolutions be left unfulfilled!
-
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="0" height="0"/>
 ## App Overview 
 
 After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **real-time push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
