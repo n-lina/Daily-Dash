@@ -34,6 +34,11 @@ From the profile screen shown in the first row, users can access their awards an
 <br> 
 <pre>Some Encouraging Messages ...   </pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/levelup.jpeg?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/earnAward.jpeg?raw=true" width="200" height="400"/>
+<br>
+
+{% include youtubePlayer.html id="8UGDtaAyM-g" %}
+
+<br>
 
 ## Technologies Used
 
@@ -83,8 +88,8 @@ Non-Functional Requirements:
 
 ## Behold ... 
 
-<pre>   A happy Daily Dash user (and developer) ...           </pre> 
+<pre>A happy Daily Dash user (and developer) ...           </pre> 
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/image0.png?raw=true" width="400"/> 
-<pre>               ... Lina Nguyen ! </pre>            
+<pre>... Lina Nguyen ! </pre>            
  
  
