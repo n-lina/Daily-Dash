@@ -1,6 +1,6 @@
 ## To change your life, change your daily habits 
 
-A firm believer in the power of daily habits to change a life, I developed Daily Dash — a mobile application that empowers **users across all walks of life** to achieve their goals, from becoming more skilled at public speaking to adopting a healthier diet. 
+Firm believers in the power of daily habits to change a life, my team and I developed Daily Dash — a mobile application that empowers **users across all walks of life** to achieve their goals, from becoming more skilled at public speaking to adopting a healthier diet. 
 
 Featuring a fun, games-like points and awards system, push notifications, and a database of common goals from which users can draw inspiration, Daily Dash encourages, excites, and engages users every step of the way. 
 
