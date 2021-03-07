@@ -1,4 +1,4 @@
-<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="500" height="500"/>
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="300" height="300"/>
 
 ## To change your life, change your daily habits 
 
