@@ -35,11 +35,17 @@ From the profile screen shown in the first row, users can access their awards an
 <pre>Some Encouraging Messages ...   </pre>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/levelup.jpeg?raw=true" width="200" height="400"/><img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/earnAward.jpeg?raw=true" width="200" height="400"/>
 
+<pre> Demo </pre>
+
+Games-like points and awards system: https://youtu.be/iuNTMkbetOY </br>
+Daily Dash demo: https://youtu.be/8UGDtaAyM-g </br>
+
 ## Technologies Used
 
 ### Backend 
 -   MongoDB
 -   NodeJS 
+-   ExpressJS
 -   Docker 
 -   Google Firebase
 -   AWS EC2 Instance
