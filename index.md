@@ -8,8 +8,8 @@ Dynamically-rendered forms, the ability to complete any task in less than 5 taps
 
 With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles - regardless of whether users operate in 12hr time or 24hr time.   
 
-Never again will New Year's Resolutions be left unfulfilled!
-<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="0" height="0"/>
+Never again will New Year's Resolutions be left unfulfilled.
+<img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="300" height="300"/>
 ## App Overview 
 
 After logging in, users are greeted with their dashboard, which lists all the sub-goals users need to complete for that day. At the time listed, users will receive a **real-time push notification** regarding their goal. As users check off completed goals, their number of goals completed increase and reflects on the profile screen. As users complete goals, they accumulate awards and level-up. Below the user's name on the profile screen is their latest award earned! On the profile screen, users can also select their preferred time mode - 12 hour time or 24 hour time.  <br>
