@@ -9,7 +9,7 @@ Dynamically-rendered forms, the ability to complete any task in less than 5 taps
 With the game-like motivators appealing to younger audiences, the uncomplicated user-interface geared towards older users, and the flexible forms and push notifications attracting busy, highly self-motivated users, Daily Dash suits any and all lifestyles - regardless of whether users operate in 12hr time or 24hr time.   
 
 Never again will New Year's Resolutions be left unfulfilled.
-<br>
+<br><br>
 <img src="https://github.com/n-lina/DailyDash/blob/main/frontend/assets/dp.png?raw=true" width="300" height="300"/>
 ## App Overview 
 
